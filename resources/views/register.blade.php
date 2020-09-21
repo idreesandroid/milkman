@@ -41,7 +41,7 @@
         <div class="form-group">
             <input class="form-control form-control-lg" type="text" name="user_phone"   placeholder="Mobile" autocomplete="off">
         </div>
-        <div class="form-group">
+        <!-- <div class="form-group">
         <select class="form-control form-control-lg" type="text" name="user_country"   placeholder="Mobile" >
         <option value="0">--Country--</option>
         </select>
@@ -55,8 +55,58 @@
         <select class="form-control form-control-lg" type="text" name="user_city"  placeholder="Mobile" >
         <option value="0">--City--</option>
         </select>
+        </div> -->
+
+        
+        <div class="form-group">
+            <select class="form-control form-control-lg" type="text" required name="user_country"  >
+            <option value="">--Country--</option>
+            <?php 
+            foreach ($country as $countries) {
+                $name     = $countries->name;
+                $id    = $countries->id; ?>
+                <option value="<?php echo $id;  ?>"><?php echo $name;  ?></option>
+
+
+            <?php }  ?>
+
+            </select>
         </div>
 
+
+        
+        <div class="form-group">
+            <select class="form-control form-control-lg" type="text" required name="user_state" id="user_state"  >
+            <option value="">--State--</option>
+            <?php 
+            foreach ($state as $states) {
+                $name     = $states->name;
+                $id    = $states->id; ?>
+                <option value="<?php echo $id;  ?>"><?php echo $name;  ?></option>
+
+
+            <?php }  ?>
+
+            </select>
+        </div>
+
+        
+        <div class="form-group">
+            <select class="form-control form-control-lg" type="text" required name="user_city" name="user_city"  >
+            <option value="">--City--</option>
+            <?php 
+            foreach ($city as $cities) {
+                $name     = $cities->name;
+                $id    = $cities->id; ?>
+                <option value="<?php echo $id;  ?>"><?php echo $name;  ?></option>
+
+
+            <?php }  ?>
+
+            </select>
+        </div>
+
+        
 
 
         <div class="form-group">
@@ -85,3 +135,8 @@
 
  </form>
  @endsection
+
+
+@section('scripts')
+
+@endsection

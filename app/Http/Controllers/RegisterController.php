@@ -22,7 +22,7 @@ class RegisterController extends Controller
       $user_state = $request->input('user_state');
       $user_city = $request->input('user_city');
       $passw = $request->input('passw');
-  // $validator = $request->validate([
+        // $validator = $request->validate([
         //     'name'      => 'required|min:1',
         //     'email'     => 'required',
         //     'password'  => 'required|min:6'
@@ -40,10 +40,22 @@ class RegisterController extends Controller
 
      public function user_role_list(Request $request)
      {
+       
          $role_query="select id, role_title from user_role";
        //$result =  DB::table('user_role')->get(); 
        $result =  DB::select($role_query);
-       return  view('register',  compact('result') );
+       
+       $country_query="select id, name from countries"; 
+       $country =  DB::select($country_query);
+
+       
+       $state_query="select id, name from states"; 
+       $state =  DB::select($state_query);
+       
+       $city_query="select id, name from cities";
+       $city =  DB::select($city_query);
+
+       return  view('register',  compact('result', 'country','state','city') );
      }
 
 }

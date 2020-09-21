@@ -18,3 +18,9 @@ Route::get('/login', function () { return view('login'); });
 Route::get('/register', function () { return view('register'); });
 Route::post('/register', 'RegisterController@register');
 Route::get('/register', 'RegisterController@user_role_list');
+
+//country state city drop down
+
+Route::get('country-state-city','CountryStateCityController@index');
+Route::post('get-states-by-country','CountryStateCityController@getState');
+Route::post('get-cities-by-state','CountryStateCityController@getCity');
