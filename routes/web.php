@@ -13,14 +13,27 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () { return view('welcome'); });
+
+//(!session()->has('data')){ return redirect('/login'); }
+Route::get('/logout', 'RegisterController@logout');
 Route::get('/login', function () { return view('login'); });
-Route::get('/register', function () { return view('register'); });
-Route::post('/register', 'RegisterController@register');
-Route::get('/register', 'RegisterController@user_role_list');
+Route::post('/login', 'RegisterController@login');
+
+
+// Route::group(['middleware'=>['customAuth']],function(){
+//    Route::view( 'register' ); 
+// });
+
+Route::get('/','RegisterController@profile')->middleware('CustomAuth');
+Route::get('/register', function () { return view('register'); })->middleware('CustomAuth');
+Route::post('/register', 'RegisterController@register')->middleware('CustomAuth');
+Route::get('/register', 'RegisterController@user_role_list')->middleware('CustomAuth');
+
+
+
 
 //country state city drop down
 
-Route::get('country-state-city','CountryStateCityController@index');
-Route::post('get-states-by-country','CountryStateCityController@getState');
-Route::post('get-cities-by-state','CountryStateCityController@getCity');
+Route::get('country-state-city','CountryStateCityController@index')->middleware('CustomAuth');
+Route::post('get-states-by-country','CountryStateCityController@getState')->middleware('CustomAuth');
+Route::post('get-cities-by-state','CountryStateCityController@getCity')->middleware('CustomAuth');

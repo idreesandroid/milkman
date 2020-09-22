@@ -36,14 +36,16 @@
         <div class="card ">
             <div class="card-header text-center">
             <a href="/"><h2>Milk Man App</h2></a>
-            <span class="splash-description">Please enter your user information.</span></div>
+            <span class="splash-description">Please enter your user information.</span>
+            </div>
             <div class="card-body">
-                <form>
+                <form method="post"  action="/login" >
+                @csrf 
                     <div class="form-group">
-                        <input class="form-control form-control-lg" id="username" type="text" placeholder="Username" autocomplete="off">
+                        <input class="form-control form-control-lg" name="username" type="text" placeholder="Username" autocomplete="off">
                     </div>
                     <div class="form-group">
-                        <input class="form-control form-control-lg" id="password" type="password" placeholder="Password">
+                        <input class="form-control form-control-lg" name="password" type="password" placeholder="Password">
                     </div>
                     <div class="form-group">
                         <label class="custom-control custom-checkbox">
@@ -54,9 +56,8 @@
                 </form>
             </div>
             <div class="card-footer bg-white p-0  ">
-                <div class="card-footer-item card-footer-item-bordered">
-                    <a href="#" class="footer-link">Create An Account</a></div>
-                <div class="card-footer-item card-footer-item-bordered">
+                
+                <div class="card-header text-center">
                     <a href="#" class="footer-link">Forgot Password</a>
                 </div>
             </div>

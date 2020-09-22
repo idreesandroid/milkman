@@ -6,12 +6,13 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 class RegisterController extends Controller
 {
+
+
+  
+ 
+
     public function register(Request $request)
     {
-
-      
-     
-     
       $user_name = $request->input('user_name');
       $email = $request->input('email');
        $user_role = $request->input('user_role');
@@ -38,9 +39,11 @@ class RegisterController extends Controller
 
 
 
+    
+
+
      public function user_role_list(Request $request)
-     {
-       
+     { 
          $role_query="select id, role_title from user_role";
        //$result =  DB::table('user_role')->get(); 
        $result =  DB::select($role_query);
@@ -58,4 +61,58 @@ class RegisterController extends Controller
        return  view('register',  compact('result', 'country','state','city') );
      }
 
+     public function login(Request $request)
+     {
+     $username = $request->input('username');
+     $password = $request->input('password');
+
+       $role_query="select id, `name`, user_role  from users where email='$username' and `password`='$password'";
+          $log_result =  DB::select($role_query);
+          if(count($log_result)==1){
+            foreach ($log_result as $key ) {
+            $u_id = $key->id;
+            $u_name = $key->name;
+            $user_role = $key->user_role;
+            
+            $request->session()->put('u_id',$u_id);
+            $request->session()->put('user_name',$u_name);
+            $request->session()->put('user_role',$user_role);
+            return redirect('/');
+
+       
+            
+
+
+            }
+            }else{
+            return redirect('login')->with('msg','Username or password invalid');
+            }
+
+
+      
+    } 
+    public function logout(Request $request){
+
+      $request->session()->flush();
+      return redirect('/login');
+  
+  
+      }
+
+
+      public function profile(Request $request)
+      {
+        if(session()->get('u_id')){
+    
+          $pro_u_id =  session()->get('u_id');
+          $pro_user_role =  session()->get('user_role');
+         $query_profile="select *  from users where id='$pro_u_id' and user_role='$pro_user_role'  ";
+           $profile_result =  DB::select($query_profile);
+    
+    
+           return view('profile', compact('profile_result'));
+    
+          }
+      }
+    
 }

@@ -15,6 +15,22 @@
     <link rel="stylesheet" href="{{asset('assets/vendor/fonts/material-design-iconic-font/css/materialdesignicons.min.css' ) }}">
     <link rel="stylesheet" href="{{asset('assets/vendor/charts/c3charts/c3.css' ) }}">
     <link rel="stylesheet" href="{{asset('assets/vendor/fonts/flag-icon-css/flag-icon.min.css' ) }}">
+
+
+
+    
+    
+    
+    
+    <link rel="stylesheet" type="text/css" href="{{asset('assets/vendor/datatables/css/dataTables.bootstrap4.css' ) }}">
+    <link rel="stylesheet" type="text/css" href="{{asset('assets/vendor/datatables/css/buttons.bootstrap4.css' ) }}">
+    <link rel="stylesheet" type="text/css" href="{{asset('assets/vendor/datatables/css/select.bootstrap4.css' ) }}">
+    <link rel="stylesheet" type="text/css" href="{{asset('assets/vendor/datatables/css/fixedHeader.bootstrap4.css' ) }}">
+
+
+</head>
+
+
     <title>Concept - Bootstrap 4 Admin Dashboard Template</title>
 </head>
 
@@ -122,12 +138,15 @@
                             <a class="nav-link nav-user-img" href="#" id="navbarDropdownMenuLink2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="assets/images/avatar-1.jpg" alt="" class="user-avatar-md rounded-circle"></a>
                             <div class="dropdown-menu dropdown-menu-right nav-user-dropdown" aria-labelledby="navbarDropdownMenuLink2">
                                 <div class="nav-user-info">
-                                    <h5 class="mb-0 text-white nav-user-name">John Abraham </h5>
+                                    <h5 class="mb-0 text-white nav-user-name"> {{ session()->get('user_name') }} </h5>
                                     <span class="status"></span><span class="ml-2">Available</span>
                                 </div>
                                 <a class="dropdown-item" href="#"><i class="fas fa-user mr-2"></i>Account</a>
                                 <a class="dropdown-item" href="#"><i class="fas fa-cog mr-2"></i>Setting</a>
-                                <a class="dropdown-item" href="#"><i class="fas fa-power-off mr-2"></i>Logout</a>
+                                @if(session()->get('user_name') !="" )
+                                <a class="dropdown-item" href="/logout"><i class="fas fa-power-off mr-2"></i>Logout</a>
+                                @endif 
+    
                             </div>
                         </li>
                     </ul>
@@ -162,6 +181,9 @@
                                                 <ul class="nav flex-column">
                                                     <li class="nav-item">
                                                         <a class="nav-link" href="/register">Register</a>
+                                                    </li> 
+                                                    <li class="nav-item">
+                                                        <a class="nav-link" href="/">Profile</a>
                                                     </li> 
                                                 </ul>
                                             </div>
@@ -200,7 +222,7 @@
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
-                             Copyright © 2018 Concept. All rights reserved. Dashboard by <a href="https://colorlib.com/wp/">Colorlib</a>.
+                             Copyright © 2018 Concept. All rights reserved. Dashboard by <a href="#">Colorlib</a>.
                         </div>
                         <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
                             <div class="text-md-right footer-links d-none d-sm-block">
@@ -211,7 +233,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> 
             <!-- ============================================================== -->
             <!-- end footer -->
             <!-- ============================================================== -->
@@ -245,7 +267,17 @@
     <script src="{{asset('assets/vendor/charts/c3charts/C3chartjs.js') }}"></script>
     <script src="{{asset('assets/libs/js/dashboard-ecommerce.js') }}"></script>
 
-    @yield('scripts');
+
+
+
+   
+   
+  
+    
+   
+
+
+
 </body>
  
 </html>
