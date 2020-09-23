@@ -22,7 +22,6 @@ class CreateUsersTable extends Migration
             $table->integer('user_role')->length(11);
             $table->string('user_cnic');
             $table->string('user_phone');
-            $table->integer('user_country');
             $table->integer('user_state');
             $table->integer('user_city');
             $table->dateTime('created_time');

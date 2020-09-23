@@ -14,11 +14,9 @@ class RegisterController extends Controller
      
       $user_name = $request->input('user_name');
       $email = $request->input('email');
-       $user_role = $request->input('user_role');
+      $user_role = $request->input('user_role');
       $user_cnic = $request->input('user_cnic');
-     
       $user_phone = $request->input('user_phone');
-      $user_country = $request->input('user_country');
       $user_state = $request->input('user_state');
       $user_city = $request->input('user_city');
       $passw = $request->input('passw');
@@ -28,8 +26,8 @@ class RegisterController extends Controller
         //     'password'  => 'required|min:6'
         //   ]);
         $Records = " INSERT INTO users 
-        (`name` , email, `password`, user_role, user_cnic, user_phone, user_country, user_state, user_city,created_time ) 
-        VALUES ('$user_name','$email','$passw','$user_role','$user_cnic','$user_phone','$user_country','$user_state','$user_city',CURRENT_TIMESTAMP)";
+        (`name` , email, `password`, user_role, user_cnic, user_phone,  user_state, user_city,created_time ) 
+        VALUES ('$user_name','$email','$passw','$user_role','$user_cnic','$user_phone','$user_state','$user_city',CURRENT_TIMESTAMP)";
         DB::insert("$Records");
 
         return redirect('register')->with('msg','Record Inserted Successfully.');
@@ -45,8 +43,7 @@ class RegisterController extends Controller
        //$result =  DB::table('user_role')->get(); 
        $result =  DB::select($role_query);
        
-       $country_query="select id, name from countries"; 
-       $country =  DB::select($country_query);
+    
 
        
        $state_query="select id, name from states"; 
@@ -55,7 +52,7 @@ class RegisterController extends Controller
        $city_query="select id, name from cities";
        $city =  DB::select($city_query);
 
-       return  view('register',  compact('result', 'country','state','city') );
+       return  view('register',  compact('result','state','city') );
      }
 
 }
