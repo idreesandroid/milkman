@@ -162,6 +162,7 @@
                                                 <ul class="nav flex-column">
                                                     <li class="nav-item">
                                                         <a class="nav-link" href="/register">Register</a>
+                                                        <a class="nav-link" href="/profile">Profile</a>
                                                     </li> 
                                                 </ul>
                                             </div>

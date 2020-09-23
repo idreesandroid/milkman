@@ -93,7 +93,9 @@
         </div>
 
         
-
+        <div class="form-group">
+            <input class="form-control form-control-lg" id="qty_done" name="qty_done" type="number"   placeholder="Quantity Done">
+        </div>
 
         <div class="form-group">
             <input class="form-control form-control-lg" id="pass" name="passw" type="password"   placeholder="Password">
