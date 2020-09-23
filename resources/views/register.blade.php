@@ -58,21 +58,7 @@
         </div> -->
 
         
-        <div class="form-group">
-            <select class="form-control form-control-lg" type="text" required name="user_country"  >
-            <option value="">--Country--</option>
-            <?php 
-            foreach ($country as $countries) {
-                $name     = $countries->name;
-                $id    = $countries->id; ?>
-                <option value="<?php echo $id;  ?>"><?php echo $name;  ?></option>
-
-
-            <?php }  ?>
-
-            </select>
-        </div>
-
+        
 
         
         <div class="form-group">

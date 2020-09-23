@@ -9,15 +9,12 @@ use App\City;
 
 class State extends Model
 {
-    protected $fillable = ['name','country_id'];
+    protected $fillable = ['name'];
 
     public function city()
     {
       return  $this->hasMany('App\city');
     }
 
-    public function country()
-    {
-      return  $this->belongsTO('App\country');
-    }
+   
 }
