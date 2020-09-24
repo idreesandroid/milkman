@@ -44,3 +44,8 @@ Route::post('ProductStock/create',         'ProductStockController@store')->name
 Route::get('ProductStock/edit/{id}',       'ProductStockController@edit')->name('edit.productStock');
 Route::post('ProductStock/update/{id}',    'ProductStockController@update')->name('update.productStock');
 //Route::delete('Product/destroy/{id}', 'ProductController@destroy')->name('destroy.product'); 
+
+Route::get('/set_task', 'CollectorController@collector_list');
+Route::post('/set_task', 'CollectorController@set_task');
+Route::get('/task_list',  'CollectorController@task_list');
+ 

@@ -7,7 +7,7 @@
 		<meta name="keywords" content="admin, estimates, bootstrap, business, corporate, creative, management, minimal, modern, accounts, invoice, html5, responsive, CRM, Projects">
         <meta name="author" content="Dreamguys - Bootstrap Admin Template">
         <meta name="robots" content="noindex, nofollow">
-        <title>Dashboard - CRMS admin template</title>
+        <title>Milk Man App</title>
 		
 		<!-- Favicon -->
         <link rel="shortcut icon" type="image/x-icon" href="{{asset('assets/img/favicon.png')}}">
@@ -50,7 +50,7 @@
 			
 				<!-- Logo -->
                 <div class="header-left">
-                    <a href="index.html" class="logo">
+                    <a href="/" class="logo">
 						<img src="assets/img/logo.png"  alt="Logo" class="sidebar-logo">
 						<img src="assets/img/s-logo.png"  alt="Logo" class="mini-sidebar-logo">
 					</a>
@@ -88,7 +88,7 @@
 							<div class="noti-content">
 								<ul class="notification-list">
 									<li class="notification-message">
-										<a href="activities.html">
+										<a href="#">
 											<div class="media">
 												<span class="avatar">
 													<img alt="" src="assets/img/profiles/avatar-02.jpg">
@@ -101,7 +101,7 @@
 										</a>
 									</li>
 									<li class="notification-message">
-										<a href="activities.html">
+										<a href="#">
 											<div class="media">
 												<span class="avatar">
 													<img alt="" src="assets/img/profiles/avatar-03.jpg">
@@ -114,7 +114,7 @@
 										</a>
 									</li>
 									<li class="notification-message">
-										<a href="activities.html">
+										<a href="#">
 											<div class="media">
 												<span class="avatar">
 													<img alt="" src="assets/img/profiles/avatar-06.jpg">
@@ -127,7 +127,7 @@
 										</a>
 									</li>
 									<li class="notification-message">
-										<a href="activities.html">
+										<a href="#">
 											<div class="media">
 												<span class="avatar">
 													<img alt="" src="assets/img/profiles/avatar-17.jpg">
@@ -140,7 +140,7 @@
 										</a>
 									</li>
 									<li class="notification-message">
-										<a href="activities.html">
+										<a href="#">
 											<div class="media">
 												<span class="avatar">
 													<img alt="" src="assets/img/profiles/avatar-13.jpg">
@@ -155,7 +155,7 @@
 								</ul>
 							</div>
 							<div class="topnav-dropdown-footer">
-								<a href="activities.html">View all Notifications</a>
+								<a href="#">View all Notifications</a>
 							</div>
 						</div>
 					</li>
@@ -167,12 +167,15 @@
 						<a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
 							<span class="user-img"><img src="assets/img/profiles/avatar-21.jpg" alt="">
 							<span class="status online"></span></span>
-							<span>Admin</span>
+							<span>{{ session()->get('user_name') }}</span>
 						</a>
 						<div class="dropdown-menu">
-							<a class="dropdown-item" href="profile.html">My Profile</a>
-							<a class="dropdown-item" href="settings.html">Settings</a>
-							<a class="dropdown-item" href="login.html">Logout</a>
+							<a class="dropdown-item" href="#">My Profile</a>
+							<a class="dropdown-item" href="#">Settings</a>
+							@if(session()->get('user_name') !="" )
+                               <a class="dropdown-item" href="/logout">Logout</a>  
+                                @endif 
+							
 						</div>
 					</li>
 				</ul>
@@ -200,8 +203,8 @@
 				                  
 				                </div>
 				                <div class="nav-profile-text d-flex flex-column">
-				                  <span class="font-weight-bold mb-2">David Grey. H</span>
-				                  <span class="text-white text-small">Project Manager</span>
+				                  <span class="font-weight-bold mb-2">{{ session()->get('user_name') }}</span>
+				                  <span class="text-white text-small">Role Here</span>
 				                </div>
 				                <i class="mdi mdi-bookmark-check text-success nav-profile-badge"></i>
 				              </a>
@@ -210,16 +213,21 @@
 								<span>Main</span>
 							</li>
 							<li class="submenu">
-								<a href="#"><i class="fa fa-tachometer" aria-hidden="true"></i> <span> Dashboard</span> <span class="menu-arrow"></span></a>
+								<a href="javascript:void(0);"><i class="fa fa-tachometer" aria-hidden="true"></i> <span> Dashboard</span> <span class="menu-arrow"></span></a>
 								<ul class="sub-menus">
-									<li><a href="index.html" class="active">Deals Dashboard</a></li>
-									<li><a href="projects-dashboard.html">Projects Dashboard</a></li>
-									<li><a href="leads-dashboard.html">Leads Dashboard</a></li>
+									<li><a href="/register" class="active">Register</a></li>
+									<li><a href="/profile">Profile</a></li>
+									 
 								</ul>
 							</li>
 							
 							<li> 
-								<a href="tasks.html"><i class="fa fa-check-square-o" aria-hidden="true"></i> <span>Tasks</span></a>
+								<a href="#"><i class="fa fa-check-square-o" aria-hidden="true"></i> <span>Tasks</span></a>
+								<ul class="sub-menus">
+									<li><a href="/set_task" class="active">Set Task</a></li>
+									<li><a href="/task_list" class="active">Tasks List</a></li>
+									 
+								</ul>
 							</li>
 							
 							
@@ -265,7 +273,7 @@
                 		</div>
                 		<div class="col text-right">
                 			<ul class="breadcrumb bg-white float-right m-0 pl-0 pr-0">
-								<li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
+								<li class="breadcrumb-item"><a href="/">Dashboard</a></li>
 								<li class="breadcrumb-item active">Deals Dashboard</li>
 							</ul>
                 		</div>
