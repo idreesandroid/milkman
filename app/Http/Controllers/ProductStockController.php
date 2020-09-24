@@ -44,7 +44,6 @@ $this->validate($request,[
     
      ]);
 
-
 $product_stocks = new ProductStock();
 
 $product_stocks->product_id = $request->product_id;        
