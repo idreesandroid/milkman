@@ -1,251 +1,502 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
- 
-<head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="{{asset('assets/vendor/bootstrap/css/bootstrap.min.css' ) }}">
-    <link href="{{ asset('assets/vendor/fonts/circular-std/style.css' ) }}" rel="stylesheet">
-    <link rel="stylesheet" href="{{asset('assets/libs/css/style.css' ) }}">
-    <link rel="stylesheet" href="{{asset('assets/vendor/fonts/fontawesome/css/fontawesome-all.css' ) }}">
-    <link rel="stylesheet" href="{{asset('assets/vendor/charts/chartist-bundle/chartist.css' ) }}">
-    <link rel="stylesheet" href="{{asset('assets/vendor/charts/morris-bundle/morris.css' ) }}">
-    <link rel="stylesheet" href="{{asset('assets/vendor/fonts/material-design-iconic-font/css/materialdesignicons.min.css' ) }}">
-    <link rel="stylesheet" href="{{asset('assets/vendor/charts/c3charts/c3.css' ) }}">
-    <link rel="stylesheet" href="{{asset('assets/vendor/fonts/flag-icon-css/flag-icon.min.css' ) }}">
-    <title>Concept - Bootstrap 4 Admin Dashboard Template</title>
-</head>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+        <meta name="description" content="CRMS - Bootstrap Admin Template">
+		<meta name="keywords" content="admin, estimates, bootstrap, business, corporate, creative, management, minimal, modern, accounts, invoice, html5, responsive, CRM, Projects">
+        <meta name="author" content="Dreamguys - Bootstrap Admin Template">
+        <meta name="robots" content="noindex, nofollow">
+        <title>Dashboard - CRMS admin template</title>
+		
+		<!-- Favicon -->
+        <link rel="shortcut icon" type="image/x-icon" href="{{asset('assets/img/favicon.png')}}">
+		
+		<!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="{{asset('assets/css/bootstrap.min.css')}}">
+		
+		<!-- Fontawesome CSS -->
+        <link rel="stylesheet" href="{{asset('assets/css/font-awesome.min.css')}}">
 
-<body>
-    <!-- ============================================================== -->
-    <!-- main wrapper -->
-    <!-- ============================================================== -->
-    <div class="dashboard-main-wrapper">
-        <!-- ============================================================== -->
-        <!-- navbar -->
-        <!-- ============================================================== -->
-        <div class="dashboard-header">
-            <nav class="navbar navbar-expand-lg bg-white fixed-top">
-                <a class="navbar-brand" href="/">MilkManApp</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse " id="navbarSupportedContent">
-                    <ul class="navbar-nav ml-auto navbar-right-top">
-                        <li class="nav-item">
-                            <div id="custom-search" class="top-search-bar">
-                                <input class="form-control" type="text" placeholder="Search..">
-                            </div>
-                        </li>
-                        <li class="nav-item dropdown notification">
-                            <a class="nav-link nav-icons" href="#" id="navbarDropdownMenuLink1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-fw fa-bell"></i> <span class="indicator"></span></a>
-                            <ul class="dropdown-menu dropdown-menu-right notification-dropdown">
-                                <li>
-                                    <div class="notification-title"> Notification</div>
-                                    <div class="notification-list">
-                                        <div class="list-group">
-                                            <a href="#" class="list-group-item list-group-item-action active">
-                                                <div class="notification-info">
-                                                    <div class="notification-list-user-img"><img src="assets/images/avatar-2.jpg" alt="" class="user-avatar-md rounded-circle"></div>
-                                                    <div class="notification-list-user-block"><span class="notification-list-user-name">Jeremy Rakestraw</span>accepted your invitation to join the team.
-                                                        <div class="notification-date">2 min ago</div>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                            <a href="#" class="list-group-item list-group-item-action">
-                                                <div class="notification-info">
-                                                    <div class="notification-list-user-img"><img src="assets/images/avatar-3.jpg" alt="" class="user-avatar-md rounded-circle"></div>
-                                                    <div class="notification-list-user-block"><span class="notification-list-user-name">John Abraham </span>is now following you
-                                                        <div class="notification-date">2 days ago</div>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                            <a href="#" class="list-group-item list-group-item-action">
-                                                <div class="notification-info">
-                                                    <div class="notification-list-user-img"><img src="assets/images/avatar-4.jpg" alt="" class="user-avatar-md rounded-circle"></div>
-                                                    <div class="notification-list-user-block"><span class="notification-list-user-name">Monaan Pechi</span> is watching your main repository
-                                                        <div class="notification-date">2 min ago</div>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                            <a href="#" class="list-group-item list-group-item-action">
-                                                <div class="notification-info">
-                                                    <div class="notification-list-user-img"><img src="assets/images/avatar-5.jpg" alt="" class="user-avatar-md rounded-circle"></div>
-                                                    <div class="notification-list-user-block"><span class="notification-list-user-name">Jessica Caruso</span>accepted your invitation to join the team.
-                                                        <div class="notification-date">2 min ago</div>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="list-footer"> <a href="#">View all notifications</a></div>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="nav-item dropdown connection">
-                            <a class="nav-link" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="fas fa-fw fa-th"></i> </a>
-                            <ul class="dropdown-menu dropdown-menu-right connection-dropdown">
-                                <li class="connection-list">
-                                    <div class="row">
-                                        <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12 ">
-                                            <a href="#" class="connection-item"><img src="assets/images/github.png" alt="" > <span>Github</span></a>
-                                        </div>
-                                        <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12 ">
-                                            <a href="#" class="connection-item"><img src="assets/images/dribbble.png" alt="" > <span>Dribbble</span></a>
-                                        </div>
-                                        <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12 ">
-                                            <a href="#" class="connection-item"><img src="assets/images/dropbox.png" alt="" > <span>Dropbox</span></a>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12 ">
-                                            <a href="#" class="connection-item"><img src="assets/images/bitbucket.png" alt=""> <span>Bitbucket</span></a>
-                                        </div>
-                                        <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12 ">
-                                            <a href="#" class="connection-item"><img src="assets/images/mail_chimp.png" alt="" ><span>Mail chimp</span></a>
-                                        </div>
-                                        <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12 ">
-                                            <a href="#" class="connection-item"><img src="assets/images/slack.png" alt="" > <span>Slack</span></a>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="conntection-footer"><a href="#">More</a></div>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="nav-item dropdown nav-user">
-                            <a class="nav-link nav-user-img" href="#" id="navbarDropdownMenuLink2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="assets/images/avatar-1.jpg" alt="" class="user-avatar-md rounded-circle"></a>
-                            <div class="dropdown-menu dropdown-menu-right nav-user-dropdown" aria-labelledby="navbarDropdownMenuLink2">
-                                <div class="nav-user-info">
-                                    <h5 class="mb-0 text-white nav-user-name">John Abraham </h5>
-                                    <span class="status"></span><span class="ml-2">Available</span>
-                                </div>
-                                <a class="dropdown-item" href="#"><i class="fas fa-user mr-2"></i>Account</a>
-                                <a class="dropdown-item" href="#"><i class="fas fa-cog mr-2"></i>Setting</a>
-                                <a class="dropdown-item" href="#"><i class="fas fa-power-off mr-2"></i>Logout</a>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-            </nav>
-        </div>
-        <!-- ============================================================== -->
-        <!-- end navbar -->
-        <!-- ============================================================== -->
-        <!-- ============================================================== -->
-        <!-- left sidebar -->
-        <!-- ============================================================== -->
-        <div class="nav-left-sidebar sidebar-dark">
-            <div class="menu-list">
-                <nav class="navbar navbar-expand-lg navbar-light">
-                    <a class="d-xl-none d-lg-none" href="#">Dashboard</a>
-                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <div class="collapse navbar-collapse" id="navbarNav">
-                        <ul class="navbar-nav flex-column">
-                            <li class="nav-divider">
-                                Menu
-                            </li>
-                            <li class="nav-item ">
-                                <a class="nav-link active" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-1" aria-controls="submenu-1"><i class="fa fa-fw fa-user-circle"></i>Dashboard <span class="badge badge-success">6</span></a>
-                                <div id="submenu-1" class="collapse submenu" style="">
-                                    <ul class="nav flex-column">
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-1-2" aria-controls="submenu-1-2">Registration</a>
-                                            <div id="submenu-1-2" class="collapse submenu" style="">
-                                                <ul class="nav flex-column">
-                                                    <li class="nav-item">
-                                                        <a class="nav-link" href="/register">Register</a>
-                                                    </li> 
-                                                </ul>
-                                            </div>
-                                        </li>
-                                        
-                                        
-                                 
-                                    </ul>
-                                </div>
-                            </li>
-                            
-              
-              
-                       
-                          
-                   
-                        </ul>
-                    </div>
-                </nav>
-            </div>
-        </div>
-        <!-- ============================================================== -->
-        <!-- end left sidebar -->
-        <!-- ============================================================== -->
-        <!-- ============================================================== -->
-        <!-- wrapper  -->
-        <!-- ============================================================== -->
-        <div class="dashboard-wrapper">
-            <div class="dashboard-ecommerce">
-              @yield('content');
-            </div>
-            <!-- ============================================================== -->
-            <!-- footer -->
-            <!-- ============================================================== -->
-            <div class="footer">
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
-                             Copyright © 2018 Concept. All rights reserved. Dashboard by <a href="https://colorlib.com/wp/">Colorlib</a>.
-                        </div>
-                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
-                            <div class="text-md-right footer-links d-none d-sm-block">
-                                <a href="javascript: void(0);">About</a>
-                                <a href="javascript: void(0);">Support</a>
-                                <a href="javascript: void(0);">Contact Us</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- ============================================================== -->
-            <!-- end footer -->
-            <!-- ============================================================== -->
-        </div>
-        <!-- ============================================================== -->
-        <!-- end wrapper  -->
-        <!-- ============================================================== -->
-    </div>
-    <!-- ============================================================== -->
-    <!-- end main wrapper  -->
-    <!-- ============================================================== -->
-    <!-- Optional JavaScript -->
-    <!-- jquery 3.3.1 -->
-    <script src="{{asset('assets/vendor/jquery/jquery-3.3.1.min.js') }}"></script>
-    <!-- bootstap bundle js -->
-    <script src="{{asset('assets/vendor/bootstrap/js/bootstrap.bundle.js') }}"></script>
-    <!-- slimscroll js -->
-    <script src="{{asset('assets/vendor/slimscroll/jquery.slimscroll.js') }}"></script>
-    <!-- main js -->
-    <script src="{{asset('assets/libs/js/main-js.js') }}"></script>
-    <!-- chart chartist js -->
-    <script src="{{asset('assets/vendor/charts/chartist-bundle/chartist.min.js') }}"></script>
-    <!-- sparkline js -->
-    <script src="{{asset('assets/vendor/charts/sparkline/jquery.sparkline.js') }}"></script>
-    <!-- morris js -->
-    <script src="{{asset('assets/vendor/charts/morris-bundle/raphael.min.js') }}"></script>
-    <script src="{{asset('assets/vendor/charts/morris-bundle/morris.js') }}"></script>
-    <!-- chart c3 js -->
-    <script src="{{asset('assets/vendor/charts/c3charts/c3.min.js') }}"></script>
-    <script src="{{asset('assets/vendor/charts/c3charts/d3-5.4.0.min.js') }}"></script>
-    <script src="{{asset('assets/vendor/charts/c3charts/C3chartjs.js') }}"></script>
-    <script src="{{asset('assets/libs/js/dashboard-ecommerce.js') }}"></script>
+        <!--font style-->
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+		
+		<!-- Lineawesome CSS -->
+        <link rel="stylesheet" href="{{asset('assets/css/line-awesome.min.css')}}">
+		
+		<!-- Chart CSS -->
+		<link rel="stylesheet" href="{{asset('assets/plugins/morris/morris.css')}}">
 
-    @yield('scripts');
-</body>
- 
+		<!-- Theme CSS -->
+        <link rel="stylesheet" href="{{asset('assets/css/theme-settings.css')}}">
+
+		<!-- Main CSS -->
+        <link rel="stylesheet" href="{{asset('assets/css/style.css')}}">
+
+      
+		<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+		<!--[if lt IE 9]>
+			<script src="assets/js/html5shiv.min.js"></script>
+			<script src="assets/js/respond.min.js"></script>
+		<![endif]-->
+
+    </head>
+    <body id="skin-color" class="skin-color inter">
+		<!-- Main Wrapper -->
+        <div class="main-wrapper">
+		
+			<!-- Header -->
+            <div class="header" id="heading">
+			
+				<!-- Logo -->
+                <div class="header-left">
+                    <a href="index.html" class="logo">
+						<img src="assets/img/logo.png"  alt="Logo" class="sidebar-logo">
+						<img src="assets/img/s-logo.png"  alt="Logo" class="mini-sidebar-logo">
+					</a>
+                </div>
+				<!-- /Logo -->
+				
+				<a id="toggle_btn" href="javascript:void(0);">
+					<span class="bar-icon">
+						<span></span>
+						<span></span>
+						<span></span>
+					</span>
+				</a>
+				
+				
+				
+				<a id="mobile_btn" class="mobile_btn" href="#sidebar"><i class="fa fa-bars"></i></a>
+				
+				<!-- Header Menu -->
+				<ul class="nav user-menu">
+				
+					
+				
+					<!-- Notifications -->
+					<li class="nav-item dropdown">
+						<a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
+							<i class="fa fa-bell-o"></i> <span class="badge badge-pill">3</span>
+						</a>
+						<div class="dropdown-menu notifications">
+							<div class="topnav-dropdown-header">
+								<span class="notification-title">Notifications</span>
+								<a href="javascript:void(0)" class="clear-noti"> Clear All </a>
+							</div>
+							<div class="noti-content">
+								<ul class="notification-list">
+									<li class="notification-message">
+										<a href="activities.html">
+											<div class="media">
+												<span class="avatar">
+													<img alt="" src="assets/img/profiles/avatar-02.jpg">
+												</span>
+												<div class="media-body">
+													<p class="noti-details"><span class="noti-title">John Doe</span> added new task <span class="noti-title">Patient appointment booking</span></p>
+													<p class="noti-time"><span class="notification-time">4 mins ago</span></p>
+												</div>
+											</div>
+										</a>
+									</li>
+									<li class="notification-message">
+										<a href="activities.html">
+											<div class="media">
+												<span class="avatar">
+													<img alt="" src="assets/img/profiles/avatar-03.jpg">
+												</span>
+												<div class="media-body">
+													<p class="noti-details"><span class="noti-title">Tarah Shropshire</span> changed the task name <span class="noti-title">Appointment booking with payment gateway</span></p>
+													<p class="noti-time"><span class="notification-time">6 mins ago</span></p>
+												</div>
+											</div>
+										</a>
+									</li>
+									<li class="notification-message">
+										<a href="activities.html">
+											<div class="media">
+												<span class="avatar">
+													<img alt="" src="assets/img/profiles/avatar-06.jpg">
+												</span>
+												<div class="media-body">
+													<p class="noti-details"><span class="noti-title">Misty Tison</span> added <span class="noti-title">Domenic Houston</span> and <span class="noti-title">Claire Mapes</span> to project <span class="noti-title">Doctor available module</span></p>
+													<p class="noti-time"><span class="notification-time">8 mins ago</span></p>
+												</div>
+											</div>
+										</a>
+									</li>
+									<li class="notification-message">
+										<a href="activities.html">
+											<div class="media">
+												<span class="avatar">
+													<img alt="" src="assets/img/profiles/avatar-17.jpg">
+												</span>
+												<div class="media-body">
+													<p class="noti-details"><span class="noti-title">Rolland Webber</span> completed task <span class="noti-title">Patient and Doctor video conferencing</span></p>
+													<p class="noti-time"><span class="notification-time">12 mins ago</span></p>
+												</div>
+											</div>
+										</a>
+									</li>
+									<li class="notification-message">
+										<a href="activities.html">
+											<div class="media">
+												<span class="avatar">
+													<img alt="" src="assets/img/profiles/avatar-13.jpg">
+												</span>
+												<div class="media-body">
+													<p class="noti-details"><span class="noti-title">Bernardo Galaviz</span> added new task <span class="noti-title">Private chat module</span></p>
+													<p class="noti-time"><span class="notification-time">2 days ago</span></p>
+												</div>
+											</div>
+										</a>
+									</li>
+								</ul>
+							</div>
+							<div class="topnav-dropdown-footer">
+								<a href="activities.html">View all Notifications</a>
+							</div>
+						</div>
+					</li>
+					<!-- /Notifications -->
+					
+		
+
+					<li class="nav-item dropdown has-arrow main-drop">
+						<a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
+							<span class="user-img"><img src="assets/img/profiles/avatar-21.jpg" alt="">
+							<span class="status online"></span></span>
+							<span>Admin</span>
+						</a>
+						<div class="dropdown-menu">
+							<a class="dropdown-item" href="profile.html">My Profile</a>
+							<a class="dropdown-item" href="settings.html">Settings</a>
+							<a class="dropdown-item" href="login.html">Logout</a>
+						</div>
+					</li>
+				</ul>
+				<!-- /Header Menu -->
+				
+				
+				
+            </div>
+			<!-- /Header -->
+			
+			<!-- Sidebar -->
+            <div class="sidebar" id="sidebar">
+                <div class="sidebar-inner slimscroll">
+                	<form action="search.html" class="mobile-view">
+						<input class="form-control" type="text" placeholder="Search here">
+						<button class="btn" type="button"><i class="fa fa-search"></i></button>
+					</form>
+					<div id="sidebar-menu" class="sidebar-menu">
+
+						<ul>
+							<li class="nav-item nav-profile">
+				              <a href="#" class="nav-link">
+				                <div class="nav-profile-image">
+				                  <img src="assets/img/profiles/avatar-17.jpg" alt="profile">
+				                  
+				                </div>
+				                <div class="nav-profile-text d-flex flex-column">
+				                  <span class="font-weight-bold mb-2">David Grey. H</span>
+				                  <span class="text-white text-small">Project Manager</span>
+				                </div>
+				                <i class="mdi mdi-bookmark-check text-success nav-profile-badge"></i>
+				              </a>
+				            </li>
+							<li class="menu-title"> 
+								<span>Main</span>
+							</li>
+							<li class="submenu">
+								<a href="#"><i class="fa fa-tachometer" aria-hidden="true"></i> <span> Dashboard</span> <span class="menu-arrow"></span></a>
+								<ul class="sub-menus">
+									<li><a href="index.html" class="active">Deals Dashboard</a></li>
+									<li><a href="projects-dashboard.html">Projects Dashboard</a></li>
+									<li><a href="leads-dashboard.html">Leads Dashboard</a></li>
+								</ul>
+							</li>
+							
+							<li> 
+								<a href="tasks.html"><i class="fa fa-check-square-o" aria-hidden="true"></i> <span>Tasks</span></a>
+							</li>
+							
+							
+							<li class="submenu">
+								<a href="javascript:void(0);"><i class="fa fa-retweet" aria-hidden="true"></i> <span>Multi Level</span> <span class="menu-arrow"></span></a>
+								<ul class="sub-menus">
+									<li class="submenu">
+										<a href="javascript:void(0);"> <span>Level 1</span> <span class="menu-arrow"></span></a>
+										<ul class="sub-menus">
+											<li><a href="javascript:void(0);"><span>Level 2</span></a></li>
+											<li class="submenu">
+												<a href="javascript:void(0);"> <span> Level 2</span> <span class="menu-arrow"></span></a>
+												<ul class="sub-menus">
+													<li><a href="javascript:void(0);">Level 3</a></li>
+													<li><a href="javascript:void(0);">Level 3</a></li>
+												</ul>
+											</li>
+											<li><a href="javascript:void(0);"> <span>Level 2</span></a></li>
+										</ul>
+									</li>
+									<li>
+										<a href="javascript:void(0);"> <span>Level 1</span></a>
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+                </div>
+            </div>
+			<!-- /Sidebar -->
+			
+			<!-- Page Wrapper -->
+            <div class="page-wrapper">
+                <div class="content container-fluid">
+
+					<!-- Page Header -->
+					<div class="crms-title row bg-white mb-4">
+                		<div class="col">
+                			<h3 class="page-title">
+			                <span class="page-title-icon bg-gradient-primary text-white mr-2">
+			                  <i class="la la-table"></i>
+			                </span> <span>Deals Dashboard</span></h3>
+                		</div>
+                		<div class="col text-right">
+                			<ul class="breadcrumb bg-white float-right m-0 pl-0 pr-0">
+								<li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
+								<li class="breadcrumb-item active">Deals Dashboard</li>
+							</ul>
+                		</div>
+                	</div>
+                	
+					<!-- /Page Header -->
+
+                  
+
+                    <!-- page content -->
+
+                    @yield('content')
+                    <!-- page content -->
+
+		
+        </div>
+		<!-- /Main Wrapper -->
+
+
+		 <!--theme settings modal-->
+
+			<div class="modal right fade settings" id="settings"  role="dialog" aria-modal="true">
+				<div class="toggle-close">
+          			<div class="toggle" data-toggle="modal" data-target="#settings"><i class="fa fa-cog fa-w-16 fa-spin fa-2x"></i>
+          			</div>
+           
+        		</div>
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+
+						<div class="modal-header p-3">
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+							<h4 class="modal-title" id="myModalLabel2">Settings</h4>
+						</div>
+
+						<div class="modal-body pb-3">
+							<div class="scroll">
+							
+				            <div>
+				            	
+
+				            	
+
+				                <ul class="list-group">
+				                    <li class="list-group-item border-0">
+				                      <div class="row">
+				                        <div class="col">
+				                          <h5 class="pb-2">Primary Skin</h5>
+				                        </div>
+				                        <div class="col text-right">
+				                          <a class="reset text-white bg-dark" id="ChangeprimaryDefault">Reset Default</a>
+				                        </div>
+				                      </div>
+				                      <div class="theme-settings-swatches">
+				                         <div class="themes">
+												<div class="themes-body">
+													<ul id="theme-change" class="theme-colors border-0 list-inline-item list-unstyled mb-0">
+														<li class="theme-title">Solid Color</li>
+														<li class="list-inline-item"><span class="theme-solid-black bg-black"></span></li>
+														<li class="list-inline-item"><span class="theme-solid-pink bg-primary"></span></li>
+														<li class="list-inline-item"><span class="theme-solid-orange bg-secondary1"></span></li> 
+														<li class="list-inline-item"><span class="theme-solid-purple bg-success"></span></li>
+														<!-- <li class="list-inline-item"><span class="theme-solid-blue bg-info"></span></li> -->
+														<li class="list-inline-item"><span class="theme-solid-green bg-warnings"></span></li>
+														<li><br /></li>
+														<li><hr /></li>
+
+														<li class="theme-title">Gradient Color</li>
+														
+
+														<li class="list-inline-item"><span class="theme-orange bg-sunny-morning"></span></li>
+														<li class="list-inline-item"><span class="theme-blue bg-tempting-azure"></span></li> 
+														<li class="list-inline-item"><span class="theme-grey bg-amy-crisp"></span></li>
+														<li class="list-inline-item"><span class="theme-lgrey bg-mean-fruit"></span></li>
+														<li class="list-inline-item"><span class="theme-dblue bg-malibu-beach"></span></li> 
+														<li class="list-inline-item"><span class="theme-pink bg-ripe-malin"></span></li> 
+														<li class="list-inline-item"><span class="theme-purple bg-plum-plate"></span></li>
+														
+													</ul>
+												</div>
+											</div>
+
+				                         
+				                      </div>
+				                  	</li>
+				              	</ul>
+				              </div>
+
+				              <div>
+				                <ul class="list-group">
+				                  <li class="list-group-item border-0">
+				                     <div class="row">
+				                      <div class="col">
+				                        <h5 class="pb-2">Header Style</h5>
+				                      </div>
+				                      <div class="col text-right">
+				                        <a class="reset text-white bg-dark" id="ChageheaderDefault">Reset Default</a>
+				                      </div>
+				                    </div>
+				                    <div class="theme-settings-swatches">
+				                    	<div class="themes">
+											<div class="themes-body">
+												<ul id="theme-change1" class="theme-colors border-0 list-inline-item list-unstyled mb-0">
+														<li class="theme-title">Solid Color</li>
+														<li class="list-inline-item"><span class="header-solid-black bg-black"></span></li>
+														<li class="list-inline-item"><span class="header-solid-pink bg-primary"></span></li>
+														<li class="list-inline-item"><span class="header-solid-orange bg-secondary1"></span></li> 
+														<li class="list-inline-item"><span class="header-solid-purple bg-success"></span></li>
+														<!-- <li class="list-inline-item"><span class="header-solid-blue bg-info"></span></li> -->
+														<li class="list-inline-item"><span class="header-solid-green bg-warnings"></span></li>
+														<li><br /></li>
+														<li><hr /></li>
+
+														<li class="theme-title">Gradient Color</li>
+
+														<li class="list-inline-item"><span class="header-gradient-color1 bg-sunny-morning"></span></li>
+														<li class="list-inline-item"><span class="header-gradient-color2 bg-tempting-azure"></span></li> 
+														<li class="list-inline-item"><span class="header-gradient-color3 bg-amy-crisp"></span></li>
+														<li class="list-inline-item"><span class="header-gradient-color4 bg-mean-fruit"></span></li>
+														<li class="list-inline-item"><span class="header-gradient-color5 bg-malibu-beach"></span></li> 
+														<li class="list-inline-item"><span class="header-gradient-color6 bg-ripe-malin"></span></li> 
+														<li class="list-inline-item"><span class="header-gradient-color7 bg-plum-plate"></span></li>
+														
+												</ul>
+											</div>
+										</div>
+				                        
+				                      </div>
+				                  </li>
+				                </ul>
+				              </div>
+				              <div>
+				                <ul class="list-group m-0">
+				                  <li class="list-group-item border-0">
+				                    <div class="row">
+				                      <div class="col">
+				                        <h5 class="pb-2">Apps Sidebar Style</h5>
+				                      </div>
+				                      <div class="col  text-right">
+				                        <a class="reset text-white bg-dark" id="ChagesidebarDefault">Reset Default</a>
+				                      </div>
+				                    </div>
+				                    <div class="theme-settings-swatches">
+				                    	<div class="themes">
+											<div class="themes-body">
+												<ul id="theme-change2" class="theme-colors border-0 list-inline-item list-unstyled">
+														<li class="theme-title">Solid Color</li>
+														<li class="list-inline-item"><span class="sidebar-solid-black bg-black"></span></li>
+														<li class="list-inline-item"><span class="sidebar-solid-pink bg-primary"></span></li>
+														<li class="list-inline-item"><span class="sidebar-solid-orange bg-secondary1"></span></li> 
+														<li class="list-inline-item"><span class="sidebar-solid-purple bg-success"></span></li>
+														<!-- <li class="list-inline-item"><span class="sidebar-solid-blue bg-info"></span></li> -->
+														<li class="list-inline-item"><span class="sidebar-solid-green bg-warnings"></span></li>
+														<li><br /></li>
+														<li><hr /></li>
+
+														<li class="theme-title">Gradient Color</li>
+
+														<li class="list-inline-item"><span class="sidebar-gradient-color1 bg-sunny-morning"></span></li>
+														<li class="list-inline-item"><span class="sidebar-gradient-color2 bg-tempting-azure"></span></li> 
+														<li class="list-inline-item"><span class="sidebar-gradient-color3 bg-amy-crisp"></span></li>
+														<li class="list-inline-item"><span class="sidebar-gradient-color4 bg-mean-fruit"></span></li>
+														<li class="list-inline-item"><span class="sidebar-gradient-color5 bg-malibu-beach"></span></li> 
+														<li class="list-inline-item"><span class="sidebar-gradient-color6 bg-ripe-malin"></span></li> 
+														<li class="list-inline-item"><span class="sidebar-gradient-color7 bg-plum-plate"></span></li>
+														
+												</ul>
+											</div>
+										</div>
+				                        
+				                      </div>
+				                  </li>
+				                </ul>
+				                <div class="row Default-font">
+				                	<div class="col">
+				                        <h5 class="pb-2">Font Style</h5>
+				                    </div>
+				                    <div class="col text-right">
+				                        <a class="reset text-white bg-dark font-Default">Reset Default</a>
+				                    </div>
+				                </div>
+				                <ul class="list-inline-item list-unstyled font-family border-0 p-0">
+				                  
+				                  <li class="list-inline-item roboto-font" >Roboto</li>
+				                  <li class="list-inline-item poppins-font">Poppins</li>
+				                  <li class="list-inline-item montserrat-font" >Montserrat</li>
+				                  <li class="list-inline-item inter-font">Inter</li>
+				                </ul>
+				            </div>
+				            
+				        </div>
+						</div>
+
+					</div>
+				</div>
+			</div>
+
+		<!--theme settings-->
+        <div class="sidebar-contact">
+          	<div class="toggle" data-toggle="modal" data-target="#settings"><i class="fa fa-cog fa-w-16 fa-spin fa-2x"></i></div>
+           
+        </div>
+
+
+
+
+		<!-- jQuery -->
+        <script src="{{asset('assets/js/jquery-3.5.0.min.js')}}"></script>
+		
+		<!-- Bootstrap Core JS -->
+        <script src="{{asset('assets/js/popper.min.js')}}"></script>
+        <script src="{{asset('assets/js/bootstrap.min.js')}}"></script>
+		
+		<!-- Slimscroll JS -->
+		<script src="{{asset('assets/js/jquery.slimscroll.min.js')}}"></script>
+		
+		
+		<!-- Chart JS -->
+		<script src="{{asset('assets/js/morris.js')}}"></script>
+		
+		<script src="{{asset('assets/plugins/raphael/raphael.min.js')}}"></script>
+		<script src="{{asset('assets/js/chart.js')}}"></script>
+		<script src="{{asset('assets/js/linebar.min.js')}}"></script>
+		<script src="{{asset('assets/js/piechart.js')}}"></script>
+		<script src="{{asset('assets/js/apex.min.js')}}"></script>
+
+		<!-- theme JS -->
+		<script src="{{asset('assets/js/theme-settings.js')}}"></script>
+
+		<!-- Custom JS -->
+		<script src="{{asset('assets/js/app.js')}}"></script>
+
+		
+    </body>
 </html>

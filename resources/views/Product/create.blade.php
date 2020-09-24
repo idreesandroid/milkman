@@ -1,47 +1,60 @@
 @extends('layouts.master')
 @section('content')
-    <!-- ============================================================== -->
-    <!-- signup form  -->
-    <!-- ============================================================== -->
-    <form method="post"  class="splash-container">
-    @csrf 
-<div class="card">
-    <div class="card-header">
-        <h3 class="mb-1">ADD Product</h3>
-        <p>Please enter your product information.</p>
- 
+		
+			
+						
+			<!-- Page Wrapper -->
+					
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title mb-0">Add Product</h4>
+            </div>
+            <div class="card-body">
+                <form method="post">
+                @csrf 
+                    <div class="form-group row">
+                        <label for="product_name" class="col-form-label col-md-2">Product Name</label>
+                        <div class="col-md-10">
+                            <input type="text" class="form-control" name="product_name" required="">
+                        </div>
+                    </div>
+
+
+                    <div class="form-group row">
+                        <label for="product_size" class="col-form-label col-md-2">Size</label>
+                        <div class="col-md-10">
+                            <input type="text" class="form-control" name="product_size" required="">
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="product_price" class="col-form-label col-md-2">Price</label>
+                        <div class="col-md-10">
+                            <input type="text" class="form-control" name="product_price" required="">
+                        </div>
+                    </div>
+
+
+                    <div class="form-group mb-0 row">                
+                        <div class="col-md-10">                           
+                            <div class="input-group-append">
+                                <button class="btn btn-primary" type="submit">Add Product</button>
+                            </div>                           
+                        </div>
+                    </div>
+                        <!-- <div class="form-group pt-2">
+                        <button class="btn btn-block btn-primary" type="submit">ADD Product</button>
+                        </div> -->
+                </form>
+            </div>
+        </div>
+        
     </div>
-    <div class="card-body">
-        
-      
-
-        <div class="form-group">
-            <input class="form-control form-control-lg" type="text" name="product_name" required="" placeholder="Name" autocomplete="off">
-        </div>
-         
-        <div class="form-group">
-            <input class="form-control form-control-lg" type="text" name="product_size" required="" placeholder="Size" autocomplete="off">
-        </div>
-
-        <div class="form-group">
-            <input class="form-control form-control-lg" type="text" name="product_price" required="" placeholder="Price" autocomplete="off">
-        </div>
-        
-        <div class="form-group pt-2">
-            <button class="btn btn-block btn-primary" type="submit">ADD Product</button>
-        </div>
-      
-     
-     
-    
-    </div>      
-</div>   
-
-
- </form>
- @endsection
-
-
-@section('scripts')
-
-@endsection
+</div>
+				
+			
+			<!-- /page Wrapper -->
+		
+            @endsection
