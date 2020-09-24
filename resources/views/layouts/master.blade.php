@@ -55,6 +55,7 @@
 						<img src="assets/img/s-logo.png"  alt="Logo" class="mini-sidebar-logo">
 					</a>
                 </div>
+
 				<!-- /Logo -->
 				
 				<a id="toggle_btn" href="javascript:void(0);">
