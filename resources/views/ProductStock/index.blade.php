@@ -22,7 +22,8 @@
                                 <th>Batch ID</th>
                                 <th>Manufacture Date</th>
                                 <th>Expiry Date</th>
-                                <th>Manufacture Quantity</th>                              
+                                <th>Manufacture Quantity</th> 
+                                <th>Action</th>                             
                                 </tr>
                             </thead>
                             <tbody>
@@ -34,7 +35,7 @@
                             <td>{{$product_stock->manufactured_date}}</td>
                             <td>{{$product_stock->expire_date}}</td>
                             <td>{{$product_stock->manufactured_quantity}}</td>
-                                
+                            <td><a href="{{ route('edit.productStock', $product_stock->id)}}" class="btn btn-primary">Edit</a></td>   
                             </tr>
                             @endforeach
                             </tbody>

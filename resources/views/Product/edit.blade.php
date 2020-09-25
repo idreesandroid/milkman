@@ -24,6 +24,22 @@
                         </div>
                     </div>
 
+
+                <div class="form-group row">
+                <?php $showValue = $products->unit; ?>
+                    <label for="unit" class="col-form-label col-md-2">Unit</label>
+                    <div class="col-md-10">
+                        <select class="form-control" name="unit" value="{{ $products->unit }}" required="">
+                            <option value="">--Select Unit--</option>
+                            @foreach ($units as $unit)
+                             <option value="{{ $unit}}" <?php echo ($showValue == $unit) ? 'selected' : '' ?> >{{ $unit}}</option>
+                             @endforeach                            
+                        </select>
+                    </div>
+                </div>
+
+
+
                     <div class="form-group row">
                         <label for="product_price" class="col-form-label col-md-2">Price</label>
                         <div class="col-md-10">

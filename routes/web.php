@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+//user route
 
 Route::get('/', function () { return view('welcome'); });
 Route::get('/login', function () { return view('login'); });
@@ -19,11 +20,11 @@ Route::get('/register', function () { return view('register'); });
 Route::post('/register', 'RegisterController@register');
 Route::get('/register', 'RegisterController@user_role_list');
 
-//country state city drop down
+Route::get('user/userList',           'RegisterController@userList')->name('index.userList');
+Route::get('user/edit/{id}',       'RegisterController@edit')->name('edit.userList');
+Route::post('user/update/{id}',    'RegisterController@update')->name('update.userList');
 
-Route::get('country-state-city','CountryStateCityController@index');
-Route::post('get-states-by-country','CountryStateCityController@getState');
-Route::post('get-cities-by-state','CountryStateCityController@getCity');
+
 
 //Product routes--------------------------------
 

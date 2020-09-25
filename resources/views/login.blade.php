@@ -1,74 +1,95 @@
-<!doctype html>
+
+<!DOCTYPE html>
 <html lang="en">
- 
-<head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Login</title>
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="{{asset('assets/vendor/bootstrap/css/bootstrap.min.css')}}">
-    <link href="{{asset('assets/vendor/fonts/circular-std/style.css')}}" rel="stylesheet">
-    <link rel="stylesheet" href="{{asset('assets/libs/css/style.css')}}">
-    <link rel="stylesheet" href="{{asset('assets/vendor/fonts/fontawesome/css/fontawesome-all.css')}}">
-    <style>
-    html,
-    body {
-        height: 100%;
-    }
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+        <meta name="description" content="CRMS - Bootstrap Admin Template">
+		<meta name="keywords" content="admin, estimates, bootstrap, business, corporate, creative, management, minimal, modern, accounts, invoice, html5, responsive, CRM, Projects">
+        <meta name="author" content="Dreamguys - Bootstrap Admin Template">
+        <meta name="robots" content="noindex, nofollow">
+        <title>Login - CRMS admin template</title>
+		
+		<!-- Favicon -->
+        <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.png">
+		
+		<!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+		
+		<!-- Fontawesome CSS -->
+        <link rel="stylesheet" href="assets/css/font-awesome.min.css">
 
-    body {
-        display: -ms-flexbox;
-        display: flex;
-        -ms-flex-align: center;
-        align-items: center;
-        padding-top: 40px;
-        padding-bottom: 40px;
-    }
-    </style>
-</head>
-
-<body>
-    <!-- ============================================================== -->
-    <!-- login page  -->
-    <!-- ============================================================== -->
-    <div class="splash-container">
-        <div class="card ">
-            <div class="card-header text-center">
-            <a href="/"><h2>Milk Man App</h2></a>
-            <span class="splash-description">Please enter your user information.</span></div>
-            <div class="card-body">
-                <form>
-                    <div class="form-group">
-                        <input class="form-control form-control-lg" id="username" type="text" placeholder="Username" autocomplete="off">
-                    </div>
-                    <div class="form-group">
-                        <input class="form-control form-control-lg" id="password" type="password" placeholder="Password">
-                    </div>
-                    <div class="form-group">
-                        <label class="custom-control custom-checkbox">
-                            <input class="custom-control-input" type="checkbox"><span class="custom-control-label">Remember Me</span>
-                        </label>
-                    </div>
-                    <button type="submit" class="btn btn-primary btn-lg btn-block">Sign in</button>
-                </form>
-            </div>
-            <div class="card-footer bg-white p-0  ">
-                <div class="card-footer-item card-footer-item-bordered">
-                    <a href="#" class="footer-link">Create An Account</a></div>
-                <div class="card-footer-item card-footer-item-bordered">
-                    <a href="#" class="footer-link">Forgot Password</a>
-                </div>
-            </div>
+        <!--font style-->
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+		
+		<!-- Main CSS -->
+        <link rel="stylesheet" href="assets/css/style.css">
+		
+		
+    </head>
+    <body class="account-page">
+	
+		<!-- Main Wrapper -->
+        <div class="main-wrapper">
+			<div class="account-content">
+				
+				<div class="container">
+				
+					<!-- Account Logo -->
+					<div class="account-logo">
+						<a href="index.html"><img src="assets/img/logo.png" alt="Dreamguy's Technologies"></a>
+					</div>
+					<!-- /Account Logo -->
+					
+					<div class="account-box">
+						<div class="account-wrapper">
+							<h3 class="account-title">Login</h3>
+							<p class="account-subtitle">Access to our dashboard</p>
+							
+							<!-- Account Form -->
+							<form action="index.html">
+								<div class="form-group">
+									<label>Email Address</label>
+									<input class="form-control" type="text">
+								</div>
+								<div class="form-group">
+									<div class="row">
+										<div class="col">
+											<label>Password</label>
+										</div>
+										<div class="col-auto">
+											<a class="text-muted" href="forgot-password.html">
+												Forgot password?
+											</a>
+										</div>
+									</div>
+									<input class="form-control" type="password">
+								</div>
+								<div class="form-group text-center">
+									<button class="btn btn-primary account-btn" type="submit">Login</button>
+								</div>
+								<div class="account-footer">
+									<p>Don't have an account yet? <a href="register.html">Register</a></p>
+								</div>
+							</form>
+							<!-- /Account Form -->
+							
+						</div>
+					</div>
+				</div>
+			</div>
         </div>
-    </div>
-  
-    <!-- ============================================================== -->
-    <!-- end login page  -->
-    <!-- ============================================================== -->
-    <!-- Optional JavaScript -->
-    <script src="{{asset('assets/vendor/jquery/jquery-3.3.1.min.js"></script>
-    <script src="{{asset('assets/vendor/bootstrap/js/bootstrap.bundle.js"></script>
-</body>
- 
+		<!-- /Main Wrapper -->
+		
+		<!-- jQuery -->
+        <script src="assets/js/jquery-3.5.0.min.js"></script>
+		
+		<!-- Bootstrap Core JS -->
+        <script src="assets/js/popper.min.js"></script>
+        <script src="assets/js/bootstrap.min.js"></script>
+		
+		<!-- Custom JS -->
+		<script src="assets/js/app.js"></script>
+		
+    </body>
 </html>

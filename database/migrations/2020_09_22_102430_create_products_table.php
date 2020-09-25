@@ -17,6 +17,7 @@ class CreateProductsTable extends Migration
             $table->increments('id')->unsigned();
             $table->string('product_name');
             $table->string('product_size');
+            $table->enum('unit',['ml','ltr','gm','kg']);
             $table->integer('product_price');
             $table->timestamps();
         });
