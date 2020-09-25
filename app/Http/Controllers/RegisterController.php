@@ -74,6 +74,7 @@ class RegisterController extends Controller
             }else{
             return redirect('login')->with('msg','Username or password invalid');
             }
+          }
 
 
       
