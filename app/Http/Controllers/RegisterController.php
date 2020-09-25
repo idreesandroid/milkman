@@ -23,14 +23,18 @@ class RegisterController extends Controller
       $user_address = $request->input('user_address');
       $qty_done = $request->input('qty_done');
       $passw = $request->input('passw');
+      $user_address = $request->input('user_address');
+
         // $validator = $request->validate([
         //     'name'      => 'required|min:1',
         //     'email'     => 'required',
         //     'password'  => 'required|min:6'
         //   ]);
+
+
         $Records = " INSERT INTO users 
 
-        (`name` , email, `password`, user_role, user_cnic, user_phone,  user_state, user_city,user_address,created_time ) 
+        (`name` , email, `password`, user_role, user_cnic, user_phone,  user_state, user_city,user_address,created_time) 
         VALUES ('$user_name','$email','$passw','$user_role','$user_cnic','$user_phone','$user_state','$user_city','$user_address',CURRENT_TIMESTAMP)";
 
         DB::insert("$Records");
@@ -57,7 +61,7 @@ class RegisterController extends Controller
      $username = $request->input('username');
      $password = $request->input('password');
 
-       $role_query="select id, `name`, user_role  from users where email='$username' and `password`='$password'";
+      $role_query="select id, `name`, user_role  from users where ( user_phone='$username'  OR   user_cnic='$username' )  and `password`='$password'";
           $log_result =  DB::select($role_query);
           if(count($log_result)==1){
             foreach ($log_result as $key ) {
@@ -73,11 +77,10 @@ class RegisterController extends Controller
             }
             }else{
             return redirect('login')->with('msg','Username or password invalid');
+
+       }
             }
-          }
-
-
-      
+   
     
 
        
@@ -87,7 +90,23 @@ class RegisterController extends Controller
      public function userList()
      {
          
-        $users = User::all();    
+        $users_que =  "SELECT
+        users.id,
+        users.`name`,
+        users.email,
+        user_role.role_title,
+        users.user_cnic,
+        users.user_phone,
+        users.user_city,
+        users.user_state,
+        users.user_role,
+         users.user_address
+        FROM
+        users
+        INNER JOIN user_role ON users.user_role = user_role.id
+        order by user_role.role_title";   
+        
+        $users = DB::select($users_que);
         return view('user/userList', compact('users'));
        
  

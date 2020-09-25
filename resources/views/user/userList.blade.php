@@ -36,7 +36,7 @@
                             <td>{{$user->id}}</td>
                             <td>{{$user->name}}</td>
                             <td>{{$user->email}} </td>
-                            <td>{{$user->user_role}}</td>
+                            <td>{{$user->role_title}}</td>
                             <td>{{$user->user_cnic}}</td>
                             <td>{{$user->user_phone}}</td>
                             <td>{{$user->user_state}} </td>
