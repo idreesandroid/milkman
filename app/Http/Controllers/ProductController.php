@@ -19,8 +19,8 @@ class ProductController extends Controller
 
     public function create() 
     {
-        
-        return view('Product/create');  
+        $units = ['ml','ltr','gm','kg'];
+        return view('Product/create',compact('units'));  
 
     }
 
@@ -33,15 +33,17 @@ $this->validate($request,[
     'product_name'=> 'required',
     'product_size'=>'required',
     'product_price'=>'required',
+    'unit'=>'required',
     
      ]);
 
 
 $products = new Product();
 
-$products->product_name = $request->product_name;        
+$products->product_name = $request->product_name." ".$request->product_size    ;        
 $products->product_size = $request->product_size;
 $products->product_price = $request->product_price;
+$products->unit = $request->unit;
 
 
 $products->save();
@@ -61,8 +63,9 @@ return redirect('Product/index');
 
 public function edit($id)
 {
+    $units = ['ml','ltr','gm','kg'];
 $products = Product::findorfail($id);
-return view('Product/edit', compact('products'));
+return view('Product/edit', compact('products','units'));
 }
 
 
@@ -74,6 +77,7 @@ $updatedata = $request->validate([
     'product_name'=> 'required',
     'product_size'=>'required',
     'product_price'=>'required',
+    'unit'=>'required',
    
 ]);
 Product::whereid($id)->update($updatedata);

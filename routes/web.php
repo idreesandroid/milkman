@@ -12,21 +12,23 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+//user route
 
 Route::get('/', function () { return view('welcome'); });
 Route::get('/login', function () { return view('login'); });
+
 Route::get('/logout', 'RegisterController@logout');
 Route::post('/login', 'RegisterController@login');
-
 Route::get('/','RegisterController@profile')->middleware('CustomAuth');
 Route::get('/profile','RegisterController@profile')->middleware('CustomAuth');
 Route::get('/register', function () { return view('register'); })->middleware('CustomAuth');
 Route::post('/register', 'RegisterController@register')->middleware('CustomAuth');
 Route::get('/register', 'RegisterController@user_role_list')->middleware('CustomAuth');
 
-Route::get('country-state-city','CountryStateCityController@index')->middleware('CustomAuth');
-Route::post('get-states-by-country','CountryStateCityController@getState')->middleware('CustomAuth');
-Route::post('get-cities-by-state','CountryStateCityController@getCity')->middleware('CustomAuth');
+Route::get('user/userList',           'RegisterController@userList')->name('index.userList');
+Route::get('user/edit/{id}',       'RegisterController@edit')->name('edit.userList');
+Route::post('user/update/{id}',    'RegisterController@update')->name('update.userList');
+
 //Product routes--------------------------------
 
 Route::get('Product/index',           'ProductController@index')->name('index.product');

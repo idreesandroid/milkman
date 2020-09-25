@@ -1,130 +1,131 @@
 @extends('layouts.master')
 @section('content')
-    <!-- ============================================================== -->
-    <!-- signup form  -->
-    <!-- ============================================================== -->
-    <form method="post"  class="splash-container">
-    @csrf 
-<div class="card">
-    <div class="card-header">
-        <h3 class="mb-1">Registrations Form</h3>
-        <p>Please enter your user information.</p>
- 
-    </div>
-    <div class="card-body">
-        <div class="form-group">
-            <select class="form-control form-control-lg" type="text" required name="user_role"  >
-            <option value="">--Role--</option>
-            <?php 
-            foreach ($result as $results) {
-                $role_title     = $results->role_title;
-                $role_id    = $results->id; ?>
-                <option value="<?php echo $role_id;  ?>"><?php echo $role_title;  ?></option>
 
+			
+			<!-- Page Wrapper -->
+            					
+					<div class="row">
+						<div class="col-md-12">
+							<div class="card">
+								<div class="card-header">
+									<h4 class="card-title mb-0">Two Column Vertical Form</h4>
+								</div>
+								<div class="card-body">
+									<form method="post">
+                                    @csrf
+                                            <!-- <div class="row">
+                                                <div class="col-md-12">
+												<div class="form-group">
+													<label>User Roll</label>
+													<input type="text" class="form-control">
+												</div>										
+                                                </div>
+											</div> -->
 
-            <?php }  ?>
+											<h4 class="card-title">User Roll</h4>
+                      <div class="form-group row">
+					  
+                    <div class="col-md-6">
+                        <select class="form-control" name="user_role" required="">
+                            <option value="">--User Roll--</option>
+                            <?php 
+                            foreach ($result as $results) {
+                            $role_title     = $results->role_title;
+                            $role_id    = $results->id; ?>
+                           <option value="<?php echo $role_id;  ?>"><?php echo $role_title;  ?></option> <?php }  ?>                           
+                        </select>
+                    </div>
+                </div>
 
-            </select>
-        </div>
+									
+                                    	<h4 class="card-title">Personal Information</h4>
+										<div class="row">
+											<div class="col-md-6">
+												<div class="form-group">
+													<label>First Name</label>
+													<input type="text" class="form-control" name="user_name" required=""  autocomplete="off">
+												</div>
+												
 
-      
+                                                <div class="form-group">
+													<label>CNIC</label>
+													<input type="text" class="form-control" name="user_cnic" required="" autocomplete="off">
+												</div>
 
-        <div class="form-group">
-            <input class="form-control form-control-lg" type="text" name="user_name" required="" placeholder="Username" autocomplete="off">
-        </div>
-        <div class="form-group">
-            <input class="form-control form-control-lg" type="email" name="email"  placeholder="E-mail" autocomplete="off">
-        </div>
-        <div class="form-group">
-            <input class="form-control form-control-lg" type="text" name="user_cnic"  placeholder="CNIC" autocomplete="off">
-        </div>
-        <div class="form-group">
-            <input class="form-control form-control-lg" type="text" name="user_phone"   placeholder="Mobile" autocomplete="off">
-        </div>
-        <!-- <div class="form-group">
-        <select class="form-control form-control-lg" type="text" name="user_country"   placeholder="Mobile" >
-        <option value="0">--Country--</option>
-        </select>
-        </div>
-        <div class="form-group">
-        <select class="form-control form-control-lg" type="text" name="user_state"   placeholder="Mobile" >
-        <option value="0">--State--</option>
-        </select>
-        </div>
-        <div class="form-group">
-        <select class="form-control form-control-lg" type="text" name="user_city"  placeholder="Mobile" >
-        <option value="0">--City--</option>
-        </select>
-        </div> -->
+                                                <div class="form-group">
+													<label>Contact No</label>
+													<input type="text" class="form-control" name="user_phone" required="" autocomplete="off">
+												</div>											
+										
+											</div>
+											<div class="col-md-6">
+												
+												<div class="form-group">
+													<label>Email</label>
+													<input type="text" class="form-control" type="email" name="email"  autocomplete="off">
+												</div>
 
-        
-        
+												<div class="form-group">
+													<label>Password</label>
+													<input type="text" class="form-control" id="pass" name="passw" type="password"  >
+												</div>
+												<div class="form-group">
+													<label>Repeat Password</label>
+													<input type="text" class="form-control" id="pass1" name="pass1" type="password"   >
+												</div>
+											</div>
+										</div>
+										<h4 class="card-title">Address Information</h4>
+										<div class="row">
+											<div class="col-md-6">
+												
+                                                <div class="form-group"  type="text" required="" name="user_state" id="user_state">
+													<label>State</label>
+													   <select class="select"  name="user_state">
+														<option>States</option>
+														<?php 
+                                                            foreach ($state as $states) {
+                                                                 $name     = $states->name;
+                                                                 $id    = $states->id; ?>
+                                                        <option value="<?php echo $id;  ?>"><?php echo $name;  ?></option><?php }  ?>
+														
+													</select>
+												</div>
+                                                                                           
+                                                <div class="form-group"  type="text" required="" name="user_city" >
+													<label>City</label>
+													   <select class="select" name="user_city">
+														<option>Select</option>
+														<?php 
+                                                            foreach ($city as $cities) {
+                                                              $name     = $cities->name;
+                                                              $id    = $cities->id; ?>
+                                                             <option value="<?php echo $id;  ?>"><?php echo $name;  ?></option><?php }  ?>
+													</select>
+												</div>
+                                                </div>
+											<div class="col-md-6">
+                                            
 
-        
-        <div class="form-group">
-            <select class="form-control form-control-lg" type="text" required name="user_state" id="user_state"  >
-            <option value="">--State--</option>
-            <?php 
-            foreach ($state as $states) {
-                $name     = $states->name;
-                $id    = $states->id; ?>
-                <option value="<?php echo $id;  ?>"><?php echo $name;  ?></option>
+                                                <div class="form-group">
+													<label>Address</label>
+													<textarea rows="5" cols="5" class="form-control" name="user_address"  autocomplete="off"></textarea>
+												</div>
+                                            										
+											</div>
+										</div>
+										<div class="text-right">
+											<button type="submit" class="btn btn-primary">Submit</button>
+										</div>
+									</form>
+								</div>
+							
+					</div>
+					
+					
+			<!-- /Page Wrapper -->
+		
+       
+		
 
-
-            <?php }  ?>
-
-            </select>
-        </div>
-
-        
-        <div class="form-group">
-            <select class="form-control form-control-lg" type="text" required name="user_city" name="user_city"  >
-            <option value="">--City--</option>
-            <?php 
-            foreach ($city as $cities) {
-                $name     = $cities->name;
-                $id    = $cities->id; ?>
-                <option value="<?php echo $id;  ?>"><?php echo $name;  ?></option>
-
-
-            <?php }  ?>
-
-            </select>
-        </div>
-
-        
-        <div class="form-group">
-            <input class="form-control form-control-lg" id="qty_done" name="qty_done" type="number"   placeholder="Quantity Done">
-        </div>
-
-        <div class="form-group">
-            <input class="form-control form-control-lg" id="pass" name="passw" type="password"   placeholder="Password">
-        </div>
-        <div class="form-group">
-            <input class="form-control form-control-lg" id="pass1" name="pass1" type="password"   placeholder="Confirm-Password">
-        </div>
-
-
-
-        
-        <div class="form-group pt-2">
-            <button class="btn btn-block btn-primary" type="submit">Register My Account</button>
-        </div>
-      
-     
-     
-     <div class="card-footer bg-white">
-                <p>Already member? <a href="/login" class="text-secondary">Login Here.</a></p>
-     </div>
-
-    </div>      
-</div>   
-
-
- </form>
- @endsection
-
-
-@section('scripts')
-
-@endsection
+        @endsection 
