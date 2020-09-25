@@ -69,11 +69,12 @@ class RegisterController extends Controller
             $request->session()->put('user_name',$u_name);
             $request->session()->put('user_role',$user_role);
            
-            return redirect('/'); 
+            return redirect('/#'); 
             }
             }else{
             return redirect('login')->with('msg','Username or password invalid');
             }
+          }
 
 
       

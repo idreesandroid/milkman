@@ -29,4 +29,9 @@ class User extends Authenticatable
     {
       return  $this->belongsTO('App\User_Role');
     }
+
+    public function vendorDetail()
+    {
+        return $this->hasOne('App\VendorDetail');
+    }
 }

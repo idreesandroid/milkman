@@ -51,7 +51,7 @@
 							<form action="index.html">
 								<div class="form-group">
 									<label>Email Address</label>
-									<input class="form-control" type="text">
+									<input class="form-control" type="text" name="username" placeholder="Username" autocomplete="off">
 								</div>
 								<div class="form-group">
 									<div class="row">
@@ -64,7 +64,7 @@
 											</a>
 										</div>
 									</div>
-									<input class="form-control" type="password">
+									<input class="form-control" name="password" type="password" placeholder="Password">
 								</div>
 								<div class="form-group text-center">
 									<button class="btn btn-primary account-btn" type="submit">Login</button>
