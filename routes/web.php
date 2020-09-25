@@ -29,28 +29,46 @@ Route::get('/register', function () { return view('register'); })->middleware('C
 Route::post('/register', 'RegisterController@register')->middleware('CustomAuth');
 Route::get('/register', 'RegisterController@user_role_list')->middleware('CustomAuth');
 
-Route::get('user/userList',           'RegisterController@userList')->name('index.userList');
-Route::get('user/edit/{id}',       'RegisterController@edit')->name('edit.userList');
-Route::post('user/update/{id}',    'RegisterController@update')->name('update.userList');
+Route::get('user/userList',           'RegisterController@userList')->name('index.userList')->middleware('CustomAuth');
+Route::get('user/edit/{id}',       'RegisterController@edit')->name('edit.userList')->middleware('CustomAuth');
+Route::post('user/update/{id}',    'RegisterController@update')->name('update.userList')->middleware('CustomAuth');
 
 //Product routes--------------------------------
 
-Route::get('Product/index',           'ProductController@index')->name('index.product');
-Route::get('Product/create',          'ProductController@create')->name('create.product');
-Route::post('Product/create',         'ProductController@store')->name('store.product');
-Route::get('Product/edit/{id}',       'ProductController@edit')->name('edit.product');
-Route::post('Product/update/{id}',   'ProductController@update')->name('update.product');
-//Route::delete('Product/destroy/{id}', 'ProductController@destroy')->name('destroy.product');
+Route::get('Product/index',           'ProductController@index')->name('index.product')->middleware('CustomAuth');
+Route::get('Product/create',          'ProductController@create')->name('create.product')->middleware('CustomAuth');
+Route::post('Product/create',         'ProductController@store')->name('store.product')->middleware('CustomAuth');
+Route::get('Product/edit/{id}',       'ProductController@edit')->name('edit.product')->middleware('CustomAuth');
+Route::post('Product/update/{id}',   'ProductController@update')->name('update.product')->middleware('CustomAuth');
+
 
 //ProductStock routes--------------------------------
 
-Route::get('ProductStock/index',           'ProductStockController@index')->name('index.productStock');
-Route::get('ProductStock/create',          'ProductStockController@create')->name('create.productStock');
-Route::post('ProductStock/create',         'ProductStockController@store')->name('store.productStock');
-Route::get('ProductStock/edit/{id}',       'ProductStockController@edit')->name('edit.productStock');
-Route::post('ProductStock/update/{id}',    'ProductStockController@update')->name('update.productStock');
-//Route::delete('Product/destroy/{id}', 'ProductController@destroy')->name('destroy.product'); 
+Route::get('ProductStock/index',           'ProductStockController@index')->name('index.productStock')->middleware('CustomAuth');
+Route::get('ProductStock/create',          'ProductStockController@create')->name('create.productStock')->middleware('CustomAuth');
+Route::post('ProductStock/create',         'ProductStockController@store')->name('store.productStock')->middleware('CustomAuth');
+Route::get('ProductStock/edit/{id}',       'ProductStockController@edit')->name('edit.productStock')->middleware('CustomAuth');
+Route::post('ProductStock/update/{id}',    'ProductStockController@update')->name('update.productStock')->middleware('CustomAuth');
+ 
 
+//VendorRoute routes--------------------------------
+
+Route::get('VendorRoute/index',           'VendorRouteController@index')->name('index.VendorRoute');
+Route::get('VendorRoute/create',          'VendorRouteController@create')->name('create.VendorRoute');
+Route::post('VendorRoute/create',         'VendorRouteController@store')->name('store.VendorRoute');
+Route::get('VendorRoute/edit/{id}',       'VendorRouteController@edit')->name('edit.VendorRoute');
+Route::post('VendorRoute/update/{id}',    'VendorRouteController@update')->name('update.VendorRoute');
+ 
+
+//VendorDetail routes--------------------------------
+
+Route::get('VendorDetail/index',           'VendorDetailController@index')->name('index.VendorDetail');
+Route::get('VendorDetail/create',          'VendorDetailController@create')->name('create.VendorDetail');
+Route::post('VendorDetail/create',         'VendorDetailController@store')->name('store.VendorDetail');
+Route::get('VendorDetail/edit/{id}',       'VendorDetailController@edit')->name('edit.VendorDetail');
+Route::post('VendorDetail/update/{id}',    'VendorDetailController@update')->name('update.VendorDetail');
+ 
+//Task routes--------------------------------
 Route::get('/set_task', 'CollectorController@collector_list');
 Route::post('/set_task', 'CollectorController@set_task');
 Route::get('/task_list',  'CollectorController@task_list');

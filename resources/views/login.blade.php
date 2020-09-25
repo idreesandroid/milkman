@@ -47,8 +47,10 @@
 							<form method="post"  action="/login" >
                				 @csrf 
 								<div class="form-group">
+
 									<label>Mobile/CNIC</label>
 									<input class="form-control" type="text" name="username" required >
+
 								</div>
 								<div class="form-group">
 									<div class="row">
@@ -61,7 +63,9 @@
 											</a>
 										</div>
 									</div>
-									<input class="form-control" type="password" name="password" required>
+
+									<input class="form-control" name="password" type="password" placeholder="Password">
+
 								</div>
 								<div class="form-group text-center">
 									<input class="btn btn-primary account-btn" type="submit" value="Login">
