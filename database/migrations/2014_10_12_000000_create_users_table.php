@@ -21,10 +21,11 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->integer('user_role')->length(11);
             $table->string('user_cnic');
-            $table->string('user_phone');
-            $table->string('user_state');
-            $table->string('user_city');
+            $table->string('user_phone');          
             $table->string('user_address');
+            $table->string('user_state');
+            $table->string('user_city');  
+            $table->integer('qty_done');   
             $table->rememberToken();
             $table->timestamps();
         });

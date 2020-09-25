@@ -19,6 +19,7 @@
 		<!-- Fontawesome CSS -->
         <link rel="stylesheet" href="assets/css/font-awesome.min.css">
 
+
         <!--font style-->
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600&display=swap" rel="stylesheet">
 		
@@ -78,6 +79,7 @@
 					</div>
 				</div>
 			</div>
+
         </div>
 		<!-- /Main Wrapper -->
 		
