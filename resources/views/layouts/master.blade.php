@@ -51,8 +51,8 @@
 				<!-- Logo -->
                 <div class="header-left">
                     <a href="/" class="logo">
-						<img src="assets/img/logo.png"  alt="Logo" class="sidebar-logo">
-						<img src="assets/img/s-logo.png"  alt="Logo" class="mini-sidebar-logo">
+						<img src="{{asset('assets/img/logo.png')}}"  alt="Logo" class="sidebar-logo">
+						<img src="{{asset('assets/img/s-logo.png')}}"  alt="Logo" class="mini-sidebar-logo">
 					</a>
                 </div>
 
@@ -217,7 +217,7 @@
 								<ul class="sub-menus">
 									<li><a href="/register" class="active">Register</a></li>
 									<li><a href="/profile">Profile</a></li>
-									 
+									<li><a href="/user/userList">User List</a></li>
 								</ul>
 							</li>
 							
@@ -227,9 +227,29 @@
 									<li><a href="/set_task" class="active">Set Task</a></li>
 									<li><a href="/task_list" class="active">Tasks List</a></li>
 									 
+									
+									 
 								</ul>
 							</li>
-							
+							<li> 
+								<a href="#"><i class="fa fa-check-square-o" aria-hidden="true"></i> <span>Products</span></a>
+								<ul class="sub-menus">
+									
+									<li><a href="/Product/create" class="active">New Product</a></li>
+									<li><a href="/Product/index" class="active">Product List</a></li>
+									 
+								</ul>
+							</li>
+
+							<li> 
+								<a href="#"><i class="fa fa-check-square-o" aria-hidden="true"></i> <span>Stock</span></a>
+								<ul class="sub-menus">
+									
+									<li><a href="/ProductStock/create" class="active">New Product</a></li>
+									<li><a href="/ProductStock/index" class="active">Product List</a></li>
+									 
+								</ul>
+							</li>
 							
 							<li class="submenu">
 								<a href="javascript:void(0);"><i class="fa fa-retweet" aria-hidden="true"></i> <span>Multi Level</span> <span class="menu-arrow"></span></a>

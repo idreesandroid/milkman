@@ -3,7 +3,7 @@
     <!-- ============================================================== -->
     <!-- signup form  -->
     <!-- ============================================================== -->
-    {{$msg ?? ''}}
+ 
     <form method="post"  class="splash-container">
     
     @csrf 
@@ -38,7 +38,7 @@
         </div>
 
         <div class="form-group">
-        <select class="form-control form-control-lg" type="text" required name="vendoer_id[]" multiple  >
+        <select class="form-control form-control-lg" type="text" required name="vendor_id[]" multiple  >
             <option value="">--Venders--</option>
             <?php 
             foreach ($vendor_list as $vendors) {

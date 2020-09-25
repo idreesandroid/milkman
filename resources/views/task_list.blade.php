@@ -1,7 +1,7 @@
 @extends('layouts.master')
 @section('content')
    
-<div class="row">
+
 						<div class="col-md-12">
 							<div class="card mb-0">
 								<div class="card-body">
@@ -24,9 +24,9 @@
                                                 <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Percent Complete Indicator: activate to sort column ascending" style="width: 175px;">Percent Complete Indicator</th>
                                                 <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Responsible User: activate to sort column ascending" style="width: 114px;">Responsible User</th>
                                                 <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Due Date: activate to sort column ascending" style="width: 61px;">Due Date</th>
-                                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Task Owner: activate to sort column ascending" style="width: 76px;">Task Owner</th>
+                                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Task Owner: activate to sort column ascending" style="width: 76px;">Received Qty</th>
                                                 <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Status: activate to sort column ascending" style="width: 58px;">Status</th>
-                                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label=": activate to sort column ascending" style="width: 19px;"></th>
+                                                
                                                 <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label=": activate to sort column ascending" style="width: 0px;"></th>
                                                 <th class="text-right sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Actions: activate to sort column ascending" style="width: 48px;">Actions</th></tr>
 										</thead>
@@ -56,28 +56,25 @@
 												</td>
 												<td><a href="#" data-toggle="modal" data-target="#system-user">{{ $task_list->collector_name}}</a></td>
 												<td>{{ $task_list->created_time }}</td>
-												<td>Admin</td>
-												<td><label class="badge badge-gradient-success">Not Started</label></td>
+												<td>{{ $task_list->received_qty}}</td>
 												<td>
-					                              <label class="container-checkbox">
-													  	<input type="checkbox">
-													  	<span class="checkmark"></span>
-													</label>
-					                            </td>
-					                            <td class="checkBox"><i class="fa fa-star" aria-hidden="true"></i></td>
+@if($task_list->received_qty)
+<label class="badge badge-gradient-success">Collected</label>
+@else
+<label class="badge badge-gradient-danger">Not Started</label>
+@endif												
+												
+												
+												</td>
+											
+					                            <td class="checkBox">
+												@if($task_list->received_qty)
+ 
+												<i class="fa fa-star" aria-hidden="true">
+												@endif </i>
+												</td>
 					                            <td class="text-center">
-													<div class="dropdown dropdown-action">
-														<a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="material-icons">more_vert</i></a>
-														<div class="dropdown-menu dropdown-menu-right">
-															<a class="dropdown-item" href="#">Edit this task</a>
-							                                <a class="dropdown-item" href="#">Complete This Task</a>
-							                                <a class="dropdown-item" href="#">Complete Task &amp; Clone</a>
-							                                <a class="dropdown-item" href="#">Change Record Owner</a>
-							                                <a class="dropdown-item" href="#">Delete This Tasks</a>
-							                                <a class="dropdown-item" href="#">Clone This Tasks</a>
-							                                <a class="dropdown-item" href="#">Print This Tasks</a>
-														</div>
-													</div>
+												<a href="/task_collection/{{ $task_list->task_id }}"><i class="fa fa-shopping-basket" aria-hidden="true"></i></a>
 												</td>
                                             </tr>
                                             @endforeach

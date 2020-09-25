@@ -16,7 +16,7 @@ class CreateCollectionTaskVendorsTable extends Migration
         Schema::create('Collection_task_vendors', function (Blueprint $table) {
             $table->id();
             $table->integer('task_id');
-            $table->integer('vendoer_id');
+            $table->integer('vendor_id');
             $table->dateTime('created_date_time');
             $table->timestamps();
         });

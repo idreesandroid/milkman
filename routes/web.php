@@ -14,11 +14,15 @@ use Illuminate\Support\Facades\Route;
 */
 //user route
 
-Route::get('/', function () { return view('welcome'); });
+
 Route::get('/login', function () { return view('login'); });
 
-Route::get('/logout', 'RegisterController@logout');
+
+
 Route::post('/login', 'RegisterController@login');
+
+Route::get('/logout', 'RegisterController@logout');
+
 Route::get('/','RegisterController@profile')->middleware('CustomAuth');
 Route::get('/profile','RegisterController@profile')->middleware('CustomAuth');
 Route::get('/register', function () { return view('register'); })->middleware('CustomAuth');
@@ -50,4 +54,5 @@ Route::post('ProductStock/update/{id}',    'ProductStockController@update')->nam
 Route::get('/set_task', 'CollectorController@collector_list');
 Route::post('/set_task', 'CollectorController@set_task');
 Route::get('/task_list',  'CollectorController@task_list');
- 
+Route::get('/task_collection/{id}',  'CollectorController@task_vendors'); 
+Route::post('/task_collection',  'CollectorController@task_collection_entry'); 

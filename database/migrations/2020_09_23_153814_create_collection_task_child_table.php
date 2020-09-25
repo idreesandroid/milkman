@@ -17,7 +17,7 @@ class CreateCollectionTaskChildTable extends Migration
             $table->id();
             $table->integer('task_id');
             $table->integer('collector_id');
-            $table->integer('vendoer_id');
+            $table->integer('vendor_id');
             $table->integer('received_qty');
             $table->integer('milk_quality');
             $table->dateTime('received_date_time');
