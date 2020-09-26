@@ -12,7 +12,9 @@
                 <h4 class="card-title mb-0">Add Detail</h4>
             </div>
             <div class="card-body">
-                <form method="post">
+                <form method="post" action="">
+               
+               
                 @csrf 
 
                 <div class="form-group row">
@@ -25,7 +27,7 @@
                              @endforeach                            
                         </select>
                     </div>
-                </div>
+                </div> 
 
                 <div class="form-group row">
                     <label for="route_id" class="col-form-label col-md-2">Route</label>
@@ -33,7 +35,7 @@
                         <select class="form-control" name="route_id" required="">
                             <option value="">--Route--</option>
                             @foreach ($vendor_routes as $vendor_route)
-                             <option value="{{ $vendor_route->id}}" >{{ $vendor_routes->route_name}}</option>
+                             <option value="{{ $vendor_route->id}}" >{{ $vendor_route->route_name}}</option>
                              @endforeach                            
                         </select>
                     </div>

@@ -6,21 +6,32 @@ use Illuminate\Http\Request;
 use App\VendorDetail;
 use App\User;
 use App\Vendor_Route;
-
+use Illuminate\Support\Facades\DB;
 class VendorDetailController extends Controller
 {
     public function index()
     {       
-        $vendor_details = VendorDetail::with('vendor')->get();
-        return view('VendorDetail/index', compact('vendor_details'));      
+
+$vendors_details = "SELECT a.id as user_id , `name`, role_title , decided_milkQuantity, decided_milkQuantity, route_name
+from users a 
+INNER JOIN user_role b  on a.user_role=b.id  and a.user_role=3
+INNER JOIN vendor_details c on a.id=c.vendor_id 
+INNER JOIN vendor__routes d on d.id=c.route_id 
+ where user_role=3";
+ $vendor_details = DB::select($vendors_details);
+ return view('VendorDetail/index', compact('vendor_details'));      
     }
 
     //create view-------------------------
 
     public function create() 
     {       
-        $vendor_details= User::where('user_role','vendor')->select('name','id')->get();
+        $vendor_details= User::where('user_role','3')->select('name','id')->get();
+
+
+
         $vendor_routes= Vendor_Route::select('route_name','id')->get();
+
         return view('VendorDetail/create',compact('vendor_details','vendor_routes'));
     }
 

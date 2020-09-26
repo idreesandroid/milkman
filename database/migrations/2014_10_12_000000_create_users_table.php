@@ -25,8 +25,8 @@ class CreateUsersTable extends Migration
             $table->string('user_address');
             $table->string('user_state');
             $table->string('user_city');  
-            $table->integer('qty_done'); 
-            $table->string('user_address');  
+           
+            $table->datetime('created_time')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->rememberToken();
             $table->timestamps();
         });

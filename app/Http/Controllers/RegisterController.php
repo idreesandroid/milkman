@@ -36,8 +36,11 @@ class RegisterController extends Controller
 
         (`name` , email, `password`, user_role, user_cnic, user_phone,  user_state, user_city,user_address,created_time) 
         VALUES ('$user_name','$email','$passw','$user_role','$user_cnic','$user_phone','$user_state','$user_city','$user_address',CURRENT_TIMESTAMP)";
-
         DB::insert("$Records");
+
+ 
+
+
 
         return redirect('register')->with('msg','Record Inserted Successfully.');
     }
@@ -54,7 +57,14 @@ class RegisterController extends Controller
        $city_query="select id, name from cities";
        $city =  DB::select($city_query);
 
-       return  view('register',  compact('result','state','city') );
+
+       $vendor_ro ="SELECT route_name, id FROM  vendor__routes";
+       $vendor_routs =  DB::select($vendor_ro);
+
+
+
+       return  view('register',  compact('result','state','city','vendor_routs') );
+
      }
      public function login(Request $request)
      {

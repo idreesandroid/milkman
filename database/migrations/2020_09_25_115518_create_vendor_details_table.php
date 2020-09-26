@@ -17,6 +17,7 @@ class CreateVendorDetailsTable extends Migration
             $table->foreign('route_id')->references('id')->on('vendor__routes');
             $table->integer('decided_milkQuantity');
             $table->integer('decided_rate');
+            $table->datetime('created_date')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamps();
         });
     }

@@ -15,14 +15,14 @@ class CollectorController extends Controller
     WHERE user_role=2 ";
     $collector_list =  DB::select($col_query);
 
-    $vend_query="SELECT a.id , `name` , email, user_phone , role_title 
-    FROM `users` a INNER JOIN user_role b ON  b.id=a.`user_role`
-    WHERE user_role=3 ";
-    $vendor_list =  DB::select($vend_query);
+    $vend_query="SELECT id  as rout_id, route_name  from  vendor__routes ";
+
+
+    $route_list =  DB::select($vend_query);
 
 
 
-    return  view('set_task',  compact('collector_list', 'vendor_list') );
+    return  view('set_task',  compact('collector_list', 'route_list') );
 
 }
 
@@ -49,11 +49,11 @@ public function set_task(Request $request)
 
      
 
-    for($i=0; $i < count($request->input('vendor_id')); $i++ ) 
+    for($i=0; $i < count($request->input('route_id')); $i++ ) 
     {
-      $vendor_ids =  $request->input('vendor_id')[$i];
-    $Records = " INSERT INTO collection_task_vendors ( task_id , vendor_id) 
-        VALUES ( '$task_id','$vendor_ids')";
+      $route_ids =  $request->input('route_id')[$i];
+    $Records = " INSERT INTO collection_task_vendors ( task_id , route_id) 
+        VALUES ( '$task_id','$route_ids')";
          DB::insert("$Records");
 
 
@@ -72,7 +72,7 @@ public function task_list(Request $request)
 
     $u_id =  session()->get('u_id');
 
-    $task_que="SELECT a.id AS task_id, task_time,a.collector_id, b.name AS collector_name, DATE_FORMAT(a.created_time,'%d-%m-%Y')created_time, c.received_qty 
+    $task_que="SELECT a.id AS task_id, task_time,a.collector_id, b.name AS collector_name, DATE_FORMAT(a.created_date,'%d-%m-%Y')created_time, c.received_qty 
    FROM `collection_task_header` a 
    INNER JOIN users b ON b.id=a.collector_id
    LEFT JOIN `collection_task_child` c ON c.task_id=a.id WHERE a.collector_id='$u_id' ";
@@ -86,9 +86,11 @@ public function task_vendors($id)
 {
     
 
-     $vend_query="SELECT task_id, vendor_id, `name` FROM `collection_task_vendors` a
-    INNER JOIN `users`  b ON a.`vendor_id`=b.id AND user_role=3
-     WHERE task_id='$id' ";
+     $vend_query=" select  distinct  vendor_id, `name` from collection_task_vendors a
+     INNER JOIN vendor_details b on b.route_id=a.route_id
+     INNER JOIN users c on c.id=b.vendor_id 
+   
+     where task_id= '$id' and   vendor_id not in (select  vendor_id from collection_task_child where task_id='$id') ";
     $vendor_list =  DB::select($vend_query);
 
 
