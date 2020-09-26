@@ -28,12 +28,13 @@
                             <tbody>
                             @foreach($vendor_details as $vendor_detail)
                             <tr>
-                            <td>{{$vendor_detail->id}}</td>
-                            <td>{{$vendor_detail->vendor->name}}</td>
-                            <td>{{$vendor_detail->vendor_route->route_name}}</td>
+                            <td>{{$vendor_detail->user_id}}</td>
+                            <td>{{$vendor_detail->name}}</td>
+                            <td>{{$vendor_detail->route_name}}</td>
                             <td>{{$vendor_detail->decided_milkQuantity}}</td>
-                            <td>{{$vendor_detail->decided_rate}}</td>
-                            <td><a href="{{ route('edit.VendorDetail', $vendor_detail->id)}}" class="btn btn-primary">Edit</a></td>   
+                            <td>{{$vendor_detail->decided_milkQuantity}}</td>
+                             
+                            <td><a href="" class="btn btn-primary">Edit</a></td>   
                             </tr>
                             @endforeach
                             </tbody>

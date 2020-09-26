@@ -4,7 +4,7 @@
 			
 			<!-- Page Wrapper -->
             					
-					<div class="row">
+		<div class="row">
 						<div class="col-md-12">
 							<div class="card">
 								<div class="card-header">
@@ -13,20 +13,13 @@
 								<div class="card-body">
 									<form method="post">
                                     @csrf
-                                            <!-- <div class="row">
-                                                <div class="col-md-12">
-												<div class="form-group">
-													<label>User Roll</label>
-													<input type="text" class="form-control">
-												</div>										
-                                                </div>
-											</div> -->
+                                             
 
 											<h4 class="card-title">User Roll</h4>
                       <div class="form-group row">
 					  
                     <div class="col-md-6">
-                        <select class="form-control" name="user_role" required="">
+                        <select class="form-control" name="user_role" required="" onchange="chk_role(this.value)">
                             <option value="">--User Roll--</option>
                             <?php 
                             foreach ($result as $results) {
@@ -81,7 +74,7 @@
 												
                                                 <div class="form-group"  type="text" required="" name="user_state" id="user_state">
 													<label>State</label>
-													   <select class="select"  name="user_state">
+													   <select class="select  form-control"  name="user_state">
 														<option>States</option>
 														<?php 
                                                             foreach ($state as $states) {
@@ -92,9 +85,9 @@
 													</select>
 												</div>
                                                                                            
-                                                <div class="form-group"  type="text" required="" name="user_city" >
+                                                <div class="form-group"      >
 													<label>City</label>
-													   <select class="select" name="user_city">
+													   <select class="select  form-control "  name="user_city">
 														<option>Select</option>
 														<?php 
                                                             foreach ($city as $cities) {
@@ -103,6 +96,9 @@
                                                              <option value="<?php echo $id;  ?>"><?php echo $name;  ?></option><?php }  ?>
 													</select>
 												</div>
+
+
+
                                                 </div>
 											<div class="col-md-6">
                                             
@@ -114,18 +110,37 @@
                                             										
 											</div>
 										</div>
+
+					 
+									</div>
+
+
+
 										<div class="text-right">
 											<button type="submit" class="btn btn-primary">Submit</button>
 										</div>
 									</form>
-								</div>
-							
-					</div>
+								</div>							
+		</div>
 					
 					
 			<!-- /Page Wrapper -->
 		
-       
+       <script>
+	   function chk_role(id){
+
+		 
+		if(id==3){
+			$('#vendor_detail').show();
+		}else{
+			$('#route_id').val('');
+			$('#decided_milkQuantity').val('');
+			$('#decided_rate').val('');
+			$('#vendor_detail').hide();
+		}
+	   }
+
+	   </script>
 		
 
         @endsection 

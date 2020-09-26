@@ -38,13 +38,13 @@
         </div>
 
         <div class="form-group">
-        <select class="form-control form-control-lg" type="text" required name="vendor_id[]" multiple  >
+        <select class="form-control form-control-lg" type="text" required name="route_id[]" multiple  >
             <option value="">--Venders--</option>
             <?php 
-            foreach ($vendor_list as $vendors) {
-                $vendors_id     = $vendors->id;
-                $vendors_name    = $vendors->name; ?>
-                <option value="<?php echo $vendors_id;  ?>"><?php echo $vendors_name;  ?></option>
+            foreach ($route_list as $route_lists) {
+                $rout_id     = $route_lists->rout_id;
+                $route_name    = $route_lists->route_name; ?>
+                <option value="<?php echo $rout_id;  ?>"><?php echo $route_name;  ?></option>
 
 
             <?php }  ?>

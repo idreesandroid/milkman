@@ -220,6 +220,20 @@
 									<li><a href="/user/userList">User List</a></li>
 								</ul>
 							</li>
+
+							<li> 
+								<a href="#"><i class="fa fa-check-square-o" aria-hidden="true"></i> <span>Vendors</span></a>
+								<ul class="sub-menus">
+									<li><a href="/VendorDetail/create" class="active">Enter Vendor Detail</a></li>
+									<li><a href="/VendorDetail/index" class="active">Vendors List</a></li>
+									 
+									
+									 
+								</ul>
+							</li>
+
+
+							
 							
 							<li> 
 								<a href="#"><i class="fa fa-check-square-o" aria-hidden="true"></i> <span>Tasks</span></a>
@@ -251,6 +265,19 @@
 								</ul>
 							</li>
 							
+							<li> 
+								<a href="#"><i class="fa fa-check-square-o" aria-hidden="true"></i> <span>Routs</span></a>
+								<ul class="sub-menus">
+									
+									<li><a href="/VendorRoute/create" class="active">New Rout</a></li>
+									<li><a href="/VendorRoute/index" class="active">Routs List</a></li>
+									 
+								</ul>
+							</li>
+
+
+
+
 							<li class="submenu">
 								<a href="javascript:void(0);"><i class="fa fa-retweet" aria-hidden="true"></i> <span>Multi Level</span> <span class="menu-arrow"></span></a>
 								<ul class="sub-menus">
