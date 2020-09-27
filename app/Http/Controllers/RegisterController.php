@@ -71,19 +71,21 @@ class RegisterController extends Controller
      $username = $request->input('username');
      $password = $request->input('password');
 
-      $role_query="select id, `name`, user_role  from users where ( user_phone='$username'  OR   user_cnic='$username' )  and `password`='$password'";
+      $role_query="select a.id, `name`, user_role , role_title from users a
+      inner JOIN user_role b on a.user_role=b.id where ( user_phone='$username'  OR   user_cnic='$username' )  and `password`='$password'";
           $log_result =  DB::select($role_query);
           if(count($log_result)==1){
             foreach ($log_result as $key ) {
             $u_id = $key->id;
             $u_name = $key->name;
             $user_role = $key->user_role;
-            
+            $role_title= $key->role_title;
             $request->session()->put('u_id',$u_id);
             $request->session()->put('user_name',$u_name);
             $request->session()->put('user_role',$user_role);
+            $request->session()->put('role_title',$role_title);
            
-            return redirect('/#'); 
+            return redirect('/'); 
             }
             }else{
             return redirect('login')->with('msg','Username or password invalid');

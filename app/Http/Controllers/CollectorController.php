@@ -86,7 +86,7 @@ public function task_vendors($id)
 {
     
 
-     $vend_query=" select  distinct  vendor_id, `name` from collection_task_vendors a
+     $vend_query=" select  distinct  vendor_id, `name`, decided_rate from collection_task_vendors a
      INNER JOIN vendor_details b on b.route_id=a.route_id
      INNER JOIN users c on c.id=b.vendor_id 
    
@@ -103,8 +103,11 @@ $collector_id =  session()->get('u_id');
 $vendor_id =  $request->input('vendor_id');
 $received_qty =  $request->input('received_qty');
 $milk_quality =  $request->input('milk_quality');
-$Records = " INSERT INTO collection_task_child ( task_id , collector_id, vendor_id, received_qty, milk_quality  ) 
-VALUES ( '$task_id','$collector_id','$vendor_id','$received_qty','$milk_quality')";
+
+$get_rate = DB::table('vendor_details')->select('decided_rate')->where('vendor_id', $vendor_id)->first();
+$currunt_rate =  $get_rate->decided_rate;
+$Records = " INSERT INTO collection_task_child ( task_id , collector_id, vendor_id, received_qty, milk_quality,rate  ) 
+VALUES ( '$task_id','$collector_id','$vendor_id','$received_qty','$milk_quality', '$currunt_rate')";
 DB::insert("$Records");
 return  redirect('task_list');
 }
