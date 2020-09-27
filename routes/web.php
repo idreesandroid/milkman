@@ -15,6 +15,9 @@ use Illuminate\Support\Facades\Route;
 //user route
 
 
+
+
+
 Route::get('/login', function () { return view('login'); });
 
 
@@ -58,7 +61,9 @@ Route::get('VendorRoute/create',          'VendorRouteController@create')->name(
 Route::post('VendorRoute/create',         'VendorRouteController@store')->name('store.VendorRoute');
 Route::get('VendorRoute/edit/{id}',       'VendorRouteController@edit')->name('edit.VendorRoute');
 Route::post('VendorRoute/update/{id}',    'VendorRouteController@update')->name('update.VendorRoute');
+
  
+
 
 //VendorDetail routes--------------------------------
 
@@ -67,7 +72,13 @@ Route::get('VendorDetail/create',          'VendorDetailController@create')->nam
 Route::post('VendorDetail/create',         'VendorDetailController@store')->name('store.VendorDetail');
 Route::get('VendorDetail/edit/{id}',       'VendorDetailController@edit')->name('edit.VendorDetail');
 Route::post('VendorDetail/update/{id}',    'VendorDetailController@update')->name('update.VendorDetail');
- 
+ Route::get('vendorLedger', 'VendorDetailController@get_vendors' );
+
+
+
+ Route::post('/vendorLedger','VendorDetailController@vendorLedger') ;
+
+
 //Task routes--------------------------------
 Route::get('/set_task', 'CollectorController@collector_list');
 Route::post('/set_task', 'CollectorController@set_task');

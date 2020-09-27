@@ -85,4 +85,52 @@ VendorDetail::whereid($id)->update($updatedata);
 return redirect('VendorDetail/index');
 
 }
+
+
+
+
+
+
+public function get_vendors(Request $request)
+{
+
+    $get_vend="select DISTINCT vendor_id, `name` from  collection_task_child a 
+    inner join users b on a.vendor_id=b.id and user_role=3";
+    $get_vendors = DB::select($get_vend);
+    return view('vendorLedger', compact('get_vendors'));
+
+
 }
+public function vendorLedger(Request $request)
+{
+
+    $vendor_id = $request->input('vendor_id');
+    $date_from = $request->input('date_from');
+    $date_to = $request->input('date_to');
+ if(!empty($date_from)){
+$where[] = " DATE_FORMAT(received_date_time, '%Y-%m-%d') >= '$date_from' ";
+ } if(!empty($date_to)){
+    $where[] = " DATE_FORMAT(received_date_time, '%Y-%m-%d') <= '$date_to' ";
+     }
+     if(!empty($vendor_id)){
+        $where[] = " a.vendor_id = '$vendor_id' ";
+         }
+    
+
+    $vendors_GL = "SELECT  vendor_id, `name`, sum(received_qty)received_qty , sum(received_qty*rate)amounts 
+    FROM collection_task_child a
+    INNER JOIN users b on a.vendor_id=b.id 
+    where  user_role=3 and ".implode(' and ',$where)."
+    GROUP BY vendor_id, `name`";
+     $vendor_GL_details = DB::select($vendors_GL);
+
+     $get_vend="select DISTINCT vendor_id, `name` from  collection_task_child a 
+     inner join users b on a.vendor_id=b.id and user_role=3";
+     $get_vendors = DB::select($get_vend);
+
+   return view('vendorLedger', compact('vendor_GL_details','get_vendors'));
+}
+
+
+}
+ 
