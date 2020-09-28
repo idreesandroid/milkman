@@ -23,8 +23,8 @@ class CreateUsersTable extends Migration
             $table->string('user_cnic');
             $table->string('user_phone');          
             $table->string('user_address');
-            $table->string('user_state');
-            $table->string('user_city');  
+            $table->integer('user_state');
+            $table->integer('user_city');  
            
             $table->datetime('created_time')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->rememberToken();
