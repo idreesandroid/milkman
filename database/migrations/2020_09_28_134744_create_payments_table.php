@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateCollectionTaskVendorsTable extends Migration
+class CreatePaymentsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,12 @@ class CreateCollectionTaskVendorsTable extends Migration
      */
     public function up()
     {
-        Schema::create('Collection_task_vendors', function (Blueprint $table) {
+        Schema::create('payments', function (Blueprint $table) {
             $table->id();
-            $table->integer('task_id');
-            $table->integer('route_id');
-            $table->datetime('created_date')->default(DB::raw('CURRENT_TIMESTAMP'));
+            $table->integer('user_id')->references('id')->on('users');  
+            $table->string('payment_detail');
+            $table->integer('amount');
+            $table->datetime('payment_date')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamps();
         });
     }
@@ -29,6 +30,6 @@ class CreateCollectionTaskVendorsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('Collection_task_vendors');
+        Schema::dropIfExists('payments');
     }
 }

@@ -105,6 +105,7 @@ public function vendorLedger(Request $request)
 {
 
     $vendor_id = $request->input('vendor_id');
+    $user_cnic = $request->input('user_cnic');
     $date_from = $request->input('date_from');
     $date_to = $request->input('date_to');
  if(!empty($date_from)){
@@ -116,19 +117,26 @@ $where[] = " DATE_FORMAT(received_date_time, '%Y-%m-%d') >= '$date_from' ";
         $where[] = " a.vendor_id = '$vendor_id' ";
          }
     
-
-    $vendors_GL = "SELECT  vendor_id, `name`, sum(received_qty)received_qty , sum(received_qty*rate)amounts 
+         if(!empty($user_cnic)){
+            $where[] = " b.user_cnic = '$user_cnic' ";
+             }
+    $vendors_GL = "SELECT  vendor_id, `name`, user_cnic, user_phone,  sum(received_qty)received_qty , sum(received_qty*rate)amounts 
     FROM collection_task_child a
     INNER JOIN users b on a.vendor_id=b.id 
     where  user_role=3 and ".implode(' and ',$where)."
-    GROUP BY vendor_id, `name`";
+    GROUP BY vendor_id, `name`, user_cnic, user_phone";
      $vendor_GL_details = DB::select($vendors_GL);
 
      $get_vend="select DISTINCT vendor_id, `name` from  collection_task_child a 
      inner join users b on a.vendor_id=b.id and user_role=3";
      $get_vendors = DB::select($get_vend);
 
-   return view('vendorLedger', compact('vendor_GL_details','get_vendors'));
+     $dates = [
+        'date_from'  => $date_from,
+        'date_to'  => $date_to,
+    ];
+
+   return view('vendorLedger', compact('vendor_GL_details','get_vendors'))->with($dates);
 }
 
 

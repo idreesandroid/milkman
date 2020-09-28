@@ -23,11 +23,6 @@
 </td>
 
 <td width="20%">
-<lable>CNIC</lable>
-<input type="text" name="user_cnic" class="form-control" />
-</td>
-
-<td width="20%">
 <lable>Date From</lable>
 <input type="date" name="date_from" class="form-control" />
 </td>
@@ -79,12 +74,12 @@
                                                 <td>{{ $vendor_GL->user_cnic }}</td>
                                                 <td>{{ $vendor_GL->user_phone }}</td>
 
-                            <td>{{ $vendor_GL->received_qty }} ltr</td>
-                            <td style="text-align:right;">
- <a href="/vendorLedgerDetail/{{ $vendor_GL->vendor_id }}/{{$date_from}}/{{$date_to}}">
-                            <?php echo   number_format($vendor_GL->amounts,2); ?>
-                            </a>
-                            </td>
+                                                <td>{{ $vendor_GL->received_qty }} ltr</td>
+                                                <td style="text-align:right;">
+                                                <a href="/vendorLedgerDetail">
+                                                <?php echo   number_format($vendor_GL->amounts,2); ?>
+                                                </a>
+                                                </td>
                                                  
                                                 
                                             </tr>

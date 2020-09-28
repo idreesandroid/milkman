@@ -78,7 +78,12 @@
 									 
 								</ul>
 							</li>
-
+							<li> 
+								<a href="#"><i class="fa fa-check-square-o" aria-hidden="true"></i> <span>Payments</span></a>
+								<ul class="sub-menus">
+									<li><a href="/payment" class="active">Payment Entry</a></li>
+								</ul>
+							</li>
 
 
 

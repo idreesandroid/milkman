@@ -43,9 +43,19 @@
          
         </div>
      
+        <div class="form-group">
+        <input class="form-control form-control-lg" type="text" required name="fat" placeholder="Fat"  />
+         
+        </div>  
+        <div class="form-group">
+        <input class="form-control form-control-lg" type="text" required name="protine" placeholder="Protine"  />
+         
+        </div>  
         
-        
-
+        <div class="form-group">
+        <input class="form-control form-control-lg" type="text" required name="calcium" placeholder="Caluium"  />
+         
+        </div>
         
 
         
