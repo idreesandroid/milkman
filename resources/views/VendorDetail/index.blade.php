@@ -29,19 +29,34 @@
                                 <th>Branch Name</th>
                                 <th>Branch Code</th> 
                                 <th>Account No</th>
-                                <th>Account Title</th>                                 
+                                <th>Account Title</th>  
+                                <th>Action</th>  
+
                                 </tr>
                             </thead>
                             <tbody>
-                            @foreach($users as $user)
+                            @foreach($vendorDetails as $vendorDetail)
                             <tr>
-                            <td>{{$user->name}}</td>
-                            <td>{{$user->email}}</td>
-                            <td>{{$user->user_cnic}}</td>
-                            <td>{{$user->user_phone}}</td>
-                           <td>{{$user->State->state_name}}</td>
-                           <td></td>
-                            <td>{{$user->user_address}}</td>
+                            <td>{{$vendorDetail->vendor->name}}</td>
+                            <td>{{$vendorDetail->vendor->email}}</td>
+                            <td>{{$vendorDetail->vendor->user_cnic}}</td>
+                            <td>{{$vendorDetail->vendor->user_phone}}</td>
+                            <td>State name</td>
+                            <td>city name</td>
+                            <td>{{$vendorDetail->vendor->user_address}}</td>
+                            <td>{{$vendorDetail->vendor_location}}</td>
+                           >
+                            <td>route name</td>
+                            <td>{{$vendorDetail->decided_milkQuantity}}</td>
+                            <td>{{$vendorDetail->decided_rate}}</td>
+                            <td>{{$vendorDetail->bank_name}}</td>
+                            <td>{{$vendorDetail->branch_name}}</td>
+                            <td>{{$vendorDetail->branch_code}}</td>
+                            <td>{{$vendorDetail->acc_no}}</td>
+                            <td>{{$vendorDetail->acc_title}}</td>
+                           
+                            
+                            
                             
                              
                             <td><a href="" class="btn btn-primary">Edit</a></td>   

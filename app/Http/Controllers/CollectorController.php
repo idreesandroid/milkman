@@ -72,7 +72,7 @@ public function task_list(Request $request)
 
     $u_id =  session()->get('u_id');
 
-     $task_que="SELECT a.id AS task_id, task_time,a.collector_id, b.name AS collector_name, DATE_FORMAT(a.created_date,'%d-%m-%Y')created_time, c.received_qty 
+    $task_que="SELECT a.id AS task_id, task_time,a.collector_id, b.name AS collector_name, DATE_FORMAT(a.created_date,'%d-%m-%Y')created_time, c.received_qty 
    FROM `collection_task_header` a 
    INNER JOIN users b ON b.id=a.collector_id
    LEFT JOIN `collection_task_child` c ON c.task_id=a.id WHERE a.collector_id='$u_id' ";
@@ -86,7 +86,7 @@ public function task_vendors($id)
 {
     
 
-        $vend_query=" select  distinct  vendor_id, `name`, decided_rate from collection_task_vendors a
+     $vend_query=" select  distinct  vendor_id, `name`, decided_rate from collection_task_vendors a
      INNER JOIN vendor_details b on b.route_id=a.route_id
      INNER JOIN users c on c.id=b.vendor_id 
    
@@ -104,17 +104,10 @@ $vendor_id =  $request->input('vendor_id');
 $received_qty =  $request->input('received_qty');
 $milk_quality =  $request->input('milk_quality');
 
-
-$fat =  $request->input('fat');
-$protine =  $request->input('protine');
-$calcium =  $request->input('calcium');
-
-
-
 $get_rate = DB::table('vendor_details')->select('decided_rate')->where('vendor_id', $vendor_id)->first();
 $currunt_rate =  $get_rate->decided_rate;
-$Records = " INSERT INTO collection_task_child ( task_id , collector_id, vendor_id, received_qty, milk_quality,rate,fat,protine,calcium  ) 
-VALUES ( '$task_id','$collector_id','$vendor_id','$received_qty','$milk_quality', '$currunt_rate', '$fat', '$protine', '$calcium')";
+$Records = " INSERT INTO collection_task_child ( task_id , collector_id, vendor_id, received_qty, milk_quality,rate  ) 
+VALUES ( '$task_id','$collector_id','$vendor_id','$received_qty','$milk_quality', '$currunt_rate')";
 DB::insert("$Records");
 return  redirect('task_list');
 }
