@@ -74,12 +74,12 @@ Route::get('VendorDetail/edit/{id}',       'VendorDetailController@edit')->name(
 Route::post('VendorDetail/update/{id}',    'VendorDetailController@update')->name('update.VendorDetail');
  Route::get('vendorLedger', 'VendorDetailController@get_vendors' );
 
-
- Route::get('/vendorLedgerDetail{vendor_id}{date_from}{date_to}','VendorDetailController@vendorLedgerDetail') ;
+/* /{vendor_id}{date_from}{date_to} */
+ Route::get('vendorLedgerDetail/{vendor_id}/{date_from}/{date_to}','VendorDetailController@vendorLedgerDetail') ;
  Route::post('/vendorLedger','VendorDetailController@vendorLedger') ;
 
 
-
+ 
  
 
 //Task routes--------------------------------

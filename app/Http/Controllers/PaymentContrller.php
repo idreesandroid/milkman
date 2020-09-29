@@ -10,7 +10,7 @@ class PaymentContrller extends Controller
     public function userList(Request $request)
     { 
     $payments_g = "SELECT a.id , `name`,  role_title FROM `users`  a 
-    INNER JOIN user_role b  ON a.user_role=b.id";
+    INNER JOIN user_role b  ON a.user_role=b.id where a.user_role=3";
     $userList = DB::select($payments_g);
     return view('payment', compact('userList') ); 
 
