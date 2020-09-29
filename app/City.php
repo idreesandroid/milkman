@@ -8,12 +8,17 @@ use App\City;
 class City extends Model
 {
     
-    protected $fillable = ['name','state_id'];
+    protected $fillable = ['city_name','state_id'];
 
 
 
     public function state()
     {
       return  $this->belongsTO('App\State');
+    }
+
+    public function userCity()
+    {
+      return  $this->hasMany('App\User');
     }
 }

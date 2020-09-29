@@ -72,7 +72,7 @@ Route::get('VendorDetail/create',          'VendorDetailController@create')->nam
 Route::post('VendorDetail/create',         'VendorDetailController@store')->name('store.VendorDetail');
 Route::get('VendorDetail/edit/{id}',       'VendorDetailController@edit')->name('edit.VendorDetail');
 Route::post('VendorDetail/update/{id}',    'VendorDetailController@update')->name('update.VendorDetail');
- Route::get('vendorLedger', 'VendorDetailController@get_vendors' );
+Route::get('vendorLedger', 'VendorDetailController@get_vendors' );
 
 
 

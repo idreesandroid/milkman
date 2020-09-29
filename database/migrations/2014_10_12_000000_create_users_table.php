@@ -19,13 +19,13 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->integer('user_role')->length(11);
             $table->string('user_cnic');
             $table->string('user_phone');          
             $table->string('user_address');
-            $table->string('user_state');
-            $table->string('user_city');  
-           
+            $table->integer('user_state')->unsigned();
+            $table->foreign('user_state')->references('id')->on('states');
+            $table->integer('user_city')->unsigned();
+            $table->foreign('user_city')->references('id')->on('cities');
             $table->datetime('created_time')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->rememberToken();
             $table->timestamps();

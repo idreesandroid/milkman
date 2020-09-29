@@ -1,7 +1,9 @@
 <?php
 
 namespace App;
-use App\User_Role;
+use App\Role;
+use App\State;
+use App\City;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -10,10 +12,8 @@ use Illuminate\Notifications\Notifiable;
 class User extends Authenticatable
 {
     use Notifiable;
-
     
-    
-    protected $fillable = ['name', 'email', 'password','user_cnic','user_phone','user_state','user_city','user_address'];
+    protected $fillable = ['name', 'email', 'password','user_cnic','user_phone','user_state','user_city','user_address',];
 
     
     protected $hidden = [
@@ -27,11 +27,22 @@ class User extends Authenticatable
 
     public function user_role()
     {
-      return  $this->belongsTO('App\User_Role');
+      return  $this->belongsTOMany('App\Role');
     }
 
     public function vendorDetail()
     {
         return $this->hasOne('App\VendorDetail');
+    }
+
+
+    public function State()
+    {
+      return  $this->belongsTo('App\State');
+    }
+
+    public function City()
+    {
+      return  $this->belongsTo(City::class);
     }
 }
