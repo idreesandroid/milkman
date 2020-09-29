@@ -191,6 +191,72 @@ $where[] = " DATE_FORMAT(received_date_time, '%Y-%m-%d') >= '$date_from' ";
    return view('vendorLedger', compact('vendor_GL_details','get_vendors'))->with($dates);
 }
 
+public function vendorLedgerDetail($vendor_id, $date_from, $date_to)
+{
+
+   
+    //$vendor_id,  $date_from, $date_to
+
+    if(!empty($date_from)){
+    $where_a[] = " DATE_FORMAT(received_date_time, '%Y-%m-%d') >= '$date_from' ";
+    } 
+    if(!empty($date_to)){
+    $where_a[] = " DATE_FORMAT(received_date_time, '%Y-%m-%d') <= '$date_to' ";
+    }
+    if(!empty($vendor_id)){
+    $where_a[] = " a.vendor_id = '$vendor_id' ";
+    }
+
+    if(!empty($date_from)){
+        $where_b[] = " DATE_FORMAT(payment_date, '%Y-%m-%d') >= '$date_from' ";
+        } 
+        if(!empty($date_to)){
+        $where_b[] = " DATE_FORMAT(payment_date, '%Y-%m-%d') <= '$date_to' ";
+        }
+        if(!empty($vendor_id)){
+        $where_b[] = " user_id = '$vendor_id' ";
+        }
+
+      $vendors_d = "SELECT vendor_id, `name`, user_cnic, user_phone,received_date_time , received_qty , null as payment_detail,  (received_qty*rate)dr_amount ,NULL AS cr_amount
+     FROM collection_task_child a INNER JOIN users b ON a.vendor_id=b.id 
+     WHERE user_role=3 AND ".implode(' and ', $where_a)."
+     
+     UNION ALL
+     
+     SELECT user_id AS vendor_id , NULL, NULL, NULL, payment_date , null, payment_detail, NULL, amount AS cr_amount  FROM `payments`
+     WHERE 
+     ".implode(' and ', $where_b)."  
+     
+      ORDER BY vendor_id, received_date_time";
+
+
+
+
+
+
+     $vendor_GL_details = DB::select($vendors_d);
+
+
+     if(collect($vendor_GL_details)->first()) {
+        $results = json_decode(json_encode($vendor_GL_details[0]), true);
+        $vendor_id_d = $results['vendor_id'];
+        $name_d = $results['name'];
+        $user_cnic_d = $results['user_cnic'];
+        
+      }
+
+
+     $dates = [
+        'vendor_id_d'  => $vendor_id_d,
+        'name_d'  => $name_d,
+        'user_cnic_d' => $user_cnic_d
+    ];
+
+
+
+    return view('vendorLedgerDetail', compact('vendor_GL_details'))->with($dates);
+     
+}
 
 }
  

@@ -81,7 +81,12 @@
 
                             <td>{{ $vendor_GL->received_qty }} ltr</td>
                             <td style="text-align:right;">
+                            <!--
  <a href="/vendorLedgerDetail/{{ $vendor_GL->vendor_id }}/{{$date_from}}/{{$date_to}}">
+-->
+
+ <a href="/vendorLedgerDetail/{{ $vendor_GL->vendor_id }}/{{ $date_from }}/{{ $date_to }}">
+
                             <?php echo   number_format($vendor_GL->amounts,2); ?>
                             </a>
                             </td>

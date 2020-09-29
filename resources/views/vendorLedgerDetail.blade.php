@@ -6,96 +6,90 @@
                             <h5 class="card-header">Vendor Ledger</h5>
                             <div class="card-body">
                                 <div class="table-responsive">
-<form method="post"  action="/vendorLedger" >    
-@csrf                            
-<table>
-<tr>
-<td width="33%">
-<lable>Vendors</lable>
-<select name="vendor_id" class="form-control">
-<option value="" >--All Vendors--</option>
-@foreach($get_vendors as $get_vendors_list)
-
-<option value="{{ $get_vendors_list->vendor_id }}" > {{ $get_vendors_list->name }}</option>
-
-@endforeach
-</select>
-</td>
-
-<td width="20%">
-<lable>Date From</lable>
-<input type="date" name="date_from" class="form-control" />
-</td>
-
-<td width="20%">
-<?php $to_date = date('Y-m-d') ?>
-<lable>Date To</lable>
-<input type="date" name="date_to" value="<?php echo $to_date; ?>"  class="form-control" />
-</td>
- 
-<td>
-<lable> <br/> </lable>
-<input type="submit" name="submit"  class="btn btn-success" value="Get Result" />
-</td>
-</tr>
-
-
-
-</table>
-</form>
+                                <button style="float:right;"  onclick='printDiv("DivIdToPrint");'>Print</button>
+<div id='DivIdToPrint'>
 <?php  if(isset($vendor_GL_details)) { $sr =1; ?>
+Vendor ID: <?php echo $vendor_id_d; ?>
+<br/>
+Vendor Name: <?php echo $name_d; ?>
+<br/>
+Vendor CNIC: <?php echo $user_cnic_d; ?>
 
-                                    <table class="table table-striped table-bordered first">
+
+
+                                    <table  border=1  style="border-collapse: collapse;width:100%;">
                                         <thead>
                                         <tr> 
-                                        <td class="sorting_1">Sr#</td>
+                                        <th class="sorting_1">Sr#</th>
                                                 
-                                                <td>Vendor Name</td>
-                                                <td>Vendor CNIC</td>
-                                                <td>Vendor Contact</td>
-                                                <td>Receid Qty</td>
-                                                <td>Amount</td>
+                                                <th>Reveived Date</th>
+                                                <th>Reveived Qty (Ltr)</th>
+                                                <th>Amount (Debit)</th>
+                                                <th>Amount (Credit)</th>
                                             </tr>
+                                     </thead>
                                             <?PHP 
                                             $tot_ltr  = 0; 
-                                            $tot_amt =0;
+                                            $tot_amt_dr =0;
+                                            $tot_amt_cr =0;
                                             ?>
                                 @foreach ($vendor_GL_details as $vendor_GL)
                                 
                                <?PHP 
                                $tot_ltr =  $tot_ltr +  $vendor_GL->received_qty;
-                               $tot_amt =  $tot_amt +  $vendor_GL->amounts;
+                               $tot_amt_dr =  $tot_amt_dr +  $vendor_GL->dr_amount;
+                               $tot_amt_cr =  $tot_amt_cr +  $vendor_GL->cr_amount;
                                ?>
 
                                 <tr role="row" >
                                 <td>{{ $sr }}</td>
                                                 
-                                                <td>{{ $vendor_GL->name }}</td>
-                                                <td>{{ $vendor_GL->user_cnic }}</td>
-                                                <td>{{ $vendor_GL->user_phone }}</td>
-
-                                                <td>{{ $vendor_GL->received_qty }} ltr</td>
-                                                <td style="text-align:right;">
-                                                <a href="/vendorLedgerDetail">
-                                                <?php echo   number_format($vendor_GL->amounts,2); ?>
-                                                </a>
-                                                </td>
+                                                <td>{{ $vendor_GL->received_date_time }}</td> 
+                                                 <td  style="text-align:center;">
+                                                 {{ $vendor_GL->received_qty }}
+                                                 {{ $vendor_GL->payment_detail }}
                                                  
+                                                 
+                                                 </td>
+                                                <td style="text-align:right;">
+                                                 
+                                                <?php echo   number_format($vendor_GL->dr_amount,2); ?>
+                                                 
+                                                </td>
+                                                <td style="text-align:right;">
+                                                 
+                                                <?php echo   number_format($vendor_GL->cr_amount,2); ?>
+                                                  
+                                                 </td>
                                                 
                                             </tr>
 <?php $sr++; ?>
                                             @endforeach
                                         </tbody>
-                                        <tr>
-                                        <td colspan=4>Total</td>
-                                        <td >  {{ $tot_ltr }}</td>
-                                        <td style="text-align:right;"> <?php echo   number_format($tot_amt,2); ?></td>
-                                        </tr>
                                         <tfoot>
+                                        <tr>
+                                        <td colspan=2>Total</td>
+                                        <td >  {{ $tot_ltr }} </td>
+                                        <td style="text-align:right;"> <?php echo   number_format($tot_amt_dr,2); ?></td>
+                                        <td style="text-align:right;"> <?php echo   number_format($tot_amt_cr,2); ?></td>
+                                        </tr>
+                                      
                                            
+                                        <tr>
+                                        <td colspan=3>Balance </td>
+                                         
+                                        
+                                        <td colspan=2 style="text-align:center;"> <?php
+                                        $balances  = $tot_amt_dr - $tot_amt_cr;
+                                        
+                                        
+                                        echo number_format($balances,2) ;   ?></td>
+                                        </tr>
                                         </tfoot>
                                     </table>
 <?php  } ?>
+
+</div>
                                 </div>
                             </div>
                         </div>
