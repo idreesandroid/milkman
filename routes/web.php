@@ -75,15 +75,19 @@ Route::post('VendorDetail/update/{id}',    'VendorDetailController@update')->nam
 Route::get('vendorLedger', 'VendorDetailController@get_vendors' );
 
 
-
+ Route::get('/vendorLedgerDetail{vendor_id}{date_from}{date_to}','VendorDetailController@vendorLedgerDetail') ;
  Route::post('/vendorLedger','VendorDetailController@vendorLedger') ;
 
+
+
+ 
 
 //Task routes--------------------------------
 Route::get('/set_task', 'CollectorController@collector_list');
 Route::post('/set_task', 'CollectorController@set_task');
 Route::get('/task_list',  'CollectorController@task_list');
 Route::get('/task_collection/{id}',  'CollectorController@task_vendors'); 
+
 Route::post('/task_collection',  'CollectorController@task_collection_entry');
 
 
@@ -92,3 +96,9 @@ Route::post('/task_collection',  'CollectorController@task_collection_entry');
 Route::get('Role/index',           'RoleController@index')->name('index.role');
 Route::get('Role/create',          'RoleController@create')->name('create.role');
 Route::post('Role/create',         'RoleController@store')->name('store.role');
+
+
+
+Route::get('/payment',  'PaymentContrller@userList'); 
+Route::post('/payment',  'PaymentContrller@payment_to'); 
+
