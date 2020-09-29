@@ -8,7 +8,7 @@ class Vendor_Route extends Model
 {
     protected $fillable = ['route_name'];
 
-    public function vendordetail()
+    public function vendorDetail()
     {
         return $this->belongsTo(VendorDetail::class);
     }

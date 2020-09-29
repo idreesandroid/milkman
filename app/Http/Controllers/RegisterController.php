@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\User;
+use App\Role;
 class RegisterController extends Controller
 {
     public function register(Request $request)
@@ -48,31 +49,22 @@ class RegisterController extends Controller
      public function user_role_list(Request $request)
      {
        
-         $role_query="select id, role_title from user_role";
-       //$result =  DB::table('user_role')->get();
-       $result =  DB::select($role_query);
-       $state_query="select id, name from states"; 
-       $state =  DB::select($state_query);
-       
-       $city_query="select id, name from cities";
-       $city =  DB::select($city_query);
+      $roles = Roles::select('role_title','id')->get();
+      $states = States::select('state_name','id')->get();
+      $Cities = Cities::select('city_name','id')->get();
 
-
-       $vendor_ro ="SELECT route_name, id FROM  vendor__routes";
-       $vendor_routs =  DB::select($vendor_ro);
-
-
-
-       return  view('register',  compact('result','state','city','vendor_routs') );
+      return  view('register',  compact('roles','states','Cities') );
 
      }
+
+
      public function login(Request $request)
      {
      $username = $request->input('username');
      $password = $request->input('password');
 
       $role_query="select a.id, `name`, user_role , role_title from users a
-      inner JOIN user_role b on a.user_role=b.id where ( user_phone='$username'  OR   user_cnic='$username' )  and `password`='$password'";
+      inner JOIN roles b on a.user_role=b.id where ( user_phone='$username'  OR   user_cnic='$username' )  and `password`='$password'";
           $log_result =  DB::select($role_query);
           if(count($log_result)==1){
             foreach ($log_result as $key ) {
@@ -112,7 +104,7 @@ class RegisterController extends Controller
         users.user_city,
         users.user_state,
         users.user_role,
-         users.user_address
+        users.user_address
         FROM
         users
         INNER JOIN user_role ON users.user_role = user_role.id
