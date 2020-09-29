@@ -22,10 +22,13 @@ class CreateUsersTable extends Migration
             $table->string('user_cnic');
             $table->string('user_phone');          
             $table->string('user_address');
+
             $table->integer('user_state')->unsigned();
             $table->foreign('user_state')->references('id')->on('states');
             $table->integer('user_city')->unsigned();
             $table->foreign('user_city')->references('id')->on('cities');
+         
+
             $table->datetime('created_time')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->rememberToken();
             $table->timestamps();

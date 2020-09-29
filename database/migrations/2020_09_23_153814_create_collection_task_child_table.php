@@ -22,8 +22,12 @@ class CreateCollectionTaskChildTable extends Migration
             $table->integer('milk_quality');
             $table->dateTime('received_date_time')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->datetime('created_date')->default(DB::raw('CURRENT_TIMESTAMP'));
+            $table->integer('fat');
+            $table->integer('protine');
+            $table->integer('calcium'); 
+             $table->integer('rate');
             $table->timestamps();
-            $table->integer('rate');
+          
         });
     }
 
