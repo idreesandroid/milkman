@@ -10,6 +10,6 @@ class Vendor_Route extends Model
 
     public function vendorDetail()
     {
-        return $this->belongsTo(VendorDetail::class);
+        return $this->hasMany(VendorDetail::class);
     }
 }

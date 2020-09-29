@@ -14,12 +14,9 @@ class VendorDetailController extends Controller
 {
     public function index()
     {       
-        $users = User::with('State','City')->get();
+        $vendorDetails = VendorDetail::with('vendor','vendor_route')->get();
       
-        //$users = User::all();
-
-        return view('VendorDetail/index', compact('users'));
-       // return view('milkCollection/index', compact('milkCollections'));
+        return view('VendorDetail/index', compact('vendorDetails'));
 
 
     }

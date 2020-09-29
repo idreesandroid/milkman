@@ -36,12 +36,12 @@ class User extends Authenticatable
     }
 
 
-    public function State()
+    public function state()
     {
       return  $this->belongsTo('App\State');
     }
 
-    public function City()
+    public function city()
     {
       return  $this->belongsTo(City::class);
     }
