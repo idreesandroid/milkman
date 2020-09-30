@@ -48,27 +48,27 @@ public function store(Request $request)
 
 $this->validate($request,[      
     
-     'name'=> 'required',
-     'email'=>'required',
-     'password'=>'required', 
-     'user_cnic'=>'required',  
-     'user_phone'=> 'required',
-     'user_state'=>'required',
-     'user_city'=>'required', 
-     'user_address'=>'required',
-    
+        
+     'name'      => 'required|min:3',
+     'email'     => 'required|unique:users',
+     'password'  => 'required|min:6',
+     'user_cnic' => 'required|min:13|unique:users|numeric',
+     'user_phone'=> 'required|min:11|unique:users|numeric',
+     'user_state'  => 'required',
+     'user_city'  => 'required',
+     'user_address'  => 'required|min:10',
 
 
-     'decided_milkQuantity'=>'required',
-     'decided_rate'=>'required', 
+     'decided_milkQuantity'=>'required|min:1|numeric',
+     'decided_rate'=>'required|min:1|numeric', 
      'vendor_location'=>'required',
      'route_id'=>'required',  
 
-     'bank_name'=> 'required',
-     'branch_name'=>'required',
-     'branch_code'=>'required', 
-     'acc_no'=>'required',
-     'acc_title'=>'required',  
+     'bank_name'=> 'required|min:3',
+     'branch_name'=>'required|min:3',
+     'branch_code'=>'required|min:3', 
+     'acc_no'=>'required|min:5|unique:vendor_details',
+     'acc_title'=>'required|min:3|unique:vendor_details',  
 
 
      'filenames' => 'required',
@@ -107,11 +107,13 @@ $vendor_details->acc_title = $request->acc_title;
 
 if($request->hasfile('filenames'))
          {
+             $count= 1;
             foreach($request->file('filenames') as $file)
             {
-                $name = time().'.'.$file->extension();
+                $name =  $count.''.time().'.'.$file->extension();
                 $file->move(public_path().'/files/', $name);  
-                $data[] = $name;  
+                $data[] = $name; 
+                $count++;  
             }
          }
 
