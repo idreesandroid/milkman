@@ -76,6 +76,7 @@ public function task_list(Request $request)
 
     $u_id =  session()->get('u_id');
 
+ 
   $task_que="SELECT a.id AS task_id , d.name, route_name, c.vendor_location,d.`user_phone`, received_qty
   FROM `collection_task_header` a
   INNER JOIN collection_task_vendors b ON a.id=b.`task_id`
@@ -84,6 +85,7 @@ public function task_list(Request $request)
   INNER JOIN vendor__routes e ON e.id=c.`route_id` AND b.`route_id`
   LEFT JOIN collection_task_child f ON f.`task_id`=a.`id` AND f.`vendor_id`=c.`vendor_id`
   WHERE a.`collector_id`='$u_id' ";
+ 
     $task_lists =  DB::select($task_que);
  
     return  view('task_list',  compact('task_lists') );
@@ -112,17 +114,10 @@ $vendor_id =  $request->input('vendor_id');
 $received_qty =  $request->input('received_qty');
 $milk_quality =  $request->input('milk_quality');
 
-
-$fat =  $request->input('fat');
-$protine =  $request->input('protine');
-$calcium =  $request->input('calcium');
-
-
-
 $get_rate = DB::table('vendor_details')->select('decided_rate')->where('vendor_id', $vendor_id)->first();
 $currunt_rate =  $get_rate->decided_rate;
-$Records = " INSERT INTO collection_task_child ( task_id , collector_id, vendor_id, received_qty, milk_quality,rate,fat,protine,calcium  ) 
-VALUES ( '$task_id','$collector_id','$vendor_id','$received_qty','$milk_quality', '$currunt_rate', '$fat', '$protine', '$calcium')";
+$Records = " INSERT INTO collection_task_child ( task_id , collector_id, vendor_id, received_qty, milk_quality,rate  ) 
+VALUES ( '$task_id','$collector_id','$vendor_id','$received_qty','$milk_quality', '$currunt_rate')";
 DB::insert("$Records");
 return  redirect('task_list');
 }

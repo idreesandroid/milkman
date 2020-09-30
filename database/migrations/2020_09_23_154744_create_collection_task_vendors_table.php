@@ -17,7 +17,6 @@ class CreateCollectionTaskVendorsTable extends Migration
             $table->id();
             $table->integer('task_id');
             $table->integer('route_id');
-            $table->datetime('created_date')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamps();
         });
     }

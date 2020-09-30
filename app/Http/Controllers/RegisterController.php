@@ -24,20 +24,27 @@ class RegisterController extends Controller
       $user_state = $request->input('user_state');
       $user_city = $request->input('user_city');
       $user_address = $request->input('user_address');
-      $qty_done = $request->input('qty_done');
+     
       $passw = $request->input('passw');
       $user_address = $request->input('user_address');
 
-        // $validator = $request->validate([
-        //     'name'      => 'required|min:1',
-        //     'email'     => 'required',
-        //     'password'  => 'required|min:6'
-        //   ]);
+        $validator = $request->validate([
+            'name'      => 'required|min:3',
+            'email'     => 'required|unique:users',
+            'password'  => 'required|min:6',
+            'user_cnic' => 'required|min:13|unique:users|numeric',
+            'user_phone'=> 'required|min:11|unique:users|numeric',
+            'user_state'  => 'required',
+            'user_city'  => 'required',
+            'user_address'  => 'required|min:10',
+          ]);
 
 /*
         $Records = " INSERT INTO users 
-        (`name` , email, `password`, user_cnic, user_phone,  user_state, user_city,user_address,created_time) 
-        VALUES ('$user_name','$email','$passw','$user_cnic','$user_phone','$user_state','$user_city','$user_address',CURRENT_TIMESTAMP)";
+ 
+        (`name` , email, `password`, user_role, user_cnic, user_phone,  state_id, city_id,user_address,created_time) 
+        VALUES ('$user_name','$email','$passw','$user_role','$user_cnic','$user_phone','$user_state','$user_city','$user_address',CURRENT_TIMESTAMP)";
+ 
         DB::insert("$Records");
 */
  
@@ -156,15 +163,14 @@ public function update(Request $request, $id)
 
 $updatedata = $request->validate([
 
-    'name'=> 'required',
-    'email'=>'required',
-    'password'=>'required',
-    // 'user_role'=>'required',
-    'user_cnic'=>'required',
-    'user_phone'=>'required',
-    // 'user_state'=>'required',
-    // 'user_city'=>'required',
-    'user_address'=>'required',
+  'name'      => 'required|min:3',
+  'email'     => 'required|unique',
+  'password'  => 'required|min:6',
+  'user_cnic' => 'required|min:13|unique|numeric',
+  'user_phone'=> 'required|min:11|unique|numeric',
+  'state_id'  => 'required',
+  'city_id'  => 'required',
+  'user_address'  => 'required|min:10',
    
 ]);
 User::whereid($id)->update($updatedata);

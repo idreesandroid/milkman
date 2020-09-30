@@ -25,8 +25,8 @@ class VendorRouteController extends Controller
 public function store(Request $request)
 {
 $this->validate($request,[      
-    'route_name'=> 'required',  
-    'route_description'=> 'required',  
+    'route_name'=> 'required|min:3',  
+    'route_description'=> 'required|min:10',  
      ]);
 
 
@@ -51,8 +51,8 @@ public function update(Request $request, $id)
 
 $updatedata = $request->validate([
 
-    'route_name'=> 'required',
-    'route_description'=> 'required',
+    'route_name'=> 'required|min:3',
+    'route_description'=> 'required|min:10',
    
    
 ]);

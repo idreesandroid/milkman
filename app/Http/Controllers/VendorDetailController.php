@@ -14,12 +14,13 @@ class VendorDetailController extends Controller
 {
     public function index()
     {       
-        $users = User::with('State','City')->get();
-      
-        //$users = User::all();
+        $vendorDetails = User::with('vendor_detail','state','city')->get();
 
-        return view('VendorDetail/index', compact('users'));
-       // return view('milkCollection/index', compact('milkCollections'));
+// echo "<pre>";                where('role_id', 3)->
+// print_r($vendorDetails);
+// exit;
+      
+        return view('VendorDetail/index', compact('vendorDetails'));
 
 
     }
@@ -47,27 +48,31 @@ public function store(Request $request)
 
 $this->validate($request,[      
     
-     'name'=> 'required',
-     'email'=>'required',
-     'password'=>'required', 
-     'user_cnic'=>'required',  
-     'user_phone'=> 'required',
-     'user_state'=>'required',
-     'user_city'=>'required', 
-     'user_address'=>'required',
-    //  'role_title'=> 'required',
-    
-    // 'vendor_id'=> 'required',
-     'decided_milkQuantity'=>'required',
-     'decided_rate'=>'required', 
+        
+     'name'      => 'required|min:3',
+     'email'     => 'required|unique:users',
+     'password'  => 'required|min:6',
+     'user_cnic' => 'required|min:13|unique:users|numeric',
+     'user_phone'=> 'required|min:11|unique:users|numeric',
+     'user_state'  => 'required',
+     'user_city'  => 'required',
+     'user_address'  => 'required|min:10',
+
+
+     'decided_milkQuantity'=>'required|min:1|numeric',
+     'decided_rate'=>'required|min:1|numeric', 
      'vendor_location'=>'required',
      'route_id'=>'required',  
 
-     'bank_name'=> 'required',
-     'branch_name'=>'required',
-     'branch_code'=>'required', 
-     'acc_no'=>'required',
-     'acc_title'=>'required',  
+     'bank_name'=> 'required|min:3',
+     'branch_name'=>'required|min:3',
+     'branch_code'=>'required|min:3', 
+     'acc_no'=>'required|min:5|unique:vendor_details',
+     'acc_title'=>'required|min:3|unique:vendor_details',  
+
+
+     'filenames' => 'required',
+     'filenames.*' => 'mimes:jpg,png,jpeg,gif',
 
      ]);
 
@@ -79,21 +84,15 @@ $vendor_register->email = $request->email;
 $vendor_register->password = $request->password;
 $vendor_register->user_cnic = $request->user_cnic;
 $vendor_register->user_phone = $request->user_phone;
-$vendor_register->user_state = $request->user_state;
-$vendor_register->user_city = $request->user_city;
+$vendor_register->state_id = $request->user_state;
+$vendor_register->city_id = $request->user_city;
 $vendor_register->user_address = $request->user_address;
-// $vendor_register->role_title = $request->role_title;
 $vendor_register->save();
 $vendor_register->user_role()->attach(Role::where('id', 3)->first());
 
 
-//$get_vendorId= User::where('user_cnic',$vendor_register->user_cnic)->select('id')->first();
-
-$get_vendorId = User::where('user_cnic',$vendor_register->user_cnic)->first();
-$v_id = $get_vendorId->id;
-
 $vendor_details = new VendorDetail();
-$vendor_details->vendor_id = $v_id;        
+$vendor_details->user_id = $vendor_register->id;        
 $vendor_details->decided_milkQuantity = $request->decided_milkQuantity;
 $vendor_details->decided_rate = $request->decided_rate;
 $vendor_details->vendor_location = $request->vendor_location;
@@ -104,6 +103,21 @@ $vendor_details->branch_name = $request->branch_name;
 $vendor_details->branch_code = $request->branch_code;
 $vendor_details->acc_no = $request->acc_no;
 $vendor_details->acc_title = $request->acc_title;
+
+
+if($request->hasfile('filenames'))
+         {
+             $count= 1;
+            foreach($request->file('filenames') as $file)
+            {
+                $name =  $count.''.time().'.'.$file->extension();
+                $file->move(public_path().'/files/', $name);  
+                $data[] = $name; 
+                $count++;  
+            }
+         }
+
+$vendor_details->filenames=json_encode($data);
 $vendor_details->save();
 
 
@@ -113,11 +127,11 @@ return redirect('VendorDetail/index');
 
 public function edit($id)
 {
-//     $vendor_details = VendorDetail::findOrFail($id);
+    // $vendor_details = VendorDetail::findOrFail($id);
 
-//     $vendor_lists= User::where('user_role','vendor')->select('name','id')->get();
-//     $vendor_routes= Vendor_Route::select('route_name','id')->get();
-//    return view('VendorDetail/edit', compact('product_stocks','products','vendor_lists'));
+    // $vendor_lists= User::where('user_role','vendor')->select('name','id')->get();
+    // $vendor_routes= Vendor_Route::select('route_name','id')->get();
+    // return view('VendorDetail/edit', compact('product_stocks','products','vendor_lists'));
 }
 
 

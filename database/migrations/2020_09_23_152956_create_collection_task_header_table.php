@@ -18,7 +18,6 @@ class CreateCollectionTaskHeaderTable extends Migration
             $table->integer('collector_id');
             $table->date('task_date');
             $table->string('task_time');
-            $table->datetime('created_date')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->integer('created_by');
             $table->timestamps();
         });
