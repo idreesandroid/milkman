@@ -146,8 +146,9 @@ public function update(Request $request, $id)
 public function get_vendors(Request $request)
 {
 
-    $get_vend="select DISTINCT vendor_id, `name` from  collection_task_child a 
-    inner join users b on a.vendor_id=b.id and user_role=3";
+  $get_vend="SELECT DISTINCT vendor_id, `name` FROM collection_task_child a 
+  INNER JOIN users b ON a.vendor_id=b.id 
+  INNER JOIN role_user c ON c.`user_id`=b.id AND c.`role_id`=3";
     $get_vendors = DB::select($get_vend);
     return view('vendorLedger', compact('get_vendors'));
 
@@ -172,15 +173,18 @@ $where[] = " DATE_FORMAT(received_date_time, '%Y-%m-%d') >= '$date_from' ";
          if(!empty($user_cnic)){
             $where[] = " b.user_cnic = '$user_cnic' ";
              }
-    $vendors_GL = "SELECT  vendor_id, `name`, user_cnic, user_phone,  sum(received_qty)received_qty , sum(received_qty*rate)amounts 
+  $vendors_GL = "SELECT  vendor_id, `name`, user_cnic, user_phone,  sum(received_qty)received_qty , sum(received_qty*rate)amounts 
     FROM collection_task_child a
     INNER JOIN users b on a.vendor_id=b.id 
-    where  user_role=3 and ".implode(' and ',$where)."
+    INNER JOIN role_user c ON c.`user_id`=b.id
+    where c.`role_id`=3 and ".implode(' and ',$where)."
     GROUP BY vendor_id, `name`, user_cnic, user_phone";
      $vendor_GL_details = DB::select($vendors_GL);
 
-     $get_vend="select DISTINCT vendor_id, `name` from  collection_task_child a 
-     inner join users b on a.vendor_id=b.id and user_role=3";
+     $get_vend="SELECT DISTINCT vendor_id, `name` FROM collection_task_child a 
+   INNER JOIN users b ON a.vendor_id=b.id 
+   INNER JOIN role_user c ON c.`user_id`=b.id
+   AND c.`role_id`=3";
      $get_vendors = DB::select($get_vend);
 
      $dates = [
@@ -217,13 +221,14 @@ public function vendorLedgerDetail($vendor_id, $date_from, $date_to)
         $where_b[] = " user_id = '$vendor_id' ";
         }
 
-      $vendors_d = "SELECT vendor_id, `name`, user_cnic, user_phone,received_date_time , received_qty , null as payment_detail,  (received_qty*rate)dr_amount ,NULL AS cr_amount
+      $vendors_d = "SELECT vendor_id, `name`, user_cnic, user_phone,received_date_time , received_qty ,rate , null as payment_detail,  (received_qty*rate)dr_amount ,NULL AS cr_amount
      FROM collection_task_child a INNER JOIN users b ON a.vendor_id=b.id 
-     WHERE user_role=3 AND ".implode(' and ', $where_a)."
+     INNER JOIN role_user c ON c.`user_id`=b.id
+     WHERE c.`role_id`=3 AND ".implode(' and ', $where_a)."
      
      UNION ALL
      
-     SELECT user_id AS vendor_id , NULL, NULL, NULL, payment_date , null, payment_detail, NULL, amount AS cr_amount  FROM `payments`
+     SELECT user_id AS vendor_id , NULL, NULL, NULL, payment_date , null, null, payment_detail, NULL, amount AS cr_amount  FROM `payments`
      WHERE 
      ".implode(' and ', $where_b)."  
      

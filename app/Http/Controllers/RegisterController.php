@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\User;
 use App\Role;
+use App\State;
+use App\City;
 class RegisterController extends Controller
 {
     public function register(Request $request)
@@ -32,14 +34,35 @@ class RegisterController extends Controller
         //     'password'  => 'required|min:6'
         //   ]);
 
-
+/*
         $Records = " INSERT INTO users 
-
-        (`name` , email, `password`, user_role, user_cnic, user_phone,  user_state, user_city,user_address,created_time) 
-        VALUES ('$user_name','$email','$passw','$user_role','$user_cnic','$user_phone','$user_state','$user_city','$user_address',CURRENT_TIMESTAMP)";
+        (`name` , email, `password`, user_cnic, user_phone,  user_state, user_city,user_address,created_time) 
+        VALUES ('$user_name','$email','$passw','$user_cnic','$user_phone','$user_state','$user_city','$user_address',CURRENT_TIMESTAMP)";
         DB::insert("$Records");
-
+*/
  
+        $insert_user = array(
+         
+          'name'   => "$user_name",
+          'email'   => "$email", 
+          'password'   => "$passw",
+          'user_cnic'   => "$user_cnic",
+          'user_phone'   => "$user_phone",
+          'user_state'   => "$user_state",
+          'user_city'   => "$user_city",
+          'user_address'   => "$user_address" 
+           
+
+  
+          );
+
+          
+        $user_id =  DB::table('users')->insertGetId($insert_user);
+
+$enter_role = "insert into role_user (user_id, role_id) values ('$user_id','$user_role') ";
+DB::insert("$enter_role");
+
+
 
 
 
@@ -49,9 +72,9 @@ class RegisterController extends Controller
      public function user_role_list(Request $request)
      {
        
-      $roles = Roles::select('role_title','id')->get();
-      $states = States::select('state_name','id')->get();
-      $Cities = Cities::select('city_name','id')->get();
+      $roles = Role::where('id', '!=',  '3')->select('role_title','id')->get();
+      $states = State::select('state_name','id')->get();
+      $Cities = City::select('city_name','id')->get();
 
       return  view('register',  compact('roles','states','Cities') );
 
@@ -63,8 +86,13 @@ class RegisterController extends Controller
      $username = $request->input('username');
      $password = $request->input('password');
 
-      $role_query="select a.id, `name`, user_role , role_title from users a
-      inner JOIN roles b on a.user_role=b.id where ( user_phone='$username'  OR   user_cnic='$username' )  and `password`='$password'";
+      $role_query=" 
+      SELECT a.id,    a.name,c.id AS user_role,c.`role_title` 
+FROM users a 
+INNER JOIN role_user b ON b.user_id=a.id
+INNER JOIN roles c ON c.id=b.`role_id`
+ 
+WHERE    (a.`user_cnic`='$username' OR a.`user_phone`='$username') and a.`password`='$password' ";
           $log_result =  DB::select($role_query);
           if(count($log_result)==1){
             foreach ($log_result as $key ) {
@@ -94,21 +122,20 @@ class RegisterController extends Controller
      public function userList()
      {
          
-        $users_que =  "SELECT
-        users.id,
-        users.`name`,
-        users.email,
-        user_role.role_title,
-        users.user_cnic,
-        users.user_phone,
-        users.user_city,
-        users.user_state,
-        users.user_role,
-        users.user_address
-        FROM
-        users
-        INNER JOIN user_role ON users.user_role = user_role.id
-        order by user_role.role_title";   
+        $users_que =  "SELECT 
+        a.id, 
+        a.name, 
+        a.email, 
+        c.`role_title`,
+        a.user_cnic, 
+        user_phone, 
+        user_city , 
+        user_state,
+        c.id AS user_role,
+        user_address
+        FROM users a 
+        INNER JOIN role_user b ON b.user_id=a.id
+        INNER JOIN roles c ON c.id=b.`role_id`";   
         
         $users = DB::select($users_que);
         return view('user/userList', compact('users'));
@@ -159,7 +186,12 @@ return redirect('user/userList');
     
           $pro_u_id =  session()->get('u_id');
           $pro_user_role =  session()->get('user_role');
-         $query_profile="select *  from users where id='$pro_u_id' and user_role='$pro_user_role'  ";
+          $query_profile="SELECT a.id, a.name, a.email, a.user_cnic, user_phone, user_address, user_state, user_city ,c.id AS user_role,c.`role_title`
+         FROM users a 
+         INNER JOIN role_user b ON b.user_id=a.id
+         INNER JOIN roles c ON c.id=b.`role_id`
+          
+         WHERE a.id='$pro_u_id' and c.id='$pro_user_role'  ";
            $profile_result =  DB::select($query_profile);
     
     

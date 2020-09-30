@@ -16,7 +16,7 @@ class CreateCollectionTaskHeaderTable extends Migration
         Schema::create('Collection_task_header', function (Blueprint $table) {
             $table->id();
             $table->integer('collector_id');
-            $table->dateTime('task_date');
+            $table->date('task_date');
             $table->string('task_time');
             $table->datetime('created_date')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->integer('created_by');

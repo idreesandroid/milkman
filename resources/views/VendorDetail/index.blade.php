@@ -39,7 +39,7 @@
                             <td>{{$user->email}}</td>
                             <td>{{$user->user_cnic}}</td>
                             <td>{{$user->user_phone}}</td>
-                           <td>{{$user->State->state_name}}</td>
+                           <td></td>
                            <td></td>
                             <td>{{$user->user_address}}</td>
                             

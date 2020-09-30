@@ -45,7 +45,7 @@
 </tr>
 
 
-
+ 
 </table>
 </form>
 <?php  if(isset($vendor_GL_details)) { $sr =1; ?>

@@ -8,6 +8,8 @@
                                 <div class="table-responsive">
                                 <button style="float:right;"  onclick='printDiv("DivIdToPrint");'>Print</button>
 <div id='DivIdToPrint'>
+<img src="{{asset('assets/img/logo.png')}}" width="100" style="float:right;" />
+
 <?php  if(isset($vendor_GL_details)) { $sr =1; ?>
 Vendor ID: <?php echo $vendor_id_d; ?>
 <br/>
@@ -24,6 +26,7 @@ Vendor CNIC: <?php echo $user_cnic_d; ?>
                                                 
                                                 <th>Reveived Date</th>
                                                 <th>Reveived Qty (Ltr)</th>
+                                                <th>Rate</th>
                                                 <th>Amount (Debit)</th>
                                                 <th>Amount (Credit)</th>
                                             </tr>
@@ -51,6 +54,7 @@ Vendor CNIC: <?php echo $user_cnic_d; ?>
                                                  
                                                  
                                                  </td>
+                                                 <td> {{ $vendor_GL->rate }}</td>
                                                 <td style="text-align:right;">
                                                  
                                                 <?php echo   number_format($vendor_GL->dr_amount,2); ?>
@@ -68,18 +72,18 @@ Vendor CNIC: <?php echo $user_cnic_d; ?>
                                         </tbody>
                                         <tfoot>
                                         <tr>
-                                        <td colspan=2>Total</td>
-                                        <td >  {{ $tot_ltr }} </td>
+                                        <td colspan=3>Total</td>
+                                        <td >  {{ $tot_ltr }} Ltr </td>
                                         <td style="text-align:right;"> <?php echo   number_format($tot_amt_dr,2); ?></td>
                                         <td style="text-align:right;"> <?php echo   number_format($tot_amt_cr,2); ?></td>
                                         </tr>
                                       
                                            
                                         <tr>
-                                        <td colspan=3>Balance </td>
+                                        <td colspan=4>Balance </td>
                                          
                                         
-                                        <td colspan=2 style="text-align:center;"> <?php
+                                        <td colspan=3 style="text-align:center;"> <?php
                                         $balances  = $tot_amt_dr - $tot_amt_cr;
                                         
                                         

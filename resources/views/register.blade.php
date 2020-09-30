@@ -22,7 +22,7 @@
                         <select class="form-control" name="user_role" required="" onchange="chk_role(this.value)">
                             <option value="">--User Roll--</option>
                             <?php 
-                            foreach ($result as $results) {
+                            foreach ($roles as $results) {
                             $role_title     = $results->role_title;
                             $role_id    = $results->id; ?>
                            <option value="<?php echo $role_id;  ?>"><?php echo $role_title;  ?></option> <?php }  ?>                           
@@ -77,9 +77,9 @@
 													   <select class="select  form-control"  name="user_state">
 														<option>States</option>
 														<?php 
-                                                            foreach ($state as $states) {
-                                                                 $name     = $states->name;
-                                                                 $id    = $states->id; ?>
+                                                            foreach ($states as $state) {
+                                                                 $name     = $state->state_name;
+                                                                 $id    = $state->id; ?>
                                                         <option value="<?php echo $id;  ?>"><?php echo $name;  ?></option><?php }  ?>
 														
 													</select>
@@ -90,9 +90,9 @@
 													   <select class="select  form-control "  name="user_city">
 														<option>Select</option>
 														<?php 
-                                                            foreach ($city as $cities) {
-                                                              $name     = $cities->name;
-                                                              $id    = $cities->id; ?>
+                                                            foreach ($Cities as $City) {
+                                                              $name     = $City->city_name;
+                                                              $id    = $City->id; ?>
                                                              <option value="<?php echo $id;  ?>"><?php echo $name;  ?></option><?php }  ?>
 													</select>
 												</div>
