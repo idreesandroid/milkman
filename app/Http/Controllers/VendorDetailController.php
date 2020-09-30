@@ -56,9 +56,9 @@ $this->validate($request,[
      'user_state'=>'required',
      'user_city'=>'required', 
      'user_address'=>'required',
-    //  'role_title'=> 'required',
     
-    // 'vendor_id'=> 'required',
+
+
      'decided_milkQuantity'=>'required',
      'decided_rate'=>'required', 
      'vendor_location'=>'required',
@@ -69,6 +69,10 @@ $this->validate($request,[
      'branch_code'=>'required', 
      'acc_no'=>'required',
      'acc_title'=>'required',  
+
+
+     'filenames' => 'required',
+     'filenames.*' => 'mimes:doc,png,pdf,zip',
 
      ]);
 
@@ -99,6 +103,19 @@ $vendor_details->branch_name = $request->branch_name;
 $vendor_details->branch_code = $request->branch_code;
 $vendor_details->acc_no = $request->acc_no;
 $vendor_details->acc_title = $request->acc_title;
+
+
+if($request->hasfile('filenames'))
+         {
+            foreach($request->file('filenames') as $file)
+            {
+                $name = time().'.'.$file->extension();
+                $file->move(public_path().'/files/', $name);  
+                $data[] = $name;  
+            }
+         }
+
+$vendor_details->filenames=json_encode($data);
 $vendor_details->save();
 
 
@@ -108,11 +125,11 @@ return redirect('VendorDetail/index');
 
 public function edit($id)
 {
-    $vendor_details = VendorDetail::findOrFail($id);
+    // $vendor_details = VendorDetail::findOrFail($id);
 
-    $vendor_lists= User::where('user_role','vendor')->select('name','id')->get();
-    $vendor_routes= Vendor_Route::select('route_name','id')->get();
-    return view('VendorDetail/edit', compact('product_stocks','products','vendor_lists'));
+    // $vendor_lists= User::where('user_role','vendor')->select('name','id')->get();
+    // $vendor_routes= Vendor_Route::select('route_name','id')->get();
+    // return view('VendorDetail/edit', compact('product_stocks','products','vendor_lists'));
 }
 
 

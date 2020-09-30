@@ -12,7 +12,7 @@
                 <h4 class="card-title mb-0">Register Vendor</h4>
             </div>
             <div class="card-body">
-                <form method="post" action="{{ route('store.VendorDetail') }}">
+                <form method="post" action="{{ route('store.VendorDetail') }}" enctype="multipart/form-data">
                
                
                 @csrf 
@@ -43,6 +43,11 @@
                 <input type="text" class="form-control" name="user_phone"  >
             </div>											
     
+            <div class="form-group">
+                <label>Upload Image</label>
+                <input type="file" class="form-control" name="filenames[]"  >
+            </div>	
+
         </div>
         <div class="col-md-6">
             
