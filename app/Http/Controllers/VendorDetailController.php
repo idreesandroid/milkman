@@ -72,7 +72,7 @@ $this->validate($request,[
 
 
      'filenames' => 'required',
-     'filenames.*' => 'mimes:doc,png,pdf,zip',
+     'filenames.*' => 'mimes:jpg,png,jpeg,gif',
 
      ]);
 
