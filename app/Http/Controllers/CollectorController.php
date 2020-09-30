@@ -10,9 +10,11 @@ class CollectorController extends Controller
 
     public function collector_list(Request $request)
     { 
-    $col_query="SELECT a.id , `name` , email, user_phone , role_title 
-    FROM `users` a INNER JOIN user_role b ON  b.id=a.`user_role`
-    WHERE user_role=2 ";
+   $col_query="SELECT a.id , `name` , email, user_phone , role_title 
+  FROM `users` a 
+  INNER JOIN role_user b ON b.user_id=a.`id` 
+  INNER JOIN roles c ON b.role_id=c.`id` 
+  WHERE b.role_id=2";
     $collector_list =  DB::select($col_query);
 
     $vend_query="SELECT id  as rout_id, route_name  from  vendor__routes ";
@@ -33,16 +35,18 @@ public function set_task(Request $request)
         $collector_id = $request->input('collector_id');
         $task_time = $request->input('task_time');
         $u_id =  session()->get('u_id');
+       $task_date = date('Y-m-d H:i:s', strtotime($task_date));
+
 
     $set_task_data = array(
          
         'collector_id'   => "$collector_id",
-        'task_time'   => "$task_time", 
-        'created_by'   => "$u_id"
-
+        'task_time'   => "'$task_time'", 
+        'created_by'   => "$u_id" 
+ 
         );
 
-
+ 
     $task_id =  DB::table('collection_task_header')->insertGetId($set_task_data);
 
     
@@ -72,12 +76,18 @@ public function task_list(Request $request)
 
     $u_id =  session()->get('u_id');
 
-    $task_que="SELECT a.id AS task_id, task_time,a.collector_id, b.name AS collector_name, DATE_FORMAT(a.created_date,'%d-%m-%Y')created_time, c.received_qty 
-   FROM `collection_task_header` a 
-   INNER JOIN users b ON b.id=a.collector_id
-   LEFT JOIN `collection_task_child` c ON c.task_id=a.id WHERE a.collector_id='$u_id' ";
+ 
+  $task_que="SELECT a.id AS task_id , d.name, route_name, c.vendor_location,d.`user_phone`, received_qty
+  FROM `collection_task_header` a
+  INNER JOIN collection_task_vendors b ON a.id=b.`task_id`
+  INNER JOIN vendor_details c ON c.`route_id`=b.`route_id`
+  INNER JOIN users d ON d.id=c.`vendor_id`
+  INNER JOIN vendor__routes e ON e.id=c.`route_id` AND b.`route_id`
+  LEFT JOIN collection_task_child f ON f.`task_id`=a.`id` AND f.`vendor_id`=c.`vendor_id`
+  WHERE a.`collector_id`='$u_id' ";
+ 
     $task_lists =  DB::select($task_que);
-
+ 
     return  view('task_list',  compact('task_lists') );
 
 }

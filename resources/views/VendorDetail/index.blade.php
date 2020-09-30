@@ -37,6 +37,7 @@
                             <tbody>
                             @foreach($vendorDetails as $vendorDetail)
                             <tr>
+ 
                             <td>{{$vendorDetail->name}}</td>
                             <td>{{$vendorDetail->email}}</td>
                             <td>{{$vendorDetail->user_cnic}}</td>
@@ -56,6 +57,7 @@
                             <td>{{$vendorDetail->vendor_detail->acc_no}}</td>
                             <td>{{$vendorDetail->vendor_detail->acc_title}}</td>                
                                                        
+ 
                             <td><a href="" class="btn btn-primary">Edit</a></td>   
                             </tr>
                             @endforeach

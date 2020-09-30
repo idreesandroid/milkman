@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Route;
 
 
 
-
+ 
 Route::get('/login', function () { return view('login'); });
 
 
@@ -73,6 +73,8 @@ Route::post('VendorDetail/create',         'VendorDetailController@store')->name
 Route::get('VendorDetail/edit/{id}',       'VendorDetailController@edit')->name('edit.VendorDetail');
 Route::post('VendorDetail/update/{id}',    'VendorDetailController@update')->name('update.VendorDetail');
 Route::get('vendorLedger', 'VendorDetailController@get_vendors' );
+
+
 
 /* /{vendor_id}{date_from}{date_to} */
  Route::get('vendorLedgerDetail/{vendor_id}/{date_from}/{date_to}','VendorDetailController@vendorLedgerDetail') ;
