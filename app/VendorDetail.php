@@ -30,7 +30,7 @@ class VendorDetail extends Model
     ];
 
 
-    public function vendor()
+    public function userPersonal()
     {
         return $this->belongsTo('App\User');
     }
@@ -39,4 +39,9 @@ class VendorDetail extends Model
     {
         return $this->belongsTo(Vendor_Route::class);
     }
+
+    // public function vendorState()
+    // {
+    //     return $this->hasManyThrough('App\VendorDetail', 'App\User');
+    // }
 }

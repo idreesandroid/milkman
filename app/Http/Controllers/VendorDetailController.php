@@ -14,7 +14,11 @@ class VendorDetailController extends Controller
 {
     public function index()
     {       
-        $vendorDetails = VendorDetail::with('vendor','vendor_route')->get();
+        $vendorDetails = User::with('vendor_detail','state','city')->get();
+
+// echo "<pre>";                where('role_id', 3)->
+// print_r($vendorDetails);
+// exit;
       
         return view('VendorDetail/index', compact('vendorDetails'));
 
@@ -76,21 +80,15 @@ $vendor_register->email = $request->email;
 $vendor_register->password = $request->password;
 $vendor_register->user_cnic = $request->user_cnic;
 $vendor_register->user_phone = $request->user_phone;
-$vendor_register->user_state = $request->user_state;
-$vendor_register->user_city = $request->user_city;
+$vendor_register->state_id = $request->user_state;
+$vendor_register->city_id = $request->user_city;
 $vendor_register->user_address = $request->user_address;
-// $vendor_register->role_title = $request->role_title;
 $vendor_register->save();
 $vendor_register->user_role()->attach(Role::where('id', 3)->first());
 
 
-//$get_vendorId= User::where('user_cnic',$vendor_register->user_cnic)->select('id')->first();
-
-$get_vendorId = User::where('user_cnic',$vendor_register->user_cnic)->first();
-$v_id = $get_vendorId->id;
-
 $vendor_details = new VendorDetail();
-$vendor_details->vendor_id = $v_id;        
+$vendor_details->user_id = $vendor_register->id;        
 $vendor_details->decided_milkQuantity = $request->decided_milkQuantity;
 $vendor_details->decided_rate = $request->decided_rate;
 $vendor_details->vendor_location = $request->vendor_location;
@@ -110,11 +108,11 @@ return redirect('VendorDetail/index');
 
 public function edit($id)
 {
-//     $vendor_details = VendorDetail::findOrFail($id);
+    $vendor_details = VendorDetail::findOrFail($id);
 
-//     $vendor_lists= User::where('user_role','vendor')->select('name','id')->get();
-//     $vendor_routes= Vendor_Route::select('route_name','id')->get();
-//    return view('VendorDetail/edit', compact('product_stocks','products','vendor_lists'));
+    $vendor_lists= User::where('user_role','vendor')->select('name','id')->get();
+    $vendor_routes= Vendor_Route::select('route_name','id')->get();
+    return view('VendorDetail/edit', compact('product_stocks','products','vendor_lists'));
 }
 
 
