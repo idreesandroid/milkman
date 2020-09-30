@@ -30,7 +30,7 @@ class User extends Authenticatable
       return  $this->belongsTOMany('App\Role');
     }
 
-    public function vendorDetail()
+    public function vendor_detail()
     {
         return $this->hasOne('App\VendorDetail');
     }
@@ -45,4 +45,9 @@ class User extends Authenticatable
     {
       return  $this->belongsTo(City::class);
     }
+
+    // public function get_route()
+    // {
+    //     return $this->hasManyThrough('App\Vendor_Route', 'App\VendorDetail');
+    // }
 }
