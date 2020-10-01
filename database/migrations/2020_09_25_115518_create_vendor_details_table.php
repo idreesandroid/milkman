@@ -22,11 +22,11 @@ class CreateVendorDetailsTable extends Migration
             $table->string('filenames');
             $table->integer('decided_milkQuantity');
             $table->integer('decided_rate');
-            $table->string('bank_name');
-            $table->string('branch_name');
-            $table->string('branch_code');
-            $table->string('acc_no')->unique();
-            $table->string('acc_title')->unique();
+            $table->string('bank_name')->nullable();
+            $table->string('branch_name')->nullable();
+            $table->string('branch_code')->nullable();
+            $table->string('acc_no')->unique()->nullable();
+            $table->string('acc_title')->unique()->nullable();
 
 
 
