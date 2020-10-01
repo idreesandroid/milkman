@@ -35,7 +35,7 @@ public function set_task(Request $request)
         $collector_id = $request->input('collector_id');
         $task_time = $request->input('task_time');
         $u_id =  session()->get('u_id');
-       $task_date = date('Y-m-d H:i:s', strtotime($task_date));
+        $task_date = date('Y-m-d H:i:s', strtotime($task_date));
 
 
     $set_task_data = array(
