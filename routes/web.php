@@ -66,7 +66,7 @@ Route::post('VendorRoute/update/{id}',    'VendorRouteController@update')->name(
 
 
 //VendorDetail routes--------------------------------
-
+ 
 Route::get('VendorDetail/index',           'VendorDetailController@index')->name('index.VendorDetail');
 Route::get('VendorDetail/create',          'VendorDetailController@create')->name('create.VendorDetail');
 Route::post('VendorDetail/create',         'VendorDetailController@store')->name('store.VendorDetail');

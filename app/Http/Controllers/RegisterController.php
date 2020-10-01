@@ -16,7 +16,7 @@ class RegisterController extends Controller
       
      
      
-      $user_name = $request->input('user_name');
+       $user_name = $request->input('user_name');
       $email = $request->input('email');
       $user_role = $request->input('user_role');
       $user_cnic = $request->input('user_cnic');
@@ -28,16 +28,17 @@ class RegisterController extends Controller
       $passw = $request->input('passw');
       $user_address = $request->input('user_address');
 
-        $validator = $request->validate([
-            'name'      => 'required|min:3',
+    $validator = $request->validate([
+            'user_name'      => 'required|min:3',
             'email'     => 'required|unique:users',
-            'password'  => 'required|min:6',
+            'passw'  => 'required|min:6',
             'user_cnic' => 'required|min:13|unique:users|numeric',
             'user_phone'=> 'required|min:11|unique:users|numeric',
             'user_state'  => 'required',
             'user_city'  => 'required',
             'user_address'  => 'required|min:10',
           ]);
+       
 
 /*
         $Records = " INSERT INTO users 
@@ -62,15 +63,17 @@ class RegisterController extends Controller
 
   
           );
-
+          
           
         $user_id =  DB::table('users')->insertGetId($insert_user);
+     
 
 $enter_role = "insert into role_user (user_id, role_id) values ('$user_id','$user_role') ";
 DB::insert("$enter_role");
 
 
-
+ //return $enter_role;
+ 
 
 
         return redirect('register')->with('msg','Record Inserted Successfully.');
