@@ -39,8 +39,8 @@
                             <td>{{$user->role_title}}</td>
                             <td>{{$user->user_cnic}}</td>
                             <td>{{$user->user_phone}}</td>
-                            <td>{{$user->user_state}} </td>
-                            <td>{{$user->user_city}}</td>
+                            <td>{{$user->state_id}} </td>
+                            <td>{{$user->city_id}}</td>
                             <td>{{$user->user_address}}</td>
                             <td><a href="{{ route('edit.userList', $user->id)}}" class="btn btn-primary">Edit</a></td>
                                 
