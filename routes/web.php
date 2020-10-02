@@ -99,7 +99,8 @@ Route::get('Role/index',           'RoleController@index')->name('index.role');
 Route::get('Role/create',          'RoleController@create')->name('create.role');
 Route::post('Role/create',         'RoleController@store')->name('store.role');
 
-
+Route::get('/add_sub_roles', 'RoleController@load_roles');
+Route::post('/add_sub_roles', 'RoleController@add_sub_roles');
 
 Route::get('/payment',  'PaymentContrller@userList'); 
 Route::post('/payment',  'PaymentContrller@payment_to'); 

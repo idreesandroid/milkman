@@ -24,6 +24,20 @@
 									<li><a href="/user/userList">User List</a></li>
 								</ul>
 							</li>
+							<li> 
+								<a href="#"><i class="fa fa-check-square-o" aria-hidden="true"></i> <span>Role</span></a>
+								<ul class="sub-menus">
+									<li><a href="/Role/create" class="active">Enter Role</a></li>
+									<li><a href="/Role/index" class="active">Role List</a></li>
+									 
+									<li><a href="/add_sub_roles" class="active">Add Sub Roles</a></li>
+									 
+								</ul>
+							</li>
+
+
+
+
 
 							<li> 
 								<a href="#"><i class="fa fa-check-square-o" aria-hidden="true"></i> <span>Vendors</span></a>
