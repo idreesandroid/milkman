@@ -55,8 +55,8 @@ class RegisterController extends Controller
           'password'   => "$passw",
           'user_cnic'   => "$user_cnic",
           'user_phone'   => "$user_phone",
-          'user_state'   => "$user_state",
-          'user_city'   => "$user_city",
+          'state_id'   => "$user_state",
+          'city_id'   => "$user_city",
           'user_address'   => "$user_address" 
            
 
@@ -136,8 +136,8 @@ WHERE    (a.`user_cnic`='$username' OR a.`user_phone`='$username') and a.`passwo
         c.`role_title`,
         a.user_cnic, 
         user_phone, 
-        user_city , 
-        user_state,
+        city_id , 
+        state_id,
         c.id AS user_role,
         user_address
         FROM users a 
@@ -192,7 +192,7 @@ return redirect('user/userList');
     
           $pro_u_id =  session()->get('u_id');
           $pro_user_role =  session()->get('user_role');
-          $query_profile="SELECT a.id, a.name, a.email, a.user_cnic, user_phone, user_address, user_state, user_city ,c.id AS user_role,c.`role_title`
+          $query_profile="SELECT a.id, a.name, a.email, a.user_cnic, user_phone, user_address, state_id, city_id ,c.id AS user_role,c.`role_title`
          FROM users a 
          INNER JOIN role_user b ON b.user_id=a.id
          INNER JOIN roles c ON c.id=b.`role_id`

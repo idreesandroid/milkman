@@ -29,8 +29,8 @@
                                                 <td>{{ $u_profile->user_cnic }}</td>
                                                 <td>{{ $u_profile->user_phone }}</td>
                                                  
-                                                <td>{{ $u_profile->user_state }}</td>
-                                                <td>{{ $u_profile->user_city }}</td>
+                                                <td>{{ $u_profile->state_id }}</td>
+                                                <td>{{ $u_profile->city_id }}</td>
                                             </tr>
 
                                             @endforeach
