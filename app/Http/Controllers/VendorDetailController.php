@@ -56,7 +56,7 @@ $this->validate($request,[
      'user_phone'=> 'required|min:11|unique:users|numeric',
      'user_state'  => 'required',
      'user_city'  => 'required',
-     'user_address'  => 'required|min:10',
+     'user_address'  => 'required|min:1',
 
 
      'decided_milkQuantity'=>'required|min:1|numeric',
@@ -64,11 +64,12 @@ $this->validate($request,[
      'vendor_location'=>'required',
      'route_id'=>'required',  
 
-     //'bank_name'=> 'required|min:1',
-     //'branch_name'=>'required|min:1',
-     //'branch_code'=>'required|min:1', 
-    // 'acc_no'=>'required|min:1|unique:vendor_details',
-    // 'acc_title'=>'required|min:1|unique:vendor_details',  
+     'bank_name'=> 'required|min:1',
+     'branch_name'=>'required|min:1',
+     'branch_code'=>'required|min:1', 
+     'acc_no'=>'required|min:1|unique:vendor_details',
+     'acc_title'=>'required|min:1|unique:vendor_details',  
+
 
 
      'filenames' => 'required',
