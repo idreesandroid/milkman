@@ -50,10 +50,10 @@ $this->validate($request,[
     
         
      'name'      => 'required|min:1',
-     'email'     => 'required|unique:users',
+     //'email'     => 'required|unique:users',
      'password'  => 'required|min:1',
-     'user_cnic' => 'required|min:1|unique:users|numeric',
-     'user_phone'=> 'required|min:1|unique:users|numeric',
+     'user_cnic' => 'required|min:13|unique:users|numeric',
+     'user_phone'=> 'required|min:11|unique:users|numeric',
      'user_state'  => 'required',
      'user_city'  => 'required',
      'user_address'  => 'required|min:1',
@@ -69,6 +69,7 @@ $this->validate($request,[
      'branch_code'=>'required|min:1', 
      'acc_no'=>'required|min:1|unique:vendor_details',
      'acc_title'=>'required|min:1|unique:vendor_details',  
+
 
 
      'filenames' => 'required',

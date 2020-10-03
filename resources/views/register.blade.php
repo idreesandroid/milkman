@@ -11,9 +11,22 @@
 									<h4 class="card-title mb-0">Two Column Vertical Form</h4>
 								</div>
 								<div class="card-body">
+
+@if ($errors->any())
+<div class="alert alert-danger">
+<ul>
+@foreach ($errors->all() as $error)
+<li>{{ $error }}</li>
+@endforeach
+</ul>
+</div>
+@endif
+
+
+ 
 									<form method="post">
                                     @csrf
-                                             
+                                              
 
 											<h4 class="card-title">User Roll</h4>
                       <div class="form-group row">
@@ -36,18 +49,18 @@
 											<div class="col-md-6">
 												<div class="form-group">
 													<label>Full Name</label>
-													<input type="text" class="form-control" name="user_name" required=""  autocomplete="off">
+													<input type="text" class="form-control"  minlength="3" name="user_name" required=""  autocomplete="off">
 												</div>
 												
 
                                                 <div class="form-group">
 													<label>CNIC</label>
-													<input type="text" class="form-control" name="user_cnic" required="" autocomplete="off">
+													<input type="text" class="form-control" name="user_cnic" required="" maxlength="13" autocomplete="off">
 												</div>
 
                                                 <div class="form-group">
 													<label>Contact No</label>
-													<input type="text" class="form-control" name="user_phone" required="" autocomplete="off">
+													<input type="text" class="form-control" name="user_phone" maxlength="11" required="" autocomplete="off">
 												</div>											
 										
 											</div>
@@ -55,16 +68,16 @@
 												
 												<div class="form-group">
 													<label>Email (Optional)</label>
-													<input type="text" class="form-control" type="email" name="email"  autocomplete="off">
+													<input type="text" class="form-control" type="email" name="email"   autocomplete="off">
 												</div>
 
 												<div class="form-group">
 													<label>Password</label>
-													<input type="text" class="form-control" id="pass" name="passw" type="password"  >
+													<input type="text" class="form-control" id="pass" name="passw" required="" type="password"   minlength="6"  >
 												</div>
 												<div class="form-group">
 													<label>Repeat Password</label>
-													<input type="text" class="form-control" id="pass1" name="pass1" type="password"   >
+													<input type="text" class="form-control" id="pass1" name="pass1" required="" type="password"  minlength="6"    >
 												</div>
 											</div>
 										</div>
@@ -87,7 +100,7 @@
                                                                                            
                                                 <div class="form-group"      >
 													<label>City</label>
-													   <select class="select  form-control "  name="user_city">
+													   <select class="select  form-control "  required="" name="user_city">
 														<option>Select</option>
 														<?php 
                                                             foreach ($Cities as $City) {
@@ -105,7 +118,7 @@
 
                                                 <div class="form-group">
 													<label>Address</label>
-													<textarea rows="5" cols="5" class="form-control" name="user_address"  autocomplete="off"></textarea>
+													<textarea rows="5" cols="5" class="form-control" name="user_address" minlength="10"  required=""  autocomplete="off"></textarea>
 												</div>
                                             										
 											</div>
