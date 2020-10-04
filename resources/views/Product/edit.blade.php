@@ -48,6 +48,14 @@
                     </div>
 
 
+                    <div class="form-group row">
+                        <label for="product_description" class="col-form-label col-md-2">Description</label>
+                        <div class="col-md-10">
+                            <input type="text" class="form-control"type="text" name="product_description" value="{{ $products->product_price }}" required=""  autocomplete="off" >
+                        </div>
+                    </div>
+
+
                     <div class="form-group mb-0 row">                
                         <div class="col-md-10">                           
                             <div class="input-group-append">
@@ -55,9 +63,7 @@
                             </div>                           
                         </div>
                     </div>
-                        <!-- <div class="form-group pt-2">
-                        <button class="btn btn-block btn-primary" type="submit">ADD Product</button>
-                        </div> -->
+                      
                 </form>
             </div>
         </div>

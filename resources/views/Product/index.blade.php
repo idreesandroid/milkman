@@ -20,7 +20,8 @@
                                 <th>ID</th>
                                 <th>Name</th>
                                 <th>Size</th>
-                                <th>Price</th>      
+                                <th>Price</th>
+                                <th>Description</th>     
                                 <th>Action</th>                           
                                 </tr>
                             </thead>
@@ -31,6 +32,7 @@
                             <td>{{$product->product_name}}</td>
                             <td>{{$product->product_size}} {{$product->unit}} </td>
                             <td>{{$product->product_price}}</td>
+                            <td>{{$product->product_description}}</td>
                             <td><a href="{{ route('edit.product', $product->id)}}" class="btn btn-primary">Edit</a></td>
                                 
                             </tr>

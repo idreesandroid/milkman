@@ -33,6 +33,7 @@ $this->validate($request,[
     'product_name'=> 'required',
     'product_size'=>'required',
     'product_price'=>'required',
+    'product_description'=>'required',
     'unit'=>'required',
     
      ]);
@@ -43,6 +44,7 @@ $products = new Product();
 $products->product_name = $request->product_name." ".$request->product_size    ;        
 $products->product_size = $request->product_size;
 $products->product_price = $request->product_price;
+$products->product_description = $request->product_description;
 $products->unit = $request->unit;
 
 
@@ -64,7 +66,7 @@ return redirect('Product/index');
 public function edit($id)
 {
     $units = ['ml','ltr','gm','kg'];
-$products = Product::findorfail($id);
+$products = Product::findOrFail($id);
 return view('Product/edit', compact('products','units'));
 }
 
@@ -77,6 +79,7 @@ $updatedata = $request->validate([
     'product_name'=> 'required',
     'product_size'=>'required',
     'product_price'=>'required',
+    'product_description'=>'required',
     'unit'=>'required',
    
 ]);

@@ -52,6 +52,14 @@
                     </div>
 
 
+                    <div class="form-group row">
+                        <label for="product_description" class="col-form-label col-md-2">Description</label>
+                        <div class="col-md-10">
+                            <input type="text" class="form-control" name="product_description" required="">
+                        </div>
+                    </div>
+
+
                     <div class="form-group mb-0 row">                
                         <div class="col-md-10">                           
                             <div class="input-group-append">
