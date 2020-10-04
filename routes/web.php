@@ -26,32 +26,32 @@ Route::post('/login', 'RegisterController@login');
 
 Route::get('/logout', 'RegisterController@logout');
 
-Route::get('/','RegisterController@profile')->middleware('CustomAuth');
-Route::get('/profile','RegisterController@profile')->middleware('CustomAuth');
-Route::get('/register', function () { return view('register'); })->middleware('CustomAuth');
-Route::post('/register', 'RegisterController@register')->middleware('CustomAuth');
-Route::get('/register', 'RegisterController@user_role_list')->middleware('CustomAuth');
+Route::get('/','RegisterController@profile');
+Route::get('/profile','RegisterController@profile');
+Route::get('/register', function () { return view('register'); });
+Route::post('/register', 'RegisterController@register');
+Route::get('/register', 'RegisterController@user_role_list');
 
-Route::get('user/userList',           'RegisterController@userList')->name('index.userList')->middleware('CustomAuth');
-Route::get('user/edit/{id}',       'RegisterController@edit')->name('edit.userList')->middleware('CustomAuth');
-Route::post('user/update/{id}',    'RegisterController@update')->name('update.userList')->middleware('CustomAuth');
+Route::get('user/userList',           'RegisterController@userList')->name('index.userList');
+Route::get('user/edit/{id}',       'RegisterController@edit')->name('edit.userList');
+Route::post('user/update/{id}',    'RegisterController@update')->name('update.userList');
 
 //Product routes--------------------------------
 
-Route::get('Product/index',           'ProductController@index')->name('index.product')->middleware('CustomAuth');
-Route::get('Product/create',          'ProductController@create')->name('create.product')->middleware('CustomAuth');
-Route::post('Product/create',         'ProductController@store')->name('store.product')->middleware('CustomAuth');
-Route::get('Product/edit/{id}',       'ProductController@edit')->name('edit.product')->middleware('CustomAuth');
-Route::post('Product/update/{id}',   'ProductController@update')->name('update.product')->middleware('CustomAuth');
+Route::get('Product/index',           'ProductController@index')->name('index.product');
+Route::get('Product/create',          'ProductController@create')->name('create.product');
+Route::post('Product/create',         'ProductController@store')->name('store.product');
+Route::get('Product/edit/{id}',       'ProductController@edit')->name('edit.product');
+Route::post('Product/update/{id}',   'ProductController@update')->name('update.product');
 
 
 //ProductStock routes--------------------------------
 
-Route::get('ProductStock/index',           'ProductStockController@index')->name('index.productStock')->middleware('CustomAuth');
-Route::get('ProductStock/create',          'ProductStockController@create')->name('create.productStock')->middleware('CustomAuth');
-Route::post('ProductStock/create',         'ProductStockController@store')->name('store.productStock')->middleware('CustomAuth');
-Route::get('ProductStock/edit/{id}',       'ProductStockController@edit')->name('edit.productStock')->middleware('CustomAuth');
-Route::post('ProductStock/update/{id}',    'ProductStockController@update')->name('update.productStock')->middleware('CustomAuth');
+Route::get('ProductStock/index',           'ProductStockController@index')->name('index.productStock');
+Route::get('ProductStock/create',          'ProductStockController@create')->name('create.productStock');
+Route::post('ProductStock/create',         'ProductStockController@store')->name('store.productStock');
+Route::get('ProductStock/edit/{id}',       'ProductStockController@edit')->name('edit.productStock');
+Route::post('ProductStock/update/{id}',    'ProductStockController@update')->name('update.productStock');
  
 
 //VendorRoute routes--------------------------------
