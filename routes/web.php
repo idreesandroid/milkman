@@ -102,6 +102,24 @@ Route::post('Role/create',         'RoleController@store')->name('store.role');
 Route::get('/add_sub_roles', 'RoleController@load_roles');
 Route::post('/add_sub_roles', 'RoleController@add_sub_roles');
 
-Route::get('/payment',  'PaymentContrller@userList'); 
-Route::post('/payment',  'PaymentContrller@payment_to'); 
+Route::get('/payment',  'PaymentController@userList'); 
+Route::post('/payment',  'PaymentController@payment_to'); 
 
+
+
+
+//Cart routes--------------------------------
+
+Route::get('Cart/index',           'SaleController@index')->name('index.sale');
+Route::get('Cart/create',          'SaleController@create')->name('create.cart');
+// Route::post('Cart/create',         'CartController@store')->name('store.cart');
+// Route::get('Cart/edit/{id}',       'CartController@edit')->name('edit.cart');
+// Route::post('Cart/update/{id}',   'CartController@update')->name('update.cart');
+
+
+
+//Invoice routes--------------------------------
+Route::get('Cart/pendingInvoice',           'SaleController@pendingInvoice')->name('pending.invoice');
+Route::get('Cart/generateInvoice',          'SaleController@generateInvoice')->name('create.invoice');
+Route::post('Cart/generateInvoice',         'SaleController@invoiceStore')->name('store.invoice');
+Route::Delete('Cart/deleteInvoice/{id}', 'SaleController@deleteInvoice')->name('delete.invoice');

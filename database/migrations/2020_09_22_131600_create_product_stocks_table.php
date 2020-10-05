@@ -22,7 +22,6 @@ class CreateProductStocksTable extends Migration
             $table->string('batch_name')->unique();
             $table->date('manufactured_date');
             $table->date('expire_date');
-            $table->datetime('created_date')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->integer('manufactured_quantity');
 
            // $table->integer('manager_id')->unsigned();

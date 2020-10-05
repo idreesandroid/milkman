@@ -8,26 +8,17 @@ use App\ProductStock;
 class ProductStockController extends Controller
 {
     public function index()
-    {
-        
-        $product_stocks = ProductStock::with('product')->get();
-    
+    {   
+       $product_stocks = ProductStock::with('product')->get();
        return view('ProductStock/index', compact('product_stocks'));
-
-        
-
     }
 
     //create view-------------------------
 
     public function create() 
-    {
-       
+    {       
         $products= Product::select('product_name','id')->get();
         return view('ProductStock/create',compact('products'));
-
-        // return view('ProductStock/create');  
-
     }
 
 //create-------------------------
@@ -52,11 +43,7 @@ $product_stocks->manufactured_date = $request->manufactured_date;
 $product_stocks->expire_date = $request->expire_date;
 $product_stocks->manufactured_quantity = $request->manufactured_quantity;
 
-
 $product_stocks->save();
-
-//dd($visitor);
-
 return redirect('ProductStock/index');
 
 }
@@ -64,7 +51,7 @@ return redirect('ProductStock/index');
 
 // public function show($id)
 // {
-// //
+ //
 // }
 
 
