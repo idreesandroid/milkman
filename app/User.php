@@ -50,4 +50,14 @@ class User extends Authenticatable
     // {
     //     return $this->hasManyThrough('App\Vendor_Route', 'App\VendorDetail');
     // }
+
+    public function seller()
+    {
+        return $this->hasMany(Cart::class);
+    }
+
+    public function invoice()
+    {
+        return $this->hasMany(Invoice::class);
+    }
 }

@@ -12,5 +12,10 @@ class Product extends Model
     {
         return $this->hasMany(ProductStock::class);
     }
-  
+
+
+    public function product_cart()
+    {
+        return $this->hasMany(Cart::class);
+    }
 }
