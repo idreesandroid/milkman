@@ -16,10 +16,7 @@ class RoleTableSeeder extends Seeder
         $role_ad->role_title = 'Admin';
         $role_ad->save();
 
-        $role_ad_sup = new Role();
-        $role_ad_sup->role_id = 5;
-        $role_ad_sup->role_title = 'Sub Admin';
-        $role_ad_sup->save();
+       
 
         $role_c_ad = new Role();
         $role_c_ad->role_id = 10;

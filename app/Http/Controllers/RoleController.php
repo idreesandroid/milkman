@@ -42,16 +42,31 @@ return redirect('Role/index');
 }
 
 public function load_roles(Request $request)
-{
- 
-
+{   
+     
+    
     $roles_que="SELECT role_id, role_title FROM roles order by role_id";
- 
     $roles_list =  DB::select($roles_que);
  
-     
- return view('add_sub_roles', compact('roles_list') ); 
+   
+    $show_roles =" SELECT 
+    b.role_id AS main_role_id , 
+    b.role_title AS main_role_title,
+    a.`id` AS sub_role_id  ,
+    sub_role_title 
+    FROM `sub_roles` a
+    INNER JOIN roles b ON b.`role_id`=a.`role_id` ";
+    $show_roles_data =  DB::select($show_roles);
+    return view('add_sub_roles', compact('roles_list','show_roles_data') ); 
 }
+
+
+ 
+
+
+
+
+
 
 
 public function add_sub_roles(Request $request)
