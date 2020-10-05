@@ -24,6 +24,15 @@
 									<li><a href="/user/userList">User List</a></li>
 								</ul>
 							</li>
+
+							<li> 
+								<a href="#"><i class="fa fa-check-square-o" aria-hidden="true"></i> <span>Designations</span></a>
+								<ul class="sub-menus">
+									<li><a href="/add_designation" class="active">Add Designation</a></li>
+									 
+								</ul>
+							</li>
+
 							<li> 
 								<a href="#"><i class="fa fa-check-square-o" aria-hidden="true"></i> <span>Role</span></a>
 								<ul class="sub-menus">

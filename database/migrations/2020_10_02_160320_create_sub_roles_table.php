@@ -16,7 +16,7 @@ class CreateSubRolesTable extends Migration
         Schema::create('sub_roles', function (Blueprint $table) {
             $table->increments('id')->unsigned();
             $table->integer('role_id') ->references('role_id')->on('roles');
-            $table->string('sub_role_title')->unique();
+            $table->string('sub_role_title');
             $table->string('sub_role_status')->default(DB::raw(0));
            
             $table->timestamps();
