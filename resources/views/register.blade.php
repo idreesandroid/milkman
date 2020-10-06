@@ -8,7 +8,7 @@
 						<div class="col-md-12">
 							<div class="card">
 								<div class="card-header">
-									<h4 class="card-title mb-0">Two Column Vertical Form</h4>
+									<h4 class="card-title mb-0">Registration Form</h4>
 								</div>
 								<div class="card-body">
 
@@ -28,10 +28,11 @@
                                     @csrf
                                               
 
-											<h4 class="card-title">User Roll</h4>
+											 
                       <div class="form-group row">
 					  
                     <div class="col-md-6">
+					<label>User Roll</label>
                         <select class="form-control" name="user_role" required="" onchange="chk_role(this.value)">
                             <option value="">--User Roll--</option>
                             <?php 
@@ -41,6 +42,21 @@
                            <option value="<?php echo $role_id;  ?>"><?php echo $role_title;  ?></option> <?php }  ?>                           
                         </select>
                     </div>
+ 
+					<div class="col-md-6">
+					<label>Designation</label>
+                        <select class="form-control" name="dasignation_id" required="" >
+                            <option value="">--Designation--</option>
+                            <?php 
+                            foreach ($load_designation as $load_des) {
+                            $desig_id     = $load_des->id;
+                            $designation_title    = $load_des->designation_title; ?>
+                           <option value="<?php echo $desig_id;  ?>"><?php echo $designation_title;  ?></option>
+						    <?php }  ?>                           
+                        </select>
+                    </div>
+
+
                 </div>
 
 									

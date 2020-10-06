@@ -24,7 +24,8 @@ class RegisterController extends Controller
       $user_state = $request->input('user_state');
       $user_city = $request->input('user_city');
       $user_address = $request->input('user_address');
-     
+      $dasignation_id = $request->input('dasignation_id');
+      
       $passw = $request->input('passw');
       $user_address = $request->input('user_address');
 
@@ -37,6 +38,7 @@ class RegisterController extends Controller
             'user_state'  => 'required',
             'user_city'  => 'required',
             'user_address'  => 'required|min:10',
+            'dasignation_id'  => 'required'
           ]);
        
 
@@ -58,8 +60,8 @@ class RegisterController extends Controller
           'user_phone'   => "$user_phone",
           'state_id'   => "$user_state",
           'city_id'   => "$user_city",
-          'user_address'   => "$user_address" 
-           
+          'user_address'   => "$user_address",
+          'dasignation_id'   => "$dasignation_id" 
 
   
           );
@@ -82,11 +84,16 @@ DB::insert("$enter_role");
      public function user_role_list(Request $request)
      {
        
-      $roles = Role::where('id', '!=',  '3')->select('role_title','id')->get();
+      $roles = Role::where('id', '!=',  '25')->select('role_title','id')->get();
       $states = State::select('state_name','id')->get();
       $Cities = City::select('city_name','id')->get();
 
-      return  view('register',  compact('roles','states','Cities') );
+      $load_d = "SELECT  id,  designation_title FROM `designations` ORDER BY id ASC";
+      $load_designation =  DB::select($load_d);
+      
+
+
+      return  view('register',  compact('roles','states','Cities','load_designation') );
 
      }
 
