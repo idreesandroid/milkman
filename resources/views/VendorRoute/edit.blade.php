@@ -11,7 +11,7 @@
                 @csrf 
                     <div class="form-group row">
                         <label for="route_name" class="col-form-label col-md-2">Route Name</label>
-                        <div class="col-md-10">
+                        <div class="col-md-4">
                             <input type="text" class="form-control"type="text" name="route_name"  value="{{ $vendor_routes->route_name }}" required=""  autocomplete="off">
                         </div>
                     </div>
@@ -19,13 +19,13 @@
 
                     <div class="form-group row">
                         <label for="route_description" class="col-form-label col-md-2">Route Description</label>
-                        <div class="col-md-10">
+                        <div class="col-md-4">
                             <input type="text" class="form-control" type="text" name="route_description" value="{{ $vendor_routes->route_description }}" required=""  autocomplete="off" >
                         </div>
                     </div>
 
                     <div class="form-group mb-0 row">                
-                        <div class="col-md-10">                           
+                        <div class="col-md-4">                           
                             <div class="input-group-append">
                                 <button class="btn btn-primary" type="submit">Update Route</button>
                             </div>                           

@@ -3,12 +3,12 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-
+use Illuminate\Database\Eloquent\SoftDeletes;
 class ProductStock extends Model
 {
-
+    use SoftDeletes;
     protected $fillable = ['product_id','batch_name','manufactured_date','expire_date','manufactured_quantity'];    
-
+    protected $dates = ['deleted_at'];
 
     public function product()
     {

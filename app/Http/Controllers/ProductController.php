@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Product;
 class ProductController extends Controller
 {
+
     public function index()
     {
         
@@ -35,17 +36,19 @@ $this->validate($request,[
     'product_price'=>'required',
     'product_description'=>'required',
     'unit'=>'required',
+    'ctn_value'=>'required',
     
      ]);
 
 
 $products = new Product();
 
-$products->product_name = $request->product_name." ".$request->product_size    ;        
+$products->product_name = $request->product_name." ".$request->product_size.$request->unit    ;        
 $products->product_size = $request->product_size;
 $products->product_price = $request->product_price;
 $products->product_description = $request->product_description;
 $products->unit = $request->unit;
+$products->ctn_value = $request->ctn_value;
 
 
 $products->save();
@@ -55,13 +58,6 @@ $products->save();
 return redirect('Product/index');
 
 }
-
-
-// public function show($id)
-// {
-// //
-// }
-
 
 public function edit($id)
 {
@@ -81,10 +77,18 @@ $updatedata = $request->validate([
     'product_price'=>'required',
     'product_description'=>'required',
     'unit'=>'required',
+    'ctn_value'=>'required',
    
 ]);
 Product::whereid($id)->update($updatedata);
 return redirect('Product/index');
 
+}
+
+public function deleteProduct($id)
+{
+ $products = Product::findOrFail($id);
+ $products->delete();
+ return redirect('Product/index');
 }
 }

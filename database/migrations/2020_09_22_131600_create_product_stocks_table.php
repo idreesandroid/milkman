@@ -23,12 +23,11 @@ class CreateProductStocksTable extends Migration
             $table->date('manufactured_date');
             $table->date('expire_date');
             $table->integer('manufactured_quantity');
+           $table->integer('manager_id')->unsigned();
+           $table->foreign('manager_id')->references('id')->on('users');
 
-           // $table->integer('manager_id')->unsigned();
-           // $table->foreign('manager_id')->references('id')->on('users');
 
-
-           
+           $table->softDeletes();
            $table->timestamps();
         });
     }

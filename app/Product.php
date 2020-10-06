@@ -3,10 +3,17 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\SoftDeletes;
 class Product extends Model
 {
-    protected $fillable = ['product_name','product_size','product_price','unit','product_description'];    
+
+    
+    use SoftDeletes;
+    protected $fillable = ['product_name','product_size','product_price','unit','product_description','ctn_value'];    
+
+    protected $dates = ['deleted_at'];
+
 
     public function product_stock()
     {

@@ -42,8 +42,8 @@ Route::get('Product/index',           'ProductController@index')->name('index.pr
 Route::get('Product/create',          'ProductController@create')->name('create.product');
 Route::post('Product/create',         'ProductController@store')->name('store.product');
 Route::get('Product/edit/{id}',       'ProductController@edit')->name('edit.product');
-Route::post('Product/update/{id}',   'ProductController@update')->name('update.product');
-
+Route::post('Product/update/{id}',    'ProductController@update')->name('update.product');
+Route::Delete('Product/delete/{id}',  'ProductController@deleteProduct')->name('delete.product');
 
 //ProductStock routes--------------------------------
 
@@ -52,7 +52,8 @@ Route::get('ProductStock/create',          'ProductStockController@create')->nam
 Route::post('ProductStock/create',         'ProductStockController@store')->name('store.productStock');
 Route::get('ProductStock/edit/{id}',       'ProductStockController@edit')->name('edit.productStock');
 Route::post('ProductStock/update/{id}',    'ProductStockController@update')->name('update.productStock');
- 
+Route::Delete('ProductStock/delete/{id}',  'ProductStockController@deleteProductStock')->name('delete.productStock');
+
 
 //VendorRoute routes--------------------------------
 
@@ -61,6 +62,7 @@ Route::get('VendorRoute/create',          'VendorRouteController@create')->name(
 Route::post('VendorRoute/create',         'VendorRouteController@store')->name('store.VendorRoute');
 Route::get('VendorRoute/edit/{id}',       'VendorRouteController@edit')->name('edit.VendorRoute');
 Route::post('VendorRoute/update/{id}',    'VendorRouteController@update')->name('update.VendorRoute');
+Route::Delete('VendorRoute/delete/{id}',  'VendorRouteController@deleteVendorRoute')->name('delete.VendorRoute');
 
  
 
@@ -115,7 +117,7 @@ Route::post('/payment',  'PaymentController@payment_to');
 
 Route::get('Cart/index',           'SaleController@index')->name('index.sale');
 Route::get('Cart/create',          'SaleController@create')->name('create.cart');
-// Route::post('Cart/create',         'CartController@store')->name('store.cart');
+Route::post('Cart/create',         'SaleController@store')->name('store.cart');
 // Route::get('Cart/edit/{id}',       'CartController@edit')->name('edit.cart');
 // Route::post('Cart/update/{id}',   'CartController@update')->name('update.cart');
 
