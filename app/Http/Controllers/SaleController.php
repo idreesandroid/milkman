@@ -9,6 +9,7 @@ use App\User;
 use App\Product;
 use App\ProductStock;
 use App\Invoice;
+use App\Role;
 
 class SaleController extends Controller
 {
@@ -25,7 +26,7 @@ class SaleController extends Controller
     {       
         $products= Product::select('product_name','id')->get();
         $product_stocks=ProductStock::select('batch_name','id')->get();
-        $invoices = Invoice::select('buyer_id','id')->get();     
+        $invoices = Invoice::where('flag','=',0)->select('invoice_number','id')->get();     
         return view('Cart/create',compact('products','product_stocks','invoices'));
     }
 
@@ -34,24 +35,29 @@ class SaleController extends Controller
 
 public function store(Request $request)
 {
-$this->validate($request,[      
+$this->validate($request,[  
+    'invoice_id'=> 'required',
+    'buyer_id'=> 'required',    
     'product_id'=> 'required',
-    'batch_name'=>'required',
-    'manufactured_date'=>'required',
-    'expire_date'=>'required',
-    'manufactured_quantity'=>'required',
+    //seller
+    'batch_id'=>'required',
+    'product_quantity'=>'required',
+    //product rate
+    
     
      ]);
 
-$product_stocks = new ProductStock();
+$product_cart = new Cart();
 
-$product_stocks->product_id = $request->product_id;        
-$product_stocks->batch_name = $request->batch_name;
-$product_stocks->manufactured_date = $request->manufactured_date;
-$product_stocks->expire_date = $request->expire_date;
-$product_stocks->manufactured_quantity = $request->manufactured_quantity;
+$product_cart->invoice_id = $request->invoice_id;        
+$product_cart->buyer_id = $request->buyer_id;
+$product_cart->product_id = $request->product_id;
+$product_cart->seller_id = session()->get('u_id');
+$product_cart->batch_id = $request->batch_id;
+$product_cart->product_quantity = $request->product_quantity;
+$product_cart->product_rate=20;
+$product_cart->save();
 
-$product_stocks->save();
 return redirect('ProductStock/index');
 
 }
@@ -69,7 +75,12 @@ return redirect('ProductStock/index');
 
     public function generateInvoice() 
     {
-        $buyers= User::select('name','id')->get();
+
+       $buyers = User::whereHas('user_role', function($query) { $query->where('roles.id', 2); })->get();
+    
+        // echo $buyers;
+        // exit;
+
         return view('Cart/generateInvoice',compact('buyers')); 
     }
 
@@ -82,15 +93,16 @@ return redirect('ProductStock/index');
     
     $buyer = new Invoice();    
     $buyer->buyer_id = $request->buyer_id ;
+    $buyer->invoice_number = '#'.time().str_pad($buyer->id + 1, 8, "0", STR_PAD_LEFT) ;
     $buyer->save();
-    return redirect('Product/index');
+    return redirect('Cart/create');
     
     }
 
 //only pending invoice delete
 public function deleteInvoice($id)
 {
- $invoices = Invoice::findorfail($id);
+ $invoices = Invoice::findOrFail($id);
  $invoices->delete();
  return redirect('Cart/pendingInvoice');
 }

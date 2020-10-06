@@ -16,7 +16,7 @@
                 @csrf 
                     <div class="form-group row">
                         <label for="product_name" class="col-form-label col-md-2">Product Name</label>
-                        <div class="col-md-10">
+                        <div class="col-md-4">
                             <input type="text" class="form-control" name="product_name" required="">
                         </div>
                     </div>
@@ -24,14 +24,14 @@
 
                     <div class="form-group row">
                         <label for="product_size" class="col-form-label col-md-2">Size</label>
-                        <div class="col-md-10">
+                        <div class="col-md-4">
                             <input type="text" class="form-control" name="product_size" required="">
                         </div>
                     </div>
 
                 <div class="form-group row">
                     <label for="unit" class="col-form-label col-md-2">Unit</label>
-                    <div class="col-md-10">
+                    <div class="col-md-4">
                         <select class="form-control" name="unit" required="">
                             <option value="">--Select Unit--</option>
                             @foreach ($units as $unit)
@@ -46,7 +46,7 @@
 
                     <div class="form-group row">
                         <label for="product_price" class="col-form-label col-md-2">Price</label>
-                        <div class="col-md-10">
+                        <div class="col-md-4">
                             <input type="text" class="form-control" name="product_price" required="">
                         </div>
                     </div>
@@ -54,8 +54,15 @@
 
                     <div class="form-group row">
                         <label for="product_description" class="col-form-label col-md-2">Description</label>
-                        <div class="col-md-10">
+                        <div class="col-md-4">
                             <input type="text" class="form-control" name="product_description" required="">
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="ctn_value" class="col-form-label col-md-2">Quantity/Carton</label>
+                        <div class="col-md-4">
+                            <input type="text" class="form-control" name="ctn_value" required="">
                         </div>
                     </div>
 

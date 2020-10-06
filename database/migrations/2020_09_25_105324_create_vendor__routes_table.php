@@ -17,7 +17,7 @@ class CreateVendorRoutesTable extends Migration
             $table->increments('id')->unsigned();
             $table->string('route_name');
             $table->string('route_description');
-            $table->datetime('created_date')->default(DB::raw('CURRENT_TIMESTAMP'));
+            $table->softDeletes();
             $table->timestamps();
         });
     }

@@ -41,7 +41,7 @@ return redirect('VendorRoute/index');
 public function edit($id)
 {
    
-$vendor_routes = Vendor_Route::findorfail($id);
+$vendor_routes = Vendor_Route::findOrFail($id);
 return view('VendorRoute/edit', compact('vendor_routes'));
 }
 
@@ -58,5 +58,12 @@ $updatedata = $request->validate([
 ]);
 Vendor_Route::whereid($id)->update($updatedata);
 return redirect('VendorRoute/index');
+}
+
+public function deleteVendorRoute($id)
+{
+ $vendor_routes = Vendor_Route::findOrFail($id);
+ $vendor_routes->delete();
+ return redirect('VendorRoute/index');
 }
 }

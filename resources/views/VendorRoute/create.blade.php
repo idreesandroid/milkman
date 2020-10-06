@@ -16,20 +16,20 @@
                 @csrf 
                     <div class="form-group row">
                         <label for="route_name" class="col-form-label col-md-2">Route Name</label>
-                        <div class="col-md-10">
+                        <div class="col-md-4">
                             <input type="text" class="form-control" name="route_name" required="">
                         </div>
                     </div>
 
                     <div class="form-group row">
                         <label for="route_description" class="col-form-label col-md-2">Route Description</label>
-                        <div class="col-md-10">
+                        <div class="col-md-4">
                             <input type="text" class="form-control" name="route_description" required="">
                         </div>
                     </div>
 
                     <div class="form-group mb-0 row">                
-                        <div class="col-md-10">                           
+                        <div class="col-md-4">                           
                             <div class="input-group-append">
                                 <button class="btn btn-primary" type="submit">Add Route</button>
                             </div>                           

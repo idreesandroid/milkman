@@ -42,7 +42,7 @@ $product_stocks->batch_name = $request->batch_name;
 $product_stocks->manufactured_date = $request->manufactured_date;
 $product_stocks->expire_date = $request->expire_date;
 $product_stocks->manufactured_quantity = $request->manufactured_quantity;
-
+$product_stocks->manager_id =session()->get('u_id');
 $product_stocks->save();
 return redirect('ProductStock/index');
 
@@ -80,4 +80,10 @@ return redirect('ProductStock/index');
 
 }
 
+public function deleteProductStock($id)
+{
+ $product_stocks = ProductStock::findOrFail($id);
+ $product_stocks->delete();
+ return redirect('ProductStock/index');
+}
 }

@@ -25,7 +25,13 @@
                             <td>{{$vendor_route->id}}</td>
                             <td>{{$vendor_route->route_name}}</td>
                             <td>{{$vendor_route->route_description}}</td>
-                            <td><a href="{{ route('edit.VendorRoute', $vendor_route->id)}}" class="btn btn-primary">Edit</a></td>
+                            <td><a href="{{ route('edit.VendorRoute', $vendor_route->id)}}" class="btn btn-primary">Edit</a>
+                            <form action="{{ route('delete.VendorRoute', $vendor_route->id)}}" method="post" style="display: inline-block">
+                             @csrf
+                            @method('DELETE')
+                             <button class="btn btn-danger btn-sm" type="submit">Delete</button>
+                             </form>
+                            </td>
                                 
                             </tr>
                             @endforeach

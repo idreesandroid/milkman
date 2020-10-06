@@ -20,7 +20,9 @@ class CreateProductsTable extends Migration
             $table->string('product_size');
             $table->enum('unit',['ml','ltr','gm','kg']);
             $table->integer('product_price');
-            $table->datetime('created_date')->default(DB::raw('CURRENT_TIMESTAMP'));
+            $table->integer('ctn_value');
+           
+            $table->softDeletes();
             $table->timestamps();
         });
     }
