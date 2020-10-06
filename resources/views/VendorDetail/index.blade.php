@@ -45,7 +45,7 @@
                             <td>{{$vendorDetail->state->state_name}}</td>
                             <td>{{$vendorDetail->city->city_name}}</td>
                             <td>{{$vendorDetail->user_address}}</td>
-                            <td>{{$vendorDetail->vendor_detail->vendor_location}}</td>
+                            <td> </td>
                          
                             <td>{{$vendorDetail->vendor_detail->route_id}}</td>
 

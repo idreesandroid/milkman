@@ -16,9 +16,7 @@ class VendorDetailController extends Controller
     {       
         $vendorDetails = User::with('vendor_detail','state','city')->get();
 
-// echo "<pre>";                where('role_id', 3)->
-// print_r($vendorDetails);
-// exit;
+ 
       
         return view('VendorDetail/index', compact('vendorDetails'));
 
@@ -88,8 +86,10 @@ $vendor_register->user_phone = $request->user_phone;
 $vendor_register->state_id = $request->user_state;
 $vendor_register->city_id = $request->user_city;
 $vendor_register->user_address = $request->user_address;
+$vendor_register->dasignation_id = 3;
 $vendor_register->save();
-$vendor_register->user_role()->attach(Role::where('id', 3)->first());
+$vendor_register->user_role()->attach(Role::where('role_id',   25)->first());
+
 
 
 $vendor_details = new VendorDetail();
@@ -163,7 +163,7 @@ public function get_vendors(Request $request)
 
   $get_vend="SELECT DISTINCT vendor_id, `name` FROM collection_task_child a 
   INNER JOIN users b ON a.vendor_id=b.id 
-  INNER JOIN role_user c ON c.`user_id`=b.id AND c.`role_id`=3";
+  INNER JOIN role_user c ON c.`user_id`=b.id AND c.`role_id`=25";
     $get_vendors = DB::select($get_vend);
     return view('vendorLedger', compact('get_vendors'));
 
@@ -192,14 +192,14 @@ $where[] = " DATE_FORMAT(received_date_time, '%Y-%m-%d') >= '$date_from' ";
     FROM collection_task_child a
     INNER JOIN users b on a.vendor_id=b.id 
     INNER JOIN role_user c ON c.`user_id`=b.id
-    where c.`role_id`=3 and ".implode(' and ',$where)."
+    where c.`role_id`=25 and ".implode(' and ',$where)."
     GROUP BY vendor_id, `name`, user_cnic, user_phone";
      $vendor_GL_details = DB::select($vendors_GL);
 
      $get_vend="SELECT DISTINCT vendor_id, `name` FROM collection_task_child a 
    INNER JOIN users b ON a.vendor_id=b.id 
    INNER JOIN role_user c ON c.`user_id`=b.id
-   AND c.`role_id`=3";
+   AND c.`role_id`=25";
      $get_vendors = DB::select($get_vend);
 
      $dates = [
@@ -239,7 +239,7 @@ public function vendorLedgerDetail($vendor_id, $date_from, $date_to)
       $vendors_d = "SELECT vendor_id, `name`, user_cnic, user_phone,received_date_time , received_qty ,rate , null as payment_detail,  (received_qty*rate)dr_amount ,NULL AS cr_amount
      FROM collection_task_child a INNER JOIN users b ON a.vendor_id=b.id 
      INNER JOIN role_user c ON c.`user_id`=b.id
-     WHERE c.`role_id`=3 AND ".implode(' and ', $where_a)."
+     WHERE c.`role_id`=25 AND ".implode(' and ', $where_a)."
      
      UNION ALL
      

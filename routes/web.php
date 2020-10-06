@@ -75,7 +75,7 @@ Route::post('VendorDetail/update/{id}',    'VendorDetailController@update')->nam
 Route::get('vendorLedger', 'VendorDetailController@get_vendors' );
 
 
-
+ 
 /* /{vendor_id}{date_from}{date_to} */
  Route::get('vendorLedgerDetail/{vendor_id}/{date_from}/{date_to}','VendorDetailController@vendorLedgerDetail') ;
  Route::post('/vendorLedger','VendorDetailController@vendorLedger') ;

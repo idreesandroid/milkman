@@ -22,7 +22,7 @@ class CreateUsersTable extends Migration
             $table->string('user_cnic')->unique();
             $table->string('user_phone')->unique();          
             $table->string('user_address');
-            
+            $table->string('dasignation_id')->references('id')->on('users');
             $table->integer('state_id')->unsigned();
             $table->foreign('state_id')->references('id')->on('states');
             $table->integer('city_id')->unsigned();

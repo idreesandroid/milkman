@@ -9,7 +9,8 @@ class RoleController extends Controller
 {
     public function index()
     {
-        
+      
+
        $roles = Role::all();    
        return view('Role/index', compact('roles'));
       
@@ -19,8 +20,8 @@ class RoleController extends Controller
     //create view-------------------------
 
     public function create() 
-    {        
-        return view('Role/create');  
+    { 
+         return view('Role/create');  
     }
 
 //create-------------------------
@@ -33,8 +34,16 @@ $this->validate($request,[
       
      ]);
 
+     $next_r_i = "SELECT MAX(role_id+5) AS next_role_id FROM roles ";
+     $next_role_id = DB::select($next_r_i);
+     if(collect($next_role_id)->first()) {
+        $results = json_decode(json_encode($next_role_id[0]), true);
+        $next_role_id = $results['next_role_id'];
+     }
+
 
 $roles = new Role();
+$roles->role_id = $next_role_id;
 $roles->role_title = $request->role_title;
 $roles->save();
 return redirect('Role/index');

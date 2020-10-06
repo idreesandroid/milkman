@@ -9,9 +9,10 @@ class DesignationController extends Controller
     
     public function load_designation()
     {
-        
+      $load_d = "SELECT  id,  designation_title FROM `designations` ORDER BY id ASC";
+      $load_designation =  DB::select($load_d);
          
-       return view('add_designation');
+       return view('add_designation', compact('load_designation'));
       
 
     }

@@ -44,23 +44,31 @@
            
        <hr/>
 
- <table class="datatable table table-stripped mb-0 datatables">
+ <table class="datatable table table-stripped mb-0 datatables ">
 <thead>
 <tr>
 <th>Serial No.</th>
-    <th>Main Role ID</th>
-    <th>Main Role Title</th>
-    <th>Sub Role ID</th>
-    <th>Sub Role Title</th>
+    <th>Designation ID</th>
+    <th>Designation Title</th>
 </tr>
 </thead>
 
 <tbody>
+ 
+@foreach($load_designation as  $index =>  $load_design)
 
+<tr>
+    <td>{{$index+1}}</td>
+    <td>{{$load_design->id}}</td>
+    <td>{{$load_design->designation_title}}</td>
+ 
+</tr>
+
+@endforeach
  
 </tbody>
 
-
+ 
           </table> 
           </div>
     </div>
