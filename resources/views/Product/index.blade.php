@@ -19,6 +19,7 @@
                                 <tr>
                                 <th>ID</th>
                                 <th>Name</th>
+                                <th>Product Code</th>
                                 <th>Size</th>
                                 <th>Price</th>
                                 <th>Description</th> 
@@ -31,6 +32,7 @@
                             <tr>
                             <td>{{$product->id}}</td>
                             <td>{{$product->product_name}}</td>
+                            <td>{{$product->product_nick}}</td>
                             <td>{{$product->product_size}} {{$product->unit}} </td>
                             <td>{{$product->product_price}}</td>
                             <td>{{$product->product_description}}</td>

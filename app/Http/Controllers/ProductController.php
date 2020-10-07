@@ -32,6 +32,7 @@ public function store(Request $request)
 {
 $this->validate($request,[      
     'product_name'=> 'required',
+    'product_nick'=>'required',
     'product_size'=>'required',
     'product_price'=>'required',
     'product_description'=>'required',
@@ -44,6 +45,7 @@ $this->validate($request,[
 $products = new Product();
 
 $products->product_name = $request->product_name." ".$request->product_size.$request->unit    ;        
+$products->product_nick = $request->product_nick;
 $products->product_size = $request->product_size;
 $products->product_price = $request->product_price;
 $products->product_description = $request->product_description;
@@ -73,6 +75,7 @@ public function update(Request $request, $id)
 $updatedata = $request->validate([
 
     'product_name'=> 'required',
+    'product_nick'=>'required',
     'product_size'=>'required',
     'product_price'=>'required',
     'product_description'=>'required',

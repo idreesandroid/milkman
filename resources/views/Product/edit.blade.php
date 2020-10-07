@@ -18,6 +18,14 @@
 
 
                     <div class="form-group row">
+                        <label for="product_nick" class="col-form-label col-md-2">Product Code</label>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control"type="text" name="product_nick"  value="{{ $products->product_nick }}" required=""  autocomplete="off">
+                        </div>
+                    </div>
+
+
+                    <div class="form-group row">
                         <label for="product_size" class="col-form-label col-md-2">Size</label>
                         <div class="col-md-6">
                             <input type="text" class="form-control" type="text" name="product_size" value="{{ $products->product_size }}" required=""  autocomplete="off" >
