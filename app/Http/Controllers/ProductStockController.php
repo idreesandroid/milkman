@@ -28,17 +28,22 @@ public function store(Request $request)
 {
 $this->validate($request,[      
     'product_id'=> 'required',
-    'batch_name'=>'required',
-    'manufactured_date'=>'required',
-    'expire_date'=>'required',
+    'manufactured_date'=>'required|date',
+    'expire_date'=>'required|date|after_or_equal:manufactured_date',
     'manufactured_quantity'=>'required',
     
      ]);
 
+
+
+     
+$product_codes = Product::where('id',$request->product_id)->select('product_nick','id')->first();
+$product_code =$product_codes->product_nick;
+
 $product_stocks = new ProductStock();
 
 $product_stocks->product_id = $request->product_id;        
-$product_stocks->batch_name = $request->batch_name;
+$product_stocks->batch_name = $product_code.'#'.date('Y-m-d').time();
 $product_stocks->manufactured_date = $request->manufactured_date;
 $product_stocks->expire_date = $request->expire_date;
 $product_stocks->manufactured_quantity = $request->manufactured_quantity;
@@ -51,7 +56,7 @@ return redirect('ProductStock/index');
 
 // public function show($id)
 // {
- //
+//
 // }
 
 

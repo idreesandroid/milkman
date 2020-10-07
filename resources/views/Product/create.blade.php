@@ -21,6 +21,13 @@
                         </div>
                     </div>
 
+                    <div class="form-group row">
+                        <label for="product_nick" class="col-form-label col-md-2">Product Code</label>
+                        <div class="col-md-4">
+                            <input type="text" class="form-control" name="product_nick" required="">
+                        </div>
+                    </div>
+
 
                     <div class="form-group row">
                         <label for="product_size" class="col-form-label col-md-2">Size</label>

@@ -27,43 +27,36 @@
                     </div>
                 </div>
 
-                    <div class="form-group row">
-                        <label for="batch_name" class="col-form-label col-md-2">Batch Id</label>
-                        <div class="col-md-4">
-                            <input type="text" class="form-control" name="batch_name" required="">
-                        </div>
+
+                <div class="form-group row">
+                    <label for="manufactured_date" class="col-form-label col-md-2">Manufactured Date</label>
+                    <div class="col-md-4">
+                        <input type="date" class="form-control" name="manufactured_date" required="">
                     </div>
+                </div>
 
-
-                    <div class="form-group row">
-                        <label for="manufactured_date" class="col-form-label col-md-2">Manufactured Date</label>
-                        <div class="col-md-4">
-                            <input type="date" class="form-control" name="manufactured_date" required="">
-                        </div>
+                <div class="form-group row">
+                    <label for="expire_date" class="col-form-label col-md-2">Expire Date</label>
+                    <div class="col-md-4">
+                        <input type="date" class="form-control" name="expire_date" required="">
                     </div>
+                </div>
 
-                    <div class="form-group row">
-                        <label for="expire_date" class="col-form-label col-md-2">Expire Date</label>
-                        <div class="col-md-4">
-                            <input type="date" class="form-control" name="expire_date" required="">
-                        </div>
+                <div class="form-group row">
+                    <label for="manufactured_quantity" class="col-form-label col-md-2">Manufactured Quantity</label>
+                    <div class="col-md-4">
+                        <input type="text" class="form-control" name="manufactured_quantity" required="">
                     </div>
+                </div>
 
-                    <div class="form-group row">
-                        <label for="manufactured_quantity" class="col-form-label col-md-2">Manufactured Quantity</label>
-                        <div class="col-md-4">
-                            <input type="text" class="form-control" name="manufactured_quantity" required="">
-                        </div>
+
+                <div class="form-group mb-0 row">                
+                    <div class="col-md-4">                           
+                        <div class="input-group-append">
+                            <button class="btn btn-primary" type="submit">Add New Stock</button>
+                        </div>                           
                     </div>
-
-
-                    <div class="form-group mb-0 row">                
-                        <div class="col-md-4">                           
-                            <div class="input-group-append">
-                                <button class="btn btn-primary" type="submit">Add New Stock</button>
-                            </div>                           
-                        </div>
-                    </div>
+                </div>
                         
                 </form>
             </div>

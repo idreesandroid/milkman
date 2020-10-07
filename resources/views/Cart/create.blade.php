@@ -18,7 +18,7 @@
                 <div class="form-group row">
                     <label for="invoice_id" class="col-form-label col-md-2">Invoice Number</label>
                     <div class="col-md-4">
-                        <select class="form-control" name="invoice_id" required="">
+                        <select class="form-control" name="invoice_id"  id="invoice_id" required="">
                             <option value="">--Invoice Number--</option>
                             @foreach ($invoices as $invoice)
                              <option value="{{ $invoice->id}}" >{{ $invoice->invoice_number}}</option>
@@ -28,12 +28,12 @@
                     </div>
                 </div>
 
-                <div class="form-group row">
+                <!-- <div class="form-group row">
                     <label for="buyer_id" class="col-form-label col-md-2">Buyer Name</label>
                     <div class="col-md-4">
                         <input type="text" class="form-control" name="buyer_id" id="buyer_name" required="" readonly value=1>
                     </div>
-                </div>
+                </div> -->
 
 
                 <div class="form-group row">
