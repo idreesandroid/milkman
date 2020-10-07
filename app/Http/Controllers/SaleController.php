@@ -76,7 +76,7 @@ return redirect('ProductStock/index');
     public function generateInvoice() 
     {
 
-       $buyers = User::whereHas('user_role', function($query) { $query->where('roles.id', 2); })->get();
+       $buyers = User::whereHas('user_role', function($query) { $query->where('roles.id', 6); })->get();
     
         // echo $buyers;
         // exit;

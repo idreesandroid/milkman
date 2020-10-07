@@ -84,7 +84,7 @@ DB::insert("$enter_role");
      public function user_role_list(Request $request)
      {
        
-      $roles = Role::where('id', '!=',  '25')->select('role_title','id')->get();
+      $roles = Role::where('id', '!=',  '5')->select('role_title','id')->get();
       $states = State::select('state_name','id')->get();
       $Cities = City::select('city_name','id')->get();
 
