@@ -38,6 +38,11 @@ class RoleTableSeeder extends Seeder
         $role_ven->role_title = 'Vendor';
         $role_ven->save();
 
+        $role_c_ad = new Role();
+        $role_c_ad->role_id = 30;
+        $role_c_ad->role_title = 'Buyer';
+        $role_c_ad->save();
+
     }
 
 }
