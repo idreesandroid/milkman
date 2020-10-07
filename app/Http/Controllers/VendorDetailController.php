@@ -14,12 +14,9 @@ class VendorDetailController extends Controller
 {
     public function index()
     {       
-        $vendorDetails = User::with('vendor_detail','state','city')->get();
-
- 
-      
+       // $vendorDetails = User::with('vendor_detail','state','city')->get();
+        $vendorDetails = User::whereHas('user_role', function($query) { $query->where('roles.id', 5); })->with('vendor_detail','state','city')->get();
         return view('VendorDetail/index', compact('vendorDetails'));
-
 
     }
 
@@ -41,9 +38,6 @@ class VendorDetailController extends Controller
 
 public function store(Request $request)
 {  
-
-     
-
 $this->validate($request,[      
     
         
@@ -68,8 +62,6 @@ $this->validate($request,[
      'acc_no'=>'required|min:1|unique:vendor_details',
      'acc_title'=>'required|min:1|unique:vendor_details',  
 
-
-
      'filenames' => 'required',
      'filenames.*' => 'mimes:jpg,png,jpeg,gif',
 
@@ -86,9 +78,9 @@ $vendor_register->user_phone = $request->user_phone;
 $vendor_register->state_id = $request->user_state;
 $vendor_register->city_id = $request->user_city;
 $vendor_register->user_address = $request->user_address;
-$vendor_register->dasignation_id = 3;
+$vendor_register->designation_id = 1;
 $vendor_register->save();
-$vendor_register->user_role()->attach(Role::where('role_id',   25)->first());
+$vendor_register->user_role()->attach(Role::where('id',5)->first());
 
 
 
