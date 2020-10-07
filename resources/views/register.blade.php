@@ -45,7 +45,7 @@
  
 					<div class="col-md-6">
 					<label>Designation</label>
-                        <select class="form-control" name="dasignation_id" required="" >
+                        <select class="form-control" name="designation_id" required="" >
                             <option value="">--Designation--</option>
                             <?php 
                             foreach ($load_designation as $load_des) {

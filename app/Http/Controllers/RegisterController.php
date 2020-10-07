@@ -24,7 +24,7 @@ class RegisterController extends Controller
       $user_state = $request->input('user_state');
       $user_city = $request->input('user_city');
       $user_address = $request->input('user_address');
-      $dasignation_id = $request->input('dasignation_id');
+      $designation_id = $request->input('designation_id');
       
       $passw = $request->input('passw');
       $user_address = $request->input('user_address');
@@ -38,7 +38,7 @@ class RegisterController extends Controller
             'user_state'  => 'required',
             'user_city'  => 'required',
             'user_address'  => 'required|min:10',
-            'dasignation_id'  => 'required'
+            'designation_id'  => 'required'
           ]);
        
 
@@ -61,7 +61,7 @@ class RegisterController extends Controller
           'state_id'   => "$user_state",
           'city_id'   => "$user_city",
           'user_address'   => "$user_address",
-          'dasignation_id'   => "$dasignation_id" 
+          'designation_id'   => "$designation_id" 
 
   
           );
