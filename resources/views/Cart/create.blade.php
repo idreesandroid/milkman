@@ -92,13 +92,4 @@
 			
 			<!-- /page Wrapper -->
 		
-            @endsection
-
-            <script>
-            function buyerValue(){
-                document.getElementById('buyer_name').value = 
-
-                
-
-            }
-            </script>
+           

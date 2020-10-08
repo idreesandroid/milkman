@@ -111,7 +111,7 @@ function printDiv(div_id)
 										<a href="#">
 											<div class="media">
 												<span class="avatar">
-													<img alt="" src="assets/img/profiles/avatar-02.jpg">
+													<img alt="" src="{{asset('assets/img/profiles/avatar-02.jpg')}}">
 												</span>
 												<div class="media-body">
 													<p class="noti-details"><span class="noti-title">John Doe</span> added new task <span class="noti-title">Patient appointment booking</span></p>
@@ -124,7 +124,7 @@ function printDiv(div_id)
 										<a href="#">
 											<div class="media">
 												<span class="avatar">
-													<img alt="" src="assets/img/profiles/avatar-03.jpg">
+													<img alt="" src="{{asset('assets/img/profiles/avatar-03.jpg')}}">
 												</span>
 												<div class="media-body">
 													<p class="noti-details"><span class="noti-title">Tarah Shropshire</span> changed the task name <span class="noti-title">Appointment booking with payment gateway</span></p>
@@ -137,7 +137,7 @@ function printDiv(div_id)
 										<a href="#">
 											<div class="media">
 												<span class="avatar">
-													<img alt="" src="assets/img/profiles/avatar-06.jpg">
+													<img alt="" src="{{asset('assets/img/profiles/avatar-06.jpg')}}">
 												</span>
 												<div class="media-body">
 													<p class="noti-details"><span class="noti-title">Misty Tison</span> added <span class="noti-title">Domenic Houston</span> and <span class="noti-title">Claire Mapes</span> to project <span class="noti-title">Doctor available module</span></p>
@@ -150,7 +150,7 @@ function printDiv(div_id)
 										<a href="#">
 											<div class="media">
 												<span class="avatar">
-													<img alt="" src="assets/img/profiles/avatar-17.jpg">
+													<img alt="" src="{{asset('assets/img/profiles/avatar-17.jpg')}}">
 												</span>
 												<div class="media-body">
 													<p class="noti-details"><span class="noti-title">Rolland Webber</span> completed task <span class="noti-title">Patient and Doctor video conferencing</span></p>
@@ -163,7 +163,7 @@ function printDiv(div_id)
 										<a href="#">
 											<div class="media">
 												<span class="avatar">
-													<img alt="" src="assets/img/profiles/avatar-13.jpg">
+													<img alt="" src="{{asset('assets/img/profiles/avatar-13.jpg')}}">
 												</span>
 												<div class="media-body">
 													<p class="noti-details"><span class="noti-title">Bernardo Galaviz</span> added new task <span class="noti-title">Private chat module</span></p>
@@ -179,13 +179,12 @@ function printDiv(div_id)
 							</div>
 						</div>
 					</li>
-					<!-- /Notifications -->
-					
+					<!-- /Notifications -->		
 		
 
 					<li class="nav-item dropdown has-arrow main-drop">
 						<a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
-							<span class="user-img"><img src="assets/img/profiles/avatar-21.jpg" alt="">
+							<span class="user-img"><img src="{{asset('assets/img/profiles/avatar-21.jpg')}}" alt="">
 							<span class="status online"></span></span>
 							<span>{{ session()->get('user_name') }}</span>
 						</a>
