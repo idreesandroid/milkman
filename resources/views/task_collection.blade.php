@@ -23,7 +23,7 @@
             <option value="">--Venders--</option>
             <?php 
             foreach ($vendor_list as $vendors) {
-                $vendor_id     = $vendors->vendor_id;
+                $vendor_id     = $vendors->user_id;
                 $vendors_name    = $vendors->name; ?>
                 <option value="<?php echo $vendor_id;  ?>"><?php echo $vendors_name;  ?></option>
 

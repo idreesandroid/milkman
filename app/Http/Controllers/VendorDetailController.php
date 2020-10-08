@@ -15,7 +15,7 @@ class VendorDetailController extends Controller
     public function index()
     {       
        // $vendorDetails = User::with('vendor_detail','state','city')->get();
-        $vendorDetails = User::whereHas('user_role', function($query) { $query->where('roles.id', 5); })->with('vendor_detail','state','city')->get();
+        $vendorDetails = User::whereHas('user_role', function($query) { $query->where('roles.role_id', 5); })->with('vendor_detail','state','city')->get();
         return view('VendorDetail/index', compact('vendorDetails'));
 
     }
@@ -153,9 +153,9 @@ public function update(Request $request, $id)
 public function get_vendors(Request $request)
 {
 
-  $get_vend="SELECT DISTINCT vendor_id, `name` FROM collection_task_child a 
+    $get_vend="SELECT DISTINCT vendor_id, `name` FROM collection_task_child a 
   INNER JOIN users b ON a.vendor_id=b.id 
-  INNER JOIN role_user c ON c.`user_id`=b.id AND c.`role_id`=25";
+  INNER JOIN role_user c ON c.`user_id`=b.id AND c.`role_id`=5";
     $get_vendors = DB::select($get_vend);
     return view('vendorLedger', compact('get_vendors'));
 
@@ -180,18 +180,18 @@ $where[] = " DATE_FORMAT(received_date_time, '%Y-%m-%d') >= '$date_from' ";
          if(!empty($user_cnic)){
             $where[] = " b.user_cnic = '$user_cnic' ";
              }
-  $vendors_GL = "SELECT  vendor_id, `name`, user_cnic, user_phone,  sum(received_qty)received_qty , sum(received_qty*rate)amounts 
+ $vendors_GL = "SELECT  vendor_id, `name`, user_cnic, user_phone,  sum(received_qty)received_qty , sum(received_qty*rate)amounts 
     FROM collection_task_child a
     INNER JOIN users b on a.vendor_id=b.id 
     INNER JOIN role_user c ON c.`user_id`=b.id
-    where c.`role_id`=25 and ".implode(' and ',$where)."
+    where c.`role_id`=5 and ".implode(' and ',$where)."
     GROUP BY vendor_id, `name`, user_cnic, user_phone";
      $vendor_GL_details = DB::select($vendors_GL);
 
      $get_vend="SELECT DISTINCT vendor_id, `name` FROM collection_task_child a 
    INNER JOIN users b ON a.vendor_id=b.id 
    INNER JOIN role_user c ON c.`user_id`=b.id
-   AND c.`role_id`=25";
+   AND c.`role_id`=5";
      $get_vendors = DB::select($get_vend);
 
      $dates = [
@@ -231,7 +231,7 @@ public function vendorLedgerDetail($vendor_id, $date_from, $date_to)
       $vendors_d = "SELECT vendor_id, `name`, user_cnic, user_phone,received_date_time , received_qty ,rate , null as payment_detail,  (received_qty*rate)dr_amount ,NULL AS cr_amount
      FROM collection_task_child a INNER JOIN users b ON a.vendor_id=b.id 
      INNER JOIN role_user c ON c.`user_id`=b.id
-     WHERE c.`role_id`=25 AND ".implode(' and ', $where_a)."
+     WHERE c.`role_id`=5 AND ".implode(' and ', $where_a)."
      
      UNION ALL
      

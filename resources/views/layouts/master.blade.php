@@ -187,6 +187,7 @@ function printDiv(div_id)
 						<a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
 							<span class="user-img"><img src="assets/img/profiles/avatar-21.jpg" alt="">
 							<span class="status online"></span></span>
+							 
 							<span>{{ session()->get('user_name') }}</span>
 						</a>
 						<div class="dropdown-menu">
@@ -214,20 +215,24 @@ function printDiv(div_id)
 						<button class="btn" type="button"><i class="fa fa-search"></i></button>
 					</form>
 					<div id="sidebar-menu" class="sidebar-menu">
+
+	
+
+
 @if(session()->get('user_role')==1)
 @include('admin_nav');
 @endif
 
-@if(session()->get('user_role')==2)
+@if(session()->get('user_role')==4)
 @include('collector_nav');
 @endif
 
-@if(session()->get('user_role')==3)
+@if(session()->get('user_role')==5)
 @include('vendor_nav');
 @endif
 
 
-
+ 
 					</div>
                 </div>
             </div>
