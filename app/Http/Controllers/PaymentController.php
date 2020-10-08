@@ -4,13 +4,13 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-class PaymentContrller extends Controller
+class PaymentController extends Controller
 {
     //
     public function userList(Request $request)
     { 
    $payments_g = "SELECT b.id , `name`    FROM `users` b 
-    INNER JOIN role_user c ON c.`user_id`=b.id WHERE c.`role_id`=3";
+    INNER JOIN role_user c ON c.`user_id`=b.id WHERE c.`role_id`=5";
     $userList = DB::select($payments_g);
     return view('payment', compact('userList') ); 
 
