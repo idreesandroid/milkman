@@ -86,16 +86,22 @@ DB::insert("$enter_role");
        
       $roles = Role::where('id', '!=',  '5')->select('role_title','id')->get();
       $states = State::select('state_name','id')->get();
-      $Cities = City::select('city_name','id')->get();
+      //$Cities = City::select('city_name','id')->get();
 
       $load_d = "SELECT  id,  designation_title FROM `designations` ORDER BY id ASC";
       $load_designation =  DB::select($load_d);
       
 
 
-      return  view('register',  compact('roles','states','Cities','load_designation') );
+      return  view('register',  compact('roles','states','load_designation') );
 
      }
+
+     public function cityAjax($id)
+    {
+        $cities =City::where("state_id",$id)->select('city_name','id')->get();
+        return json_encode($cities);
+    }
 
 
      public function login(Request $request)

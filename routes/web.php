@@ -28,13 +28,18 @@ Route::get('/logout', 'RegisterController@logout');
 
 Route::get('/','RegisterController@profile');
 Route::get('/profile','RegisterController@profile');
-Route::get('/register', function () { return view('register'); });
+//Route::get('/register', function () { return view('register'); });
+Route::get('/register',array('as'=>'register','uses'=> 'RegisterController@register'));
+Route::get('register/ajax/{id}',array('as'=>'register.ajax','uses'=>'RegisterController@cityAjax'));
+
 Route::post('/register', 'RegisterController@register');
 Route::get('/register', 'RegisterController@user_role_list');
-
 Route::get('user/userList',           'RegisterController@userList')->name('index.userList');
 Route::get('user/edit/{id}',       'RegisterController@edit')->name('edit.userList');
 Route::post('user/update/{id}',    'RegisterController@update')->name('update.userList');
+
+//ajax routes-------------------------------
+// Route::get('myform',array('as'=>'myform','uses'=>'HomeController@myform'));
 
 //Product routes--------------------------------
 
