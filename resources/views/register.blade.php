@@ -101,30 +101,22 @@
 										<div class="row">
 											<div class="col-md-6">
 												
-                                                <div class="form-group"  type="text" required="" name="user_state" id="user_state">
+                                                <div class="form-group"  type="text" required=""  >
 													<label>State</label>
-													   <select class="select  form-control"  name="user_state">
+													   <select class="select  form-control"  name="user_state" id="user_state">
 														<option>States</option>
-														<?php 
-                                                            foreach ($states as $state) {
-                                                                 $name     = $state->state_name;
-                                                                 $id    = $state->id; ?>
-                                                        <option value="<?php echo $id;  ?>"><?php echo $name;  ?></option><?php }  ?>
-														
+														<option value="">--- Select State ---</option>
+                    									@foreach ($states as $state)
+                       									 <option value="{{ $state->id}}">{{ $state->state_name }}</option>
+                   										 @endforeach														
 													</select>
 												</div>
                                                                                            
-                                                <div class="form-group"      >
-													<label>City</label>
-													   <select class="select  form-control "  required="" name="user_city">
-														<option>Select</option>
-														<?php 
-                                                            foreach ($Cities as $City) {
-                                                              $name     = $City->city_name;
-                                                              $id    = $City->id; ?>
-                                                             <option value="<?php echo $id;  ?>"><?php echo $name;  ?></option><?php }  ?>
-													</select>
-												</div>
+												 <div class="form-group">
+               									 <label for="title">Select City:</label>
+               									 <select name="user_city" class="form-control" id="user_city" >
+               									 </select>
+           										 </div>
 
 
 
@@ -172,4 +164,35 @@
 	   </script>
 		
 
+		<script type="text/javascript">
+
+		
+    $(document).ready(function() {		
+        $("#user_state").on('change', function() {			
+            var stateID = $("#user_state").val();
+            if(stateID != 0 ) {
+         $.ajax({				
+                    url: '/register/ajax/'+stateID,
+                    type: "GET",
+                    dataType: "json",
+                    success:function(data) {                    
+                        $("#user_city").empty();
+                        $.each(data, function(key, value) {
+                        $("#user_city").append('<option value="'+value.id +'">'+ value.city_name +'</option>');
+                        });
+                    }
+                });
+
+            }else{
+                $("#user_city").empty();
+            }
+        });
+    });
+</script>
+
+
+
+
+
         @endsection 
+		
