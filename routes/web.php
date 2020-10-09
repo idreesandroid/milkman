@@ -114,7 +114,7 @@ Route::post('/add_designation', 'DesignationController@add_designation');
 
 Route::get('/payment',  'PaymentController@userList'); 
 Route::post('/payment',  'PaymentController@payment_to'); 
-
+Route::post('/payment_request',  'PaymentController@payment_request'); 
 
 
 

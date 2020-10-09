@@ -5,7 +5,7 @@
                         <div class="card">
                             <h5 class="card-header">Vendor Ledger</h5>
                             <div class="card-body">
-                                <div class="table-responsive">
+ <div class="table-responsive">
                                 <button style="float:right;"  onclick='printDiv("DivIdToPrint");'>Print</button>
 <div id='DivIdToPrint'>
 <img src="{{asset('assets/img/logo.png')}}" width="100" style="float:right;" />
@@ -67,7 +67,7 @@ Vendor CNIC: <?php echo $user_cnic_d; ?>
                                                  </td>
                                                 
                                             </tr>
-<?php $sr++; ?>
+                        <?php $sr++; ?>
                                             @endforeach
                                         </tbody>
                                         <tfoot>
@@ -93,13 +93,55 @@ Vendor CNIC: <?php echo $user_cnic_d; ?>
                                     </table>
 <?php  } ?>
 
-</div>
+                    </div>
+
+ @if(session()->get('user_role')==5)
+                 <br/>     <br/>     <br/>     <br/>
+
+               
+                 <h2 class="card-header">Claim Your Payment</h2>
+                <form method="post" action="/payment_request">
+                @csrf
+        <div class="row">
+        <div class="col-md-6">
+        <label>Enter Amount</label>
+        <input type="number" class="form-control" name="claim_amount" min="1" max="{{$balances}}"  required=""  autocomplete="off">   
+        </div>
+
+        <div class="col-md-6">
+        <label>&nbsp; </label>
+        <br/>
+        <input type="submit" class="btn btn-success" name="claim_submit" value="Send" required="">   
+        </div>
+
+        </div>
+
+
+
+        </form>
+        <br/>     <br/> <br/>     <br/>
+
+
+  @endif
                                 </div>
                             </div>
-                        </div>
+
+
+             
+
+
+
+
+
+            </div>
+    
                     </div>
                     <!-- ============================================================== -->
                     <!-- end basic table  -->
                     <!-- ============================================================== -->
+              
+
+               
+               
                 </div>
 @endsection

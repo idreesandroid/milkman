@@ -1,4 +1,10 @@
 
+						<?php 
+						
+						$date_form = '2020-07-01';
+						$date_to = date('Y-m-d');
+						?>
+						
 						<ul>
 							<li class="nav-item nav-profile">
 				              <a href="#" class="nav-link">
@@ -19,89 +25,10 @@
 							<li class="submenu">
 								<a href="javascript:void(0);"><i class="fa fa-tachometer" aria-hidden="true"></i> <span> Dashboard</span> <span class="menu-arrow"></span></a>
 								<ul class="sub-menus">
-									<li><a href="/register" class="active">Register</a></li>
-									<li><a href="/profile">Profile</a></li>
-									<li><a href="/user/userList">User List</a></li>
-								</ul>
-							</li>
-
-							<li> 
-								<a href="#"><i class="fa fa-check-square-o" aria-hidden="true"></i> <span>Vendors</span></a>
-								<ul class="sub-menus">
-									<li><a href="/VendorDetail/create" class="active">Enter Vendor Detail</a></li>
-									<li><a href="/VendorDetail/index" class="active">Vendors List</a></li>
-									 
+								<li><a href="/profile">Profile</a></li>
+									<li><a href="/vendorLedgerDetail/{{session()->get('u_id') }}/{{$date_form}}/{{$date_to}}" class="active">Payment Detail</a></li>
 									
 									 
 								</ul>
 							</li>
-
-
-							
-							
-							<li> 
-								<a href="#"><i class="fa fa-check-square-o" aria-hidden="true"></i> <span>Tasks</span></a>
-								<ul class="sub-menus">
-									<li><a href="/set_task" class="active">Set Task</a></li>
-									<li><a href="/task_list" class="active">Tasks List</a></li>
-									 
-									
-									 
-								</ul>
-							</li>
-							<li> 
-								<a href="#"><i class="fa fa-check-square-o" aria-hidden="true"></i> <span>Products</span></a>
-								<ul class="sub-menus">
-									
-									<li><a href="/Product/create" class="active">New Product</a></li>
-									<li><a href="/Product/index" class="active">Product List</a></li>
-									 
-								</ul>
-							</li>
-
-							<li> 
-								<a href="#"><i class="fa fa-check-square-o" aria-hidden="true"></i> <span>Stock</span></a>
-								<ul class="sub-menus">
-									
-									<li><a href="/ProductStock/create" class="active">New Product</a></li>
-									<li><a href="/ProductStock/index" class="active">Product List</a></li>
-									 
-								</ul>
-							</li>
-							
-							<li> 
-								<a href="#"><i class="fa fa-check-square-o" aria-hidden="true"></i> <span>Routs</span></a>
-								<ul class="sub-menus">
-									
-									<li><a href="/VendorRoute/create" class="active">New Rout</a></li>
-									<li><a href="/VendorRoute/index" class="active">Routs List</a></li>
-									 
-								</ul>
-							</li>
-
-
-
-
-							<li class="submenu">
-								<a href="javascript:void(0);"><i class="fa fa-retweet" aria-hidden="true"></i> <span>Multi Level</span> <span class="menu-arrow"></span></a>
-								<ul class="sub-menus">
-									<li class="submenu">
-										<a href="javascript:void(0);"> <span>Level 1</span> <span class="menu-arrow"></span></a>
-										<ul class="sub-menus">
-											<li><a href="javascript:void(0);"><span>Level 2</span></a></li>
-											<li class="submenu">
-												<a href="javascript:void(0);"> <span> Level 2</span> <span class="menu-arrow"></span></a>
-												<ul class="sub-menus">
-													<li><a href="javascript:void(0);">Level 3</a></li>
-													<li><a href="javascript:void(0);">Level 3</a></li>
-												</ul>
-											</li>
-											<li><a href="javascript:void(0);"> <span>Level 2</span></a></li>
-										</ul>
-									</li>
-									<li>
-										<a href="javascript:void(0);"> <span>Level 1</span></a>
-									</li>
-								</ul>
-							</li>
-						</ul>
+							</ul>
