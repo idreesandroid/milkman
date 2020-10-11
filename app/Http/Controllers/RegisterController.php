@@ -127,6 +127,24 @@ WHERE    (a.`user_cnic`='$username' OR a.`user_phone`='$username') and a.`passwo
             $request->session()->put('user_name',$u_name);
             $request->session()->put('user_role',$user_role);
             $request->session()->put('role_title',$role_title);
+
+
+///////////////////////////// Set hierarchy Role ///////////////////////////
+            $chk_role_num = "SELECT a.id, c.`role_id` ,c.`role_title` 
+            FROM users a
+            INNER JOIN role_user b ON b.user_id=a.id
+            INNER JOIN `roles` c ON c.id=b.`role_id`
+            WHERE a.id = '$u_id'";
+               $chk_role_num_records = DB::select($chk_role_num);
+            
+             if(collect($chk_role_num_records)->first()) {
+                $result_current_role = json_decode(json_encode($chk_role_num_records[0]), true);
+                $hierarchy_role = $result_current_role['role_id'];
+             }
+             $request->session()->put('hierarchy_role',$hierarchy_role);
+///////////////////////////// Set hierarchy Role ///////////////////////////
+
+
            
             return redirect('/'); 
             }

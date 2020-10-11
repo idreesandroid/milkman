@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Helpers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 class PaymentController extends Controller
@@ -34,23 +34,13 @@ class PaymentController extends Controller
 
 
     public function payment_request(Request $request)
-    { 
+    {  
 
         $claim_amount =  $request->input('claim_amount'); 
           $entry_by = session()->get('u_id');
-
-$chk_role_num = "SELECT a.id, c.`role_id` ,c.`role_title` 
-FROM users a
-INNER JOIN role_user b ON b.user_id=a.id
-INNER JOIN `roles` c ON c.id=b.`role_id`
-WHERE a.id = '$entry_by'";
-   $chk_role_num_records = DB::select($chk_role_num);
-
- if(collect($chk_role_num_records)->first()) {
-    $result_current_role = json_decode(json_encode($chk_role_num_records[0]), true);
-    $current_role_id = $result_current_role['role_id'];
-
-$next_role = "SELECT MAX(role_id)next_role_id FROM roles WHERE role_id < $current_role_id ";
+          $hierarchy_role = session()->get('hierarchy_role');
+ 
+$next_role = "SELECT MAX(role_id)next_role_id FROM roles WHERE role_id < $hierarchy_role ";
 $next_role_rs = DB::select($next_role);
 
 if(collect($next_role_rs)->first()) {
@@ -58,7 +48,7 @@ if(collect($next_role_rs)->first()) {
     $next_role_id = $next_role_result['next_role_id'];
 }
        
-  }
+ 
 
  
 
@@ -66,7 +56,7 @@ if(collect($next_role_rs)->first()) {
     'vendor_id'   => "$entry_by",
     'claim_amount'   => "$claim_amount", 
     'mark_to_role'   => "$next_role_id",
-    'mark_from_role'   => "$current_role_id" 
+    'mark_from_role'   => "$hierarchy_role" 
     );
     
     
@@ -83,7 +73,7 @@ if($request_id>0 ){
 
     $ins_request_detail = "INSERT INTO payment_request_comment 
     (request_id, commnet_text, mark_to_role, mark_from_role,entry_by )
-    values ('$request_id','Please process my payment. Thanks','$next_role_id','$current_role_id','$entry_by') ";
+    values ('$request_id','Please process my payment. Thanks','$next_role_id','$hierarchy_role','$entry_by') ";
  DB::insert($ins_request_detail);
  return redirect('/profile');
 
@@ -94,6 +84,114 @@ if($request_id>0 ){
 
 
 
+
+
+    }
+
+
+    
+
+    public function payment_request_load(Request $request)
+    { 
+     $hierarchy_role = session()->get('hierarchy_role');
+
+$get_req = "SELECT a.id, b.`name`, b.user_cnic, b.user_phone, b.user_address, vendor_id, claim_amount, 
+mark_to_role, mark_from_role, entry_date_time,
+flag 
+FROM payment_request a
+INNER JOIN users b ON a.vendor_id=b.id
+WHERE mark_to_role='$hierarchy_role' and flag=0 ";
+
+//return $get_req;
+
+$payment_requset_list =   DB::select($get_req);
+return view('payment_request',compact('payment_requset_list'));
+       
+
+    }
+
+    public function payment_request_detail($id)
+    { 
+     $hierarchy_role = session()->get('hierarchy_role');
+
+$get_req_d = "SELECT a.id, b.`name`, b.user_cnic, b.user_phone, b.user_address, vendor_id, claim_amount, 
+mark_to_role, mark_from_role, entry_date_time,
+flag 
+FROM payment_request a
+INNER JOIN users b ON a.vendor_id=b.id
+WHERE mark_to_role='$hierarchy_role' and flag=0 and a.id='$id' ";
+$payment_request_detail =   DB::select($get_req_d);
+ $get_comments = "SELECT a.id, b.name, request_id, commnet_text, 
+ mark_to_role, mark_from_role, 
+ (SELECT role_title from roles where role_id= a.mark_to_role )mark_to_role_title,
+ (SELECT role_title from roles where role_id= a.mark_from_role )mark_from_role_title,
+ entry_by, entry_date
+
+FROM payment_request_comment a
+INNER JOIN users b on a.entry_by=b.id
+  where request_id='$id'";
+$get_comments_list =   DB::select($get_comments);
+
+//return next_hierarchy($hierarchy_role)."|".previous_hierarchy($hierarchy_role);
+
+ 
+
+return view('payment_request_detail',compact('payment_request_detail','get_comments_list'));
+       
+
+    }
+
+
+    
+    public function payment_next_back(Request $request){
+
+      $submit_next_back = $request->input('submit_next_back');
+      $request_id = $request->input('request_id');
+      $commnet_text = $request->input('commnet_text');
+      $entry_by = session()->get('u_id');
+      $hierarchy_role = session()->get('hierarchy_role');
+     $next_hierarchy = next_hierarchy($hierarchy_role);
+     $previous_hierarchy = previous_hierarchy($hierarchy_role);
+
+      if($submit_next_back == 'Back'){
+
+        $ins_request_detail = "INSERT INTO payment_request_comment 
+        (request_id, commnet_text, mark_to_role, mark_from_role,entry_by )
+        values ('$request_id','$commnet_text','$previous_hierarchy','$hierarchy_role','$entry_by') ";
+        $move_sucess = DB::insert($ins_request_detail);
+        $update_header_payment = "update payment_request  set mark_to_role='$previous_hierarchy', mark_from_role='$hierarchy_role'
+  where id ='$request_id' ";
+
+      }
+      if($submit_next_back == 'Next'){
+        if( $hierarchy_role == 1){
+          $next_hierarchy = $hierarchy_role;
+        }
+
+        $ins_request_detail = "INSERT INTO payment_request_comment 
+        (request_id, commnet_text, mark_to_role, mark_from_role,entry_by )
+        values ('$request_id','$commnet_text','$next_hierarchy','$hierarchy_role','$entry_by') ";
+        $move_sucess =  DB::insert($ins_request_detail);
+       if( $hierarchy_role == 1){
+           $update_header_payment = "UPDATE  payment_request  set flag=1, mark_to_role='$next_hierarchy', mark_from_role='$hierarchy_role'
+        where id ='$request_id' ";
+        
+       }else{
+        $update_header_payment = "UPDATE  payment_request  set mark_to_role='$next_hierarchy', mark_from_role='$hierarchy_role'
+        where id ='$request_id' ";
+       }
+     
+      }
+if($move_sucess){
+ // return $update_header_payment;
+   DB::update($update_header_payment);
+  return redirect('payment_request');
+}else{
+  return redirect('payment_request_detail/'.$request_id);
+}
+      
+
+ 
 
 
     }
