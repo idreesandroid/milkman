@@ -114,7 +114,13 @@ Route::post('/add_designation', 'DesignationController@add_designation');
 
 Route::get('/payment',  'PaymentController@userList'); 
 Route::post('/payment',  'PaymentController@payment_to'); 
+
+Route::get('/payment_request',  'PaymentController@payment_request_load'); 
 Route::post('/payment_request',  'PaymentController@payment_request'); 
+Route::get('/payment_request_detail/{id}',  'PaymentController@payment_request_detail'); 
+
+Route::post('/payment_next_back',  'PaymentController@payment_next_back'); 
+
 
 
 

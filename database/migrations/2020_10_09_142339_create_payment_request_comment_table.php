@@ -20,7 +20,7 @@ class CreatePaymentRequestCommentTable extends Migration
             $table->integer('mark_to_role');
             $table->integer('mark_from_role');
             $table->integer('entry_by');
-            $table->datetime('entry_date')->default(current_timestamp());
+            $table->datetime('entry_date')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamps();
             
         });

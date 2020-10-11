@@ -186,8 +186,31 @@ function printDiv(div_id)
 					</form>
 					<div id="sidebar-menu" class="sidebar-menu">
 
-	
+					<ul>
+							<li class="nav-item nav-profile">
+				              <a href="#" class="nav-link">
+				                <div class="nav-profile-image">
+				                  <img src="assets/img/profiles/avatar-17.jpg" alt="profile">
+				                  
+				                </div>
+				                <div class="nav-profile-text d-flex flex-column">
+				                  <span class="font-weight-bold mb-2">{{ session()->get('user_name') }}</span>
+				                  <span class="text-white text-small">{{ session()->get('role_title') }}</span>
+				                </div>
+				                <i class="mdi mdi-bookmark-check text-success nav-profile-badge"></i>
+				              </a>
+				            </li>
 
+							<li> 
+								<a href="#"><i class="fa fa-check-square-o" aria-hidden="true"></i> <span>Payment Request</span></a>
+								<ul class="sub-menus">
+									 
+									<li><a href="/payment_request" class="active">Payment Requests</a></li>
+									 
+									
+									 
+								</ul>
+							</li>
 
 @if(session()->get('user_role')==1)
 @include('admin_nav');
@@ -202,6 +225,7 @@ function printDiv(div_id)
 @endif
 
 
+</ul>
  
 					</div>
                 </div>

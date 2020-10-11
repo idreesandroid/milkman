@@ -19,7 +19,7 @@ class CreatePaymentRequestTable extends Migration
             $table->integer('claim_amount');
             $table->integer('mark_to_role');
             $table->integer('mark_from_role'); 
-            $table->datetime('entry_date_time')->default(current_timestamp());
+            $table->datetime('entry_date_time')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->integer('flag')->default(0); 
             $table->timestamps();
             // ->default(0); 
