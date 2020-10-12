@@ -77,7 +77,7 @@ public function task_list(Request $request)
     $u_id =  session()->get('u_id');
 
  
-  $task_que="SELECT a.id AS task_id , d.name, route_name, c.vendor_location,d.`user_phone`, received_qty
+    $task_que="SELECT a.id AS task_id , d.name, route_name, c.vendor_location,d.`user_phone`, received_qty
   FROM `collection_task_header` a
   INNER JOIN collection_task_vendors b ON a.id=b.`task_id`
   INNER JOIN vendor_details c ON c.`route_id`=b.`route_id`
