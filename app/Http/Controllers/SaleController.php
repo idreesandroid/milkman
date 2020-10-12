@@ -21,6 +21,13 @@ class SaleController extends Controller
     }
 
 
+    public function saleRecord()
+    {   
+    //    $saleRecords = Invoice::with('product','buyer','batch','cart_invoice')->get();
+              
+    //    return view('Cart/index', compact('saleViews'));
+    }
+
     //create view-------------------------
 
     public function create() 
@@ -73,10 +80,23 @@ $product_cart->batch_id = $request->batch_id;
 $product_cart->seller_id = session()->get('u_id');
 $product_cart->product_quantity = $request->product_quantity;
 $product_cart->product_rate=$price;
-$product_cart->sub_total=$request->product_quantity*$price;
+$product_cart->sub_total = $request->product_quantity*$product_cart->product_rate;
 $product_cart->save();
 
-return redirect('Cart/index');
+$invoice_bills= Invoice::where('id', $request->invoice_id)->select('total_amount')->get();
+$invoice_bill=$invoice_bills->total_amount;
+echo $invoice_bills;
+ exit;
+
+
+//Invoice::where('invoice_number', $request->invoice_id)->update(['total_amount' =>  ]);
+
+// $total_bill=Invoice::where('invoice_id',$request->invoice_id)->update($updatedata);
+// return redirect('VendorDetail/index');
+
+ 
+
+//return redirect('Cart/index');
 
 }
 
