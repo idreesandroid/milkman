@@ -12,7 +12,20 @@ class PaymentController extends Controller
    $payments_g = "SELECT b.id , `name` FROM `users` b 
     INNER JOIN role_user c ON c.`user_id`=b.id WHERE c.`role_id`=5";
     $userList = DB::select($payments_g);
-    return view('payment', compact('userList') ); 
+
+
+
+    $get_req = "SELECT a.id, b.`name` , b.id as u_id, b.user_cnic, b.user_phone, b.user_address, vendor_id, claim_amount, 
+mark_to_role, mark_from_role, entry_date_time, flag  FROM payment_request a
+INNER JOIN users b ON a.vendor_id=b.id
+where flag=1";
+$payment_requset_list =   DB::select($get_req);
+
+
+
+
+
+    return view('payment', compact('userList','payment_requset_list') ); 
 
     }
 
@@ -94,7 +107,7 @@ if($request_id>0 ){
     public function payment_request_load(Request $request)
     { 
      $hierarchy_role = session()->get('hierarchy_role');
-
+ 
 $get_req = "SELECT a.id, b.`name`, b.user_cnic, b.user_phone, b.user_address, vendor_id, claim_amount, 
 mark_to_role, mark_from_role, entry_date_time,
 flag 
