@@ -33,6 +33,8 @@ class CreateCartsTable extends Migration
             $table->integer('product_quantity');
             $table->integer('product_rate');
             $table->boolean('cart_flag')->default(0);
+            $table->integer('sub_total');
+            
             $table->timestamps();
         });
     }

@@ -16,13 +16,12 @@
                 @csrf 
 
                 <div class="form-group row">
-                    <label for="invoice_id" class="col-form-label col-md-2">Buyer Name</label>
+                    <label for="buyer_id" class="col-form-label col-md-2">Buyer Name</label>
                     <div class="col-md-4">
-                        <select class="form-control" name="invoice_id"  id="invoice_id" required="">
+                        <select class="form-control" name="buyer_id"  id="buyer_id" required="">
                             <option value="">--Buyer Name--</option>
                             @foreach ($invoices as $invoice)
-                             <option value="{{ $invoice->id}}" >{{ $invoice->buyer_id}}</option>
-                             
+                             <option value="{{ $invoice->buyer_id}}" >{{ $invoice->buyer_id}}</option>                             
                              @endforeach                            
                         </select>
                     </div>
@@ -30,24 +29,18 @@
 
 
                 <div class="form-group row">
-                    <label for="invoice_id" class="col-form-label col-md-2">Invoice Number</label>
-                    <div class="col-md-4">
-                        <select class="form-control" name="invoice_id"  id="invoice_id" required="">
-                            <option value="">--Invoice Number--</option>
-                            @foreach ($invoices as $invoice)
-                             <option value="{{ $invoice->id}}" >{{ $invoice->invoice_number}}</option>
-                             
-                             @endforeach                            
-                        </select>
-                    </div>
+                <label for="invoice_id" class="col-form-label col-md-2">Select Invoice</label>
+                <div class="col-md-4">
+                <select name="invoice_id" class="form-control" id="invoice_id" >
+                </select>
+                </div>
                 </div>
                
-
 
                 <div class="form-group row">
                     <label for="product_id" class="col-form-label col-md-2">Product Name</label>
                     <div class="col-md-4">
-                        <select class="form-control" name="product_id" required="">
+                        <select class="form-control" name="product_id" required="" id="product_id">
                             <option value="">--Product Name--</option>
                             @foreach ($products as $product)
                              <option value="{{ $product->id}}" >{{ $product->product_name}}</option>
@@ -56,18 +49,14 @@
                     </div>
                 </div>
 
-
                 <div class="form-group row">
-                    <label for="batch_id" class="col-form-label col-md-2">Batch ID</label>
-                    <div class="col-md-4">
-                        <select class="form-control" name="batch_id" required="">
-                            <option value="">--Batch ID--</option>
-                            @foreach ($product_stocks as $product_stock)
-                             <option value="{{ $product_stock->id}}" >{{ $product_stock->batch_name}}</option>
-                             @endforeach                            
-                        </select>
-                    </div>
+                <label for="batch_id" class="col-form-label col-md-2">Batch ID</label>
+                <div class="col-md-4">
+                <select name="batch_id" class="form-control" id="batch_name" >
+                </select>
                 </div>
+                </div>
+               
 
                 <div class="form-group row">
                     <label for="product_quantity" class="col-form-label col-md-2">Quantity</label>
@@ -94,29 +83,67 @@
 			
 			<!-- /page Wrapper -->
 		
-            @endSection      
-
-           <script>
-// <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />
-
-// $(function() {
-// $("#select_car").change(function() {
-// if ($("#select_car").val() == "") {
-// terms = "";
-// } else if ($("#select_car").val() == "Honda") {
-// terms = "One year lease on " + $("#myInputText").val() + " test." ;
-// } else if ($("#select_car").val() == "Toyota") {
-// terms = "Two year lease on <car>.";
-// } else if ($("#select_car").val() == "Ford") {
-// terms = "Three year lease on <car>.";
-// }
-// $("#contract").val(terms);
-// });
-// });
 
 
 
+
+        
+		<script type="text/javascript">
+
+		
+$(document).ready(function() {	
     
-           </script>
+    $("#buyer_id").on('change', function() {			
+        var stateID = $("#buyer_id").val();
+        // alert("Done");	
+   // alert(stateID);
+        if(stateID != 0 ) {
+     $.ajax({				
+                url: '/Cart/createCart/ajax/'+stateID,
+                type: "GET",
+                dataType: "json",
+                success:function(data) { 
+                   // alert("Done");              
+                    $("#invoice_id").empty();
+                    $.each(data, function(key, value) {                     
+                    $("#invoice_id").append('<option value="'+value.id+'">'+ value.invoice_number +'</option>');
+                    });
+                }
+            });
+           
+        }else{
+            $("#invoice_id").empty();
+        }
+    });
+});
+</script>
+
+<script type="text/javascript">		
+$(document).ready(function() {	  
+    $("#product_id").on('change', function() {			
+        var batchID = $("#product_id").val();
+        // alert("Done");	
+        // alert(batchID);
+        if(batchID != 0 ) {
+     $.ajax({				
+                url: '/Cart/batchId/ajax/'+batchID,
+                type: "GET",
+                dataType: "json",
+                success:function(data) { 
+                   // alert("Done");              
+                    $("#batch_name").empty();
+                    $.each(data, function(key, value) {                     
+                    $("#batch_name").append('<option value="'+value.id+'">'+ value.batch_name +'</option>');
+                    });
+                }
+            });
+           
+        }else{
+            $("#batch_name").empty();
+        }
+    });
+});
+</script>
+            @endSection      
 
          

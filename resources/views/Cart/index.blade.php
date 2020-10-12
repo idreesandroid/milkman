@@ -23,9 +23,10 @@
                                 <th>Product Name</th>
                                 <th>Batch ID</th>
                                 <th>Quantity</th>
-                                <th>Product Rate</th> 
+                                <th>Product Rate</th>
+                                <th>Sub Total</th> 
                                 <th>Seller Name</th>
-                                <th>Action</th>                             
+                                                             
                                 </tr>
                             </thead>
                             <tbody>
@@ -33,13 +34,13 @@
                             <tr>
                             <td>{{$saleView->id}}</td>
                             <td>{{$saleView->buyer->name}}</td>                            
-                            <td>{{$saleView->bill_invoice->id}}</td>
+                            <td>{{$saleView->invoice_id}}</td>
                             <td>{{$saleView->product->product_name}}</td>
                             <td>{{$saleView->batch->batch_name}}</td>
                             <td>{{$saleView->product_quantity}}</td>
-                            <td>{{$saleView->product->product_price}}</td>
+                            <td>{{$saleView->product->product_price}}</td>                            
+                            <td>{{$saleView->sub_total}}</td>
                             <td>{{$saleView->buyer->name}}</td>
-                            <td><a href="{{ route('edit.cart', $saleView->id)}}" class="btn btn-primary">Edit</a></td>   
                             </tr>
                             @endforeach
                             </tbody>
