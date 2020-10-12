@@ -15,7 +15,8 @@ class SaleController extends Controller
 {
     public function index()
     {   
-       $saleViews = Cart::with('product','bill_invoice','buyer','batch')->get();
+       $saleViews = Cart::with('product','buyer','batch','cart_invoice')->get();
+              
        return view('Cart/index', compact('saleViews'));
     }
 
@@ -26,18 +27,35 @@ class SaleController extends Controller
     {       
         $products= Product::select('product_name','id')->get();
         $product_stocks=ProductStock::select('batch_name','id')->get();
-        $invoices = Invoice::where('flag','=',0)->select('invoice_number','buyer_id','id')->get();     
-        return view('Cart/create',compact('products','product_stocks','invoices'));
+        $invoices = Invoice::where('flag','=',0)->select('buyer_id','id')->get(); 
+       // return   $invoices;
+
+       return view('Cart/create',compact('products','product_stocks','invoices'));
     }
+
+
+    public function invoiceAjax($id)
+    {
+        $invoices =Invoice::where("buyer_id",$id)->select('invoice_number','id')->get();
+        //return   $invoices;     
+        return json_encode($invoices);
+    }
+
+    public function batchIdAjax($id)
+    {
+        $product_stocks =ProductStock::where("product_id",$id)->select('batch_name','id')->get();
+       // return   $product_stocks;     
+       return json_encode($product_stocks);
+    }
+
 
 //create-------------------------
 public function store(Request $request)
 {
 $this->validate($request,[  
-    'invoice_id'=> 'required',
-    'buyer_id'=> 'required',    
-    'product_id'=> 'required',
-    //seller
+    'buyer_id'=> 'required', 
+    'invoice_id'=> 'required',       
+    'product_id'=> 'required',   
     'batch_id'=>'required',
     'product_quantity'=>'required',
     //product rate
@@ -46,21 +64,19 @@ $this->validate($request,[
 $product_rates = Product::where('id',$request->product_id)->select('product_price','id')->first();
 $price =$product_rates->product_price;
 
-// $buyers_name=Invoice::where('id',$request->invoice_id)->select('buyer_id','id')->first();
-// $buyer =$buyers_name->buyer_id;
-
 $product_cart = new Cart();
 
-$product_cart->invoice_id = $request->invoice_id;        
 $product_cart->buyer_id = $request->buyer_id;
+$product_cart->invoice_id = $request->invoice_id;      
 $product_cart->product_id = $request->product_id;
-$product_cart->seller_id = session()->get('u_id');
 $product_cart->batch_id = $request->batch_id;
+$product_cart->seller_id = session()->get('u_id');
 $product_cart->product_quantity = $request->product_quantity;
 $product_cart->product_rate=$price;
+$product_cart->sub_total=$request->product_quantity*$price;
 $product_cart->save();
 
-return redirect('ProductStock/index');
+return redirect('Cart/index');
 
 }
 

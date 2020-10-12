@@ -6,9 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Cart extends Model
 {
-    protected $fillable = ['product_quantity','product_rate'];   
+    protected $fillable = ['product_quantity','product_rate','sub_total'];   
     
-    public function bill_invoice()
+    public function cart_invoice()
     {
         return $this->belongsTo(Invoice::class);
     }

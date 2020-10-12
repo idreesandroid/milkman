@@ -28,18 +28,15 @@ Route::get('/logout', 'RegisterController@logout');
 
 Route::get('/','RegisterController@profile');
 Route::get('/profile','RegisterController@profile');
-//Route::get('/register', function () { return view('register'); });
 Route::get('/register',array('as'=>'register','uses'=> 'RegisterController@register'));
+//ajax routes-------------------------------
 Route::get('register/ajax/{id}',array('as'=>'register.ajax','uses'=>'RegisterController@cityAjax'));
-
+//ajax routes-------------------------------
 Route::post('/register', 'RegisterController@register');
 Route::get('/register', 'RegisterController@user_role_list');
 Route::get('user/userList',           'RegisterController@userList')->name('index.userList');
 Route::get('user/edit/{id}',       'RegisterController@edit')->name('edit.userList');
 Route::post('user/update/{id}',    'RegisterController@update')->name('update.userList');
-
-//ajax routes-------------------------------
-// Route::get('myform',array('as'=>'myform','uses'=>'HomeController@myform'));
 
 //Product routes--------------------------------
 
@@ -127,9 +124,13 @@ Route::post('/payment_next_back',  'PaymentController@payment_next_back');
 //Cart routes--------------------------------
 
 Route::get('Cart/index',           'SaleController@index')->name('index.sale');
-Route::get('Cart/create',          'SaleController@create')->name('create.cart');
+Route::get('Cart/create',array('as'=>'create.cart','uses'=> 'SaleController@create'));
+//ajax routes-------------------------------
+Route::get('Cart/createCart/ajax/{id}',array('as'=>'createCart.ajax','uses'=>'SaleController@invoiceAjax'));
+Route::get('Cart/batchId/ajax/{id}',array('as'=>'batchId.ajax','uses'=>'SaleController@batchIdAjax'));
+//ajax routes-------------------------------
 Route::post('Cart/create',         'SaleController@store')->name('store.cart');
-// Route::get('Cart/edit/{id}',       'CartController@edit')->name('edit.cart');
+Route::get('Cart/edit/{id}',       'CartController@edit')->name('edit.cart');
 // Route::post('Cart/update/{id}',   'CartController@update')->name('update.cart');
 
 
