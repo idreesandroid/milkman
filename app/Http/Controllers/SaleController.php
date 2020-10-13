@@ -31,11 +31,10 @@ class SaleController extends Controller
     //create view-------------------------
 
     public function create() 
-    {       
+    {            
         $products= Product::select('product_name','id')->get();
         $product_stocks=ProductStock::select('batch_name','id')->get();
         $invoices = Invoice::where('flag','=',0)->select('buyer_id','id')->get(); 
-       // return   $invoices;
 
        return view('Cart/create',compact('products','product_stocks','invoices'));
     }
@@ -43,16 +42,21 @@ class SaleController extends Controller
 
     public function invoiceAjax($id)
     {
-        $invoices =Invoice::where("buyer_id",$id)->select('invoice_number','id')->get();
-        //return   $invoices;     
+        $invoices =Invoice::where("buyer_id",$id)->select('invoice_number','id')->get();  
         return json_encode($invoices);
     }
 
     public function batchIdAjax($id)
     {
-        $product_stocks =ProductStock::where("product_id",$id)->select('batch_name','id')->get();
-       // return   $product_stocks;     
+        $product_stocks =ProductStock::where("product_id",$id)->select('batch_name','id')->get();    
        return json_encode($product_stocks);
+    }
+
+    public function invoiceViewAjax($id)
+    {
+        $saleViews = Cart::with('product','buyer','batch','cart_invoice')->get();              
+        //return view('Cart/index', compact('saleViews'));    
+        return json_encode($saleViews);
     }
 
 
@@ -65,14 +69,12 @@ $this->validate($request,[
     'product_id'=> 'required',   
     'batch_id'=>'required',
     'product_quantity'=>'required',
-    //product rate
      ]);
 
 $product_rates = Product::where('id',$request->product_id)->select('product_price','id')->first();
 $price =$product_rates->product_price;
 
 $product_cart = new Cart();
-
 $product_cart->buyer_id = $request->buyer_id;
 $product_cart->invoice_id = $request->invoice_id;      
 $product_cart->product_id = $request->product_id;
@@ -83,25 +85,15 @@ $product_cart->product_rate=$price;
 $product_cart->sub_total = $request->product_quantity*$product_cart->product_rate;
 $product_cart->save();
 
-$invoice_bills= Invoice::where('id', $request->invoice_id)->select('total_amount')->get();
-$invoice_bill=$invoice_bills->total_amount;
-echo $invoice_bills;
- exit;
+$invoice_bills =  Invoice::find($product_cart->invoice_id);
+$invoice_bills->total_amount = $invoice_bills->total_amount + $product_cart->sub_total;
+$invoice_bills->save();
 
-
-//Invoice::where('invoice_number', $request->invoice_id)->update(['total_amount' =>  ]);
-
-// $total_bill=Invoice::where('invoice_id',$request->invoice_id)->update($updatedata);
-// return redirect('VendorDetail/index');
-
- 
-
-//return redirect('Cart/index');
+return redirect('Cart/index');
 
 }
 
 // invoice---------------------------------------------------------
-
 public function pendingInvoice()
 {   
     $invoices = Invoice::where('flag','=',0)->with('buyer_invoice')->get();
@@ -120,7 +112,6 @@ public function invoiceStore(Request $request)
     function invoiceNumber()
     {
         $latest = Invoice::latest()->first();
-
         if (! $latest) {
             return '000001';
         }
