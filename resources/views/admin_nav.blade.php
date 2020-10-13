@@ -74,8 +74,8 @@
 								<a href="#"><i class="fa fa-check-square-o" aria-hidden="true"></i> <span>Stock</span></a>
 								<ul class="sub-menus">
 									
-									<li><a href="/ProductStock/create" class="active">New Product</a></li>
-									<li><a href="/ProductStock/index" class="active">Product List</a></li>
+									<li><a href="/ProductStock/create" class="active">New Stock</a></li>
+									<li><a href="/ProductStock/index" class="active">Stock List</a></li>
 									 
 								</ul>
 							</li>
