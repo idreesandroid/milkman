@@ -128,7 +128,6 @@ Route::get('Cart/create',array('as'=>'create.cart','uses'=> 'SaleController@crea
 //ajax routes-------------------------------
 Route::get('Cart/createCart/ajax/{id}',array('as'=>'createCart.ajax','uses'=>'SaleController@invoiceAjax'));
 Route::get('Cart/batchId/ajax/{id}',array('as'=>'batchId.ajax','uses'=>'SaleController@batchIdAjax'));
-Route::get('Cart/invoiceView/ajax/{id}',array('as'=>'invoiceView.ajax','uses'=>'SaleController@invoiceViewAjax'));
 
 //ajax routes-------------------------------
 Route::post('Cart/create',         'SaleController@store')->name('store.cart');

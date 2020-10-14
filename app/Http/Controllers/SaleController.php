@@ -52,12 +52,7 @@ class SaleController extends Controller
        return json_encode($product_stocks);
     }
 
-    public function invoiceViewAjax($id)
-    {
-        $saleViews = Cart::with('product','buyer','batch','cart_invoice')->get();              
-        //return view('Cart/index', compact('saleViews'));    
-        return json_encode($saleViews);
-    }
+    
 
 
 //create-------------------------

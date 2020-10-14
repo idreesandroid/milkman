@@ -78,23 +78,7 @@
             </div>
 
 <!-- bill view -->
-                      <div class="table-responsive">
-                        <table class="datatable table table-stripped mb-0 datatables">
-                            <thead>
-                                <tr>
-                                <th>ID</th>
-                                <th>Product Name</th>
-                                <th>Batch ID</th>
-                                <th>Quantity</th>
-                                <th>Product Rate</th>           
-                                <th>Sub Total</th> 
-                                </tr>
-                            </thead>
-                            <tbody>
-                         
-                            </tbody>
-                        </table>
-                    </div>
+                   
 <!-- bill view -->
 
         </div>
@@ -167,32 +151,6 @@ $(document).ready(function() {
 });
 </script>
 
-<script type="text/javascript">		
-$(document).ready(function() {	  
-    $("#product_id").on('change', function() {			
-        var batchID = $("#product_id").val();
-        // alert("Done");	
-        // alert(batchID);
-        if(batchID != 0 ) {
-     $.ajax({				
-                url: '/Cart/batchId/ajax/'+batchID,
-                type: "GET",
-                dataType: "json",
-                success:function(data) { 
-                   // alert("Done");              
-                    $("#batch_name").empty();
-                    $.each(data, function(key, value) {                     
-                    $("#batch_name").append('<option value="'+value.id+'">'+ value.batch_name +'</option>');
-                    });
-                }
-            });
-           
-        }else{
-            $("#batch_name").empty();
-        }
-    });
-});
-</script>
             @endSection      
 
          
