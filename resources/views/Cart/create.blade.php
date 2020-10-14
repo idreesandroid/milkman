@@ -75,14 +75,46 @@
                 </div>
                         
                 </form>
+
             </div>
 
-<!-- bill view -->
-                   
-<!-- bill view -->
+                     <!-- bill view -->
 
+                     <div class="table-responsive">
+                        <table class="datatable table table-stripped mb-0 datatables">
+                           
+                            <tbody>
+                            <tr>
+                            <th id="buyerName">Buyer Name</th> 
+                            <td>Buyer name Here</td>
+                            <th id="InvoiceNumber">Invoice Number</th>
+                            <td>Ajax Invoice Number Here</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+
+                     <div class="table-responsive">
+                        <table class="datatable table table-stripped mb-0 datatables">
+                            <thead>
+                                <tr>
+                                <th>ID</th>
+                                <th>Product Name</th>
+                                <th>Batch ID</th>
+                                <th>Quantity</th>
+                                <th>Product Rate</th>
+                                <th>SubTotal</th>                                                                                            
+                                </tr>
+                            </thead>
+                            <tbody>
+                            
+                            </tbody>
+                        </table>
+                    </div>
+<!-- bill view -->
         </div>
-        
+   
     </div>
 </div>
 				
@@ -100,12 +132,13 @@
 $(document).ready(function() {	
     
     $("#buyer_id").on('change', function() {			
-        var stateID = $("#buyer_id").val();
+        var buyerID = $("#buyer_id").val();
         // alert("Done");	
-   // alert(stateID);
-        if(stateID != 0 ) {
+        // alert(buyerID);
+
+        if(buyerID != 0 ) {
      $.ajax({				
-                url: '/Cart/createCart/ajax/'+stateID,
+                url: '/Cart/createCart/ajax/'+buyerID,
                 type: "GET",
                 dataType: "json",
                 success:function(data) { 
