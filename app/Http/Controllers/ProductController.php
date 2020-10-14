@@ -4,16 +4,14 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Product;
+use App\ProductStock;
 class ProductController extends Controller
 {
 
     public function index()
-    {
-        
+    {        
        $products = Product::all();    
        return view('Product/index', compact('products'));
-      
-
     }
 
     //create view-------------------------
@@ -22,7 +20,6 @@ class ProductController extends Controller
     {
         $units = ['ml','ltr','gm','kg'];
         return view('Product/create',compact('units'));  
-
     }
 
 //create-------------------------
