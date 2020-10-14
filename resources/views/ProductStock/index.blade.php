@@ -23,6 +23,7 @@
                                 <th>Manufacture Date</th>
                                 <th>Expiry Date</th>
                                 <th>Manufacture Quantity</th>
+                                <th>Current Stock</th>
                                 <th>Entered By</th>
                                 <th>Action</th>                             
                                 </tr>
@@ -36,6 +37,7 @@
                             <td>{{$product_stock->manufactured_date}}</td>
                             <td>{{$product_stock->expire_date}}</td>
                             <td>{{$product_stock->manufactured_quantity}}</td>
+                            <td>{{$product_stock->stockInBatch}}</td>
                             <td>{{$product_stock->manager_id}}</td>
                             <td><a href="{{ route('edit.productStock', $product_stock->id)}}" class="btn btn-primary">Edit</a>  
                             <form action="{{ route('delete.productStock', $product_stock->id)}}" method="post" style="display: inline-block">

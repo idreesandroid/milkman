@@ -162,24 +162,27 @@ WHERE    (a.`user_cnic`='$username' OR a.`user_phone`='$username') and a.`passwo
 
      public function userList()
      {
+
+     //$users  = User::with('state','city','user_role')->get();    
+     $users = User::whereHas('user_role', function($query) { $query->where('roles.role_id','!=', 1); })->with('state','city')->get(); 
+     return view('user/userList', compact('users'));
          
-        $users_que =  "SELECT 
-        a.id, 
-        a.name, 
-        a.email, 
-        c.`role_title`,
-        a.user_cnic, 
-        user_phone, 
-        city_id , 
-        state_id,
-        c.id AS user_role,
-        user_address
-        FROM users a 
-        INNER JOIN role_user b ON b.user_id=a.id
-        INNER JOIN roles c ON c.id=b.`role_id`";   
-        
-        $users = DB::select($users_que);
-        return view('user/userList', compact('users'));
+        // $users_que =  "SELECT 
+        // a.id, 
+        // a.name, 
+        // a.email, 
+        // c.`role_title`,
+        // a.user_cnic, 
+        // user_phone, 
+        // city_id , 
+        // state_id,
+        // c.id AS user_role,
+        // user_address
+        // FROM users a 
+        // INNER JOIN role_user b ON b.user_id=a.id
+        // INNER JOIN roles c ON c.id=b.`role_id`";       
+        // $users = DB::select($users_que);
+         
        
  
      }

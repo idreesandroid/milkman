@@ -14,7 +14,7 @@ class VendorDetailController extends Controller
 {
     public function index()
     {       
-       // $vendorDetails = User::with('vendor_detail','state','city')->get();
+       
         $vendorDetails = User::whereHas('user_role', function($query) { $query->where('roles.role_id', 5); })->with('vendor_detail','state','city')->get();
         return view('VendorDetail/index', compact('vendorDetails'));
 
@@ -24,8 +24,6 @@ class VendorDetailController extends Controller
 
     public function create() 
     {      
-        //$vendor_details= User::where('user_role','3')->select('name','id')->get();
-
         $roles = Role::select('role_title','id')->get();
         $states = State::select('state_name','id')->get();
         $cities = City::select('city_name','id')->get();

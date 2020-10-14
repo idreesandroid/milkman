@@ -36,11 +36,11 @@
                             <td>{{$user->id}}</td>
                             <td>{{$user->name}}</td>
                             <td>{{$user->email}} </td>
-                            <td>{{$user->role_title}}</td>
+                            <td></td>
                             <td>{{$user->user_cnic}}</td>
                             <td>{{$user->user_phone}}</td>
-                            <td>{{$user->state_id}} </td>
-                            <td>{{$user->city_id}}</td>
+                            <td>{{$user->state->state_name}} </td>
+                            <td>{{$user->city->city_name}}</td>
                             <td>{{$user->user_address}}</td>
                             <td><a href="{{ route('edit.userList', $user->id)}}" class="btn btn-primary">Edit</a></td>
                                 

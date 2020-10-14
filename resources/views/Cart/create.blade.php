@@ -1,189 +1,65 @@
 @extends('layouts.master')
 @section('content')
-		
-			
-						
-			<!-- Page Wrapper -->
-					
-<div class="row">
-    <div class="col-lg-12">
-        <div class="card">
-            <div class="card-header">
-                <h4 class="card-title mb-0">Add To Cart</h4>
-            </div>
-            
-            <div class="card-body">
-                <form method="post">
-                @csrf 
 
-                <div class="form-group row">
-                    <label for="buyer_id" class="col-form-label col-md-2">Buyer Name</label>
-                    <div class="col-md-4">
-                        <select class="form-control" name="buyer_id"  id="buyer_id" required="">
-                            <option value="">--Buyer Name--</option>
-                            @foreach ($invoices as $invoice)
-                             <option value="{{ $invoice->buyer_id}}" >{{ $invoice->buyer_id}}</option>                             
-                             @endforeach                            
-                        </select>
-                    </div>
-                </div>
+<section class="jumbotron text-center">
+    <div class="container">
+        <h1 class="jumbotron-heading">E-COMMERCE CART</h1>
+     </div>
+</section>
 
-
-                <div class="form-group row">
-                <label for="invoice_id" class="col-form-label col-md-2">Select Invoice</label>
-                <div class="col-md-4">
-                <select name="invoice_id" class="form-control" id="invoice_id" >
-                </select>
-                </div>
-                </div>
-               
-
-                <div class="form-group row">
-                    <label for="product_id" class="col-form-label col-md-2">Product Name</label>
-                    <div class="col-md-4">
-                        <select class="form-control" name="product_id" required="" id="product_id">
-                            <option value="">--Product Name--</option>
-                            @foreach ($products as $product)
-                             <option value="{{ $product->id}}" >{{ $product->product_name}}</option>
-                             @endforeach                            
-                        </select>
-                    </div>
-                </div>
-
-                <div class="form-group row">
-                <label for="batch_id" class="col-form-label col-md-2">Batch ID</label>
-                <div class="col-md-4">
-                <select name="batch_id" class="form-control" id="batch_name" >
-                </select>
-                </div>
-                </div>
-               
-
-                <div class="form-group row">
-                    <label for="product_quantity" class="col-form-label col-md-2">Quantity</label>
-                    <div class="col-md-4">
-                        <input type="text" class="form-control" name="product_quantity" required="">
-                    </div>
-                </div>
-
-                <div class="form-group mb-0 row">                
-                    <div class="col-md-10">                           
-                        <div class="input-group-append">
-                            <button class="btn btn-primary" type="submit" >For More Shopping</button>
-                        </div>                           
-                    </div>
-                </div>
-                        
-                </form>
-
-            </div>
-
-                     <!-- bill view -->
-
-                     <div class="table-responsive">
-                        <table class="datatable table table-stripped mb-0 datatables">
-                           
-                            <tbody>
-                            <tr>
-                            <th id="buyerName">Buyer Name</th> 
-                            <td>Buyer name Here</td>
-                            <th id="InvoiceNumber">Invoice Number</th>
-                            <td>Ajax Invoice Number Here</td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </div>
-
-
-                     <div class="table-responsive">
-                        <table class="datatable table table-stripped mb-0 datatables">
-                            <thead>
-                                <tr>
-                                <th>ID</th>
-                                <th>Product Name</th>
-                                <th>Batch ID</th>
-                                <th>Quantity</th>
-                                <th>Product Rate</th>
-                                <th>SubTotal</th>                                                                                            
-                                </tr>
-                            </thead>
-                            <tbody>
+<div class="container mb-4">
+    <div class="row">
+        <div class="col-12">
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
                             
-                            </tbody>
-                        </table>
-                    </div>
-<!-- bill view -->
+                            <th scope="col">Product</th>
+                            <th scope="col">Available</th>
+                            <th scope="col" >Quantity</th>
+                            <th scope="col" >Price</th>
+                            <th scope="col" >Sub Total</th>
+                            <th scope="col" >Manage Batch</th>
+
+                       
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                           
+                            <td>Product Name Dada</td>
+                            <td>In stock</td>                            
+                            <td><input class="form-control col-md-4" type="text" value="1" /></td>
+                            <td >124,90 €</td>
+                            <td>PXQ</td>
+                            <td><button class="form-control btn btn-sm btn-primary">Batch</button> </td>
+                        </tr>
+                    
+                       
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td><strong>Total</strong></td>
+                            <td ><strong>346,90 €</strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
-   
+        <div class="col mb-2">
+            <div class="row">
+                <div class="col-sm-12  col-md-6">
+                    <button class="btn btn-block btn-light">Continue Shopping</button>
+                </div>
+                <div class="col-sm-12 col-md-6 text-right">
+                    <button class="btn btn-lg btn-block btn-success text-uppercase">Checkout</button>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
-				
-			
-			<!-- /page Wrapper -->
-		
 
-
-
-
-        
-		<script type="text/javascript">
-
-		
-$(document).ready(function() {	
-    
-    $("#buyer_id").on('change', function() {			
-        var buyerID = $("#buyer_id").val();
-        // alert("Done");	
-        // alert(buyerID);
-
-        if(buyerID != 0 ) {
-     $.ajax({				
-                url: '/Cart/createCart/ajax/'+buyerID,
-                type: "GET",
-                dataType: "json",
-                success:function(data) { 
-                   // alert("Done");              
-                    $("#invoice_id").empty();
-                    $.each(data, function(key, value) {                     
-                    $("#invoice_id").append('<option value="'+value.id+'">'+ value.invoice_number +'</option>');
-                    });
-                }
-            });
-           
-        }else{
-            $("#invoice_id").empty();
-        }
-    });
-});
-</script>
-
-<script type="text/javascript">		
-$(document).ready(function() {	  
-    $("#product_id").on('change', function() {			
-        var batchID = $("#product_id").val();
-        // alert("Done");	
-        // alert(batchID);
-        if(batchID != 0 ) {
-     $.ajax({				
-                url: '/Cart/batchId/ajax/'+batchID,
-                type: "GET",
-                dataType: "json",
-                success:function(data) { 
-                   // alert("Done");              
-                    $("#batch_name").empty();
-                    $.each(data, function(key, value) {                     
-                    $("#batch_name").append('<option value="'+value.id+'">'+ value.batch_name +'</option>');
-                    });
-                }
-            });
-           
-        }else{
-            $("#batch_name").empty();
-        }
-    });
-});
-</script>
-
-            @endSection      
-
-         
+@endsection

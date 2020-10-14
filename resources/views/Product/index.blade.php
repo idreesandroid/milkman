@@ -19,11 +19,12 @@
                                 <tr>
                                 <th>ID</th>
                                 <th>Name</th>
-                                <th>Product Code</th>
+                                <th>Code</th>
                                 <th>Size</th>
                                 <th>Price</th>
+                                <th>Stock Quantity</th>
+                                <th>Qty/Carton</th>
                                 <th>Description</th> 
-                                <th>Qty/Carton</th>    
                                 <th>Action</th>                           
                                 </tr>
                             </thead>
@@ -35,8 +36,11 @@
                             <td>{{$product->product_nick}}</td>
                             <td>{{$product->product_size}} {{$product->unit}} </td>
                             <td>{{$product->product_price}}</td>
-                            <td>{{$product->product_description}}</td>
+                            <td>{{$product->currentInStock}}</td>                            
                             <td>{{$product->ctn_value}}</td>
+                            <td>{{$product->product_description}}</td>
+                            
+                            
                             <td><a href="{{ route('edit.product', $product->id)}}" class="btn btn-primary">Edit</a>
                             <form action="{{ route('delete.product', $product->id)}}" method="post" style="display: inline-block">
                              @csrf
