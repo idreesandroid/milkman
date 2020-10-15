@@ -34,6 +34,11 @@ Route::get('register/ajax/{id}',array('as'=>'register.ajax','uses'=>'RegisterCon
 //ajax routes-------------------------------
 Route::post('/register', 'RegisterController@register');
 Route::get('/register', 'RegisterController@user_role_list');
+
+Route::get('roles/roleList', array('as'=>'roleList.ajax','uses'=>  'RegisterController@roleList'));
+
+Route::get('user/specificUserList/{rid}',           'RegisterController@specificUserList');
+
 Route::get('user/userList',           'RegisterController@userList')->name('index.userList');
 Route::get('user/edit/{id}',       'RegisterController@edit')->name('edit.userList');
 Route::post('user/update/{id}',    'RegisterController@update')->name('update.userList');

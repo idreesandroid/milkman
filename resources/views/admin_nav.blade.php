@@ -9,7 +9,14 @@
 								<ul class="sub-menus">
 									<li><a href="/register" class="active">Register</a></li>
 									<li><a href="/profile">Profile</a></li>
-									<li><a href="/user/userList">User List</a></li>
+									<li><a href="/user/userList">All User</a></li>
+								</ul>
+							</li>
+<!-- ============================================================================ -->
+							<li> 
+								<a href="#"><i class="fa fa-check-square-o" aria-hidden="true"></i> <span id="users">Users</span></a>
+								<ul class="sub-menus">
+									<li id="u_role"><a href="/add_designation" class="active"></a></li>									 
 								</ul>
 							</li>
 
@@ -133,3 +140,22 @@
 								</ul>
 							</li>
 						
+
+
+<script type="text/javascript">		
+$(document).ready(function() {
+    $("#users").on('click', function() {			
+     $.ajax({				
+                url: '/roles/roleList',
+                type: "GET",
+                dataType: "json",
+                success:function(data) {              
+                    $("#u_role").empty();
+                    $.each(data, function(key, role) {                     
+                    $("#u_role").append('<li value="'+role.id+'"><a href="/user/specificUserList/'+role.role_id+'" class="active">'+ role.role_title +'</a></li>');
+                    });
+                }
+            });
+    });
+});
+</script>
