@@ -12,7 +12,7 @@
                 <h4 class="card-title mb-0">Add Product</h4>
             </div>
             <div class="card-body">
-                <form method="post">
+                <form method="post" action="{{ route('store.product') }}" enctype="multipart/form-data">
                 @csrf 
                     <div class="form-group row">
                         <label for="product_name" class="col-form-label col-md-2">Product Name</label>
@@ -72,6 +72,11 @@
                             <input type="text" class="form-control" name="ctn_value" required="">
                         </div>
                     </div>
+
+                    <div class="form-group">
+                <label>Upload Image</label>
+                <input type="file" class="form-control" name="filenames[]" multiple required=""   autocomplete="off" >
+                    </div>	
 
 
                     <div class="form-group mb-0 row">                

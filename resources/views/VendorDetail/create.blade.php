@@ -30,12 +30,9 @@
 
 
 									
-                <h4 class="card-title">Personal Information</h4>
-
-    <!-- <input type="hidden" name="role_title" value=3 /> -->
-          
-
-
+ <h4 class="card-title">Personal Information</h4>
+ <!-- <input type="hidden" name="role_title" value=3 /> -->
+    
     <div class="row">
         <div class="col-md-6">
             <div class="form-group">
@@ -81,26 +78,21 @@
     <div class="row">
         <div class="col-md-6">
             
-            <div class="form-group"  type="text"  name="user_state" id="user_state">
-                <label>Province</label>
-                    <select class="select  form-control" required=""  name="user_state">
-                    <option>--Province--</option>
-                    @foreach ($states as $state)
-                        <option value="{{ $state->id}}" >{{ $state->state_name}}</option>
-                        @endforeach
-                    
-                </select>
-            </div>
+        <div class="form-group"  type="text" required=""  >
+            <label>State</label>
+                <select class="select  form-control"  name="user_state" id="user_state">
+                <option>States</option>
+                <option value="">--- Select State ---</option>
+                @foreach ($states as $state)
+                    <option value="{{ $state->id}}">{{ $state->state_name }}</option>
+                    @endforeach														
+            </select>
+        </div>
 
-            <div class="form-group"  type="text"  name="user_city" id="user_city">
-                <label>City</label>
-                    <select class="select  form-control"  required="" name="user_city">
-                    <option>--City--</option>
-                    @foreach ($cities as $city)
-                        <option value="{{ $city->id}}" >{{ $city->city_name}}</option>
-                        @endforeach
-                    
-                </select>
+            <div class="form-group">
+            <label for="title">Select City:</label>
+            <select name="user_city" class="form-control" id="user_city" >
+            </select>
             </div>
 
             <div class="form-group"  type="text"  name="route_id" id="route_id">
@@ -231,11 +223,11 @@ if(val=='y'){
 
 if(val=='n'){
 
-    $("#bank_name").attr("required", false);
-   $("#branch_name").attr("required", false);
-   $("#branch_code").attr("required", false);
-   $("#acc_no").attr("required", false);
-   $("#acc_title").attr("required", false);
+$("#bank_name").attr("required", false);
+$("#branch_name").attr("required", false);
+$("#branch_code").attr("required", false);
+$("#acc_no").attr("required", false);
+$("#acc_title").attr("required", false);
 
 $('#bank_name').val('');
 $('#branch_name').val('');
@@ -248,7 +240,35 @@ $('#bank_info').hide();
  }
  
  
- </script>   			
+ </script>   
+
+<!-- City State Ajax -->
+
+ <script type="text/javascript">	
+ 
+    $(document).ready(function() {		
+        $("#user_state").on('change', function() {			
+            var stateID = $("#user_state").val(); 
+            if(stateID != 0 ) {
+         $.ajax({				
+                    url: '/register/ajax/'+stateID,
+                    type: "GET",
+                    dataType: "json",
+                    success:function(data) {                   
+                        $("#user_city").empty();
+                        $.each(data, function(key, value) {
+                        $("#user_city").append('<option value="'+value.id +'">'+ value.city_name +'</option>');
+                        });
+                    }
+                });
+
+            }else{
+                $("#user_city").empty();
+            }
+        });
+    });
+</script>
+			
 			
 			<!-- /page Wrapper -->
 		

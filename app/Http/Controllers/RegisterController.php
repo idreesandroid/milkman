@@ -96,11 +96,7 @@ DB::insert("$enter_role");
 
      }
 
-     public function cityAjax($id)
-    {
-        $cities =City::where("state_id",$id)->select('city_name','id')->get();
-        return json_encode($cities);
-    }
+   
 
 
      public function login(Request $request)
@@ -154,11 +150,6 @@ DB::insert("$enter_role");
             }
    
     
-
-       
-            
-
-
      public function userList()
      {
 
@@ -182,9 +173,6 @@ DB::insert("$enter_role");
       return view('user/specificUserList', compact('users'));       
 
     }
-
-
-
 
 
     public function edit($id)

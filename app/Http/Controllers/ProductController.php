@@ -15,7 +15,6 @@ class ProductController extends Controller
     }
 
     //create view-------------------------
-
     public function create() 
     {
         $units = ['ml','ltr','gm','kg'];
@@ -27,6 +26,7 @@ class ProductController extends Controller
 
 public function store(Request $request)
 {
+    
 $this->validate($request,[      
     'product_name'=> 'required',
     'product_nick'=>'required',
@@ -35,9 +35,12 @@ $this->validate($request,[
     'product_description'=>'required',
     'unit'=>'required',
     'ctn_value'=>'required',
+
+    'filenames' => 'required',
+    'filenames.*' => 'mimes:jpg,png,jpeg,gif',
     
      ]);
-
+     
 
 $products = new Product();
 
@@ -48,6 +51,21 @@ $products->product_price = $request->product_price;
 $products->product_description = $request->product_description;
 $products->unit = $request->unit;
 $products->ctn_value = $request->ctn_value;
+
+if($request->hasfile('filenames'))
+         {
+             $count= 1;
+            foreach($request->file('filenames') as $file)
+            {
+                $name =  $request->product_name.$count.''.time().'.'.$file->extension();
+                $file->move(public_path().'/files/', $name);  
+                $data[] = $name; 
+                $count++;  
+            }
+         }
+
+$products->filenames=json_encode($data);
+
 
 
 $products->save();

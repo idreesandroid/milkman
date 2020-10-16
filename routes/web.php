@@ -23,23 +23,19 @@ Route::get('/login', function () { return view('login'); });
 
 
 Route::post('/login', 'RegisterController@login');
-
 Route::get('/logout', 'RegisterController@logout');
-
 Route::get('/','RegisterController@profile');
 Route::get('/profile','RegisterController@profile');
 Route::get('/register',array('as'=>'register','uses'=> 'RegisterController@register'));
-//ajax routes-------------------------------
-Route::get('register/ajax/{id}',array('as'=>'register.ajax','uses'=>'RegisterController@cityAjax'));
-//ajax routes-------------------------------
+
 Route::post('/register', 'RegisterController@register');
 Route::get('/register', 'RegisterController@user_role_list');
-
+//Get Users by role routes-------------------------------
 Route::get('roles/roleList', array('as'=>'roleList.ajax','uses'=>  'RegisterController@roleList'));
-
 Route::get('user/specificUserList/{rid}',           'RegisterController@specificUserList');
-
+//All User routes-------------------------------
 Route::get('user/userList',           'RegisterController@userList')->name('index.userList');
+//Edit for all type od user record routes-------------------------------
 Route::get('user/edit/{id}',       'RegisterController@edit')->name('edit.userList');
 Route::post('user/update/{id}',    'RegisterController@update')->name('update.userList');
 
@@ -88,10 +84,6 @@ Route::get('vendorLedger', 'VendorDetailController@get_vendors' );
 /* /{vendor_id}{date_from}{date_to} */
  Route::get('vendorLedgerDetail/{vendor_id}/{date_from}/{date_to}','VendorDetailController@vendorLedgerDetail') ;
  Route::post('/vendorLedger','VendorDetailController@vendorLedger') ;
-
-
- 
- 
 
 //Task routes--------------------------------
 Route::get('/set_task', 'CollectorController@collector_list');
@@ -146,3 +138,7 @@ Route::get('Cart/pendingInvoice',           'SaleController@pendingInvoice')->na
 Route::get('Cart/generateInvoice',          'SaleController@generateInvoice')->name('create.invoice');
 Route::post('Cart/generateInvoice',         'SaleController@invoiceStore')->name('store.invoice');
 Route::Delete('Cart/deleteInvoice/{id}', 'SaleController@deleteInvoice')->name('delete.invoice');
+
+//GenericController routes-------------------------------
+//ajax routes-------------------------------
+Route::get('register/ajax/{id}',array('as'=>'register.ajax','uses'=>'GenericController@cityAjax'));
