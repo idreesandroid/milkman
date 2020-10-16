@@ -110,11 +110,11 @@ DB::insert("$enter_role");
 
       $role_query=" 
       SELECT a.id,    a.name,c.id AS user_role,c.`role_title` 
-FROM users a 
-INNER JOIN role_user b ON b.user_id=a.id
-INNER JOIN roles c ON c.id=b.`role_id`
+      FROM users a 
+      INNER JOIN role_user b ON b.user_id=a.id
+      INNER JOIN roles c ON c.id=b.`role_id`
  
-WHERE    (a.`user_cnic`='$username' OR a.`user_phone`='$username') and a.`password`='$password' ";
+      WHERE    (a.`user_cnic`='$username' OR a.`user_phone`='$username') and a.`password`='$password' ";
           $log_result =  DB::select($role_query);
           if(count($log_result)==1){
             foreach ($log_result as $key ) {
@@ -162,25 +162,24 @@ WHERE    (a.`user_cnic`='$username' OR a.`user_phone`='$username') and a.`passwo
      public function userList()
      {
 
-     $users = User::whereHas('user_role', function($query) { $query->where('roles.role_id','!=', 1); })->with('state','city')->get(); 
+     $users = User::whereHas('user_role', function($query) { $query->where('roles.role_id','!=', 1); })->with('user_role','state','city')->get(); 
      return view('user/userList', compact('users'));      
  
      }
 
 
-
+// Ajax function------------------
      public function roleList()
      {
          $roles =Role::all();
-        //  return     $roles;
          return json_encode($roles);
      }
 
      public function specificUserList($rid)
     {       
-      ;
+     
       $users = User::whereHas('user_role', function($query) use($rid) { $query->where('roles.role_id', $rid); })->with('state','city')->get(); 
-       return view('user/specificUserList', compact('users'));       
+      return view('user/specificUserList', compact('users'));       
 
     }
 
@@ -188,11 +187,11 @@ WHERE    (a.`user_cnic`='$username' OR a.`user_phone`='$username') and a.`passwo
 
 
 
-     public function edit($id)
+    public function edit($id)
 {
     $users = User::findOrFail($id);
-    $user_roles= User_Role::select('role_title','id')->get();
-   return view('user/edit', compact('users','user_roles'));
+    $user_roles= Role::select('role_title','id')->get();
+    return view('user/edit', compact('users','user_roles'));
 }
 
 

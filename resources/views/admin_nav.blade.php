@@ -15,7 +15,7 @@
 <!-- ============================================================================ -->
 							<li> 
 								<a href="#"><i class="fa fa-check-square-o" aria-hidden="true"></i> <span id="users">Users</span></a>
-								<ul class="sub-menus">
+								<ul class="sub-menus">								
 									<li id="u_role"><a href="/add_designation" class="active"></a></li>									 
 								</ul>
 							</li>
@@ -23,6 +23,7 @@
 							<li> 
 								<a href="#"><i class="fa fa-check-square-o" aria-hidden="true"></i> <span>Designations</span></a>
 								<ul class="sub-menus">
+								
 									<li><a href="/add_designation" class="active">Add Designation</a></li>
 									 
 								</ul>
