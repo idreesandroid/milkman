@@ -23,6 +23,7 @@ class CreateProductsTable extends Migration
             $table->integer('product_price');
             $table->integer('currentInStock')->default(0);
             $table->integer('ctn_value');
+            $table->string('filenames');
            
             $table->softDeletes();
             $table->timestamps();

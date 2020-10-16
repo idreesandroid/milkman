@@ -1,7 +1,5 @@
 @extends('layouts.master')
 @section('content')
-		
-			
 						
 			<!-- Page Wrapper -->
 					
@@ -9,7 +7,7 @@
     <div class="col-lg-12">
         <div class="card">
             <div class="card-header">
-                <h4 class="card-title mb-0">Add Product</h4>
+                <h4 class="card-title mb-0">Update</h4>
             </div>
             <div class="card-body">
                 <form method="post" action="{{ route('update.userList', $users->id) }}">
@@ -50,24 +48,16 @@
                     </div>
                 </div>
 
-
-
-               
-
                 <div class="form-group row">
                     <label for="user_address" class="col-form-label col-md-2">Address</label>
                     <div class="col-md-10">
                         <input type="text" class="form-control" name="user_address" value="{{ $users->user_address }}" required="">
                     </div>
                 </div>
-
-                
-
-
                     <div class="form-group mb-0 row">                
                         <div class="col-md-10">                           
                             <div class="input-group-append">
-                                <button class="btn btn-primary" type="submit">Add New Stock</button>
+                                <button class="btn btn-primary" type="submit">Update</button>
                             </div>                           
                         </div>
                     </div>

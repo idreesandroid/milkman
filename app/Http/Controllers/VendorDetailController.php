@@ -15,7 +15,7 @@ class VendorDetailController extends Controller
     public function index()
     {       
        
-        $vendorDetails = User::whereHas('user_role', function($query) { $query->where('roles.role_id', 5); })->with('vendor_detail','state','city')->get();
+        $vendorDetails = User::whereHas('user_role', function($query) { $query->where('roles.role_id', 25); })->with('vendor_detail','state','city')->get();
         return view('VendorDetail/index', compact('vendorDetails'));
 
     }
@@ -26,9 +26,9 @@ class VendorDetailController extends Controller
     {      
         $roles = Role::select('role_title','id')->get();
         $states = State::select('state_name','id')->get();
-        $cities = City::select('city_name','id')->get();
+        
         $vendor_routes= Vendor_Route::select('route_name','id')->get();
-        return view('VendorDetail/create',compact('vendor_routes','roles','states','cities'));
+        return view('VendorDetail/create',compact('vendor_routes','roles','states'));
     }
 
 //create-------------------------
@@ -47,7 +47,6 @@ $this->validate($request,[
      'user_state'  => 'required',
      'user_city'  => 'required',
      'user_address'  => 'required|min:1',
-
 
      'decided_milkQuantity'=>'required|min:1|numeric',
      'decided_rate'=>'required|min:1|numeric', 
