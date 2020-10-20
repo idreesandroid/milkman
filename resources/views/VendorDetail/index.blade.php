@@ -30,7 +30,7 @@
                                 <th>Branch Code</th> 
                                 <th>Account No</th>
                                 <th>Account Title</th>  
-                                <th>Action</th>  
+                                
 
                                 </tr>
                             </thead>
@@ -56,9 +56,7 @@
                             <td>{{$vendorDetail->vendor_detail->branch_code}}</td>
                             <td>{{$vendorDetail->vendor_detail->acc_no}}</td>
                             <td>{{$vendorDetail->vendor_detail->acc_title}}</td>                
-                                                       
- 
-                            <td><a href="" class="btn btn-primary">Edit</a></td>   
+                                                         
                             </tr>
                             @endforeach
                             </tbody>

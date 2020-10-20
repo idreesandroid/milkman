@@ -15,14 +15,15 @@ class SaleController extends Controller
 {
 public function index()
 {   
-    $invoices = Invoice::where('flag','!=',0)->with('buyer_invoice')->get();              
+    $invoices = Invoice::where('flag','<>',0)->with('buyer')->get(); 
+            
     return view('Cart/index', compact('invoices'));
 }
 
 // invoice---------------------------------------------------------
 public function pendingInvoice()
 {   
-    $invoices = Invoice::where('flag','=',0)->with('buyer_invoice')->get();
+    $invoices = Invoice::where('flag','=',0)->with('buyer')->get();
     return view('Cart/pendingInvoice', compact('invoices'));
 }
 
@@ -87,14 +88,14 @@ switch ($request->input('action'))
     return redirect('Cart/index');
 }
 
-public function batchSelection()
-{   
-   $product_stocks = ProductStock::where('product_id', 1 )->where('stockInBatch','!=',0)->with('product')->get();
-   echo "<pre>";
-   print_r($product_stocks);
-   exit;
-   //return view('ProductStock/index', compact('product_stocks'));
-}
+// public function batchSelection()
+// {   
+//    $product_stocks = ProductStock::where('product_id', 1 )->where('stockInBatch','!=',0)->with('product')->get();
+//    echo "<pre>";
+//    print_r($product_stocks);
+//    exit;
+//    //return view('ProductStock/index', compact('product_stocks'));
+// }
 
 // public function editInvoice($id)
 // {

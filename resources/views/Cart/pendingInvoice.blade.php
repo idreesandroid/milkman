@@ -20,15 +20,17 @@
                                 <th>Buyer Name</th>
                                 <th>Invoice Number</th>
                                 <th>status</th>
+                                <th>Date</th>
                                 <th>Action</th>                             
                                 </tr>
                             </thead>
                             <tbody>
                             @foreach($invoices as $invoice)
                             <tr>
-                            <td>{{$invoice->buyer_id}}</td> 
+                            <td>{{$invoice->buyer->name}}</td> 
                             <td>{{$invoice->invoice_number}}</td>                           
                             <td>{{$invoice->flag}}</td>
+                            <td>{{$invoice->created_at}}</td> 
                             <td> <form action="{{ route('delete.invoice', $invoice->id)}}" method="post" style="display: inline-block">
                                     @csrf
                                     @method('DELETE')
