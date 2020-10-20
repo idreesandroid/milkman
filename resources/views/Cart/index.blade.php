@@ -16,21 +16,18 @@
                     <div class="table-responsive">
                         <table class="datatable table table-stripped mb-0 datatables">
                             <thead>
-                                <tr>
-                                <th>ID</th>
+                                <tr>                               
                                 <th>Buyer Name</th>
                                 <th>Invoice No</th>
                                 <th>Total Amount</th>
                                 <th>Status</th>
-                                <th>Date</th>
-                                                             
+                                <th>Date</th>                                                             
                                 </tr>
                             </thead>
                             <tbody>
                             @foreach($invoices as $invoice)
                             <tr>
-                            <td>{{$invoice->id}}</td>
-                            <td>{{$invoice->buyer_id}}</td>                            
+                            <td>{{$invoice->buyer->name}}</td>                            
                             <td>{{$invoice->invoice_number}}</td>
                             <td>{{$invoice->total_amount}}</td>
                             <td>{{$invoice->flag}}</td>

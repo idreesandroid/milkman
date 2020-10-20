@@ -11,9 +11,7 @@ use App\City;
 class RegisterController extends Controller
 {
     public function register(Request $request)
-    {
-
-      
+    {   
      
      
        $user_name = $request->input('user_name');

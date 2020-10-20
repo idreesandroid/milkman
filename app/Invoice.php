@@ -14,7 +14,7 @@ class Invoice extends Model
     }
 
 
-    public function buyer_invoice()
+    public function buyer()
     {
         return $this->belongsTo(User::class);
     }

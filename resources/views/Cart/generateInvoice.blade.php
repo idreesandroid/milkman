@@ -16,10 +16,10 @@
                 @csrf 
 
                 <div class="form-group row">
-                    <label for="buyer_id" class="col-form-label col-md-2">Buyer Name</label>
+                    <label for="buyer_id" class="col-form-label col-md-2">Distributor Name</label>
                     <div class="col-md-4">
                         <select class="form-control" name="buyer_id" required="">
-                            <option value="">--Buyer Name--</option>
+                            <option value="">--Distributor Name--</option>
                             @foreach ($buyers as $buyer)
                              <option value="{{ $buyer->id}}" >{{ $buyer->name}}</option>
                              @endforeach                            
@@ -35,22 +35,20 @@
                 <table class="table table-striped">
                     <thead>
                         <tr>
-                            <th scope="col">ID</th>
+                            <th scope="col">Image</th>
                             <th scope="col">Product</th>
                             <th scope="col">Available</th>
                             <th scope="col" >Price</th>
                             <th scope="col" >Quantity</th>                            
                             <th scope="col" >Sub Total</th>
-                            <th scope="col" >Manage Batch</th>
-
-                       
+                            <th scope="col" >Manage Batch</th>                       
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
                         @foreach($products as $product)
-                            <tr>
-                            <td>{{$product->id}}</td>
+                            <tr>                            
+                            <td><img src="{{asset('/product_img/'.$product->filenames)}}" alt="Logo" class="img-thumbnail" width="100" height="100"></td>
                             <td>{{$product->product_name}}</td>
                             <td>{{$product->currentInStock}}</td>                            
                             <td id="product_price_{{$product->id}}">{{$product->product_price}}</td>                      

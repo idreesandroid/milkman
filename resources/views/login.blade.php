@@ -58,9 +58,7 @@
 											<label>Password</label>
 										</div>
 										<div class="col-auto">
-											<a class="text-muted" href="/">
-												Forgot password?
-											</a>
+											
 										</div>
 									</div>
 
