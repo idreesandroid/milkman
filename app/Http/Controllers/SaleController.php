@@ -13,79 +13,11 @@ use App\Role;
 
 class SaleController extends Controller
 {
-//     public function index()
-//     {   
-//        $saleViews = Cart::with('product','buyer','batch','cart_invoice')->get();              
-//        return view('Cart/index', compact('saleViews'));
-//     }
-
-
-//     public function saleRecord()
-//     {   
-//     //    $saleRecords = Invoice::with('product','buyer','batch','cart_invoice')->get();
-              
-//     //    return view('Cart/index', compact('saleViews'));
-//     }
-
-//     //create view-------------------------
-
-//     public function create() 
-//     {            
-//         $products= Product::select('product_name','id')->get();
-//         $product_stocks=ProductStock::select('batch_name','id')->get();
-//         $invoices = Invoice::where('flag','=',0)->select('buyer_id','id')->get(); 
-
-//        return view('Cart/create',compact('products','product_stocks','invoices'));
-//     }
-
-
-//     public function invoiceAjax($id)
-//     {
-//         $invoices =Invoice::where("buyer_id",$id)->select('invoice_number','id')->get();  
-//         return json_encode($invoices);
-//     }
-
-//     public function batchIdAjax($id)
-//     {
-//         $product_stocks =ProductStock::where("product_id",$id)->select('batch_name','id')->get();    
-//        return json_encode($product_stocks);
-//     }
-
-    
-
-
-// //create-------------------------
-// public function store(Request $request)
-// {
-// $this->validate($request,[  
-//     'buyer_id'=> 'required', 
-//     'invoice_id'=> 'required',       
-//     'product_id'=> 'required',   
-//     'batch_id'=>'required',
-//     'product_quantity'=>'required',
-//      ]);
-
-// $product_rates = Product::where('id',$request->product_id)->select('product_price','id')->first();
-// $price =$product_rates->product_price;
-
-// $product_cart = new Cart();
-// $product_cart->buyer_id = $request->buyer_id;
-// $product_cart->invoice_id = $request->invoice_id;      
-// $product_cart->product_id = $request->product_id;
-// $product_cart->batch_id = $request->batch_id;
-// $product_cart->seller_id = session()->get('u_id');
-// $product_cart->product_quantity = $request->product_quantity;
-// $product_cart->product_rate=$price;
-// $product_cart->sub_total = $request->product_quantity*$product_cart->product_rate;
-// $product_cart->save();
-
-// $invoice_bills =  Invoice::find($product_cart->invoice_id);
-// $invoice_bills->total_amount = $invoice_bills->total_amount + $product_cart->sub_total;
-// $invoice_bills->save();
-
-// return redirect('Cart/index');
-
-// }
+public function index()
+{   
+    $invoices = Invoice::where('flag','!=',0)->with('buyer_invoice')->get();              
+    return view('Cart/index', compact('invoices'));
+}
 
 // invoice---------------------------------------------------------
 public function pendingInvoice()
@@ -94,7 +26,6 @@ public function pendingInvoice()
     return view('Cart/pendingInvoice', compact('invoices'));
 }
 
-
 public function generateInvoice() 
 {
     $products = Product::all();
@@ -102,31 +33,87 @@ public function generateInvoice()
     return view('Cart/generateInvoice',compact('buyers','products')); 
 }
 
-public function invoiceStore(Request $request)
+public function SaveInvoice(Request $request)
 {
     function invoiceNumber()
     {
         $latest = Invoice::latest()->first();
         if (! $latest) {
-            return '000001';
+        return '000001';
         }
-
         $string = preg_replace("/[^0-9\.]/", '', $latest->invoice_number);
-
         return  sprintf('%06d', $string+1);
-    }
-
+    }    
 $this->validate($request,[      
-    'buyer_id'=> 'required',            
-        ]);
-
+'buyer_id'=> 'required',
+'product_quantity'=>'required',
+        ]);        
 $buyer = new Invoice();    
 $buyer->buyer_id = $request->buyer_id ;
 $buyer->invoice_number = invoiceNumber();
+$buyer->total_amount=0;
+$buyer->flag=1;
 $buyer->save();
-return redirect('Cart/create');
+$product_quantity = $request['product_quantity'];
 
+foreach($product_quantity as $index => $product_qty)
+{
+$product_cart = new Cart();
+$product_cart->buyer_id = $buyer->buyer_id;
+$product_cart->invoice_id = $buyer->id;      
+$product_cart->product_id = $index;
+$product_cart->batch_id = 2;
+$product_cart->seller_id = session()->get('u_id');
+$prod_rates = Product::where('id',$product_cart->product_id)->select('product_price','id')->first();
+$price =$prod_rates->product_price;
+$product_cart->product_quantity =  $product_qty;
+$product_cart->product_rate=$price;
+$product_cart->sub_total = $product_cart->product_quantity*$product_cart->product_rate;
+$product_cart->cart_flag=0;
+
+$buyer->total_amount=$buyer->total_amount+$product_cart->sub_total;
+$buyer->save();
+$product_cart->save();
+}   
+
+switch ($request->input('action'))
+{
+    case 'save':
+        $buyer->flag=0;
+        $buyer->save();  
+        return redirect('Cart/pendingInvoice');
+    break;
 }
+    return redirect('Cart/index');
+}
+
+public function batchSelection()
+{   
+   $product_stocks = ProductStock::where('product_id', 1 )->where('stockInBatch','!=',0)->with('product')->get();
+   echo "<pre>";
+   print_r($product_stocks);
+   exit;
+   //return view('ProductStock/index', compact('product_stocks'));
+}
+
+// public function editInvoice($id)
+// {
+//     $invoices = Invoices::findOrFail($id);
+//     $products= Product::select('product_name','id')->get();
+//     $buyers = User::whereHas('user_role', function($query) { $query->where('roles.id', 6); })->get();
+//    return view('Cart/edit', compact('product_stocks','products','invoices'));
+// }
+// public function update(Request $request, $id)
+// {
+// $updatedata = $request->validate([
+//     'buyer_id'=> 'required',
+//     'product_quantity'=>'required',
+// ]);
+// ProductStock::whereid($id)->update($updatedata);
+// return redirect('ProductStock/index');
+// }
+
+
 
 //only pending invoice delete
 public function deleteInvoice($id)

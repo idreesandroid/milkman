@@ -75,7 +75,7 @@
 
                     <div class="form-group">
                 <label>Upload Image</label>
-                <input type="file" class="form-control" name="filenames[]" multiple required=""   autocomplete="off" >
+                <input type="file" class="form-control" name="filenames"    autocomplete="off" >
                     </div>	
 
 

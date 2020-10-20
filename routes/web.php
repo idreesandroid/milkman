@@ -121,24 +121,17 @@ Route::post('/payment_next_back',  'PaymentController@payment_next_back');
 //Cart routes--------------------------------
 
 Route::get('Cart/index',           'SaleController@index')->name('index.sale');
-Route::get('Cart/create',array('as'=>'create.cart','uses'=> 'SaleController@create'));
-//ajax routes-------------------------------
-Route::get('Cart/createCart/ajax/{id}',array('as'=>'createCart.ajax','uses'=>'SaleController@invoiceAjax'));
-Route::get('Cart/batchId/ajax/{id}',array('as'=>'batchId.ajax','uses'=>'SaleController@batchIdAjax'));
-
-//ajax routes-------------------------------
-Route::post('Cart/create',         'SaleController@store')->name('store.cart');
-Route::get('Cart/edit/{id}',       'CartController@edit')->name('edit.cart');
+Route::get('Cart/pendingInvoice',  'SaleController@pendingInvoice')->name('pending.invoice');
+Route::get('Cart/create',          'SaleController@generateInvoice')->name('create.invoice');
+Route::post('Cart/create',         'SaleController@SaveInvoice')->name('save.invoice');
+//Route::get('Cart/edit/{id}',       'CartController@edit')->name('edit.cart');
 // Route::post('Cart/update/{id}',   'CartController@update')->name('update.cart');
 
 
-
-//Invoice routes--------------------------------
-Route::get('Cart/pendingInvoice',           'SaleController@pendingInvoice')->name('pending.invoice');
-Route::get('Cart/generateInvoice',          'SaleController@generateInvoice')->name('create.invoice');
-Route::post('Cart/generateInvoice',         'SaleController@invoiceStore')->name('store.invoice');
-Route::Delete('Cart/deleteInvoice/{id}', 'SaleController@deleteInvoice')->name('delete.invoice');
+Route::Delete('Cart/deleteInvoice/{id}',     'SaleController@deleteInvoice')->name('delete.invoice');
 
 //GenericController routes-------------------------------
 //ajax routes-------------------------------
 Route::get('register/ajax/{id}',array('as'=>'register.ajax','uses'=>'GenericController@cityAjax'));
+
+Route::get('batch_selection/ajax',array('as'=>'batchSelection.ajax','uses'=>'SaleController@batchSelection'));
