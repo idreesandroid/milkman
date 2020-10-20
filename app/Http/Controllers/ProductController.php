@@ -35,9 +35,7 @@ $this->validate($request,[
     'product_description'=>'required',
     'unit'=>'required',
     'ctn_value'=>'required',
-
-    'filenames' => 'required',
-    'filenames.*' => 'mimes:jpg,png,jpeg,gif',
+    'filenames' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
     
      ]);
      
@@ -52,21 +50,9 @@ $products->product_description = $request->product_description;
 $products->unit = $request->unit;
 $products->ctn_value = $request->ctn_value;
 
-if($request->hasfile('filenames'))
-         {
-             $count= 1;
-            foreach($request->file('filenames') as $file)
-            {
-                $name =  $request->product_name.$count.''.time().'.'.$file->extension();
-                $file->move(public_path().'/files/', $name);  
-                $data[] = $name; 
-                $count++;  
-            }
-         }
-
-$products->filenames=json_encode($data);
-
-
+$imageName = time().'.'.$request->filenames->extension();    
+$request->filenames->move(public_path('product_img'), $imageName);
+$products->filenames = $imageName;
 
 $products->save();
 

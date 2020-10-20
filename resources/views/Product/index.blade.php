@@ -16,8 +16,8 @@
                     <div class="table-responsive">
                         <table class="datatable table table-stripped mb-0 datatables">
                             <thead>
-                                <tr>
-                                <th>ID</th>
+                                <tr>                                
+                                <th>Image</th>
                                 <th>Name</th>
                                 <th>Code</th>
                                 <th>Size</th>
@@ -30,16 +30,15 @@
                             </thead>
                             <tbody>
                             @foreach($products as $product)
-                            <tr>
-                            <td>{{$product->id}}</td>
+                            <tr>                           
+                            <td><img src="{{asset('/product_img/'.$product->filenames)}}" alt="Logo" class="img-thumbnail"></td>
                             <td>{{$product->product_name}}</td>
                             <td>{{$product->product_nick}}</td>
                             <td>{{$product->product_size}} {{$product->unit}} </td>
                             <td>{{$product->product_price}}</td>
                             <td>{{$product->currentInStock}}</td>                            
                             <td>{{$product->ctn_value}}</td>
-                            <td>{{$product->product_description}}</td>
-                            
+                            <td>{{$product->product_description}}</td>                         
                             
                             <td><a href="{{ route('edit.product', $product->id)}}" class="btn btn-primary">Edit</a>
                             <form action="{{ route('delete.product', $product->id)}}" method="post" style="display: inline-block">

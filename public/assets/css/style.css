@@ -8538,6 +8538,13 @@ form .btn-gradient-primary {
 	background: #666 !important;
 }
 
+#batch-info
+{max-width: 900px!important; width: 900px!important;}
+
+
+
+
+
 /*-----------------
   64. Responsive
 -----------------------*/

@@ -1,12 +1,33 @@
 @extends('layouts.master')
 @section('content')
+		
+			
+						
+			<!-- Page Wrapper -->
+					
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title mb-0">Generate Invoice</h4>
+            </div>
+            <div class="card-body">
+                <form method="post">
+                @csrf 
 
-<section class="jumbotron text-center">
-    <div class="container">
-        <h1 class="jumbotron-heading">E-COMMERCE CART</h1>
-     </div>
-</section>
+                <div class="form-group row">
+                    <label for="buyer_id" class="col-form-label col-md-2">Buyer Name</label>
+                    <div class="col-md-4">
+                        <select class="form-control" name="buyer_id" required="">
+                            <option value="">--Buyer Name--</option>
+                            @foreach ($buyers as $buyer)
+                             <option value="{{ $buyer->id}}" >{{ $buyer->name}}</option>
+                             @endforeach                            
+                        </select>
+                    </div>
+                </div>      
 
+       
 <div class="container mb-4">
     <div class="row">
         <div class="col-12">
@@ -14,11 +35,11 @@
                 <table class="table table-striped">
                     <thead>
                         <tr>
-                            
+                            <th scope="col">ID</th>
                             <th scope="col">Product</th>
                             <th scope="col">Available</th>
-                            <th scope="col" >Quantity</th>
                             <th scope="col" >Price</th>
+                            <th scope="col" >Quantity</th>                            
                             <th scope="col" >Sub Total</th>
                             <th scope="col" >Manage Batch</th>
 
@@ -27,23 +48,25 @@
                     </thead>
                     <tbody>
                         <tr>
-                           
-                            <td>Product Name Dada</td>
-                            <td>In stock</td>                            
-                            <td><input class="form-control col-md-4" type="text" value="1" /></td>
-                            <td >124,90 €</td>
-                            <td>PXQ</td>
-                            <td><button class="form-control btn btn-sm btn-primary">Batch</button> </td>
+                        @foreach($products as $product)
+                            <tr>
+                            <td>{{$product->id}}</td>
+                            <td>{{$product->product_name}}</td>
+                            <td>{{$product->currentInStock}}</td>                            
+                            <td id="product_price_{{$product->id}}">{{$product->product_price}}</td>                      
+                            <td><input class="form-control col-md-4 "  name="product_quantity[{{$product->id}}]" type="text" id="quantity_{{$product->id}}" onkeyup="changeId({{$product->id}}, this.value )" /></td>                            
+                            <td id="sub_total_{{$product->id}}">0</td>
+                            <td  ><button class="123 form-control btn btn-sm btn-primary">Batch</button> </td>
+                            @endforeach 
                         </tr>
-                    
-                       
+                                           
                         <tr>
-                            <td></td>
+                           <td></td>
                             <td></td>
                             <td></td>
                             <td></td>
                             <td><strong>Total</strong></td>
-                            <td ><strong>346,90 €</strong></td>
+                            <td id="totalCost"><strong>0</strong></td>
                         </tr>
                     </tbody>
                 </table>
@@ -52,14 +75,40 @@
         <div class="col mb-2">
             <div class="row">
                 <div class="col-sm-12  col-md-6">
-                    <button class="btn btn-block btn-light">Continue Shopping</button>
+                    <button class="btn btn-block btn-primary text-uppercase" type="submit" name="action" value="save" >Save</button>
                 </div>
-                <div class="col-sm-12 col-md-6 text-right">
-                    <button class="btn btn-lg btn-block btn-success text-uppercase">Checkout</button>
+                <div class="col-sm-12  col-md-6">
+                    <button class="btn btn-block btn-primary text-uppercase" type="submit" name="action" value="checkout" >CheckOut</button>
                 </div>
+
             </div>
         </div>
     </div>
 </div>
+         
+                </form>
+            </div>
+        </div>
+        
+    </div>
+</div>
+				
+			
+			<!-- /page Wrapper -->
 
-@endsection
+<script type="text/javascript">
+function changeId(id, value)
+{
+    var sumQua = $('#product_price_'+id).text() * value;
+    var specSubTol = $('#sub_total_'+id).text();
+    $('#sub_total_'+id).text(sumQua);
+    var total = parseInt($('#totalCost').text()) - specSubTol + sumQua;
+    $('#totalCost').text(total);
+
+}
+</script>
+
+
+
+
+            @endsection

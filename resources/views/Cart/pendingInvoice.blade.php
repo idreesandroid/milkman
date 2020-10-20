@@ -17,8 +17,8 @@
                         <table class="datatable table table-stripped mb-0 datatables">
                             <thead>
                                 <tr>
-                                <th>ID</th>
                                 <th>Buyer Name</th>
+                                <th>Invoice Number</th>
                                 <th>status</th>
                                 <th>Action</th>                             
                                 </tr>
@@ -26,8 +26,8 @@
                             <tbody>
                             @foreach($invoices as $invoice)
                             <tr>
-                            <td>{{$invoice->id}}</td>
-                            <td>{{$invoice->buyer_id}}</td>                            
+                            <td>{{$invoice->buyer_id}}</td> 
+                            <td>{{$invoice->invoice_number}}</td>                           
                             <td>{{$invoice->flag}}</td>
                             <td> <form action="{{ route('delete.invoice', $invoice->id)}}" method="post" style="display: inline-block">
                                     @csrf

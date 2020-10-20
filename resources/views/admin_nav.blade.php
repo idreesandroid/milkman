@@ -102,10 +102,10 @@
 								<a href="#"><i class="fa fa-check-square-o" aria-hidden="true"></i> <span>Sale</span></a>
 								<ul class="sub-menus">
 									
-									<li><a href="/Cart/generateInvoice" class="active">Generate Invoice</a></li>
-									<li><a href="/Cart/pendingInvoice" class="active">Pending Invoices</a></li>
-									<li><a href="/Cart/create" class="active">Sale Stock</a></li>
+									<li><a href="/Cart/create" class="active">New Invoice</a></li>
 									<li><a href="/Cart/index" class="active">Sale Record </a></li>
+									<li><a href="/Cart/pendingInvoice" class="active">Pending Invoices</a></li>
+									
 									 
 								</ul>
 							</li>

@@ -20,27 +20,21 @@
                                 <th>ID</th>
                                 <th>Buyer Name</th>
                                 <th>Invoice No</th>
-                                <th>Product Name</th>
-                                <th>Batch ID</th>
-                                <th>Quantity</th>
-                                <th>Product Rate</th>
-                                <th>Sub Total</th> 
-                                <th>Seller Name</th>
+                                <th>Total Amount</th>
+                                <th>Status</th>
+                                <th>Date</th>
                                                              
                                 </tr>
                             </thead>
                             <tbody>
-                            @foreach($saleViews as $saleView)
+                            @foreach($invoices as $invoice)
                             <tr>
-                            <td>{{$saleView->id}}</td>
-                            <td>{{$saleView->buyer->name}}</td>                            
-                            <td>{{$saleView->invoice_id}}</td>
-                            <td>{{$saleView->product->product_name}}</td>
-                            <td>{{$saleView->batch->batch_name}}</td>
-                            <td>{{$saleView->product_quantity}}</td>
-                            <td>{{$saleView->product->product_price}}</td>                            
-                            <td>{{$saleView->sub_total}}</td>
-                            <td>{{$saleView->buyer->name}}</td>
+                            <td>{{$invoice->id}}</td>
+                            <td>{{$invoice->buyer_id}}</td>                            
+                            <td>{{$invoice->invoice_number}}</td>
+                            <td>{{$invoice->total_amount}}</td>
+                            <td>{{$invoice->flag}}</td>
+                            <td>{{$invoice->created_at}}</td>                            
                             </tr>
                             @endforeach
                             </tbody>
