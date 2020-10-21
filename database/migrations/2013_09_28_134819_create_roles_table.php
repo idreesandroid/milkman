@@ -17,6 +17,8 @@ class CreateRolesTable extends Migration
             $table->increments('id')->unsigned();
             $table->integer('role_id')->unsigned()->unique();
             $table->string('role_title')->unique();
+            $table->integer('hierarchy_status')->default(0);;
+            $table->integer('status')->default(0);; 
             $table->timestamps();
         });
     }

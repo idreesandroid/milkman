@@ -165,9 +165,12 @@
 		
 
 	<script type="text/javascript">	
-    $(document).ready(function() {		
+    $(document).ready(function() {	
+
+
         $("#user_state").on('change', function() {			
             var stateID = $("#user_state").val();
+			 
             if(stateID != 0 ) {
          $.ajax({				
                     url: '/register/ajax/'+stateID,
@@ -180,7 +183,7 @@
                         });
                     }
                 });
-
+ 
             }else{
                 $("#user_city").empty();
             }
