@@ -53,18 +53,12 @@ $payment_requset_list =   DB::select($get_req);
           $entry_by = session()->get('u_id');
           $hierarchy_role = session()->get('hierarchy_role');
  
-$next_role = "SELECT MAX(role_id)next_role_id FROM roles WHERE role_id < $hierarchy_role ";
-$next_role_rs = DB::select($next_role);
-
-if(collect($next_role_rs)->first()) {
-    $next_role_result = json_decode(json_encode($next_role_rs[0]), true);
-    $next_role_id = $next_role_result['next_role_id'];
-}
-       
+          $hierarchy_role = session()->get('hierarchy_role');
+          $next_hierarchy = next_hierarchy($hierarchy_role);
+          $previous_hierarchy = previous_hierarchy($hierarchy_role);
+    
+          $next_role_id = $next_hierarchy;
  
-
- 
-
   $request_data = array(         
     'vendor_id'   => "$entry_by",
     'claim_amount'   => "$claim_amount", 

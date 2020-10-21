@@ -82,7 +82,7 @@ DB::insert("$enter_role");
      public function user_role_list(Request $request)
      {
        
-      $roles = Role::where('id', '!=',  '5')->select('role_title','id')->get();
+      $roles = Role::where('id', '!=',  '6')->select('role_title','id')->orderBy('role_id', 'ASC')->get();
       $states = State::select('state_name','id')->get();
 
       $load_d = "SELECT  id,  designation_title FROM `designations` ORDER BY id ASC";

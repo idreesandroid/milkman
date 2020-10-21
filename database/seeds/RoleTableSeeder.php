@@ -16,11 +16,14 @@ class RoleTableSeeder extends Seeder
         $role_ad->role_title = 'Admin';
         $role_ad->save();
 
-       
+        $role_r_d = new Role();
+        $role_r_d->role_id = 5;
+        $role_r_d->role_title = 'Regional Director';
+        $role_r_d->save();
 
         $role_c_ad = new Role();
         $role_c_ad->role_id = 10;
-        $role_c_ad->role_title = 'City Manager';
+        $role_c_ad->role_title = 'Regional Manager';
         $role_c_ad->save();
 
         $role_a_ad = new Role();

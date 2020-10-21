@@ -33,10 +33,10 @@
 		<!-- Main CSS -->
         <link rel="stylesheet" href="{{asset('assets/css/style.css')}}">
 
-      <!-- Custom JS -->
-	  <script src="http://demo.itsolutionstuff.com/plugin/jquery.js"></script>
-    
-	
+     
+		<!-- jQuery -->
+        <script src="{{asset('assets/js/jquery-3.5.0.min.js')}}"></script>
+		
 
 
 
@@ -195,7 +195,7 @@ function printDiv(div_id)
 				                </div>
 				                <div class="nav-profile-text d-flex flex-column">
 				                  <span class="font-weight-bold mb-2">{{ session()->get('user_name') }}</span>
-				                  <span class="text-white text-small">{{ session()->get('role_title') }}</span>
+				                  <span class="text-white text-small">  {{ session()->get('hierarchy_role') }} {{ session()->get('role_title') }}</span>
 				                </div>
 				                <i class="mdi mdi-bookmark-check text-success nav-profile-badge"></i>
 				              </a>
@@ -212,15 +212,15 @@ function printDiv(div_id)
 								</ul>
 							</li>
 
-@if(session()->get('user_role')==1)
+@if(session()->get('hierarchy_role')==1)
 @include('admin_nav');
 @endif
 
-@if(session()->get('user_role')==4)
+@if(session()->get('hierarchy_role')==20)
 @include('collector_nav');
 @endif
 
-@if(session()->get('user_role')==5)
+@if(session()->get('hierarchy_role')==25)
 @include('vendor_nav');
 @endif
 
@@ -453,9 +453,7 @@ function printDiv(div_id)
 
 
 
-		<!-- jQuery -->
-        <script src="{{asset('assets/js/jquery-3.5.0.min.js')}}"></script>
-		
+	 
 		<!-- Bootstrap Core JS -->
         <script src="{{asset('assets/js/popper.min.js')}}"></script>
         <script src="{{asset('assets/js/bootstrap.min.js')}}"></script>

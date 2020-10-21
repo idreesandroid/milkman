@@ -3,42 +3,20 @@
   
 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                         <div class="card">
-                            <h5 class="card-header">Profile</h5>
+                            <h5 class="card-header">Dashboard</h5>
                             <div class="card-body">
                                 <div class="table-responsive">
-                                    <table class="table table-striped table-bordered first">
-                                        <thead>
-                                        <tr> 
-                                                <td class="sorting_1">Name</td>
-                                                <td>Email</td>
-                                                <td>CNIC</td>
-                                                <td>Phone</td>
-                                                 
-                                                <td>State</td>
-                                                <td>City</td>
-                                            </tr>
-                                
-                                @foreach ($profile_result as $u_profile)
-                                
-                                
+                                <div class="row graphs">
+                                        <div class="col-md-6">
+                                            <div class="card h-100">
+                                                <div class="card-body">
+                                                    <h3 class="card-title">Completed Tasks</h3>
+                                                    <canvas id="mixed-chart" width="800" height="450"></canvas>
+                                                </div>
+                                            </div>
+                                        </div>
+                                </div>
 
-                                <tr role="row" >
-                                                <td
-                                                >{{ $u_profile->name }}</td>
-                                                <td>{{ $u_profile->email }}</td>
-                                                <td>{{ $u_profile->user_cnic }}</td>
-                                                <td>{{ $u_profile->user_phone }}</td>
-                                                 
-                                                <td>{{ $u_profile->state_id }}</td>
-                                                <td>{{ $u_profile->city_id }}</td>
-                                            </tr>
-
-                                            @endforeach
-                                        </tbody>
-                                        <tfoot>
-                                           
-                                        </tfoot>
-                                    </table>
                                 </div>
                             </div>
                         </div>

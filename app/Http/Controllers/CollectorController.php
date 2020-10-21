@@ -14,7 +14,7 @@ class CollectorController extends Controller
   FROM `users` a 
   INNER JOIN role_user b ON b.user_id=a.`id` 
   INNER JOIN roles c ON b.role_id=c.`id` 
-  WHERE b.role_id=4";
+  WHERE c.role_id=20";
     $collector_list =  DB::select($col_query);
 
     $vend_query="SELECT id  as rout_id, route_name  from  vendor__routes ";
