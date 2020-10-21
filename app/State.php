@@ -3,7 +3,6 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-
 use App\State;
 use App\City;
 
@@ -15,7 +14,6 @@ class State extends Model
     {
       return  $this->hasMany('App\city');
     }
-
     public function userState()
     {
       return  $this->hasMany('App\User');

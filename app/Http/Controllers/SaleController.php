@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use Illuminate\Support\Facades\DB;
 
 use Illuminate\Http\Request;
 
@@ -29,9 +30,15 @@ public function pendingInvoice()
 
 public function generateInvoice() 
 {
-    $products = Product::all();
+    //$products = Product::all();
+
+    $products_rs = "SELECT id, product_name, product_price, currentInStock, ctn_value, filenames,
+    (SELECT IFNULL(SUM(stockInBatch),0) FROM product_stocks WHERE stockInBatch>0 and product_id=a.id)stockInBatch
+    FROM products a";    
+    $products = DB::select($products_rs);
+
     $buyers = User::whereHas('user_role', function($query) { $query->where('roles.id', 6); })->get();
-    return view('Cart/generateInvoice',compact('buyers','products')); 
+    return view('Cart/create',compact('buyers','products')); 
 }
 
 public function SaveInvoice(Request $request)
@@ -59,6 +66,8 @@ $product_quantity = $request['product_quantity'];
 
 foreach($product_quantity as $index => $product_qty)
 {
+    if($product_qty != null)
+    {
 $product_cart = new Cart();
 $product_cart->buyer_id = $buyer->buyer_id;
 $product_cart->invoice_id = $buyer->id;      
@@ -75,6 +84,7 @@ $product_cart->cart_flag=0;
 $buyer->total_amount=$buyer->total_amount+$product_cart->sub_total;
 $buyer->save();
 $product_cart->save();
+    }
 }   
 
 switch ($request->input('action'))
@@ -88,14 +98,16 @@ switch ($request->input('action'))
     return redirect('Cart/index');
 }
 
-// public function batchSelection()
-// {   
-//    $product_stocks = ProductStock::where('product_id', 1 )->where('stockInBatch','!=',0)->with('product')->get();
+public function batchSelection($id)
+{   
+   $product_stocks = ProductStock::where('product_id', $id )->where('stockInBatch','<>',0)->select('batch_name','stockInBatch','manufactured_date','expire_date')->get();
 //    echo "<pre>";
 //    print_r($product_stocks);
 //    exit;
-//    //return view('ProductStock/index', compact('product_stocks'));
-// }
+  
+   return json_encode( $product_stocks);
+
+}
 
 // public function editInvoice($id)
 // {

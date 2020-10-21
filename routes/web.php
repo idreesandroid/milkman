@@ -134,4 +134,4 @@ Route::Delete('Cart/deleteInvoice/{id}',     'SaleController@deleteInvoice')->na
 //ajax routes-------------------------------
 Route::get('register/ajax/{id}',array('as'=>'register.ajax','uses'=>'GenericController@cityAjax'))->middleware('CustomAuth');
 
-Route::get('batch_selection/ajax',array('as'=>'batchSelection.ajax','uses'=>'SaleController@batchSelection'))->middleware('CustomAuth');
+Route::get('batch_selection/ajax/{id}',array('as'=>'batchSelection.ajax','uses'=>'SaleController@batchSelection'))->middleware('CustomAuth');

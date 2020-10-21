@@ -36,7 +36,7 @@
                             <td>{{$product->product_nick}}</td>
                             <td>{{$product->product_size}} {{$product->unit}} </td>
                             <td>{{$product->product_price}}</td>
-                            <td>{{$product->currentInStock}}</td>                            
+                            <td>{{$product->stockInBatch}}</td>                            
                             <td>{{$product->ctn_value}}</td>
                             <td>{{$product->product_description}}</td>                         
                             
