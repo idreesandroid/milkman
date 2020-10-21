@@ -95,7 +95,7 @@ Vendor CNIC: <?php echo $user_cnic_d; ?>
 
                     </div>
 
- @if(session()->get('user_role')==5)
+ @if(session()->get('hierarchy_role')==25)
                  <br/>     <br/>     <br/>     <br/>
 
                

@@ -77,7 +77,7 @@ $vendor_register->city_id = $request->user_city;
 $vendor_register->user_address = $request->user_address;
 $vendor_register->designation_id = 1;
 $vendor_register->save();
-$vendor_register->user_role()->attach(Role::where('id',5)->first());
+$vendor_register->user_role()->attach(Role::where('id',6)->first());
 
 
 
@@ -152,7 +152,7 @@ public function get_vendors(Request $request)
 
     $get_vend="SELECT DISTINCT vendor_id, `name` FROM collection_task_child a 
   INNER JOIN users b ON a.vendor_id=b.id 
-  INNER JOIN role_user c ON c.`user_id`=b.id AND c.`role_id`=5";
+  INNER JOIN role_user c ON c.`user_id`=b.id AND c.`role_id`=6";
     $get_vendors = DB::select($get_vend);
     return view('vendorLedger', compact('get_vendors'));
 
@@ -181,14 +181,14 @@ $where[] = " DATE_FORMAT(received_date_time, '%Y-%m-%d') >= '$date_from' ";
     FROM collection_task_child a
     INNER JOIN users b on a.vendor_id=b.id 
     INNER JOIN role_user c ON c.`user_id`=b.id
-    where c.`role_id`=5 and ".implode(' and ',$where)."
+    where c.`role_id`=6 and ".implode(' and ',$where)."
     GROUP BY vendor_id, `name`, user_cnic, user_phone";
      $vendor_GL_details = DB::select($vendors_GL);
 
      $get_vend="SELECT DISTINCT vendor_id, `name` FROM collection_task_child a 
    INNER JOIN users b ON a.vendor_id=b.id 
    INNER JOIN role_user c ON c.`user_id`=b.id
-   AND c.`role_id`=5";
+   AND c.`role_id`=6";
      $get_vendors = DB::select($get_vend);
 
      $dates = [
@@ -228,7 +228,7 @@ public function vendorLedgerDetail($vendor_id, $date_from, $date_to)
       $vendors_d = "SELECT vendor_id, `name`, user_cnic, user_phone,received_date_time , received_qty ,rate , null as payment_detail,  (received_qty*rate)dr_amount ,NULL AS cr_amount
      FROM collection_task_child a INNER JOIN users b ON a.vendor_id=b.id 
      INNER JOIN role_user c ON c.`user_id`=b.id
-     WHERE c.`role_id`=5 AND ".implode(' and ', $where_a)."
+     WHERE c.`role_id`=6 AND ".implode(' and ', $where_a)."
      
      UNION ALL
      
