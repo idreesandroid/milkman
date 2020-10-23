@@ -24,8 +24,13 @@ Route::get('/login', function () { return view('login'); });
 
 Route::post('/login', 'RegisterController@login');
 Route::get('/logout', 'RegisterController@logout');
-Route::get('/','RegisterController@profile')->middleware('CustomAuth');
-Route::get('/profile','RegisterController@profile')->middleware('CustomAuth');
+Route::get('/','TasksController@todays_tasks')->middleware('CustomAuth');
+
+
+Route::get('/profile','TasksController@todays_tasks')->middleware('CustomAuth');
+
+
+
 Route::get('/register',array('as'=>'register','uses'=> 'RegisterController@register'))->middleware('CustomAuth');
 
 Route::post('/register', 'RegisterController@register')->middleware('CustomAuth');
@@ -135,3 +140,5 @@ Route::Delete('Cart/deleteInvoice/{id}',     'SaleController@deleteInvoice')->na
 Route::get('register/ajax/{id}',array('as'=>'register.ajax','uses'=>'GenericController@cityAjax'))->middleware('CustomAuth');
 
 Route::get('batch_selection/ajax',array('as'=>'batchSelection.ajax','uses'=>'SaleController@batchSelection'))->middleware('CustomAuth');
+
+
