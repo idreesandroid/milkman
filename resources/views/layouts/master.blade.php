@@ -33,7 +33,9 @@
 		<!-- Main CSS -->
         <link rel="stylesheet" href="{{asset('assets/css/style.css')}}">
 
-     
+		 
+     <!-- Custom CSS -->
+	 <link rel="stylesheet" href="{{asset('assets/css/custom_style.css')}}">
 		<!-- jQuery -->
         <script src="{{asset('assets/js/jquery-3.5.0.min.js')}}"></script>
 		
