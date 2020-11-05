@@ -121,17 +121,27 @@ Route::post('/payment_next_back',  'PaymentController@payment_next_back')->middl
 //Cart routes--------------------------------
 
 Route::get('Cart/index',           'SaleController@index')->name('index.sale')->middleware('CustomAuth');
-Route::get('Cart/pendingInvoice',  'SaleController@pendingInvoice')->name('pending.invoice')->middleware('CustomAuth');
+//Route::get('Cart/edit/{id}',           'SaleController@productInCart')->name('cart.product')->middleware('CustomAuth');
+
+Route::get('Cart/reserveInvoice',  'SaleController@reserveInvoice')->name('reserve.invoice')->middleware('CustomAuth');
+Route::get('Invoice/status/{id}',    'SaleController@reserveStatus')->name('update.Stock_status')->middleware('CustomAuth');
+Route::get('Cart/onHoldInvoice',  'SaleController@onHoldInvoice')->name('onHold.invoice')->middleware('CustomAuth');
+
 Route::get('Cart/create',          'SaleController@generateInvoice')->name('create.invoice')->middleware('CustomAuth');
 Route::post('Cart/create',         'SaleController@SaveInvoice')->name('save.invoice')->middleware('CustomAuth');
 //Route::get('Cart/edit/{id}',       'CartController@edit')->name('edit.cart');
 // Route::post('Cart/update/{id}',   'CartController@update')->name('update.cart');
 
+Route::get('Cart/selectbatch',          'SaleController@selectBatch')->name('select.batch')->middleware('CustomAuth');
+Route::post('selectbatch/{id}',         'SaleController@SaveBatch')->name('save.Batch')->middleware('CustomAuth');
+
 
 Route::Delete('Cart/deleteInvoice/{id}',     'SaleController@deleteInvoice')->name('delete.invoice')->middleware('CustomAuth');
 
-//GenericController routes-------------------------------
+//GenericController routes------------------
 //ajax routes-------------------------------
 Route::get('register/ajax/{id}',array('as'=>'register.ajax','uses'=>'GenericController@cityAjax'))->middleware('CustomAuth');
 
 Route::get('batch_selection/ajax/{id}',array('as'=>'batchSelection.ajax','uses'=>'SaleController@batchSelection'))->middleware('CustomAuth');
+
+//Route::get('add_batch_selection/ajax/{id}',array('as'=>'addBatchSelection.ajax','uses'=>'SaleController@SaveBatch'))->middleware('CustomAuth');

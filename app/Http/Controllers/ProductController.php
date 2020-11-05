@@ -12,7 +12,7 @@ class ProductController extends Controller
     {        
        //$availableStocks=ProductStock::where('stockInBatch','<>',0)->select('stockInBatch')->get();
  
-       $products_rs = "SELECT id, product_name, product_nick, product_size, product_price,product_description, unit, currentInStock, ctn_value, filenames,
+       $products_rs = "SELECT id, product_name, product_nick, product_size, product_price,product_description, unit,  ctn_value, filenames,
        (SELECT IFNULL(SUM(stockInBatch),0)  FROM product_stocks WHERE stockInBatch>0 and product_id=a.id)stockInBatch
         FROM products a";    
         $products = DB::select($products_rs);
@@ -88,6 +88,7 @@ $updatedata = $request->validate([
     'ctn_value'=>'required',
    
 ]);
+
 Product::whereid($id)->update($updatedata);
 return redirect('Product/index');
 

@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Cart extends Model
 {
-    protected $fillable = ['product_quantity','product_rate','sub_total'];   
+    protected $fillable = ['product_quantity','product_rate','sub_total','delivery_due_date'];   
     
     public function cart_invoice()
     {
@@ -26,6 +26,11 @@ class Cart extends Model
     public function batch()
     {
         return $this->belongsTo(ProductStock::class);
+    }
+
+    public function setCartId()
+    {
+        return $this->hasMany(Hold_Batch::class);
     }
 
 }

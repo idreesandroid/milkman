@@ -104,8 +104,8 @@
 									
 									<li><a href="/Cart/create" class="active">New Invoice</a></li>
 									<li><a href="/Cart/index" class="active">Sale Record </a></li>
-									<li><a href="/Cart/pendingInvoice" class="active">Pending Invoices</a></li>
-									
+									<li><a href="/Cart/reserveInvoice" class="active">Reserve Stock</a></li>
+									<li><a href="/Cart/onHoldInvoice" class="active">On Hold Invoice</a></li>								
 									 
 								</ul>
 							</li>
