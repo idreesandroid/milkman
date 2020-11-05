@@ -32,8 +32,10 @@ class CreateCartsTable extends Migration
 
             $table->integer('product_quantity');
             $table->integer('product_rate');
-            $table->boolean('cart_flag')->default(0);
+            $table->enum('cart_flag',['In_Process','Delivered','Reserve']);
             $table->integer('sub_total');
+            $table->date('delivery_due_date');
+            
             
             $table->timestamps();
         });

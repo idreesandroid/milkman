@@ -19,4 +19,9 @@ class ProductStock extends Model
     {
         return $this->hasMany(Cart::class);
     }
+
+    public function setBatch()
+    {
+        return $this->hasMany(Hold_Batch::class);
+    }
 }
