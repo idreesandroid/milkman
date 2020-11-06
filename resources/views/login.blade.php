@@ -49,7 +49,7 @@
 								<div class="form-group">
 
 									<label>Mobile/CNIC</label>
-									<input class="form-control" type="text" name="username" required >
+									<input class="form-control" type="text" name="username" required="" autocomplete="off" >
 
 								</div>
 								<div class="form-group">
@@ -62,7 +62,7 @@
 										</div>
 									</div>
 
-									<input class="form-control" name="password" type="password" placeholder="Password">
+									<input class="form-control" name="password" type="password" placeholder="Password" autocomplete="off">
 
 								</div>
 								<div class="form-group text-center">

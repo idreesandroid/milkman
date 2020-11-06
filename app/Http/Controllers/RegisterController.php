@@ -31,8 +31,8 @@ class RegisterController extends Controller
             'user_name'      => 'required|min:3',
             'email'     => 'required|unique:users',
             'passw'  => 'required|min:6',
-            'user_cnic' => 'required|min:13|unique:users|numeric',
-            'user_phone'=> 'required|min:11|unique:users|numeric',
+            'user_cnic' => 'required|min:13|unique:users',
+            'user_phone'=> 'required|min:11|unique:users',
             'user_state'  => 'required',
             'user_city'  => 'required',
             'user_address'  => 'required|min:10',
@@ -75,9 +75,11 @@ DB::insert("$enter_role");
  //return $enter_role;
  
 
-
-        return redirect('register')->with('msg','Record Inserted Successfully.');
+ return redirect('/');
+        //return redirect('register')->with('msg','Record Inserted Successfully.');
     }
+
+
 
      public function user_role_list(Request $request)
      {
@@ -87,8 +89,6 @@ DB::insert("$enter_role");
 
       $load_d = "SELECT  id,  designation_title FROM `designations` ORDER BY id ASC";
       $load_designation =  DB::select($load_d);
-      
-
 
       return  view('register',  compact('roles','states','load_designation') );
 
@@ -189,8 +189,8 @@ $updatedata = $request->validate([
   'name'      => 'required|min:3',
   'email'     => 'required|unique',
   'password'  => 'required|min:6',
-  'user_cnic' => 'required|min:13|unique|numeric',
-  'user_phone'=> 'required|min:11|unique|numeric',
+  'user_cnic' => 'required|min:13|unique',
+  'user_phone'=> 'required|min:11|unique',
   'state_id'  => 'required',
   'city_id'  => 'required',
   'user_address'  => 'required|min:10',
@@ -206,7 +206,6 @@ return redirect('user/userList');
 
       $request->session()->flush();
       return redirect('/login');
-  
   
       } 
       public function profile(Request $request)

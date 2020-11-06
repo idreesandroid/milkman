@@ -8,7 +8,7 @@
 					
 
     <div class="row">
-        <div class="col-sm-12">
+        <div class="col-sm-6">
             <div class="card mb-0">
                 
                 <div class="card-body">
@@ -17,16 +17,16 @@
                         <table class="datatable table table-stripped mb-0 datatables">
                             <thead>
                                 <tr>
-                                <th>ID</th>
-                                <th>Role ID</th>
+                                <th>Serial No</th>
+                                
                                 <th>Role Title</th>                                                           
                                 </tr>
                             </thead>
                             <tbody>
-                            @foreach($roles as $role)
+                            @foreach($roles as $index => $role)
                             <tr>
-                            <td>{{$role->id}}</td>
-                            <td>{{$role->role_id}}</td>
+                            <td>{{$index+1}}</td>
+                            
                             <td>{{$role->role_title}}</td>
                             </tr>
                             @endforeach

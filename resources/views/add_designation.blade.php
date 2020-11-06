@@ -25,7 +25,7 @@
                     <div class="form-group row">
                         <label for="role_title" class="col-form-label col-md-2">Designation</label>
                         <div class="col-md-10">
-                            <input type="text" class="form-control" name="designation_title" required="">
+                            <input type="text" class="form-control" name="designation_title" autocomplete="off" min="2" required="">
                         </div>
                     </div>
 

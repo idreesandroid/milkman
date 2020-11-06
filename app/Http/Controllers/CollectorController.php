@@ -50,9 +50,6 @@ public function set_task(Request $request)
     $task_id =  DB::table('collection_task_header')->insertGetId($set_task_data);
 
     
-
-     
-
     for($i=0; $i < count($request->input('route_id')); $i++ ) 
     {
       $route_ids =  $request->input('route_id')[$i];
@@ -62,10 +59,6 @@ public function set_task(Request $request)
 
 
     }
-
-
-
-
 
     return redirect('set_task')->with('msg','Record Inserted Successfully.');
 }
@@ -94,7 +87,6 @@ public function task_list(Request $request)
 
 public function task_vendors($id)
 {
-    
     $vend_query=" select  distinct  user_id, `name`, decided_rate from collection_task_vendors a
      INNER JOIN vendor_details b on b.route_id=a.route_id
      INNER JOIN users c on c.id=b.user_id 
@@ -105,6 +97,7 @@ public function task_vendors($id)
 
     return  view('task_collection', compact('vendor_list'))->with('task_id', $id);
 }
+
 public function task_collection_entry(Request $request)
 {
 $task_id =  $request->input('task_id');
@@ -126,12 +119,5 @@ VALUES ( '$task_id','$collector_id','$vendor_id','$received_qty','$milk_quality'
 DB::insert("$Records");
 return  redirect('task_list');
 }
-
-
-
-
-
-
-
 
 }

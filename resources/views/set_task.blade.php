@@ -62,20 +62,8 @@
         <option value="evening">Evening</option>
         </select>
         </div>
-     
-
-        
-        
-
-        
-
-        
-       
-
-         
-
-
-        
+          
+   
         <div class="form-group pt-2">
             <button class="btn btn-block btn-primary" type="submit">Register My Account</button>
         </div>
