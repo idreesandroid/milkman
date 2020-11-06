@@ -33,13 +33,13 @@ class ProductController extends Controller
 public function store(Request $request)
 {    
 $this->validate($request,[      
-    'product_name'=> 'required',
+    'product_name'=> 'required|unique:products',
     'product_nick'=>'required',
     'product_size'=>'required',
-    'product_price'=>'required',
+    'product_price'=>'required|numeric',
     'product_description'=>'required',
     'unit'=>'required',
-    'ctn_value'=>'required',
+    'ctn_value'=>'required|numeric',
     'filenames' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',    
      ]);
      

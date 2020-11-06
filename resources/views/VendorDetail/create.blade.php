@@ -43,12 +43,12 @@
 
             <div class="form-group">
                 <label>CNIC</label>
-                <input type="text" class="form-control" name="user_cnic"  maxlength="13"  required="" autocomplete="off"  >
+                <input type="text" class="form-control" data-inputmask="'mask': '99999-9999999-9'" placeholder="XXXXX-XXXXXXX-X" name="user_cnic"  maxlength="15"  required="" autocomplete="off"  >
             </div>
 
             <div class="form-group">
                 <label>Contact No</label>
-                <input type="text" class="form-control" name="user_phone" maxlength="11" required=""  autocomplete="off"  >
+                <input type="text" class="form-control" name="user_phone" data-inputmask="'mask': '0399-99999999'" placeholder="03XX-XXXXXXX" maxlength="12" required=""  autocomplete="off"  >
             </div>											
     
             <div class="form-group">
@@ -131,14 +131,14 @@
     <div class="col-md-6">
             <div class="form-group">
                 <label>Agreed  Quantity</label>
-                <input type="text" class="form-control" name="decided_milkQuantity"    required=""  autocomplete="off" >
+                <input type="number" min="0"  class="form-control" name="decided_milkQuantity"    required=""  autocomplete="off" >
             </div>
 
         </div>
         <div class="col-md-6">
             <div class="form-group">
                 <label>Agreed Rate</label>
-                <input type="text" class="form-control" name="decided_rate" required=""  autocomplete="off"  >
+                <input type="number" min="0" class="form-control" name="decided_rate" required=""  autocomplete="off"  >
             </div>
     </div>
     </div>
@@ -167,7 +167,7 @@
 
         <div class="form-group">
             <label>Branch Code</label>
-            <input type="text" class="form-control" id="branch_code" name="branch_code"   autocomplete="off" >
+            <input type="number" class="form-control" id="branch_code" name="branch_code"   autocomplete="off" >
         </div>											
 
     </div>
@@ -177,7 +177,7 @@
         
         <div class="form-group">
             <label>Account No</label>
-            <input type="text" class="form-control"  id="acc_no" name="acc_no"    autocomplete="off" >
+            <input type="number" class="form-control"  id="acc_no" name="acc_no"    autocomplete="off" >
         </div>
 
         <div class="form-group">
@@ -269,7 +269,16 @@ $('#bank_info').hide();
     });
 </script>
 			
-			
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/3/jquery.inputmask.bundle.js"></script>
+
+	<script>
+    $(":input").inputmask();
+   </script>
+
+
+
 			<!-- /page Wrapper -->
 		
             @endsection
