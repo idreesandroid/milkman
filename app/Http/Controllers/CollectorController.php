@@ -39,7 +39,7 @@ public function set_task(Request $request)
 
 
     $set_task_data = array(
-         
+         'task_date' => "$task_date",
         'collector_id'   => "$collector_id",
         'task_time'   => "'$task_time'", 
         'created_by'   => "$u_id" 
@@ -95,7 +95,6 @@ public function task_list(Request $request)
 public function task_vendors($id)
 {
     
-
     $vend_query=" select  distinct  user_id, `name`, decided_rate from collection_task_vendors a
      INNER JOIN vendor_details b on b.route_id=a.route_id
      INNER JOIN users c on c.id=b.user_id 
