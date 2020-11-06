@@ -17,14 +17,14 @@
                     <div class="form-group row">
                         <label for="product_name" class="col-form-label col-md-2">Product Name</label>
                         <div class="col-md-4">
-                            <input type="text" class="form-control" name="product_name" required="">
+                            <input type="text" class="form-control" name="product_name" required="" autocomplete="off">
                         </div>
                     </div>
 
                     <div class="form-group row">
                         <label for="product_nick" class="col-form-label col-md-2">Product Code</label>
                         <div class="col-md-4">
-                            <input type="text" class="form-control" name="product_nick" required="">
+                            <input type="text" class="form-control" name="product_nick" required="" autocomplete="off">
                         </div>
                     </div>
 
@@ -32,7 +32,7 @@
                     <div class="form-group row">
                         <label for="product_size" class="col-form-label col-md-2">Size</label>
                         <div class="col-md-4">
-                            <input type="text" class="form-control" name="product_size" required="">
+                            <input type="text" class="form-control" name="product_size" required="" autocomplete="off">
                         </div>
                     </div>
 
@@ -54,7 +54,7 @@
                     <div class="form-group row">
                         <label for="product_price" class="col-form-label col-md-2">Price</label>
                         <div class="col-md-4">
-                            <input type="text" class="form-control" name="product_price" required="">
+                            <input type="number" class="form-control" name="product_price" required="" autocomplete="off">
                         </div>
                     </div>
 
@@ -62,14 +62,14 @@
                     <div class="form-group row">
                         <label for="product_description" class="col-form-label col-md-2">Description</label>
                         <div class="col-md-4">
-                            <input type="text" class="form-control" name="product_description" required="">
+                            <input type="text" class="form-control" name="product_description" required="" autocomplete="off">
                         </div>
                     </div>
 
                     <div class="form-group row">
                         <label for="ctn_value" class="col-form-label col-md-2">Quantity/Carton</label>
                         <div class="col-md-4">
-                            <input type="text" class="form-control" name="ctn_value" required="">
+                            <input type="number" class="form-control" name="ctn_value" required="" autocomplete="off">
                         </div>
                     </div>
 

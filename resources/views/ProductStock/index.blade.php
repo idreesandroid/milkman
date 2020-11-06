@@ -17,7 +17,7 @@
                         <table class="datatable table table-stripped mb-0 datatables">
                             <thead>
                                 <tr>
-                                <th>ID</th>
+                                <th>Serial No</th>
                                 <th>Product Name</th>
                                 <th>Batch ID</th>
                                 <th>Manufacture Date</th>
@@ -29,9 +29,9 @@
                                 </tr>
                             </thead>
                             <tbody>
-                            @foreach($product_stocks as $product_stock)
+                            @foreach($product_stocks as $index => $product_stock)
                             <tr>
-                            <td>{{$product_stock->id}}</td>
+                            <td>{{$index+1}}</td>
                             <td>{{$product_stock->product->product_name}}</td>
                             <td>{{$product_stock->batch_name}}</td>
                             <td>{{$product_stock->manufactured_date}}</td>
