@@ -71,12 +71,12 @@
 
                                                 <div class="form-group">
 													<label>CNIC</label>
-													<input type="text" class="form-control" name="user_cnic" required="" maxlength="13" autocomplete="off">
+													<input type="text" class="form-control" data-inputmask="'mask': '99999-9999999-9'" placeholder="XXXXX-XXXXXXX-X" name="user_cnic" required="" maxlength="15" autocomplete="off">
 												</div>
 
                                                 <div class="form-group">
 													<label>Contact No</label>
-													<input type="text" class="form-control" name="user_phone" maxlength="11" required="" autocomplete="off">
+													<input type="text" class="form-control" name="user_phone" data-inputmask="'mask': '0399-99999999'" placeholder="03XX-XXXXXXX" maxlength="12" required="" autocomplete="off">
 												</div>											
 										
 											</div>
@@ -89,11 +89,11 @@
 
 												<div class="form-group">
 													<label>Password</label>
-													<input type="text" class="form-control" id="pass" name="passw" required="" type="password"   minlength="6"  >
+													<input type="password" class="form-control" id="pass" name="passw" required=""  autocomplete="off"   minlength="6"  >
 												</div>
 												<div class="form-group">
 													<label>Repeat Password</label>
-													<input type="text" class="form-control" id="pass1" name="pass1" required="" type="password"  minlength="6"    >
+													<input type="password" class="form-control" id="pass1" name="pass1" required=""  autocomplete="off"  minlength="6"    >
 												</div>
 											</div>
 										</div>
@@ -192,6 +192,15 @@
 </script>
 
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/3/jquery.inputmask.bundle.js"></script>
+
+
+
+	<script>
+    $(":input").inputmask();
+
+   </script>
 
 
 

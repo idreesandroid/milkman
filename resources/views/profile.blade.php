@@ -20,7 +20,7 @@
         </div>
 <?php 
 
-$percent = round(($task_completed*100)/$task_total,2);
+$percent = round(($task_completed*100)/1,2);
 
 ?>
 
