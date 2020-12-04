@@ -13,11 +13,21 @@
                 
                 <div class="card-body">
 
-                    <div class="table-responsive">
-                        <table class="datatable table table-stripped mb-0 datatables">
+                @can('Create-User')
+                <div class="form-group mb-0 row">                
+                        <div class="col-md-4">                           
+                            <div class="input-group-append">
+                            <a href="/register" class="active"> <button class="btn btn-primary" type="button">Register</button></a>
+                            </div>                           
+                        </div>
+                    </div>
+                    @endcan
+
+                    <div class="table-responsive" >
+                        <table class="datatable table table-stripped mb-0 datatables" id="userTable">
                             <thead>
                                 <tr>
-                                <th>ID</th>
+                                <th>Serial No</th>
                                 <th>Name</th>
                                 <th>Email</th>
                                 <th>User Roll</th>      
@@ -26,24 +36,24 @@
                                 <th>State</th>      
                                 <th>City</th> 
                                 <th>Address</th>
-                                <th>Action</th>  
+                                <!-- <th>Action</th>   -->
 
                                 </tr>
                             </thead>
                             <tbody>
-                            @foreach($users as $user)
+                            @foreach($users as $index => $user)
                             <tr>
-                            <td>{{$user->id}}</td>
+                            <td>{{$index+1}}</td>
                             <td>{{$user->name}}</td>
                             <td>{{$user->email}} </td>
-                            <td></td>
+                            <td>@foreach ($user->roles as $role) <span>{{$role->name.','}}</span>@endforeach</td>
                             <td>{{$user->user_cnic}}</td>
                             <td>{{$user->user_phone}}</td>
                             <td>{{$user->state->state_name}} </td>
                             <td>{{$user->city->city_name}}</td>
                             <td>{{$user->user_address}}</td>
-                            <td><a href="{{ route('edit.userList', $user->id)}}" class="btn btn-primary">Edit</a></td>
-                                
+                            <!-- <td><a href="{{ route('edit.userList', $user->id)}}" class="btn btn-primary">Edit</a></td>
+                                 -->
                             </tr>
                             @endforeach
                             </tbody>
@@ -56,8 +66,18 @@
 				
 				
 			<!-- /Page Wrapper -->
+
+
+            
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
+
+<script>
+ $(document).ready( function () {
+    $('#userTable').DataTable();
+} );
+</script>
+
  @endsection
 
 		       
-
-	

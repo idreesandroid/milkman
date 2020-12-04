@@ -10,9 +10,20 @@
     <div class="row">
         <div class="col-sm-12">
             <div class="card mb-0">
+
+
                 
                 <div class="card-body">
 
+                @can('Create-Product')
+                <div class="form-group mb-0 row">                
+                        <div class="col-md-4">                           
+                            <div class="input-group-append">
+                            <a href="/product/create" class="active"> <button class="btn btn-primary" type="button">Add Product</button></a>
+                            </div>                           
+                        </div>
+                    </div>
+                @endcan
                     <div class="table-responsive">
                         <table class="datatable table table-stripped mb-0 datatables">
                             <thead>

@@ -3,10 +3,16 @@
 namespace App\Http\Controllers;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
-use App\Product;
-use App\ProductStock;
+use App\Models\Product;
+use App\Models\ProductStock;
 class ProductController extends Controller
 {
+
+    public function __construct()
+{
+    $this->middleware('auth');
+}
+
 
     public function index()
     {        
@@ -17,14 +23,14 @@ class ProductController extends Controller
         FROM products a";    
         $products = DB::select($products_rs);
 
-       return view('Product/index', compact('products'));
+       return view('product/index', compact('products'));
     }
 
     //create view-------------------------
     public function create() 
     {
         $units = ['ml','ltr','gm','kg'];
-        return view('Product/create',compact('units'));  
+        return view('product/create',compact('units'));  
     }
 
 //create-------------------------
@@ -56,27 +62,27 @@ $products->ctn_value = $request->ctn_value;
 
 $imageName = time().'.'.$request->filenames->extension();    
 $request->filenames->move(public_path('product_img'), $imageName);
+
 $products->filenames = $imageName;
 
 $products->save();
 
 //dd($visitor);
 
-return redirect('Product/index');
+return redirect('product/index');
 
 }
 
 public function edit($id)
 {
-    $units = ['ml','ltr','gm','kg'];
+ $units = ['ml','ltr','gm','kg'];
 $products = Product::findOrFail($id);
-return view('Product/edit', compact('products','units'));
+return view('product/edit', compact('products','units'));
 }
 
 
 public function update(Request $request, $id)
 {
-
 $updatedata = $request->validate([
 
     'product_name'=> 'required',
@@ -86,11 +92,47 @@ $updatedata = $request->validate([
     'product_description'=>'required',
     'unit'=>'required',
     'ctn_value'=>'required',
+        
    
 ]);
 
+$filenametostore='';
+
+if($request->hasFile('filenames')) {
+$destinationPath = public_path('product_img');
+$dealer_logo = $request->file('filenames');
+//get filename with extension
+$filenamewithextension = $request->file('filenames')->getClientOriginalName();
+
+//get filename without extension
+$filename = pathinfo($filenamewithextension, PATHINFO_FILENAME);
+
+//get file extension
+$extension = $request->file('filenames')->getClientOriginalExtension();
+
+//filename to store
+$filenametostore = $filename.'_'.time().'.'.$extension;
+
+//Upload File
+//$request->file('dealer_logo')->storeAs('public/dealerLogo', $filenametostore);
+$dealer_logo->move($destinationPath, $filenametostore);
+
+}
+
+// echo "<pre>";
+// print_r($filenametostore);
+//  exit;
+
+if($filenametostore){
+$updatedata = array_merge($updatedata, array("filenames" => $filenametostore));
+}
+
+
+
+
+
 Product::whereid($id)->update($updatedata);
-return redirect('Product/index');
+return redirect('product/index');
 
 }
 
@@ -98,6 +140,6 @@ public function deleteProduct($id)
 {
  $products = Product::findOrFail($id);
  $products->delete();
- return redirect('Product/index');
+ return redirect('product/index');
 }
 }

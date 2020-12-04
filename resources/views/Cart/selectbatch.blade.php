@@ -148,7 +148,7 @@
 <script type="text/javascript">
  var BID="";
  var getPQuantity="";
-
+// alert("show");
  function getBId(id)
  {     
    BID=id;
@@ -265,7 +265,7 @@ var select_qty=[];
   });
 
   let sel_qty = select_qty;
-  
+  //alert("ok");
     $.ajax({
 url: '/selectbatch/'+cart_no,
 type: "POST",
@@ -273,15 +273,17 @@ dataType: "json",
 headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}' },
 data:{"name":sel_qty},
 success:function(data) {
+    
      $('.batch_fetch').each(function(){
         $(this).find('input').each(function(){
             $(this).attr('disabled', 'disabled');    
   });
   });
+  alert("ok2");
   $("#myModal").modal('hide');
   $('#add_batch_id').attr('disabled', 'disabled'); 
   $('#batch_'+BID).attr('disabled', 'disabled');
-  
+  alert("ok3");
   $('#tbl_bat_sel').each(function(){
   $(this).find('button').each(function(){
     collect_id.push($(this).attr("id"));       

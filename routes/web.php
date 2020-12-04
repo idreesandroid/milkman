@@ -1,6 +1,16 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\GenericController;
+use App\Http\Controllers\RoleController;
+use App\Http\Controllers\PermissionController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ProductStockController;
+use App\Http\Controllers\VendorDetailController;
+use App\Http\Controllers\SaleController;
+use App\Http\Controllers\DistributorController;
+use App\Http\Controllers\Auth\RegisterController;
 
 /*
 |--------------------------------------------------------------------------
@@ -12,137 +22,81 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-//user route
 
+Route::get('/', function () {
+    return view('welcome');
+});
 
+Auth::routes();
 
-
+Route::get('/home', [HomeController::class, 'index'])->name('home');
  
-Route::get('/login', function () { return view('login'); });
+//Users routes--------------------------------
+Route::get('user/userList',        [RegisterController::class, 'allUserList'])->name('index.userList')->middleware('can:See-User');
+Route::get('user/edit/{id}',       [RegisterController::class, 'edit'])->name('edit.userList')->middleware('can:Edit-User');
+Route::post('user/update/{id}',    [RegisterController::class,'update'])->name('update.userList')->middleware('can:Edit-User');
+ //Role routes--------------------------------
 
-
-
-Route::post('/login', 'RegisterController@login');
-Route::get('/logout', 'RegisterController@logout');
-Route::get('/','TasksController@todays_tasks')->middleware('CustomAuth');
-Route::get('/profile','TasksController@todays_tasks')->middleware('CustomAuth');
-
-Route::get('/register',array('as'=>'register','uses'=> 'RegisterController@register'))->middleware('CustomAuth');
-Route::post('/register', 'RegisterController@register')->middleware('CustomAuth');
-
-Route::get('/register', 'RegisterController@user_role_list')->middleware('CustomAuth');
-
-
-
-
-//Mine routes--------------------------------------------------------------------------------------------------------------------
-//Mine routes--------------------------------------------------------------------------------------------------------------------
-//Mine routes--------------------------------------------------------------------------------------------------------------------
-
-
-//Get Users by role routes-------------------------------
-Route::get('roles/roleList', array('as'=>'roleList.ajax','uses'=>  'RegisterController@roleList'))->middleware('CustomAuth');
-Route::get('user/specificUserList/{rid}',           'RegisterController@specificUserList')->middleware('CustomAuth');
-//All User routes-------------------------------
-Route::get('user/userList',           'RegisterController@userList')->name('index.userList')->middleware('CustomAuth');
-//Edit for all type of user record routes-------------------------------
-Route::get('user/edit/{id}',       'RegisterController@edit')->name('edit.userList')->middleware('CustomAuth');
-Route::post('user/update/{id}',    'RegisterController@update')->name('update.userList')->middleware('CustomAuth');
+Route::get('role/index',           [RoleController::class, 'index'])->name('index.role')->middleware('can:See-Role');
+Route::get('role/create',          [RoleController::class, 'create'])->name('create.role')->middleware('can:Create-Role');
+Route::post('role/create',         [RoleController::class, 'store'])->name('store.role')->middleware('can:Create-Role');
+Route::get('role/edit/{id}',       [RoleController::class, 'edit'])->name('edit.role')->middleware('can:Edit-Role');
+Route::post('role/update/{id}',    [RoleController::class, 'update'])->name('update.role')->middleware('can:Edit-Role');
+Route::Delete('role/delete/{id}',  [RoleController::class, 'deleteRole'])->name('delete.role')->middleware('can:Delete-Role');
+//Role routes--------------------------------
+Route::get('permission/index',      [PermissionController::class, 'index'])->name('index.permission')->middleware('can:See-Permission');
+Route::get('permission/create',     [PermissionController::class, 'create'])->name('create.permission')->middleware('can:Create-Permission');
+Route::post('permission/create',    [PermissionController::class, 'store'])->name('store.permission')->middleware('can:Create-Permission');
 
 //Product routes--------------------------------
 
-Route::get('Product/index',           'ProductController@index')->name('index.product')->middleware('CustomAuth');
-Route::get('Product/create',          'ProductController@create')->name('create.product')->middleware('CustomAuth');
-Route::post('Product/create',         'ProductController@store')->name('store.product')->middleware('CustomAuth');
-Route::get('Product/edit/{id}',       'ProductController@edit')->name('edit.product')->middleware('CustomAuth');
-Route::post('Product/update/{id}',    'ProductController@update')->name('update.product')->middleware('CustomAuth');
-Route::Delete('Product/delete/{id}',  'ProductController@deleteProduct')->name('delete.product')->middleware('CustomAuth');
+Route::get('product/index',           [ProductController::class, 'index'])->name('index.product')->middleware('can:See-Product');
+Route::get('product/create',          [ProductController::class, 'create'])->name('create.product')->middleware('can:Create-Product');
+Route::post('product/create',         [ProductController::class, 'store'])->name('store.product')->middleware('can:Create-Product');
+Route::get('product/edit/{id}',       [ProductController::class, 'edit'])->name('edit.product')->middleware('can:Edit-Product');
+Route::post('product/update/{id}',    [ProductController::class, 'update'])->name('update.product')->middleware('can:Edit-Product');
+Route::Delete('product/delete/{id}',  [ProductController::class, 'deleteProduct'])->name('delete.product')->middleware('can:Delete-Product');
 
 //ProductStock routes--------------------------------
 
-Route::get('ProductStock/index',           'ProductStockController@index')->name('index.productStock')->middleware('CustomAuth');
-Route::get('ProductStock/create',          'ProductStockController@create')->name('create.productStock')->middleware('CustomAuth');
-Route::post('ProductStock/create',         'ProductStockController@store')->name('store.productStock')->middleware('CustomAuth');
-Route::get('ProductStock/edit/{id}',       'ProductStockController@edit')->name('edit.productStock')->middleware('CustomAuth');
-Route::post('ProductStock/update/{id}',    'ProductStockController@update')->name('update.productStock')->middleware('CustomAuth');
-Route::Delete('ProductStock/delete/{id}',  'ProductStockController@deleteProductStock')->name('delete.productStock')->middleware('CustomAuth');
-
-//VendorRoute routes--------------------------------
-
-Route::get('VendorRoute/index',           'VendorRouteController@index')->name('index.VendorRoute')->middleware('CustomAuth');
-Route::get('VendorRoute/create',          'VendorRouteController@create')->name('create.VendorRoute')->middleware('CustomAuth');
-Route::post('VendorRoute/create',         'VendorRouteController@store')->name('store.VendorRoute')->middleware('CustomAuth');
-Route::get('VendorRoute/edit/{id}',       'VendorRouteController@edit')->name('edit.VendorRoute')->middleware('CustomAuth');
-Route::post('VendorRoute/update/{id}',    'VendorRouteController@update')->name('update.VendorRoute')->middleware('CustomAuth');
-Route::Delete('VendorRoute/delete/{id}',  'VendorRouteController@deleteVendorRoute')->name('delete.VendorRoute')->middleware('CustomAuth');
+Route::get('product-stock/index',           [ProductStockController::class, 'index'])->name('index.productStock')->middleware('can:See-Product-Stock');
+Route::get('product-stock/create',          [ProductStockController::class, 'create'])->name('create.productStock')->middleware('can:Create-Product-Stock');
+Route::post('product-stock/create',         [ProductStockController::class, 'store'])->name('store.productStock')->middleware('can:Create-Product-Stock');
+Route::get('product-stock/edit/{id}',       [ProductStockController::class, 'edit'])->name('edit.productStock')->middleware('can:Edit-Product-Stock');
+Route::post('product-stock/update/{id}',    [ProductStockController::class, 'update'])->name('update.productStock')->middleware('can:Edit-Product-Stock');
+Route::Delete('product-stock/delete/{id}',  [ProductStockController::class, 'deleteProductStock'])->name('delete.productStock')->middleware('can:Delete-Product-Stock');
 
 //VendorDetail routes--------------------------------
  
-Route::get('VendorDetail/index',           'VendorDetailController@index')->name('index.VendorDetail')->middleware('CustomAuth');
-Route::get('VendorDetail/create',          'VendorDetailController@create')->name('create.VendorDetail')->middleware('CustomAuth');
-Route::post('VendorDetail/create',         'VendorDetailController@store')->name('store.VendorDetail')->middleware('CustomAuth');
-Route::get('VendorDetail/edit/{id}',       'VendorDetailController@edit')->name('edit.VendorDetail')->middleware('CustomAuth');
-Route::post('VendorDetail/update/{id}',    'VendorDetailController@update')->name('update.VendorDetail')->middleware('CustomAuth');
+Route::get('vendor-detail/index',           [VendorDetailController::class, 'index'])->name('index.vendor-detail')->middleware('can:See-Vendor');
+Route::get('vendor-detail/create',          [VendorDetailController::class, 'create'])->name('create.vendor-detail')->middleware('can:Create-Vendor');
+Route::post('vendor-detail/create',         [VendorDetailController::class, 'store'])->name('store.vendor-detail')->middleware('can:Create-Vendor');
+Route::get('vendor-detail/edit/{id}',       [VendorDetailController::class, 'edit'])->name('edit.vendor-detail')->middleware('can:Edit-Vendor');
+Route::post('vendor-detail/update/{id}',    [VendorDetailController::class, 'update'])->name('update.vendor-detail')->middleware('can:Edit-Vendor');
 
-Route::get('vendorLedger',                 'VendorDetailController@get_vendors' )->middleware('CustomAuth');
-
-//Role routes--------------------------------
-
-Route::get('Role/index',           'RoleController@index')->name('index.role')->middleware('CustomAuth');
-Route::get('Role/create',          'RoleController@create')->name('create.role')->middleware('CustomAuth');
-Route::post('Role/create',         'RoleController@store')->name('store.role')->middleware('CustomAuth');
-
+//Distributor Detail routes--------------------------------
+ 
+Route::get('distributor-detail/index',           [DistributorController::class, 'index'])->name('index.distributor-detail')->middleware('can:See-Distributor');
+Route::get('distributor-detail/create',          [DistributorController::class, 'create'])->name('create.distributor-detail')->middleware('can:Create-Distributor');
+Route::post('distributor-detail/create',         [DistributorController::class, 'store'])->name('store.distributor-detail')->middleware('can:Create-Distributor');
+Route::get('distributor-detail/edit/{id}',       [DistributorController::class, 'edit'])->name('edit.distributor-detail')->middleware('can:Edit-Distributor');
+Route::post('distributor-detail/update/{id}',    [DistributorController::class, 'update'])->name('update.distributor-detail')->middleware('can:Edit-Distributor');
 
 //Cart routes--------------------------------
 
-Route::get('Cart/index',           'SaleController@index')->name('index.sale')->middleware('CustomAuth');
-Route::get('Cart/reserveInvoice',  'SaleController@reserveInvoice')->name('reserve.invoice')->middleware('CustomAuth');
-Route::get('Invoice/status/{id}',    'SaleController@reserveStatus')->name('update.Stock_status')->middleware('CustomAuth');
+Route::get('cart/index',                    [SaleController::class, 'index'])->name('index.sale')->middleware('can:See-Cart');
+Route::get('cart/reserveInvoice',           [SaleController::class, 'reserveInvoice'])->name('reserve.invoice')->middleware('can:See-Cart');
+Route::get('Invoice/status/{id}',           [SaleController::class, 'reserveStatus'])->name('update.Stock_status')->middleware('can:See-Cart');
 
-Route::get('Cart/onHoldInvoice',  'SaleController@onHoldInvoice')->name('onHold.invoice')->middleware('CustomAuth');
+Route::get('cart/onHoldInvoice',            [SaleController::class, 'onHoldInvoice'])->name('onHold.invoice')->middleware('can:See-Cart');
 
-Route::get('Cart/create',          'SaleController@generateInvoice')->name('create.invoice')->middleware('CustomAuth');
-Route::post('Cart/create',         'SaleController@SaveInvoice')->name('save.invoice')->middleware('CustomAuth');
-Route::get('Cart/selectbatch',          'SaleController@selectBatch')->name('select.batch')->middleware('CustomAuth');
-Route::post('selectbatch/{id}',         'SaleController@SaveBatch')->name('save.Batch')->middleware('CustomAuth');
-Route::Delete('Cart/deleteInvoice/{id}',     'SaleController@deleteInvoice')->name('delete.invoice')->middleware('CustomAuth');
+Route::get('cart/create',                   [SaleController::class, 'generateInvoice'])->name('create.invoice')->middleware('can:Generate-Invoice');
+Route::post('cart/create',                  [SaleController::class, 'SaveInvoice'])->name('save.invoice')->middleware('can:Generate-Invoice');
+Route::get('cart/selectbatch',              [SaleController::class, 'selectBatch'])->name('select.batch')->middleware('can:Generate-Invoice');
+Route::Delete('cart/deleteInvoice/{id}',    [SaleController::class, 'deleteInvoice'])->name('delete.invoice')->middleware('can:Delete-Invoice');
 
 //ajax routes-------------------------------
-Route::get('register/ajax/{id}',array('as'=>'register.ajax','uses'=>'GenericController@cityAjax'))->middleware('CustomAuth');
-Route::get('batch_selection/ajax/{id}',array('as'=>'batchSelection.ajax','uses'=>'SaleController@batchSelection'))->middleware('CustomAuth');
 
-//Route::get('add_batch_selection/ajax/{id}',array('as'=>'addBatchSelection.ajax','uses'=>'SaleController@SaveBatch'))->middleware('CustomAuth');
-
-//------Mine routes--------------------------------------------------------------------------------------------------------------------
-//------Mine routes--------------------------------------------------------------------------------------------------------------------
-//------Mine routes--------------------------------------------------------------------------------------------------------------------
-
-
- 
-/* /{vendor_id}{date_from}{date_to} */
- Route::get('vendorLedgerDetail/{vendor_id}/{date_from}/{date_to}','VendorDetailController@vendorLedgerDetail')->middleware('CustomAuth') ;
- Route::post('/vendorLedger','VendorDetailController@vendorLedger') ->middleware('CustomAuth');
-
-//Task routes--------------------------------
-Route::get('/set_task', 'CollectorController@collector_list')->middleware('CustomAuth');
-Route::post('/set_task', 'CollectorController@set_task')->middleware('CustomAuth');
-Route::get('/task_list',  'CollectorController@task_list')->middleware('CustomAuth');
-Route::get('/task_collection/{id}',  'CollectorController@task_vendors')->middleware('CustomAuth');
-Route::post('/task_collection',  'CollectorController@task_collection_entry')->middleware('CustomAuth');
-//Role routes--------------------------------
-Route::get('/add_sub_roles', 'RoleController@load_roles')->middleware('CustomAuth');
-Route::post('/add_sub_roles', 'RoleController@add_sub_roles')->middleware('CustomAuth');
-Route::get('/add_designation', 'DesignationController@load_designation')->middleware('CustomAuth');
-Route::post('/add_designation', 'DesignationController@add_designation')->middleware('CustomAuth');
-
-
-Route::get('/payment',  'PaymentController@userList')->middleware('CustomAuth'); 
-Route::post('/payment',  'PaymentController@payment_to')->middleware('CustomAuth'); 
-Route::get('/payment_request',  'PaymentController@payment_request_load')->middleware('CustomAuth'); 
-Route::post('/payment_request',  'PaymentController@payment_request')->middleware('CustomAuth'); 
-Route::get('/payment_request_detail/{id}',  'PaymentController@payment_request_detail')->middleware('CustomAuth'); 
-Route::post('/payment_next_back',  'PaymentController@payment_next_back')->middleware('CustomAuth'); 
-
-
-
-
+Route::post('selectbatch/{id}',             [SaleController::class, 'SaveBatch'])->name('save.Batch')->middleware('can:Generate-Invoice');
+Route::get('batch_selection/ajax/{id}',     [SaleController::class, 'batchSelection'])->name('select.Batch')->middleware('can:Generate-Invoice');
+Route::get('register/ajax/{id}',            [GenericController::class, 'cityAjax']);
