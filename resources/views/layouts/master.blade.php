@@ -9,6 +9,8 @@
         <meta name="robots" content="noindex, nofollow">
         <title>Milk Man App</title>
 		
+
+		
 		<!-- Favicon -->
         <link rel="shortcut icon" type="image/x-icon" href="{{asset('assets/img/favicon.png')}}">
 		
@@ -164,6 +166,13 @@ function printDiv(div_id)
 						<div class="dropdown-menu">
 							<a class="dropdown-item" href="#">My Profile</a>
 							<a class="dropdown-item" href="#">Settings</a>
+							<a class="dropdown-item" href="{{ route('logout') }}"  onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                                        {{ __('Logout') }}</a>
+
+										<form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                        @csrf
+                                    </form>
 							@if(session()->get('user_name') !="" )
                                <a class="dropdown-item" href="/logout">Logout</a>  
                                 @endif 
@@ -199,20 +208,11 @@ function printDiv(div_id)
 				              </a>
 				            </li>
 
-							<li> 
-								<a href="#"><i class="fa fa-check-square-o" aria-hidden="true"></i> <span>Payment Request</span></a>
-								<ul class="sub-menus">
-									 
-									<li><a href="/payment_request" class="active">Payment Requests</a></li>
-									 
-									
-									 
-								</ul>
-							</li>
+						
 
-@if(session()->get('hierarchy_role')==1)
+
 @include('admin_nav');
-@endif
+
 
 @if(session()->get('hierarchy_role')==20)
 @include('collector_nav');
@@ -279,19 +279,26 @@ function printDiv(div_id)
 		
 		
 		<!-- Chart JS -->
-		<script src="{{asset('assets/js/morris.js')}}"></script>
+		<!--<script src="{{asset('assets/js/morris.js')}}"></script>
 		
 		<script src="{{asset('assets/plugins/raphael/raphael.min.js')}}"></script>
-		<script src="{{asset('assets/js/chart.js')}}"></script>
-		<script src="{{asset('assets/js/linebar.min.js')}}"></script>
-		<script src="{{asset('assets/js/piechart.js')}}"></script>
-		<script src="{{asset('assets/js/apex.min.js')}}"></script>
+		 <script src="{{asset('assets/js/chart.js')}}"></script> -->
+		<!-- <script src="{{asset('assets/js/linebar.min.js')}}"></script>
+		<script src="{{asset('assets/js/piechart.js')}}"></script> -->
+		<!-- <script src="{{asset('assets/js/apex.min.js')}}"></script> -->
 
 		<!-- theme JS -->
 		<script src="{{asset('assets/js/theme-settings.js')}}"></script>
 
 		<!-- Custom JS -->
 		<script src="{{asset('assets/js/app.js')}}"></script>
+		<!-- <script src="{{asset('assets/js/jquery.js')}}"></script> -->
+		<script src="{{asset('assets/js/inputmask.js')}}"></script>
+
+
+<!---------ajax---------------->
+
+
 
 		
     </body>

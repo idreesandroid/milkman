@@ -28,13 +28,6 @@
                 </div>
 
                 <div class="form-group row">
-                    <label for="password" class="col-form-label col-md-2">Password</label>
-                    <div class="col-md-10">
-                        <input type="password" class="form-control" name="password" value="{{ $users->password }}" required="">
-                    </div>
-                </div>
-
-                <div class="form-group row">
                     <label for="user_cnic" class="col-form-label col-md-2">CNIC</label>
                     <div class="col-md-10">
                         <input type="text" class="form-control" name="user_cnic" value="{{ $users->user_cnic }}" required="">

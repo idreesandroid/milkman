@@ -3,99 +3,149 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use App\Role;
+use App\Models\Role;
+use App\Models\Permission;
+use Illuminate\Support\Str;
+use DB;
 class RoleController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function index()
     {
-      
-
-       $roles = Role::all();    
-       return view('Role/index', compact('roles'));
-      
-
+        $roles = Role::all();
+        
+       return view('role/index', compact('roles'));
     }
 
-    //create view-------------------------
 
-    public function create() 
-    { 
-         return view('Role/create');  
-    }
-
-//create-------------------------
-
-
-public function store(Request $request)
-{
-$this->validate($request,[      
-    'role_title'=> 'required|unique:roles|min:3',
-      
-     ]);
-
-     $next_r_i = "SELECT MAX(role_id+5) AS next_role_id FROM roles ";
-     $next_role_id = DB::select($next_r_i);
-     if(collect($next_role_id)->first()) {
-        $results = json_decode(json_encode($next_role_id[0]), true);
-        $next_role_id = $results['next_role_id'];
-     }
-
-
-$roles = new Role();
-$roles->role_id = $next_role_id;
-$roles->role_title = $request->role_title;
-$roles->save();
-return redirect('Role/index');
-
-}
-
-public function load_roles(Request $request)
-{   
-     
     
-    $roles_que="SELECT role_id, role_title FROM roles order by role_id";
-    $roles_list =  DB::select($roles_que);
- 
-   
-    $show_roles =" SELECT 
-    b.role_id AS main_role_id , 
-    b.role_title AS main_role_title,
-    a.`id` AS sub_role_id  ,
-    sub_role_title 
-    FROM `sub_roles` a
-    INNER JOIN roles b ON b.`role_id`=a.`role_id` ";
-    $show_roles_data =  DB::select($show_roles);
-    return view('add_sub_roles', compact('roles_list','show_roles_data') ); 
-}
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        $permissions = Permission::all(); 
+        return view('role/create', compact('permissions'));
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+        $this->validate($request,[      
+            'name'=> 'required|unique:roles|min:3',
+            'permissionName'=>'required'             
+             ]);
+                
+        $roles = new Role();
+        $roles->name = $request->name;
+        $roles->slug = Str::slug($request->name);
+        $roles->save();
+
+        $permission_names = $request['permissionName'];
+        foreach($permission_names as $permission_name)
+        {
+            $roles->allowTo(Permission::where('id', $permission_name)->first());
+            // echo "<pre>";
+            // print_r($permission_name);
+        }
+       
+        // exit;
+       
+        return redirect('role/index');
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        $roles = Role::with('permissions')->findOrFail($id);
+        $permissions=Permission::select('name','id')->get();
+
+            // echo "<pre>";
+            // print_r($roles);
+            // exit;
+        return view('role/edit', compact('roles','permissions'));
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    
+    
+    
+    {
+              
+    $updatedata = $request->validate([
+
+    'name'=> 'required',
+    'permissionName'=>'required'
+         
+]);
+
+Role::whereid($id)->update(array(
+    'name' => $request->name
+));
+DB::delete('delete from permission_role where role_id = ?',[$id]);
 
 
- 
 
 
+//$todayDate = date("Y-m-d H:i:s");
+    $permission_names = $request['permissionName'];
+    foreach($permission_names as $permission_name)
+    {
 
+    DB::insert('insert into permission_role (permission_id, role_id) values (?, ?)', [$permission_name, $id]);
+    }
 
+    return redirect('role/index');
+    }
 
-
-
-public function add_sub_roles(Request $request)
-{
-
-   $role_id = $request->input('role_id');
-   $sub_role_title = $request->input('sub_role_title');
-
-    $roles_que_i="insert into sub_roles (role_id, sub_role_title) values ('$role_id','$sub_role_title') ";
- 
-   $sup_role_key = DB::insert($roles_que_i);
-if(isset($sup_role_key)){
-    $msg1 = [ 'msg'  => 'Success: Sub role inserted successfully' ];
-}else{
-    $msg1 = [ 'msg'  => 'Failed: Sub role not inserted' ];
-}
-   
- 
-     
- return redirect('add_sub_roles'); 
-}
-
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function deleteRole($id)
+    {
+        $roles = Role::findOrFail($id);
+        $roles->delete();
+        return redirect('role/index');
+    }
 }

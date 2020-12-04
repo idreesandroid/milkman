@@ -4,10 +4,10 @@
     <div class="col-lg-12">
         <div class="card">
             <div class="card-header">
-                <h4 class="card-title mb-0">Add Product</h4>
+                <h4 class="card-title mb-0">Edit Product</h4>
             </div>
             <div class="card-body">
-            <form method="post"  action="{{ route('update.product', $products->id) }}">
+            <form method="post"  action="{{ route('update.product', $products->id) }}"  enctype="multipart/form-data">
                 @csrf 
                     <div class="form-group row">
                         <label for="product_name" class="col-form-label col-md-2">Product Name</label>
@@ -71,6 +71,12 @@
                         </div>
                     </div>
 
+                    <div class="form-group row">
+                    <label for="filenames" class="col-form-label col-md-2">Upload Image</label>
+                    <div class="col-md-6">
+                    <input type="file" class="form-control" name="filenames"  autocomplete="off" >
+                    </div>
+                    </div>
 
                     <div class="form-group mb-0 row">                
                         <div class="col-md-6">                           

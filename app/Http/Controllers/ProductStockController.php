@@ -2,15 +2,22 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
-use App\Product;
-use App\ProductStock;
+
+use App\Models\Product;
+use App\Models\ProductStock;
 class ProductStockController extends Controller
 {
+
+    public function __construct()
+{
+    $this->middleware('auth');
+}
     public function index()
     {   
        $product_stocks = ProductStock::with('product')->get();
-       return view('ProductStock/index', compact('product_stocks'));
+       return view('product-stock/index', compact('product_stocks'));
     }
 
     //create view-------------------------
@@ -18,7 +25,7 @@ class ProductStockController extends Controller
     public function create() 
     {       
         $products= Product::select('product_name','id')->get();
-        return view('ProductStock/create',compact('products'));
+        return view('product-stock/create',compact('products'));
     }
 
 //create-------------------------
@@ -34,9 +41,12 @@ $this->validate($request,[
     
      ]);
 
+     $mid = Auth::id();
 
+    //   echo "<pre>";
+    // print_r($mid);
+    //  exit;
 
-     
 $product_codes = Product::where('id',$request->product_id)->select('product_nick','id')->first();
 $product_code =$product_codes->product_nick;
 
@@ -48,9 +58,9 @@ $product_stocks->manufactured_date = $request->manufactured_date;
 $product_stocks->expire_date = $request->expire_date;
 $product_stocks->manufactured_quantity = $request->manufactured_quantity;
 $product_stocks->stockInBatch = $request->manufactured_quantity;
-$product_stocks->manager_id =session()->get('u_id');
+$product_stocks->manager_id =$mid; //it should be come from session
 $product_stocks->save();
-return redirect('ProductStock/index');
+return redirect('product-stock/index');
 
 }
 
@@ -65,7 +75,7 @@ public function edit($id)
 {
     $product_stocks = ProductStock::findOrFail($id);
     $products= Product::select('product_name','id')->get();
-   return view('ProductStock/edit', compact('product_stocks','products'));
+   return view('product-stock/edit', compact('product_stocks','products'));
 }
 
 
@@ -82,7 +92,7 @@ $updatedata = $request->validate([
    
 ]);
 ProductStock::whereid($id)->update($updatedata);
-return redirect('ProductStock/index');
+return redirect('product-stock/index');
 
 }
 
@@ -90,6 +100,7 @@ public function deleteProductStock($id)
 {
  $product_stocks = ProductStock::findOrFail($id);
  $product_stocks->delete();
- return redirect('ProductStock/index');
+ return redirect('product-stock/index');
 }
+
 }
