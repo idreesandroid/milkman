@@ -1,11 +1,7 @@
-
 @extends('layouts.master')
 @section('content')
 			
-<!-- Page Wrapper -->
-           
-
-					
+<!-- Page Wrapper -->			
 
     <div class="row">
         <div class="col-sm-12">
@@ -29,13 +25,10 @@
                                 <tr>
                                 <th>Serial No</th>
                                 <th>Name</th>
-                                <th>Email</th>
                                 <th>User Roll</th>      
                                 <th>CNIC</th>                                
                                 <th>Phone</th>
-                                <th>State</th>      
-                                <th>City</th> 
-                                <th>Address</th>
+                                <th>Detail</th>
                                 <!-- <th>Action</th>   -->
 
                                 </tr>
@@ -45,13 +38,13 @@
                             <tr>
                             <td>{{$index+1}}</td>
                             <td>{{$user->name}}</td>
-                            <td>{{$user->email}} </td>
+                           
                             <td>@foreach ($user->roles as $role) <span>{{$role->name.','}}</span>@endforeach</td>
                             <td>{{$user->user_cnic}}</td>
                             <td>{{$user->user_phone}}</td>
-                            <td>{{$user->state->state_name}} </td>
-                            <td>{{$user->city->city_name}}</td>
-                            <td>{{$user->user_address}}</td>
+
+                           <td><a href="{{ route('profile.user', $user->id)}}" class="btn btn-primary">Profile</a></td>
+                                 
                             <!-- <td><a href="{{ route('edit.userList', $user->id)}}" class="btn btn-primary">Edit</a></td>
                                  -->
                             </tr>

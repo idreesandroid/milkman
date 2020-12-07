@@ -11,6 +11,7 @@ use App\Http\Controllers\VendorDetailController;
 use App\Http\Controllers\SaleController;
 use App\Http\Controllers\DistributorController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\Auth\LoginController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,16 +24,22 @@ use App\Http\Controllers\Auth\RegisterController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('login');
+// });
 
 Auth::routes();
 
+
+
 Route::get('/home', [HomeController::class, 'index'])->name('home');
  
+//Login Register routes--------------------------------
+Route::get('/',                    [LoginController::class, 'login'])->name('user.login');
+Route::get('register',                    [RegisterController::class, 'showReg'])->name('user.register')->middleware('can:Register-User');
 //Users routes--------------------------------
 Route::get('user/userList',        [RegisterController::class, 'allUserList'])->name('index.userList')->middleware('can:See-User');
+Route::get('user/profile/{id}',       [RegisterController::class, 'profile'])->name('profile.user');
 Route::get('user/edit/{id}',       [RegisterController::class, 'edit'])->name('edit.userList')->middleware('can:Edit-User');
 Route::post('user/update/{id}',    [RegisterController::class,'update'])->name('update.userList')->middleware('can:Edit-User');
  //Role routes--------------------------------

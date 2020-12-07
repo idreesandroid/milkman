@@ -49,7 +49,7 @@ class RegisterController extends Controller
     // }
 
 
-    public function showRegistrationForm()
+    public function showReg()
     {
         $roles = Role::where('id', '!=',  '6')->select('name','id')->orderBy('id', 'ASC')->get();
         $states = State::select('state_name','id')->get();
@@ -91,9 +91,21 @@ class RegisterController extends Controller
 
     }
 
+    public function profile($id)
+    {
+     // $users = User::whereHas('roles', function($query) { $query->where('roles.id','!=', 1); })->with('roles','state','city')->get(); 
+      // echo "<pre>";
+      // print_r($users);
+      // exit;
+     
+      $users = User::with('roles','vendorDetail','bankDetail','distributorCompany')->findOrFail($id);
+      // $user_roles= Role::select('name','id')->get();
+      //  echo "<pre>";
+      // print_r($users);
+      // exit;
+      return view('user/profile', compact('users')); 
 
-
-
+    }
 
     /**
      * Get a validator for an incoming registration request.
@@ -146,7 +158,6 @@ class RegisterController extends Controller
 
 public function update(Request $request, $id)
 {
-
 $updatedata = $request->validate([
 
   'name'      => 'required|min:3',
@@ -159,7 +170,6 @@ $updatedata = $request->validate([
   'user_address'  => 'required|min:3',
    
 ]);
-
 
 User::whereid($id)->update($updatedata);
 return redirect('user/userList');

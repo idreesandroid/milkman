@@ -7,7 +7,7 @@
 							<li class="submenu">
 								<a href="javascript:void(0);"><i class="fa fa-tachometer" aria-hidden="true"></i> <span> Dashboard</span> <span class="menu-arrow"></span></a>
 								<ul class="sub-menus">
-								@can('Create-User')	<li><a href="/register" class="active">Register</a></li>@endcan
+								@can('Register-User')	<li><a href="/register" class="active">Register</a></li>@endcan
 									<!-- <li><a href="/profile">Profile</a></li> -->
 									@can('See-User')<li><a href="/user/userList">All User</a></li>@endcan
 								</ul>
