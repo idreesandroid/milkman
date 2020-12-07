@@ -22,31 +22,22 @@
                         <table class="datatable table table-stripped mb-0 datatables">
                             <thead>
                                 <tr>
+                                <th>Serial No</th>
+                                <th>Image</th>
                                 <th>Name</th>
-                                <th>Email</th>
                                 <th>CNIC</th>
-                                <th>Contact</th>
-                                <th>Province</th> 
-                                <th>City</th>
-                                <th>Address</th>
-                                <th>Milk Quantity</th>
-                                <th>Decided Rate</th> 
+                                <th>Details</th>
                                 </tr>
                             </thead>
                             <tbody>
-                            @foreach($vendorDetails as $vendorDetail)
+                            @foreach($vendorDetails as $index => $vendorDetail)
                             <tr>
- 
+                            <td>{{$index+1}}</td>
+                            <td></td>
                             <td>{{$vendorDetail->name}}</td>
-                            <td>{{$vendorDetail->email}}</td>
                             <td>{{$vendorDetail->user_cnic}}</td>
-                            <td>{{$vendorDetail->user_phone}}</td>
-                            <td>{{$vendorDetail->state->state_name}}</td>
-                            <td>{{$vendorDetail->city->city_name}}</td>
-                            <td>{{$vendorDetail->user_address}}</td>
-                            <td>{{$vendorDetail->vendorDetail->decided_milkQuantity}}</td>
-                            <td>{{$vendorDetail->vendorDetail->decided_rate}}</td>
-                                                                                  
+                            <td><a href="{{ route('profile.user', $vendorDetail->id)}}" class="btn btn-primary">Profile</a></td>
+                                                    
                             </tr>
                             @endforeach
                             </tbody>
