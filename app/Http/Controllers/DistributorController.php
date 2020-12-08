@@ -26,12 +26,9 @@ class DistributorController extends Controller
 
     public function index()
     {       
-    $distributorDetails = User::whereHas('roles', function($query) { $query->where('roles.id', 3); })->with('distributorCompany','state','city')->get();
-    
-    //$vari= $distributorDetails->$distributorCompany->$companyName;
-    // echo "<pre>";
-    // print_r($distributorDetails);
-    // exit;
+    $distributorDetails = User::whereHas('roles', function($query) {
+        $query->where('roles.id', 3); 
+    })->with('distributorCompany')->get();   
     
     return view('distributor-detail/index', compact('distributorDetails'));
     }
@@ -40,80 +37,69 @@ class DistributorController extends Controller
 
     public function create() 
     {      
-        $states = State::select('state_name','id')->get();
-        return view('distributor-detail/create',compact('states'));
+        return view('distributor-detail/create');
     }
 
 //create--------------------------------------------------------
 
-
-public function store(Request $request)
-{  
-    
+    public function store(Request $request)
+    {  
+        
         $this->validate($request,[        
-            'name'      => 'required|min:1',
-          
+            'name'      => 'required|min:1',          
             'password'  => 'required|min:1',
             'user_cnic' => 'required|min:13|unique:users',
             'user_phone'=> 'required|min:11|unique:users',
-            'user_state'  => 'required',
-            'user_city'  => 'required',
+            'state'  => 'required',
+            'city'  => 'required',
             'user_address'  => 'required|min:1',
-
             'companyName'=>'required|min:3',
             'companyOwner'=>'required|min:3', 
             'companyContact' => 'required',
             'companyAddress'=>'required|min:3',
             'companyNTN'=>'required|min:3', 
-            'companyArea' => 'required',
-            'filenames.*' => 'mimes:jpg,png,jpeg,gif',
-       
-            ]);
+            'companyArea' => 'required',            
+            'filenames.*' => 'mimes:jpg,png,jpeg,gif'       
+        ]);
 
-            $distributor_register = new User();
-            $distributor_register->name = $request->name;        
-            $distributor_register->email = $request->email;
-            $distributor_register->password = Hash::make($request->password);
-            $distributor_register->user_cnic = $request->user_cnic;
-            $distributor_register->user_phone = $request->user_phone;
-            $distributor_register->state_id = $request->user_state;
-            $distributor_register->city_id = $request->user_city;
-            $distributor_register->user_address = $request->user_address;
-            $distributor_register->save();
-            $distributor_register->roles()->attach(Role::where('id',3)->first());
+        $distributor_register = new User();
+        $distributor_register->name = $request->name;        
+        $distributor_register->email = $request->email;
+        $distributor_register->password = Hash::make($request->password);
+        $distributor_register->user_cnic = $request->user_cnic;
+        $distributor_register->user_phone = $request->user_phone;
+        $distributor_register->state = $request->state;
+        $distributor_register->city = $request->city;
+        $distributor_register->user_address = $request->user_address;
+        $distributor_register->save();
+        $distributor_register->roles()->attach(Role::where('id',3)->first());
 
+        $distributor_details = new Distributor();
+        $distributor_details->user_id = $distributor_register->id;        
+        $distributor_details->companyName = $request->companyName;
+        $distributor_details->alotedArea = $request->alotedArea;
+        $distributor_details->companyOwner = $request->companyOwner;
+        $distributor_details->companyContact = $request->companyContact;
+        $distributor_details->companyAddress = $request->companyAddress;
+        $distributor_details->companyNTN = $request->companyNTN;
+        $distributor_details->companyArea = $request->companyArea;
+               
 
-            $distributor_details = new Distributor();
-            $distributor_details->user_id = $distributor_register->id;        
-            $distributor_details->companyName = $request->companyName;
-            $distributor_details->companyOwner = $request->companyOwner;
-            $distributor_details->companyContact = $request->companyContact;
-            $distributor_details->companyAddress = $request->companyAddress;
-            $distributor_details->companyNTN = $request->companyNTN;
-            $distributor_details->companyArea = $request->companyArea;
-           
-
-if($request->hasfile('filenames'))
-         {
-              $count= 1;
-            foreach($request->file('filenames') as $file)
-            {
-                $name =  $count.''.time().'.'.$file->extension();
-                $file->move(public_path().'/distributorCompany/', $name);  
-                $data[] = $name; 
-                $count++;  
+        if($request->hasfile('filenames'))
+             {
+                  $count= 1;
+                foreach($request->file('filenames') as $file)
+                {
+                    $name =  $count.''.time().'.'.$file->extension();
+                    $file->move(public_path().'/distributorCompany/', $name);  
+                    $data[] = $name; 
+                    $count++;  
+                }
             }
-         }
-         
-$distributor_details->filenames=json_encode($data);
-$distributor_details->save();
+             
+        $distributor_details->filenames=json_encode($data);
+        $distributor_details->save();
 
-
-// echo "<pre>";
-//     print_r($request->all());
-//     exit;
-
-return redirect('distributor-detail/index');
-
-}
+    return redirect('distributor-detail/index');
+    }
 }

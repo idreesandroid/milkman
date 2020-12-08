@@ -59,13 +59,8 @@ class RoleController extends Controller
         $permission_names = $request['permissionName'];
         foreach($permission_names as $permission_name)
         {
-            $roles->allowTo(Permission::where('id', $permission_name)->first());
-            // echo "<pre>";
-            // print_r($permission_name);
-        }
-       
-        // exit;
-       
+            $roles->allowTo(Permission::where('id', $permission_name)->first());            
+        }       
         return redirect('role/index');
     }
 
@@ -90,10 +85,6 @@ class RoleController extends Controller
     {
         $roles = Role::with('permissions')->findOrFail($id);
         $permissions=Permission::select('name','id')->get();
-
-            // echo "<pre>";
-            // print_r($roles);
-            // exit;
         return view('role/edit', compact('roles','permissions'));
     }
 
@@ -104,36 +95,29 @@ class RoleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
-    
-    
-    
+    public function update(Request $request, $id)     
     {
               
-    $updatedata = $request->validate([
+        $updatedata = $request->validate([
 
-    'name'=> 'required',
-    'permissionName'=>'required'
-         
-]);
+            'name'=> 'required',
+            'permissionName'=>'required'
+                     
+            ]);
 
-Role::whereid($id)->update(array(
-    'name' => $request->name
-));
-DB::delete('delete from permission_role where role_id = ?',[$id]);
+        Role::whereid($id)->update(array(
+            'name' => $request->name
+        ));
+        DB::delete('delete from permission_role where role_id = ?',[$id]);
 
+        $permission_names = $request['permissionName'];
+        foreach($permission_names as $permission_name)
+        {
 
+        DB::insert('insert into permission_role (permission_id, role_id) values (?, ?)', [$permission_name, $id]);
+        }
 
-
-//$todayDate = date("Y-m-d H:i:s");
-    $permission_names = $request['permissionName'];
-    foreach($permission_names as $permission_name)
-    {
-
-    DB::insert('insert into permission_role (permission_id, role_id) values (?, ?)', [$permission_name, $id]);
-    }
-
-    return redirect('role/index');
+        return redirect('role/index');
     }
 
     /**

@@ -45,9 +45,6 @@ class PermissionController extends Controller
         $roles->name = $request->name;
         $roles->slug = Str::slug($request->name);
 
-        // echo "<pre>";
-        // print_r($roles);
-        // exit;
         $roles->save();
         return redirect('permission/index');
     }

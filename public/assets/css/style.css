@@ -9472,7 +9472,8 @@ form .btn-gradient-primary {
 		min-width: inherit;
 	}
 }
-
-
-
+#mapIn{
+      height:600px;
+      width: 100%;  
+    }
 

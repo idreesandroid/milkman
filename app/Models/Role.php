@@ -11,25 +11,19 @@ class Role extends Model
     use HasFactory;
     use SoftDeletes;
     protected $fillable = ['name','slug'];
-
     
-         public function users() { 
+    public function users()
+    { 
+        return $this->belongsToMany(User::class)->withtimestamps();
+    }
 
-            return $this->belongsToMany(User::class)->withtimestamps();
-            
-        }
+    public function permissions()
+    {
+        return $this->belongsToMany(Permission::class)->withtimestamps();
+    }
 
-        public function permissions()
-         {
-
-            return $this->belongsToMany(Permission::class)->withtimestamps();
-            
-        }
-
-        public function allowTo($permission) {  
-
-            $this->permissions()->sync($permission, false);
-     
-             }
-    
+    public function allowTo($permission)
+    {
+        $this->permissions()->sync($permission, false);
+    }    
 }
