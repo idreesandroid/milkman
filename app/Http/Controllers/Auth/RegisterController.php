@@ -40,8 +40,8 @@ class RegisterController extends Controller
      * Create a new controller instance.
      *
      * @return void
-     */
-   
+     */   
+
   public function showRegistrationForm()
   {
     $roles = Role::where('id', '!=',  '6')->select('name','id')->orderBy('id', 'ASC')->get();
@@ -98,6 +98,7 @@ class RegisterController extends Controller
   {
     $users = User::whereHas('roles', function($query) { $query->where('roles.id','!=', 1); })->with('roles')->get();
  
+
     return view('user/userList', compact('users'));      
   }
 
@@ -108,6 +109,7 @@ class RegisterController extends Controller
     $user_roles= Role::select('name','id')->get();
     return view('user/edit', compact('users','user_roles'));
   }
+
 
 
   public function update(Request $request, $id)
@@ -123,6 +125,7 @@ class RegisterController extends Controller
       'user_address'  => 'required|min:3',
        
     ]);
+
 
     User::whereid($id)->update($updatedata);
     return redirect('user/userList');
