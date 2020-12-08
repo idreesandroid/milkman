@@ -15,12 +15,10 @@ class Product extends Model
 
     protected $dates = ['deleted_at'];
 
-
     public function product_stock()
     {
         return $this->hasMany(ProductStock::class);
     }
-
 
     public function productCart()
     {

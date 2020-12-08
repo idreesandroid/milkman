@@ -14,83 +14,75 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 class VendorDetailController extends Controller
 {
-
     public function __construct()
-{
-    $this->middleware('auth');
-}
+    {
+        $this->middleware('auth');
+    }
+
     public function index()
     {       
-      $vendorDetails = User::whereHas('roles', function($query) { $query->where('roles.id', 6); })->with('vendorDetail','state','city')->get();
-        
-// echo "<pre>";
-//     print_r($vendorDetails);
-//     exit;
+        $vendorDetails = User::whereHas('roles', function($query) { 
+            $query->where('roles.id', 6);
+             })->with('vendorDetail')->get();        
         return view('vendor-detail/index', compact('vendorDetails'));
 
     }
-
     //create view-----------------------------------------------
 
     public function create() 
     {      
-       // $roles = Role::select('name','id')->get();
-        $states = State::select('state_name','id')->get();
-        return view('vendor-detail/create',compact('states'));
+        return view('vendor-detail/create');
     }
 
-//create--------------------------------------------------------
+    //create--------------------------------------------------------
 
+    public function store(Request $request)
+    {
+        if($request->has('bankDetails')){
 
-public function store(Request $request)
-{  
-    if($request->has('bankDetails')){
+            $this->validate($request,[        
+                'name'      => 'required|min:1',
 
-        $this->validate($request,[        
-            'name'      => 'required|min:1',
-            
-            'password'  => 'required|min:1',
-            'user_cnic' => 'required|min:13|unique:users',
-            'user_phone'=> 'required|min:11|unique:users',
-            'user_state'  => 'required',
-            'user_city'  => 'required',
-            'user_address'  => 'required|min:1',
+                'password'  => 'required|min:1',
+                'user_cnic' => 'required|min:13|unique:users',
+                'user_phone'=> 'required|min:11|unique:users',
+                'state'  => 'required',
+                'city'  => 'required',
+                'user_address'  => 'required|min:1',
+                'bank_name'=> 'required|min:1',
+                'branch_name'=>'required|min:1',
+                'branch_code'=>'required|min:1', 
+                'acc_no'=>'required|min:1|unique:bank_details',
+                'acc_title'=>'required|min:1|unique:bank_details',
+                'decided_milkQuantity'=>'required|min:1|numeric',
+                'decided_rate'=>'required|min:1|numeric', 
+                'filenames' => 'required',
+                'filenames.*' => 'mimes:jpg,png,jpeg,gif',
+                'map_detail' => 'required'
+           
+                ]);
 
-            'bank_name'=> 'required|min:1',
-            'branch_name'=>'required|min:1',
-            'branch_code'=>'required|min:1', 
-            'acc_no'=>'required|min:1|unique:bank_details',
-            'acc_title'=>'required|min:1|unique:bank_details', 
-       
-            'decided_milkQuantity'=>'required|min:1|numeric',
-            'decided_rate'=>'required|min:1|numeric', 
-            'filenames' => 'required',
-            'filenames.*' => 'mimes:jpg,png,jpeg,gif',
-       
-            ]);
+                $vendor_register = new User();
+                $vendor_register->name = $request->name;        
+                $vendor_register->email = $request->email;
+                $vendor_register->password = Hash::make($request->password);
+                $vendor_register->user_cnic = $request->user_cnic;
+                $vendor_register->user_phone = $request->user_phone;
+                $vendor_register->state = $request->state;
+                $vendor_register->city = $request->city;
+                $vendor_register->user_address = $request->user_address;
+                $vendor_register->save();
+                $vendor_register->roles()->attach(Role::where('id',6)->first());
 
-            $vendor_register = new User();
-            $vendor_register->name = $request->name;        
-            $vendor_register->email = $request->email;
-            $vendor_register->password = Hash::make($request->password);
-            $vendor_register->user_cnic = $request->user_cnic;
-            $vendor_register->user_phone = $request->user_phone;
-            $vendor_register->state_id = $request->user_state;
-            $vendor_register->city_id = $request->user_city;
-            $vendor_register->user_address = $request->user_address;
-            $vendor_register->save();
-            $vendor_register->roles()->attach(Role::where('id',6)->first());
+                $vendor_details = new vendorDetail();
+                $vendor_details->user_id = $vendor_register->id;        
+                $mapdata = json_decode($request->map_detail);
+                $vendor_details->latitude = $mapdata[0]->geometry[0];
+                $vendor_details->longitude = $mapdata[0]->geometry[1];
+                $vendor_details->decided_milkQuantity = $request->decided_milkQuantity;
+                $vendor_details->decided_rate = $request->decided_rate;  
 
-
-            $vendor_details = new vendorDetail();
-            $vendor_details->user_id = $vendor_register->id;        
-            $vendor_details->decided_milkQuantity = $request->decided_milkQuantity;
-            $vendor_details->decided_rate = $request->decided_rate;
-            
-
-
-            if($request->hasfile('filenames'))
-                {
+                if($request->hasfile('filenames')) {
                     $count= 1;
                     foreach($request->file('filenames') as $file)
                     {
@@ -99,253 +91,72 @@ public function store(Request $request)
                         $data[] = $name; 
                         $count++;  
                     }
-         }         
-            $vendor_details->filenames=json_encode($data);
-            $vendor_details->save();
+                }         
+                $vendor_details->filenames=json_encode($data);
+                $vendor_details->save();
 
+                $bankDetails = new bankDetail();
+                $bankDetails->user_id = $vendor_register->id;        
+                $bankDetails->bank_name = $request->bank_name;
+                $bankDetails->branch_name = $request->branch_name;
+                $bankDetails->branch_code = $request->branch_code;
+                $bankDetails->acc_no = $request->acc_no;
+                $bankDetails->acc_title = $request->acc_title;
+                $bankDetails->save();
 
-
-            $bankDetails = new bankDetail();
-            $bankDetails->user_id = $vendor_register->id;        
-            $bankDetails->bank_name = $request->bank_name;
-            $bankDetails->branch_name = $request->branch_name;
-            $bankDetails->branch_code = $request->branch_code;
-            $bankDetails->acc_no = $request->acc_no;
-            $bankDetails->acc_title = $request->acc_title;
-            $bankDetails->save();
-
-    }
-
-
-     
-    else{
-        $this->validate($request,[        
-            'name'      => 'required|min:1',
-            'email'     => 'unique:users',
-            'password'  => 'required|min:1',
-            'user_cnic' => 'required|min:13|unique:users',
-            'user_phone'=> 'required|min:11|unique:users',
-            'user_state'  => 'required',
-            'user_city'  => 'required',
-            'user_address'  => 'required|min:1',       
-            'decided_milkQuantity'=>'required|min:1|numeric',
-            'decided_rate'=>'required|min:1|numeric', 
-            'filenames' => 'required',
-            'filenames.*' => 'mimes:jpg,png,jpeg,gif',
-       
-            ]);
-
-            $vendor_register = new User();
-            $vendor_register->name = $request->name;        
-            $vendor_register->email = $request->email;
-            $vendor_register->password = Hash::make($request->password);
-            $vendor_register->user_cnic = $request->user_cnic;
-            $vendor_register->user_phone = $request->user_phone;
-            $vendor_register->state_id = $request->user_state;
-            $vendor_register->city_id = $request->user_city;
-            $vendor_register->user_address = $request->user_address;
-            $vendor_register->save();
-            $vendor_register->roles()->attach(Role::where('id',6)->first());
-
-
-            $vendor_details = new vendorDetail();
-            $vendor_details->user_id = $vendor_register->id;        
-            $vendor_details->decided_milkQuantity = $request->decided_milkQuantity;
-            $vendor_details->decided_rate = $request->decided_rate;
+        }else{
+            $this->validate($request,[        
+                'name'      => 'required|min:1',
+                'email'     => 'unique:users',
+                'password'  => 'required|min:1',
+                'user_cnic' => 'required|min:13|unique:users',
+                'user_phone'=> 'required|min:11|unique:users',
+                'state'  => 'required',
+                'city'  => 'required',
+                'user_address'  => 'required|min:1',       
+                'decided_milkQuantity'=>'required|min:1|numeric',
+                'decided_rate'=>'required|min:1|numeric', 
+                'filenames' => 'required',
+                'filenames.*' => 'mimes:jpg,png,jpeg,gif',
            
+                ]);
 
-if($request->hasfile('filenames'))
-         {
-              $count= 1;
-            foreach($request->file('filenames') as $file)
-            {
-                $name =  $count.''.time().'.'.$file->extension();
-                $file->move(public_path().'/files/', $name);  
-                $data[] = $name; 
-                $count++;  
-            }
-         }
-         
-$vendor_details->filenames=json_encode($data);
-$vendor_details->save();
+                $vendor_register = new User();
+                $vendor_register->name = $request->name;        
+                $vendor_register->email = $request->email;
+                $vendor_register->password = Hash::make($request->password);
+                $vendor_register->user_cnic = $request->user_cnic;
+                $vendor_register->user_phone = $request->user_phone;
+                $vendor_register->state = $request->state;
+                $vendor_register->city = $request->city;
+                $vendor_register->user_address = $request->user_address;
+                $vendor_register->save();
+                $vendor_register->roles()->attach(Role::where('id',6)->first());
 
+                $vendor_details = new vendorDetail();
+                $mapdata = json_decode($request->map_detail);
+                $vendor_details->latitude = $mapdata[0]->geometry[0];
+                $vendor_details->longitude = $mapdata[0]->geometry[1];
+                $vendor_details->user_id = $vendor_register->id;        
+                $vendor_details->decided_milkQuantity = $request->decided_milkQuantity;
+                $vendor_details->decided_rate = $request->decided_rate;               
 
-        
+                if($request->hasfile('filenames'))
+                {
+                      $count= 1;
+                    foreach($request->file('filenames') as $file)
+                    {
+                        $name =  $count.''.time().'.'.$file->extension();
+                        $file->move(public_path().'/files/', $name);  
+                        $data[] = $name; 
+                        $count++;  
+                    }
+                }
+            $vendor_details->filenames=json_encode($data);
+            $vendor_details->save();        
+        }
+
+        return redirect('vendor-detail/index');
     }
-    
-
-// echo "<pre>";
-//     print_r($request->all());
-//     exit;
-
-return redirect('vendor-detail/index');
-
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-public function edit($id)
-{
-    // $vendor_details = VendorDetail::findOrFail($id);
-
-    // $vendor_lists= User::where('user_role','vendor')->select('name','id')->get();
-    // $vendor_routes= Vendor_Route::select('route_name','id')->get();
-    // return view('VendorDetail/edit', compact('product_stocks','products','vendor_lists'));
-}
-
-
-public function update(Request $request, $id)
-{
-
-// $updatedata = $request->validate([
-
-//     'vendor_id'=> 'required',
-//     'decided_milkQuantity'=>'required',
-//     'decided_rate'=>'required',
-//     'route_id'=>'required',
-    
-   
-// ]);
-// VendorDetail::whereid($id)->update($updatedata);
-// return redirect('VendorDetail/index');
-
-}
-
-
-
-
-
-
-// public function get_vendors(Request $request)
-// {
-
-//     $get_vend="SELECT DISTINCT vendor_id, `name` FROM collection_task_child a 
-//   INNER JOIN users b ON a.vendor_id=b.id 
-//   INNER JOIN role_user c ON c.`user_id`=b.id AND c.`role_id`=6";
-//     $get_vendors = DB::select($get_vend);
-//     return view('vendorLedger', compact('get_vendors'));
-
-
-// }
-// public function vendorLedger(Request $request)
-// {
-
-//     $vendor_id = $request->input('vendor_id');
-//     $user_cnic = $request->input('user_cnic');
-//     $date_from = $request->input('date_from');
-//     $date_to = $request->input('date_to');
-//  if(!empty($date_from)){
-// $where[] = " DATE_FORMAT(received_date_time, '%Y-%m-%d') >= '$date_from' ";
-//  } if(!empty($date_to)){
-//     $where[] = " DATE_FORMAT(received_date_time, '%Y-%m-%d') <= '$date_to' ";
-//      }
-//      if(!empty($vendor_id)){
-//         $where[] = " a.vendor_id = '$vendor_id' ";
-//          }
-    
-//          if(!empty($user_cnic)){
-//             $where[] = " b.user_cnic = '$user_cnic' ";
-//              }
-//  $vendors_GL = "SELECT  vendor_id, `name`, user_cnic, user_phone,  sum(received_qty)received_qty , sum(received_qty*rate)amounts 
-//     FROM collection_task_child a
-//     INNER JOIN users b on a.vendor_id=b.id 
-//     INNER JOIN role_user c ON c.`user_id`=b.id
-//     where c.`role_id`=6 and ".implode(' and ',$where)."
-//     GROUP BY vendor_id, `name`, user_cnic, user_phone";
-//      $vendor_GL_details = DB::select($vendors_GL);
-
-//      $get_vend="SELECT DISTINCT vendor_id, `name` FROM collection_task_child a 
-//    INNER JOIN users b ON a.vendor_id=b.id 
-//    INNER JOIN role_user c ON c.`user_id`=b.id
-//    AND c.`role_id`=6";
-//      $get_vendors = DB::select($get_vend);
-
-//      $dates = [
-//         'date_from'  => $date_from,
-//         'date_to'  => $date_to,
-//     ];
-
-//    return view('vendorLedger', compact('vendor_GL_details','get_vendors'))->with($dates);
-// }
-
-// public function vendorLedgerDetail($vendor_id, $date_from, $date_to)
-// {
-
-   
-//     //$vendor_id,  $date_from, $date_to
-
-//     if(!empty($date_from)){
-//     $where_a[] = " DATE_FORMAT(received_date_time, '%Y-%m-%d') >= '$date_from' ";
-//     } 
-//     if(!empty($date_to)){
-//     $where_a[] = " DATE_FORMAT(received_date_time, '%Y-%m-%d') <= '$date_to' ";
-//     }
-//     if(!empty($vendor_id)){
-//     $where_a[] = " a.vendor_id = '$vendor_id' ";
-//     }
-
-//     if(!empty($date_from)){
-//         $where_b[] = " DATE_FORMAT(payment_date, '%Y-%m-%d') >= '$date_from' ";
-//         } 
-//         if(!empty($date_to)){
-//         $where_b[] = " DATE_FORMAT(payment_date, '%Y-%m-%d') <= '$date_to' ";
-//         }
-//         if(!empty($vendor_id)){
-//         $where_b[] = " user_id = '$vendor_id' ";
-//         }
-
-//       $vendors_d = "SELECT vendor_id, `name`, user_cnic, user_phone,received_date_time , received_qty ,rate , null as payment_detail,  (received_qty*rate)dr_amount ,NULL AS cr_amount
-//      FROM collection_task_child a INNER JOIN users b ON a.vendor_id=b.id 
-//      INNER JOIN role_user c ON c.`user_id`=b.id
-//      WHERE c.`role_id`=6 AND ".implode(' and ', $where_a)."
-     
-//      UNION ALL
-     
-//      SELECT user_id AS vendor_id , NULL, NULL, NULL, payment_date , null, null, payment_detail, NULL, amount AS cr_amount  FROM `payments`
-//      WHERE 
-//      ".implode(' and ', $where_b)."  
-     
-//       ORDER BY vendor_id, received_date_time";
-
-
-
-
-
-
-//      $vendor_GL_details = DB::select($vendors_d);
-
-
-//      if(collect($vendor_GL_details)->first()) {
-//         $results = json_decode(json_encode($vendor_GL_details[0]), true);
-//         $vendor_id_d = $results['vendor_id'];
-//         $name_d = $results['name'];
-//         $user_cnic_d = $results['user_cnic'];
-        
-//       }
-
-
-//      $dates = [
-//         'vendor_id_d'  => $vendor_id_d,
-//         'name_d'  => $name_d,
-//         'user_cnic_d' => $user_cnic_d
-//     ];
-
-
-
-//     return view('vendorLedgerDetail', compact('vendor_GL_details'))->with($dates);
-     
-// }
-
 }
  

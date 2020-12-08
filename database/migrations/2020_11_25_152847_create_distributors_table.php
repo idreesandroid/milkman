@@ -17,7 +17,7 @@ class CreateDistributorsTable extends Migration
             $table->increments('id')->unsigned();
             $table->integer('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users');
-
+            $table->text('alotedArea');
             $table->string('companyName');
             $table->string('companyOwner');
             $table->string('companyContact');

@@ -22,10 +22,8 @@ class CreateUsersTable extends Migration
             $table->string('user_cnic')->unique();
             $table->string('user_phone')->unique();          
             $table->string('user_address');
-            $table->integer('state_id')->unsigned();
-            $table->foreign('state_id')->references('id')->on('states');
-            $table->integer('city_id')->unsigned();
-            $table->foreign('city_id')->references('id')->on('cities');
+            $table->integer('state');
+            $table->integer('city');
             $table->softDeletes();         
             $table->rememberToken();
             $table->timestamps();

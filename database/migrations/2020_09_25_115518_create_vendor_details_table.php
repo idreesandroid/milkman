@@ -16,9 +16,8 @@ class CreateVendorDetailsTable extends Migration
             // $table->integer('route_id')->unsigned();
             // $table->foreign('route_id')->references('id')->on('vendor__routes');
             // $table->string('vendor_location');
-            //  $table->string('longitude')->nullable();
-            //  $table->string('latitude')->nullable();
-
+            $table->string('longitude')->nullable();
+            $table->string('latitude')->nullable();
             $table->string('filenames');
             $table->integer('decided_milkQuantity');
             $table->integer('decided_rate');

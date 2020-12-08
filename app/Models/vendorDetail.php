@@ -25,12 +25,4 @@ class vendorDetail extends Model
     {
         return $this->belongsTo(User::class);
     }
-
-   
-
-    // public function vendorState()
-    // {
-    //     return $this->hasManyThrough('App\VendorDetail', 'App\User');
-    // }
-
 }

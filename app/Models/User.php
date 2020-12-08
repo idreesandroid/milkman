@@ -47,46 +47,37 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    public function roles()
+    {
+      return $this->belongsToMany(Role::class)->withtimestamps();
+    }
 
+    public function assignRole($role)
+    {  
+      $this->roles()->sync($role, false);
+    }
 
-    public function roles() {  
+    public function userPermissions()
+    { 
+      return $this->roles->map->permissions->flatten()->pluck('name')->unique();    
+    }
 
-        return $this->belongsToMany(Role::class)->withtimestamps();
+    public function vendorDetail()
+    {
+      return $this->hasOne(VendorDetail::class);
+    }
 
-        }
+    public function distributorCompany()
+    {
+      return $this->hasOne(Distributor::class);
+    }
 
-        public function assignRole($role)
-        {  
-        $this->roles()->sync($role, false);
-        }
+    public function bankDetail()
+    {
+      return $this->hasOne(bankDetail::class);
+    }
 
-        public function userPermissions()
-        { 
-
-        return $this->roles->map->permissions->flatten()->pluck('name')->unique();
-        
-        }
-
-
-        public function vendorDetail()
-        {
-            return $this->hasOne(VendorDetail::class);
-        }
-
-        public function distributorCompany()
-        {
-            return $this->hasOne(Distributor::class);
-        }
-
-
-
-        public function bankDetail()
-         {
-             return $this->hasOne(bankDetail::class);
-        }
-
-
-        public function state()
+    public function state()
     {
       return  $this->belongsTo(State::class);
     }
@@ -94,16 +85,11 @@ class User extends Authenticatable
     public function city()
     {
       return  $this->belongsTo(City::class);
-    }
-
-    // public function seller()
-    // {
-    //     return $this->hasMany(Cart::class);
-    // }
+    }    
 
     public function invoice()
     {
-        return $this->hasMany(Invoice::class);
+      return $this->hasMany(Invoice::class);
     }
 
 }

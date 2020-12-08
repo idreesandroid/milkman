@@ -68,12 +68,12 @@ $(document).ready(function() {
 
     // Select 2
 
-    if ($('.select').length > 0) {
-        $('.select').select2({
-            minimumResultsForSearch: -1,
-            width: '100%'
-        });
-    }
+    // if ($('.select').length > 0) {
+    //     $('.select').select2({
+    //         minimumResultsForSearch: -1,
+    //         width: '100%'
+    //     });
+    // }
 
     // Modal Popup hide show
 
@@ -147,11 +147,11 @@ $(document).ready(function() {
 
     // Datatable
 
-    if ($('.datatable').length > 0) {
-        $('.datatable').DataTable({
-            "bFilter": false,
-        });
-    }
+    // if ($('.datatable').length > 0) {
+    //     $('.datatable').DataTable({
+    //         "bFilter": false,
+    //     });
+    // }
 
     // Tooltip
 
@@ -452,11 +452,269 @@ function draggableInit() {
         event.preventDefault();
     });
 }
+/**   
+@name initializeMap
+@return map
+*/
+    
+function initializeMap(){
+    map = new google.maps.Map(document.getElementById('mapIn'), 
+        { zoom: 12, 
+            center: new google.maps.LatLng(30.3753, 69.3451)
+        }),        
+        shapes = [],
+        selected_shape  = null,
+        drawingManager = new google.maps.drawing.DrawingManager({map:map}),
+        byId = function(elementIdAttribute){return document.getElementById(elementIdAttribute)},
+        clearSelection  = function(){
+                            if(selected_shape){
+                              selected_shape.set((selected_shape.type === google.maps.drawing.OverlayType.MARKER
+                                                 )?'draggable':'editable',false);
+                              selected_shape = null;
+                            }
+                          },
+        setSelection = function(shape){
+                            clearSelection();
+                            selected_shape=shape;
+      selected_shape.set((selected_shape.type === google.maps.drawing.OverlayType.MARKER)?'draggable':'editable',true);
+                          },
+        clearShapes = function(){
+                            for(var i=0;i<shapes.length;++i){
+                              shapes[i].setMap(null);
+                            }
+                            shapes=[];
+                          };    
 
+    google.maps.event.addListener(drawingManager, 'overlaycomplete', function(e) {
+    var shape  = e.overlay;
+        shape.type = e.type;
+        google.maps.event.addListener(shape, 'click', function() {
+          setSelection(this);
+        });
+        setSelection(shape);
+        shapes.push(shape);
+    });
 
+    google.maps.event.addListener(map, 'click',clearSelection);
+    google.maps.event.addDomListener(byId('clear_shapes'), 'click', clearShapes);
+  
+    google.maps.event.addDomListener(byId('save_raw_map'), 'click', function(e){
 
- 
+    var data=MapFactory.InputMap(shapes,false);
+    byId('MapData').value=JSON.stringify(data);
+    var mapData = byId('MapData').value;
+        
+    var preventRunDefault = false;    
+          
+    });
+    google.maps.event.addDomListener(byId('restore'), 'click', function(){
+      if(this.shapes){
+        for(var i=0;i<this.shapes.length;++i){
+              this.shapes[i].setMap(null);
+        }
+      }
+      this.shapes=MapFactory.OutputMap(JSON.parse(byId('MapData').value),map);
+    });    
+}
 
+var MapFactory = {
+  //returns array with storable google.maps.Overlay-definitions
+  InputMap:function(arr,//array with google.maps.Overlays
+              encoded//boolean indicating whether pathes should be stored encoded
+              ){
+      var shapes = [], shape, tmp;
+      
+      for(var i = 0; i < arr.length; i++)
+      {   
+        shape=arr[i];
+        tmp={
+          type:this.getShape(shape.type),
+          id:shape.id||null
+        };        
+        
+        switch(tmp.type){
+           case 'CIRCLE':
+              tmp.radius=shape.getRadius();
+              tmp.geometry=this.getSeprateLatLng(shape.getCenter());
+            break;
+           case 'MARKER': 
+              tmp.geometry=this.getSeprateLatLng(shape.getPosition());   
+            break;  
+           case 'RECTANGLE': 
+              tmp.geometry=this.getSeprateLatLngBound(shape.getBounds()); 
+             break;   
+           case 'POLYLINE': 
+              tmp.geometry=this.createPolylineParametersFromPathsIfEncoded(shape.getPath(),encoded);
+             break;   
+           case 'POLYGON': 
+              tmp.geometry=this.createPolygonParametersFromPathsIfEncoded(shape.getPaths(),encoded);
+              
+             break;   
+       }
+       shapes.push(tmp);
+    }
 
+    return shapes;
+  },
+  //returns array with google.maps.Overlays
+  OutputMap:function(arr,//array containg the stored shape-definitions
+               map//map where to draw the shapes
+               ){
+    var shapes  = [], map=map||null, shape,tmp;
+      
+    for(var i = 0; i < arr.length; i++)
+    {   
+        shape=arr[i];       
+        
+        switch(shape.type){
+           case 'CIRCLE':
+              tmp=new google.maps.Circle({radius:Number(shape.radius),center:this.LatLngObj.apply(this,shape.geometry)});
+            break;
+           case 'MARKER': 
+              tmp=new google.maps.Marker({
+                position:this.LatLngObj.apply(this,shape.geometry)
+              });
+            break;  
+           case 'RECTANGLE': 
+              tmp=new google.maps.Rectangle({bounds:this.LatLngBoundsObj.apply(this,shape.geometry)});
+             break;   
+           case 'POLYLINE': 
+              tmp=new google.maps.Polyline({path:this.createPolylineParametersFromPaths(shape.geometry)});
+             break;   
+           case 'POLYGON': 
+              tmp=new google.maps.Polygon({paths:this.createPolygonParametersFromPaths(shape.geometry)});              
+             break;   
+       }
+       tmp.setValues({map:map,id:shape.id})
+       shapes.push(tmp);
+    }
+    return shapes;
+  },
+  createPolylineParametersFromPathsIfEncoded:function(path,e){
+    path=(path.getArray)?path.getArray():path;
+    if(e){
+      return google.maps.geometry.encoding.encodePath(path);
+    }else{
+      var parameters=[];
+      for(var i=0;i<path.length;++i){
+        parameters.push(this.getSeprateLatLng(path[i]));
+      }
+      return parameters;
+    }
+  },
+  createPolylineParametersFromPaths:function(path){
+    if(typeof path==='string'){
+      return google.maps.geometry.encoding.decodePath(path);
+    }
+    else{
+      var parameters=[];
+      for(var i=0;i<path.length;++i){
+        parameters.push(this.LatLngObj.apply(this,path[i]));
+      }
+      return parameters;
+    }
+  },
 
- 
+  createPolygonParametersFromPathsIfEncoded:function(paths,e){
+    var parameters=[];
+    paths=(paths.getArray)?paths.getArray():paths;
+    for(var i=0;i<paths.length;++i){
+        parameters.push(this.createPolylineParametersFromPathsIfEncoded(paths[i],e));
+      }
+     return parameters;
+  },
+  createPolygonParametersFromPaths:function(paths){
+    var parameters=[];
+    for(var i=0;i<paths.length;++i){
+        parameters.push(this.createPolylineParametersFromPaths.call(this,paths[i]));
+        
+      }
+     return parameters;
+  },
+  getSeprateLatLng:function(latLng){
+    return([latLng.lat(),latLng.lng()]);
+  },
+  LatLngObj:function(lat,lng){
+    return new google.maps.LatLng(lat,lng);
+  },
+  getSeprateLatLngBound:function(bounds){
+    return([this.getSeprateLatLng(bounds.getSouthWest()), this.getSeprateLatLng(bounds.getNorthEast())]);
+  },
+  LatLngBoundsObj:function(southWest,northEast){
+    return new google.maps.LatLngBounds(this.LatLngObj.apply(this,southWest), this.LatLngObj.apply(this,northEast));
+  },
+  getShape:function(s){
+    var allShapes=['CIRCLE','MARKER','RECTANGLE','POLYLINE','POLYGON'];
+    for(var i=0;i<allShapes.length;++i){
+       if(s===google.maps.drawing.OverlayType[allShapes[i]]){
+         return allShapes[i];
+       }
+    }
+  }
+  
+}
+
+let placeSearch;
+      let autocomplete;
+      const componentForm = {
+       // street_number: "short_name",
+       // route: "long_name",
+        locality: "long_name",
+        administrative_area_level_1: "short_name",
+       // country: "long_name",
+      //  postal_code: "short_name",
+      };
+
+      function initAutocomplete() {
+        // Create the autocomplete object, restricting the search predictions to
+        // geographical location types.
+        autocomplete = new google.maps.places.Autocomplete(
+          document.getElementById("autocomplete"),
+          { types: ["geocode"] }
+        );
+        // Avoid paying for data that you don't need by restricting the set of
+        // place fields that are returned to just the address components.
+        autocomplete.setFields(["address_component"]);
+        // When the user selects an address from the drop-down, populate the
+        // address fields in the form.
+        autocomplete.addListener("place_changed", fillInAddress);
+      }
+
+      function fillInAddress() {
+        // Get the place details from the autocomplete object.
+        const place = autocomplete.getPlace();
+
+        for (const component in componentForm) {
+          document.getElementById(component).value = "";
+          document.getElementById(component).disabled = false;
+        }
+
+        // Get each component of the address from the place details,
+        // and then fill-in the corresponding field on the form.
+        for (const component of place.address_components) {
+          const addressType = component.types[0];
+
+          if (componentForm[addressType]) {
+            const val = component[componentForm[addressType]];
+            document.getElementById(addressType).value = val;
+          }
+        }
+      }
+
+      // Bias the autocomplete object to the user's geographical location,
+      // as supplied by the browser's 'navigator.geolocation' object.
+      function geolocate() {
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition((position) => {
+            const geolocation = {
+              lat: position.coords.latitude,
+              lng: position.coords.longitude,
+            };
+            const circle = new google.maps.Circle({
+              center: geolocation,
+              radius: position.coords.accuracy,
+            });
+            autocomplete.setBounds(circle.getBounds());
+          });
+        }
+      }

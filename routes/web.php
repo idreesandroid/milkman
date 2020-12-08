@@ -99,4 +99,3 @@ Route::Delete('cart/deleteInvoice/{id}',    [SaleController::class, 'deleteInvoi
 
 Route::post('selectbatch/{id}',             [SaleController::class, 'SaveBatch'])->name('save.Batch')->middleware('can:Generate-Invoice');
 Route::get('batch_selection/ajax/{id}',     [SaleController::class, 'batchSelection'])->name('select.Batch')->middleware('can:Generate-Invoice');
-Route::get('register/ajax/{id}',            [GenericController::class, 'cityAjax']);

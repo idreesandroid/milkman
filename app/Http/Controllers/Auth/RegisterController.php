@@ -42,129 +42,89 @@ class RegisterController extends Controller
      * @return void
      */
    
-
-    // public function __construct()
-    // {
-    //     $this->middleware('auth');
-    // }
-
-
-    public function showRegistrationForm()
-    {
-        $roles = Role::where('id', '!=',  '6')->select('name','id')->orderBy('id', 'ASC')->get();
-        $states = State::select('state_name','id')->get();
-        return  view('auth.register',  compact('roles','states') );
-    }
+  public function showRegistrationForm()
+  {
+    $roles = Role::where('id', '!=',  '6')->select('name','id')->orderBy('id', 'ASC')->get();
+    return  view('auth.register',  compact('roles') );
+  }
 
 
-    public function register(Request $request)
-    {
-        $validator = $request->validate([
-            'role_id' =>   'required',
-            'name'      => 'required|min:3',
-            'password'  => 'required|min:6',
-            'user_cnic' => 'required|min:15|unique:users',
-            'user_phone'=> 'required|min:12|unique:users',
-            'state_id'  => 'required',
-            'city_id'  => 'required',
-            'user_address'  => 'required|min:3',
-            
-          ]);
+  public function register(Request $request)
+  {
+    //dd($request); die;
+    $validator = $request->validate([
+        'role_id' =>   'required',
+        'name'      => 'required|min:3',
+        'password'  => 'required|min:6',
+        'user_cnic' => 'required|min:15|unique:users',
+        'user_phone'=> 'required|min:12|unique:users',
+        'state'  => 'required',
+        'city'  => 'required',
+        'user_address'  => 'required|min:3'        
+      ]);
 
-          $user = new User();
-          $user->name = $request->name;
-          $user->email = $request->email;
-          $user->password = Hash::make($request->password);
-          $user->user_cnic = $request->user_cnic;
-          $user->user_phone = $request->user_phone;
-          $user->state_id = $request->state_id;
-          $user->city_id = $request->city_id;
-          $user->user_address = $request->user_address;
-          $user->save();
-          $role=$request->role_id;
-          $user->assignRole(Role::where('id', $role)->first());
+      $user = new User();
+      $user->name = $request->name;
+      $user->email = $request->email;
+      $user->password = Hash::make($request->password);
+      $user->user_cnic = $request->user_cnic;
+      $user->user_phone = $request->user_phone;
+      $user->state = $request->state;
+      $user->city = $request->city;
+      $user->user_address = $request->user_address;
+      $user->save();
+      $role=$request->role_id;
+      $user->assignRole(Role::where('id', $role)->first());
+    return redirect('/home');
+  }
 
-    // echo "<pre>";
-    // print_r($user);
-    // exit;
-          return redirect('/home');
-
-    }
-
-
+  /**
+   * Get a validator for an incoming registration request.
+   *
+   * @param  array  $data
+   * @return \Illuminate\Contracts\Validation\Validator
+   */
 
 
+  /**
+   * Create a new user instance after a valid registration.
+   *
+   * @param  array  $data
+   * @return \App\Models\User
+   */
 
-    /**
-     * Get a validator for an incoming registration request.
-     *
-     * @param  array  $data
-     * @return \Illuminate\Contracts\Validation\Validator
-     */
-    // protected function validator(array $data)
-    // {
-    //     return Validator::make($data, [
-    //         'name' => ['required', 'string', 'max:255'],
-    //         'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-    //         'password' => ['required', 'string', 'min:8', 'confirmed'],
-    //     ]);
-    // }
 
-    /**
-     * Create a new user instance after a valid registration.
-     *
-     * @param  array  $data
-     * @return \App\Models\User
-     */
-    // protected function create(array $data)
-    // {
-    //     return User::create([
-    //         'name' => $data['name'],
-    //         'email' => $data['email'],
-    //         'password' => Hash::make($data['password']),
-    //     ]);
-    // }
-
-    public function allUserList()
-    {
-    $users = User::whereHas('roles', function($query) { $query->where('roles.id','!=', 1); })->with('roles','state','city')->get(); 
-    // echo "<pre>";
-    // print_r($users);
-    // exit;
-   
+  public function allUserList()
+  {
+    $users = User::whereHas('roles', function($query) { $query->where('roles.id','!=', 1); })->with('roles')->get();
+ 
     return view('user/userList', compact('users'));      
-    }
+  }
 
 
-    public function edit($id)
-{
+  public function edit($id)
+  {
     $users = User::findOrFail($id);
     $user_roles= Role::select('name','id')->get();
     return view('user/edit', compact('users','user_roles'));
-}
+  }
 
 
-public function update(Request $request, $id)
-{
+  public function update(Request $request, $id)
+  {
 
-$updatedata = $request->validate([
+    $updatedata = $request->validate([
 
-  'name'      => 'required|min:3',
-  'email'     => 'required',
-  
-  'user_cnic' => 'required|min:13',
-  'user_phone'=> 'required|min:11',
-//   'state_id'  => 'required',
-//   'city_id'  => 'required',
-  'user_address'  => 'required|min:3',
-   
-]);
+      'name'      => 'required|min:3',
+      'email'     => 'required',
+      
+      'user_cnic' => 'required|min:13',
+      'user_phone'=> 'required|min:11',
+      'user_address'  => 'required|min:3',
+       
+    ]);
 
-
-User::whereid($id)->update($updatedata);
-return redirect('user/userList');
-
-}
-
-
+    User::whereid($id)->update($updatedata);
+    return redirect('user/userList');
+  }
 }
