@@ -48,10 +48,14 @@ class RegisterController extends Controller
     return  view('auth.register',  compact('roles') );
   }
 
+  public function showReg()
+  {
+        $roles = Role::where('id', '!=',  '6')->select('name','id')->orderBy('id', 'ASC')->get();
+        return  view('auth.register',  compact('roles') );
+  }
 
   public function register(Request $request)
   {
-    //dd($request); die;
     $validator = $request->validate([
         'role_id' =>   'required',
         'name'      => 'required|min:3',

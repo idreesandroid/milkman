@@ -140,11 +140,11 @@
                         <input type="button" class="form-control btn btn-danger"  value="Clear Shap" id="clear_shapes">
                      </div>
                   </div>
-                  <div class="col-md-2">
+                  <!-- <div class="col-md-2">
                      <div class="form-group">                        
                         <input type="button" id="restore" class="form-control btn btn-primary"  value="Restore">
                      </div>
-                  </div>
+                  </div> -->
                </div>
                <div class="form-group mb-0 row">
                   <div class="col-md-10">
@@ -187,9 +187,10 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/3/jquery.inputmask.bundle.js"></script>
 <script>
-   $(":input").inputmask();
-   $(document).ready(function() {       
-           initializeMap();
+   $(document).ready(function() {
+      initAutocomplete();    
+      $(":input").inputmask();
+      initializeMap();
     });
 </script>
 <!-- /page Wrapper -->

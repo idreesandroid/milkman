@@ -655,14 +655,10 @@ var MapFactory = {
 }
 
 let placeSearch;
-      let autocomplete;
-      const componentForm = {
-       // street_number: "short_name",
-       // route: "long_name",
+let autocomplete;
+const componentForm = {
         locality: "long_name",
         administrative_area_level_1: "short_name",
-       // country: "long_name",
-      //  postal_code: "short_name",
       };
 
       function initAutocomplete() {
@@ -718,3 +714,13 @@ let placeSearch;
           });
         }
       }
+      
+// $(document).ready(function() {     
+// //     initializeMap();
+//  });
+
+// $(document).ready(function() {
+//   $(function($){
+//         $('#vendorsForCollectionAreaw').select2();
+//     }); 
+// });
