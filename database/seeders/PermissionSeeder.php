@@ -13,6 +13,10 @@ class PermissionSeeder extends Seeder
      */
     public function run()
     {
+        $permission_1 = new Permission();
+        $permission_1->slug = 'Register-User';
+        $permission_1->name = 'Register-User';
+        $permission_1->save();
     
         $permission_1 = new Permission();
         $permission_1->slug = 'See-User';
