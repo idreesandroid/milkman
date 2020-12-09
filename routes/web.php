@@ -23,7 +23,6 @@ use App\Http\Controllers\Auth\LoginController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
 // Route::get('/', function () {
 //     return view('login');
 // });
@@ -36,13 +35,13 @@ Route::get('/home', [HomeController::class, 'index'])->name('home');
  
 //Login Register routes--------------------------------
 Route::get('/',                    [LoginController::class, 'login'])->name('user.login');
-Route::get('register',                    [RegisterController::class, 'showReg'])->name('user.register')->middleware('can:Register-User');
+Route::get('register',             [RegisterController::class, 'showRegistrationForm'])->name('user.register')->middleware('can:Register-User');
 //Users routes--------------------------------
 Route::get('user/userList',        [RegisterController::class, 'allUserList'])->name('index.userList')->middleware('can:See-User');
-Route::get('user/profile/{id}',       [RegisterController::class, 'profile'])->name('profile.user');
+Route::get('user/profile/{id}',    [RegisterController::class, 'profile'])->name('profile.user');
 Route::get('user/edit/{id}',       [RegisterController::class, 'edit'])->name('edit.userList')->middleware('can:Edit-User');
 Route::post('user/update/{id}',    [RegisterController::class,'update'])->name('update.userList')->middleware('can:Edit-User');
- //Role routes--------------------------------
+//Role routes--------------------------------
 
 Route::get('role/index',           [RoleController::class, 'index'])->name('index.role')->middleware('can:See-Role');
 Route::get('role/create',          [RoleController::class, 'create'])->name('create.role')->middleware('can:Create-Role');

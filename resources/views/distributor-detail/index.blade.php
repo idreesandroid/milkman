@@ -18,39 +18,31 @@
                <table class="datatable table table-stripped mb-0 datatables">
                   <thead>
                      <tr>
+                     <th>Serial No</th>
+                        <th>Image</th>
                         <th>Name</th>
                         <th>Email</th>
                         <th>CNIC</th>
                         <th>Contact</th>
-                        <th>Province</th>
-                        <th>City</th>
-                        <th>Address</th>
-                        <th>Milk Quantity</th>
-                        <th>companyName</th>
-                        <th>companyOwner</th>
-                        <th>companyContact</th>
-                        <th>companyAddress</th>
-                        <th>companyNTN</th>
-                        <th>companyArea</th>
+                        <th>Company Name</th>
+                        <th>Company Logo</th>
+                        <th>Details</th>
+
                      </tr>
                   </thead>
                   <tbody>
                      @foreach($distributorDetails as $distributorDetail)
                      <tr>
+                     <td>{{$index+1}}</td>
+                        <td><img alt="" class="profile-img" src="{{asset('/UserProfile/'.$distributorDetail->filenames)}}"></td>
                         <td>{{$distributorDetail->name}}</td>
                         <td>{{$distributorDetail->email}}</td>
                         <td>{{$distributorDetail->user_cnic}}</td>
                         <td>{{$distributorDetail->user_phone}}</td>
-                        <td>{{$distributorDetail->state}}</td>
-                        <td>{{$distributorDetail->city}}</td>
-                        <td>{{$distributorDetail->user_address}}</td>
-                        <td><img src="{{asset('/distributorCompany/'.$distributorDetail->distributorCompany->filenames)}}" alt="Logo" class="img-thumbnail"></td>
-                        <td>{{$distributorDetail->distributorCompany->companyName}}</td>
-                        <td>{{$distributorDetail->distributorCompany->companyOwner}}</td>
-                        <td>{{$distributorDetail->distributorCompany->companyContact}}</td>
-                        <td>{{$distributorDetail->distributorCompany->companyAddress}}</td>
-                        <td>{{$distributorDetail->distributorCompany->companyNTN}}</td>
-                        <td>{{$distributorDetail->distributorCompany->companyArea}}</td>
+                       <td>{{$distributorDetail->distributorCompany->companyName}}</td>
+                       <td><img src="{{asset('/distributorCompany/'.$distributorDetail->distributorCompany->filenames)}}" alt="Logo" class="img-thumbnail"></td>
+                      <td> <a href="{{ route('profile.user', $distributorDetail->id)}}" class="btn btn-primary">Edit</a>
+                      </td> 
                      </tr>
                      @endforeach
                   </tbody>

@@ -19,28 +19,27 @@
                   <thead>
                      <tr>
                         <th>Serial No</th>
+                        <th>Image</th>
                         <th>Name</th>
                         <th>Email</th>
                         <th>User Roll</th>
                         <th>CNIC</th>
                         <th>Phone</th>
-                        <th>State</th>
-                        <th>City</th>
-                        <th>Address</th>
+                        <th>Details</th>
                      </tr>
                   </thead>
                   <tbody>
                      @foreach($users as $index => $user)
                      <tr>
                         <td>{{$index+1}}</td>
+                        <td><img alt="" class="profile-img" src="{{asset('/UserProfile/'.$user->filenames)}}"></td>
                         <td>{{$user->name}}</td>
                         <td>{{$user->email}} </td>
                         <td>@foreach ($user->roles as $role) <span>{{$role->name.','}}</span>@endforeach</td>
                         <td>{{$user->user_cnic}}</td>
                         <td>{{$user->user_phone}}</td>
-                        <td>{{$user->state}} </td>
-                        <td>{{$user->city}}</td>
-                        <td>{{$user->user_address}}</td>
+                        <td><a href="{{ route('profile.user', $user->id)}}" class="btn btn-primary">Profile</a>
+                        </td>
                      </tr>
                      @endforeach
                   </tbody>

@@ -22,8 +22,9 @@ class CreateUsersTable extends Migration
             $table->string('user_cnic')->unique();
             $table->string('user_phone')->unique();          
             $table->string('user_address');
-            $table->integer('state');
-            $table->integer('city');
+            $table->string('state');
+            $table->string('city');
+            $table->string('filenames');
             $table->softDeletes();         
             $table->rememberToken();
             $table->timestamps();
