@@ -31,7 +31,7 @@
                      </tr>
                   </thead>
                   <tbody>
-                     @foreach($distributorDetails as $distributorDetail)
+                     @foreach($distributorDetails as $index => $distributorDetail)
                      <tr>
                      <td>{{$index+1}}</td>
                         <td><img alt="" class="profile-img" src="{{asset('/UserProfile/'.$distributorDetail->filenames)}}"></td>
