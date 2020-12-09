@@ -17,7 +17,7 @@
             </ul>
          </div>
          @endif
-         <form method="post" >
+         <form method="post" enctype="multipart/form-data">
             @csrf
             <div class="form-group row">
                <div class="col-md-6">
@@ -78,6 +78,11 @@
                      <label>Address</label>                     
                      <input class="form-control" id="autocomplete" placeholder="Enter your address" onFocus="geolocate()" type="text" name="user_address" />
                   </div>
+
+                  <div class="form-group">
+                        <label>Upload Image</label>
+                        <input type="file" class="form-control" name="filenames" required=""   autocomplete="off" >
+                  </div>
                </div>
             </div>            
       </div>
@@ -89,18 +94,6 @@
 </div>
 
 <!-- /Page Wrapper -->
-<script>
-function chk_role(id){ 
-	if(id==3){
-	   		$('#vendor_detail').show();
-	}else{
-	   $('#route_id').val('');
-	   $('#decided_milkQuantity').val('');
-	   $('#decided_rate').val('');
-	   $('#vendor_detail').hide();
-	}
-}   
-</script>
 <script src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/3/jquery.inputmask.bundle.js"></script>
 <script>
    $(document).ready(function() {

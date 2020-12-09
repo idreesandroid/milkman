@@ -24,6 +24,9 @@ class CreateUsersTable extends Migration
             $table->string('user_address');
             $table->string('state');
             $table->string('city');
+
+            $table->string('filenames');
+
             $table->softDeletes();         
             $table->rememberToken();
             $table->timestamps();

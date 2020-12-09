@@ -17,7 +17,7 @@
                </ul>
             </div>
             @endif
-            <form method="post" action="{{ route('store.vendor-detail') }}" enctype="multipart/form-data">
+            <form method="post" action="{{ route('store.vendor-detail') }}" >
                @csrf 
                <h4 class="card-title">Personal Information</h4>
                <!-- <input type="hidden" name="role_title" value=3 /> -->
@@ -35,10 +35,7 @@
                         <label>Contact No</label>
                         <input type="text" class="form-control" name="user_phone" data-inputmask="'mask': '0399-99999999'" placeholder="03XX-XXXXXXX" maxlength="12" required=""  autocomplete="off"  >
                      </div>
-                     <div class="form-group">
-                        <label>Upload Image</label>
-                        <input type="file" class="form-control" name="filenames[]" multiple required=""   autocomplete="off" >
-                     </div>
+                    
                   </div>
                   <div class="col-md-6">
                      <div class="form-group">

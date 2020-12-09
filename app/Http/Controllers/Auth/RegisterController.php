@@ -48,12 +48,6 @@ class RegisterController extends Controller
     return  view('auth.register',  compact('roles') );
   }
 
-  public function showReg()
-  {
-        $roles = Role::where('id', '!=',  '6')->select('name','id')->orderBy('id', 'ASC')->get();
-        return  view('auth.register',  compact('roles') );
-  }
-
   public function register(Request $request)
   {
     $validator = $request->validate([
@@ -64,7 +58,9 @@ class RegisterController extends Controller
         'user_phone'=> 'required|min:12|unique:users',
         'state'  => 'required',
         'city'  => 'required',
-        'user_address'  => 'required|min:3'        
+        'user_address'  => 'required|min:3',
+        'filenames' => 'required',
+        'filenames.*' => 'mimes:jpg,png,jpeg,gif',        
       ]);
 
       $user = new User();
@@ -76,7 +72,17 @@ class RegisterController extends Controller
       $user->state = $request->state;
       $user->city = $request->city;
       $user->user_address = $request->user_address;
+
+
+      if($request->hasfile('filenames')) {
+       
+            $name =  time().'.'.$request->file('filenames')->extension();
+            $request->file('filenames')->move(public_path().'/UserProfile/', $name);  
+            $data = $name; 
+    }          
+      $user->filenames=$data;
       $user->save();
+  
       $role=$request->role_id;
       $user->assignRole(Role::where('id', $role)->first());
     return redirect('/home');
@@ -89,7 +95,6 @@ class RegisterController extends Controller
    * @return \Illuminate\Contracts\Validation\Validator
    */
 
-
   /**
    * Create a new user instance after a valid registration.
    *
@@ -101,10 +106,20 @@ class RegisterController extends Controller
   public function allUserList()
   {
     $users = User::whereHas('roles', function($query) { $query->where('roles.id','!=', 1); })->with('roles')->get();
- 
-
     return view('user/userList', compact('users'));      
   }
+
+  public function profile($id)
+    {
+      $users = User::with('roles','vendorDetail','bankDetail','distributorCompany')->findOrFail($id);
+    // $as =  $users->filenames;
+
+    //  echo "<pre>";
+    //  print_r($as);
+    //  exit;
+
+      return view('user/profile', compact('users')); 
+    }
 
 
   public function edit($id)
@@ -114,16 +129,12 @@ class RegisterController extends Controller
     return view('user/edit', compact('users','user_roles'));
   }
 
-
-
   public function update(Request $request, $id)
   {
-
     $updatedata = $request->validate([
 
       'name'      => 'required|min:3',
       'email'     => 'required',
-      
       'user_cnic' => 'required|min:13',
       'user_phone'=> 'required|min:11',
       'user_address'  => 'required|min:3',
@@ -134,4 +145,6 @@ class RegisterController extends Controller
     User::whereid($id)->update($updatedata);
     return redirect('user/userList');
   }
+
+
 }

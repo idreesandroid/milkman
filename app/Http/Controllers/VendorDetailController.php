@@ -56,8 +56,7 @@ class VendorDetailController extends Controller
                 'acc_title'=>'required|min:1|unique:bank_details',
                 'decided_milkQuantity'=>'required|min:1|numeric',
                 'decided_rate'=>'required|min:1|numeric', 
-                'filenames' => 'required',
-                'filenames.*' => 'mimes:jpg,png,jpeg,gif',
+               
                 'map_detail' => 'required'
            
                 ]);
@@ -82,17 +81,7 @@ class VendorDetailController extends Controller
                 $vendor_details->decided_milkQuantity = $request->decided_milkQuantity;
                 $vendor_details->decided_rate = $request->decided_rate;  
 
-                if($request->hasfile('filenames')) {
-                    $count= 1;
-                    foreach($request->file('filenames') as $file)
-                    {
-                        $name =  $count.''.time().'.'.$file->extension();
-                        $file->move(public_path().'/files/', $name);  
-                        $data[] = $name; 
-                        $count++;  
-                    }
-                }         
-                $vendor_details->filenames=json_encode($data);
+               
                 $vendor_details->save();
 
                 $bankDetails = new bankDetail();
@@ -116,8 +105,7 @@ class VendorDetailController extends Controller
                 'user_address'  => 'required|min:1',       
                 'decided_milkQuantity'=>'required|min:1|numeric',
                 'decided_rate'=>'required|min:1|numeric', 
-                'filenames' => 'required',
-                'filenames.*' => 'mimes:jpg,png,jpeg,gif',
+               
            
                 ]);
 
@@ -140,19 +128,7 @@ class VendorDetailController extends Controller
                 $vendor_details->user_id = $vendor_register->id;        
                 $vendor_details->decided_milkQuantity = $request->decided_milkQuantity;
                 $vendor_details->decided_rate = $request->decided_rate;               
-
-                if($request->hasfile('filenames'))
-                {
-                      $count= 1;
-                    foreach($request->file('filenames') as $file)
-                    {
-                        $name =  $count.''.time().'.'.$file->extension();
-                        $file->move(public_path().'/files/', $name);  
-                        $data[] = $name; 
-                        $count++;  
-                    }
-                }
-            $vendor_details->filenames=json_encode($data);
+   
             $vendor_details->save();        
         }
 

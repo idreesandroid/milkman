@@ -15,7 +15,7 @@ class CreateVendorDetailsTable extends Migration
             $table->foreign('user_id')->references('id')->on('users');
             $table->string('longitude')->nullable();
             $table->string('latitude')->nullable();
-            $table->string('filenames');
+            // $table->string('filenames');
             $table->integer('decided_milkQuantity');
             $table->integer('decided_rate');            
             $table->timestamps();
