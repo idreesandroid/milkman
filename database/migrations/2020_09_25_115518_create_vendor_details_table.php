@@ -18,7 +18,7 @@ class CreateVendorDetailsTable extends Migration
             // $table->string('vendor_location');
             $table->string('longitude')->nullable();
             $table->string('latitude')->nullable();
-            $table->string('filenames');
+            // $table->string('filenames');
             $table->integer('decided_milkQuantity');
             $table->integer('decided_rate');
             

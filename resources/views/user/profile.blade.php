@@ -19,7 +19,7 @@
 									<div class="profile-view">
 										<div class="profile-img-wrap">
 											<div class="profile-img">
-												<a href="#"><img alt="" src="assets/img/profiles/avatar-02.jpg"></a>
+												<img alt="" src="{{asset('/UserProfile/'.$users->filenames)}}">
 											</div>
 										</div>
 										<div class="profile-basic">
@@ -88,8 +88,13 @@
 								<div class="col-md-6 d-flex">
 									<div class="card profile-box flex-fill">
 										<div class="card-body">
-											<h3 class="card-title">Company Informations <a href="#" class="edit-icon" data-toggle="modal" data-target="#personal_info_modal"><i class="fa fa-pencil"></i></a></h3>
-											
+										@if(isset($users->distributorCompany->companyName))
+										<h3 class="card-title">Company Informations <a href="#" class="edit-icon" data-toggle="modal" data-target="#personal_info_modal"><i class="fa fa-pencil"></i></a></h3>
+										@endif
+										@if(isset($users->vendorDetail->decided_milkQuantity))
+										<h3 class="card-title">Company Informations <a href="#" class="edit-icon" data-toggle="modal" data-target="#personal_info_modal"><i class="fa fa-pencil"></i></a></h3>
+										@endif
+
                                             <ul class="personal-info">
                                             @if(isset($users->distributorCompany->companyName))
                                             <li>
@@ -142,7 +147,6 @@
 												</li>
                                                 @endif
 
-                                               
 											</ul>
 										</div>
 									</div>
@@ -153,39 +157,31 @@
 										<div class="card-body">
 											<h3 class="card-title">Bank information</h3>
 											<ul class="personal-info">
-                                            
+        
 												<li>
 													<div class="title">Account Holder.</div>
                                                     @if(isset($users->bankDetail->acc_title))
 													<div class="text">{{$users->bankDetail->acc_title}}</div>
                                                     @endif
 												</li>
-                                               
-                                                
 												<li>
 													<div class="title">Bank account No.</div>
                                                     @if(isset($users->bankDetail->acc_no))
 													<div class="text">{{$users->bankDetail->acc_no}}</div>
                                                     @endif
 												</li>
-                                               
-                                               
 												<li>
 													<div class="title">Bank Name.</div>
                                                     @if(isset($users->bankDetail->bank_name))
 													<div class="text">{{$users->bankDetail->bank_name}}</div>
                                                     @endif
 												</li>
-                                                
-                                               
 												<li>
 													<div class="title">Branch Name.</div>
                                                     @if(isset($users->bankDetail->branch_name))
 													<div class="text">{{$users->bankDetail->branch_name}}</div>
                                                     @endif
 												</li>
-                                                
-                                              
                                                 <li>
 													<div class="title">Branch Code.</div>
                                                     @if(isset($users->bankDetail->branch_code))

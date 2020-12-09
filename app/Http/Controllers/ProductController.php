@@ -54,7 +54,6 @@ class ProductController extends Controller
         $products->product_description = $request->product_description;
         $products->unit = $request->unit;
         $products->ctn_value = $request->ctn_value;
-
         $imageName = time().'.'.$request->filenames->extension();    
         $request->filenames->move(public_path('product_img'), $imageName);
 
