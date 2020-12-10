@@ -146,19 +146,11 @@
                   <li class="nav-item nav-profile">
                      <a href="#" class="nav-link">
                         <div class="nav-profile-text d-flex flex-column">
-                           <span class="font-weight-bold mb-2">{{ session()->get('user_name') }}</span>
-                           <span class="text-white text-small">  {{ session()->get('hierarchy_role') }} {{ session()->get('role_title') }}</span>
                         </div>
                         <i class="mdi mdi-bookmark-check text-success nav-profile-badge"></i>
                      </a>
                   </li>
                   @include('admin_nav');
-                  @if(session()->get('hierarchy_role')==20)
-                  @include('collector_nav');
-                  @endif
-                  @if(session()->get('hierarchy_role')==25)
-                  @include('vendor_nav');
-                  @endif
                </ul>
             </div>
          </div>
@@ -167,23 +159,7 @@
       <!-- Page Wrapper -->
       <div class="page-wrapper">
       <div class="content container-fluid">
-         <!-- Page Header -->
-         <div class="crms-title row bg-white mb-4">
-            <div class="col">
-               <h3 class="page-title">
-                  <span class="page-title-icon bg-gradient-primary text-white mr-2">
-                  <i class="la la-table"></i>
-                  </span> <span>Deals Dashboard</span>
-               </h3>
-            </div>
-            <div class="col text-right">
-               <ul class="breadcrumb bg-white float-right m-0 pl-0 pr-0">
-                  <li class="breadcrumb-item"><a href="/">Dashboard</a></li>
-                  <li class="breadcrumb-item active">Deals Dashboard</li>
-               </ul>
-            </div>
-         </div>
-         <!-- /Page Header -->
+        
          <!-- page content -->
          @yield('content')
          <!-- page content -->
