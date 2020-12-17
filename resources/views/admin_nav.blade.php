@@ -96,6 +96,7 @@
 </ul>
 </li>
 @endcan
+<li><a href="/collection/create">Create Collection</a></li>
 <!-- <li>
 <a href="#"><i class="fa fa-check-square-o" aria-hidden="true"></i> <span>Payments</span></a>
 <ul class="sub-menus">

@@ -9,6 +9,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductStockController;
 use App\Http\Controllers\VendorDetailController;
 use App\Http\Controllers\SaleController;
+use App\Http\Controllers\CollectionController;
 use App\Http\Controllers\DistributorController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\LoginController;
@@ -107,3 +108,8 @@ Route::Delete('cart/deleteInvoice/{id}',    [SaleController::class, 'deleteInvoi
 
 Route::post('selectbatch/{id}',             [SaleController::class, 'SaveBatch'])->name('save.Batch')->middleware('can:Generate-Invoice');
 Route::get('batch_selection/ajax/{id}',     [SaleController::class, 'batchSelection'])->name('select.Batch')->middleware('can:Generate-Invoice');
+
+
+Route::get('collection/create',[CollectionController::class, 'create'])->name('create.collection');
+Route::post('collection/store', [CollectionController::class, 'store'])->name('store.collection');
+Route::post('collection/index', [CollectionController::class, 'index'])->name('index.collection');
