@@ -52,7 +52,7 @@
                         <td>{{$vendorDetail->email}}</td>
                         <td>{{$vendorDetail->user_cnic}}</td>
                         <td>{{$vendorDetail->user_phone}}</td>
-                        <td> <a href="{{ route('profile.user', $vendorDetail->id)}}" class="btn btn-primary">Edit</a>
+                        <td> <a href="{{ route('profile.user', $vendorDetail->id)}}" class="btn btn-primary">Profile</a>
                       </td>
                      </tr>
                      @endforeach

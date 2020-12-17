@@ -275,11 +275,11 @@
               $(this).attr('disabled', 'disabled');    
     });
     });
-    alert("ok2");
+  
     $("#myModal").modal('hide');
     $('#add_batch_id').attr('disabled', 'disabled'); 
     $('#batch_'+BID).attr('disabled', 'disabled');
-    alert("ok3");
+    
     $('#tbl_bat_sel').each(function(){
     $(this).find('button').each(function(){
       collect_id.push($(this).attr("id"));       

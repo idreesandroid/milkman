@@ -459,8 +459,8 @@ function draggableInit() {
     
 function initializeMap(){
     map = new google.maps.Map(document.getElementById('mapIn'), 
-        { zoom: 12, 
-            center: new google.maps.LatLng(30.3753, 69.3451)
+        { zoom: 17, 
+            center: new google.maps.LatLng(32.409675, 74.135081)
         }),        
         shapes = [],
         selected_shape  = null,

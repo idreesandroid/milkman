@@ -42,13 +42,17 @@ class VendorDetailController extends Controller
 
             $this->validate($request,[        
                 'name'      => 'required|min:1',
-
+                'email'     => 'required|unique:users',
                 'password'  => 'required|min:1',
                 'user_cnic' => 'required|min:13|unique:users',
                 'user_phone'=> 'required|min:11|unique:users',
                 'state'  => 'required',
                 'city'  => 'required',
                 'user_address'  => 'required|min:1',
+
+                'filenames' => 'required',
+                'filenames.*' => 'mimes:jpg,png,jpeg,gif',   
+
                 'bank_name'=> 'required|min:1',
                 'branch_name'=>'required|min:1',
                 'branch_code'=>'required|min:1', 
@@ -70,6 +74,14 @@ class VendorDetailController extends Controller
                 $vendor_register->state = $request->state;
                 $vendor_register->city = $request->city;
                 $vendor_register->user_address = $request->user_address;
+
+                if($request->hasfile('filenames')) {
+       
+                    $name =  time().'.'.$request->file('filenames')->extension();
+                    $request->file('filenames')->move(public_path().'/UserProfile/', $name);  
+                    $data = $name; 
+            }          
+                $vendor_register->filenames=$data;
                 $vendor_register->save();
                 $vendor_register->roles()->attach(Role::where('id',6)->first());
 
@@ -96,13 +108,17 @@ class VendorDetailController extends Controller
         }else{
             $this->validate($request,[        
                 'name'      => 'required|min:1',
-                'email'     => 'unique:users',
+                'email'     => 'required|unique:users',
                 'password'  => 'required|min:1',
                 'user_cnic' => 'required|min:13|unique:users',
                 'user_phone'=> 'required|min:11|unique:users',
                 'state'  => 'required',
                 'city'  => 'required',
-                'user_address'  => 'required|min:1',       
+                'user_address'  => 'required|min:1',   
+                
+                'filenames' => 'required',
+                'filenames.*' => 'mimes:jpg,png,jpeg,gif',   
+
                 'decided_milkQuantity'=>'required|min:1|numeric',
                 'decided_rate'=>'required|min:1|numeric', 
                
@@ -118,6 +134,16 @@ class VendorDetailController extends Controller
                 $vendor_register->state = $request->state;
                 $vendor_register->city = $request->city;
                 $vendor_register->user_address = $request->user_address;
+
+                
+                if($request->hasfile('filenames')) {
+       
+                    $name =  time().'.'.$request->file('filenames')->extension();
+                    $request->file('filenames')->move(public_path().'/UserProfile/', $name);  
+                    $data = $name; 
+            }          
+                $vendor_register->filenames=$data;
+                
                 $vendor_register->save();
                 $vendor_register->roles()->attach(Role::where('id',6)->first());
 
@@ -133,6 +159,36 @@ class VendorDetailController extends Controller
         }
 
         return redirect('vendor-detail/index');
+    }
+
+
+    public function agreementUpdate(Request $request, $id)
+    {
+
+        $updatedata = $request->validate([
+            'decided_milkQuantity'=>'required|min:1|numeric',
+            'decided_rate'=>'required|min:1|numeric',  
+            
+        ]);
+        vendorDetail::where('user_id', $id)->update($updatedata);
+        return redirect()->route('profile.user', [$id]);
+    }
+
+    public function bankDetailsUpdate(Request $request, $id)
+    {
+
+        $updatedata = $request->validate([
+                'bank_name'=> 'required|min:1',
+                'branch_name'=>'required|min:1',
+                'branch_code'=>'required|min:1', 
+                'acc_no'=>'required|min:1|unique:bank_details',
+                'acc_title'=>'required|min:1|unique:bank_details',
+                'decided_milkQuantity'=>'required|min:1|numeric',
+                'decided_rate'=>'required|min:1|numeric', 
+       
+        ]);
+        bankDetail::where('user_id', $id)->update($updatedata);
+        return redirect()->route('profile.user', [$id]);
     }
 }
  

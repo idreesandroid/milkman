@@ -35,7 +35,7 @@
                </ul>
             </div>
             @endif
-            <form method="post" action="{{ route('store.vendor-detail') }}" >
+            <form method="post" action="{{ route('store.vendor-detail') }}" enctype="multipart/form-data" >
                @csrf 
                <h4 class="card-title">Personal Information</h4>
                <!-- <input type="hidden" name="role_title" value=3 /> -->
@@ -88,6 +88,10 @@
                         <label>Home Address</label>
                         <input class="form-control" id="autocomplete" placeholder="Enter your address" onFocus="geolocate()" type="text" name="user_address"/>
                      </div>
+                     <div class="form-group">
+                        <label>Upload Image</label>
+                        <input type="file" class="form-control" name="filenames" required=""   autocomplete="off" >
+                  </div>
                   </div>
                </div>
                <h4 class="card-title">Business Information</h4>

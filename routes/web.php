@@ -38,8 +38,7 @@ Route::get('/',                    [LoginController::class, 'login'])->name('use
 Route::get('register',             [RegisterController::class, 'showRegistrationForm'])->name('user.register')->middleware('can:Register-User');
 //Users routes--------------------------------
 Route::get('user/userList',        [RegisterController::class, 'allUserList'])->name('index.userList')->middleware('can:See-User');
-Route::get('user/profile/{id}',    [RegisterController::class, 'profile'])->name('profile.user');
-Route::get('user/edit/{id}',       [RegisterController::class, 'edit'])->name('edit.userList')->middleware('can:Edit-User');
+Route::get('user/profile/{id}',    [RegisterController::class, 'profile'])->name('profile.user')->middleware('can:See-profile');
 Route::post('user/update/{id}',    [RegisterController::class,'update'])->name('update.userList')->middleware('can:Edit-User');
 //Role routes--------------------------------
 
@@ -79,6 +78,8 @@ Route::get('vendor-detail/create',          [VendorDetailController::class, 'cre
 Route::post('vendor-detail/create',         [VendorDetailController::class, 'store'])->name('store.vendor-detail')->middleware('can:Create-Vendor');
 Route::get('vendor-detail/edit/{id}',       [VendorDetailController::class, 'edit'])->name('edit.vendor-detail')->middleware('can:Edit-Vendor');
 Route::post('vendor-detail/update/{id}',    [VendorDetailController::class, 'update'])->name('update.vendor-detail')->middleware('can:Edit-Vendor');
+Route::post('vendorAgreement/update/{id}',  [VendorDetailController::class,'agreementUpdate'])->name('agreementUpdate.vendor')->middleware('can:Edit-Agreement-Detail');
+Route::post('bankDetails/update/{id}',      [VendorDetailController::class,'bankDetailsUpdate'])->name('detailsUpdate.bank')->middleware('can:Edit-Bank-Detail');
 
 //Distributor Detail routes--------------------------------
  
@@ -87,6 +88,7 @@ Route::get('distributor-detail/create',          [DistributorController::class, 
 Route::post('distributor-detail/create',         [DistributorController::class, 'store'])->name('store.distributor-detail')->middleware('can:Create-Distributor');
 Route::get('distributor-detail/edit/{id}',       [DistributorController::class, 'edit'])->name('edit.distributor-detail')->middleware('can:Edit-Distributor');
 Route::post('distributor-detail/update/{id}',    [DistributorController::class, 'update'])->name('update.distributor-detail')->middleware('can:Edit-Distributor');
+Route::post('companyDetail/update/{id}',    [DistributorController::class,'companyDetailUpdate'])->name('companyDetail.distributor')->middleware('can:Edit-Company-Detail');
 
 //Cart routes--------------------------------
 

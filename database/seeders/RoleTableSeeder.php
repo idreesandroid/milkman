@@ -42,5 +42,10 @@ class RoleTableSeeder extends Seeder
         $role_ven->slug = 'vendor';
         $role_ven->name = 'Vendor';
         $role_ven->save();
+
+        $role_ven = new Role();
+        $role_ven->slug = 'developer';
+        $role_ven->name = 'Developer';
+        $role_ven->save();
     }
 }

@@ -57,8 +57,8 @@
                         <td>{{$distributorDetail->user_cnic}}</td>
                         <td>{{$distributorDetail->user_phone}}</td>
                        <td>{{$distributorDetail->distributorCompany->companyName}}</td>
-                       <td><img src="{{asset('/distributorCompany/'.$distributorDetail->distributorCompany->filenames)}}" alt="Logo" class="img-thumbnail"></td>
-                      <td> <a href="{{ route('profile.user', $distributorDetail->id)}}" class="btn btn-primary">Edit</a>
+                       <td><img src="{{asset('/distributorCompany/'.$distributorDetail->distributorCompany->companyLogo)}}" alt="Logo" class="img-thumbnail"></td>   
+                         <td> <a href="{{ route('profile.user', $distributorDetail->id)}}" class="btn btn-primary">Profile</a>
                       </td> 
                      </tr>
                      @endforeach
