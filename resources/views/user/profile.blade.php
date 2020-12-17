@@ -111,7 +111,7 @@
                                             @if(isset($users->distributorCompany->companyName))
                                             <li>
 													<div class="title">Logo.</div>
-                                                    <div class="text"><img src="{{asset('/distributorCompany/'.$users->distributorCompany->companyLogo)}}" alt="Logo" class="img-thumbnail"></div>
+                                                    <div class="text company-logo"><img src="{{asset('/distributorCompany/'.$users->distributorCompany->companyLogo)}}" alt="Logo" class="img-thumbnail"></div>
 												</li>
                                                 @endif
                                                 @if(isset($users->distributorCompany->companyName))
@@ -168,6 +168,7 @@
 									<div class="card profile-box flex-fill">
 										<div class="card-body">
 											<h3 class="card-title">Bank information</h3>
+                                 <div class="pro-edit bankedit-box"><a data-target="#bankModal" data-toggle="modal" class="edit-icon" href="#"><i class="fa fa-pencil"></i></a></div>
 											<ul class="personal-info">
         
 												<li>
@@ -206,7 +207,7 @@
 										</div>
                          
 									</div>
-                           <div class="pro-edit"><a data-target="#bankModal" data-toggle="modal" class="edit-icon" href="#"><i class="fa fa-pencil"></i></a></div>
+                           
 									</div>
 								</div>
                      
@@ -469,7 +470,12 @@
 
 					</div>
 					<!-- /Page Header -->
-					
+	<style>
+   
+
+
+
+   </style>				
 					
                 </div>
 				<!-- /Page Content -->

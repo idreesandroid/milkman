@@ -8542,6 +8542,18 @@ form .btn-gradient-primary {
 {max-width: 900px!important; width: 900px!important;}
 
 
+.company-logo img{    max-width: 60px;
+    padding: 0;
+    border-radius: 10%;}
+   
+    .bankedit-box{position:relative;}
+
+   .bankedit-box a
+   {position: absolute;
+    top: -42px;
+    right: 0;
+    z-index: 9999; }
+
 
 
 
