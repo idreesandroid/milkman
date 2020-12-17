@@ -6,7 +6,7 @@ Version      : 1.0
 $(document).ready(function() {
 
     // Variables declarations
-
+    initializeMap();
     var $wrapper = $('.main-wrapper');
     var $pageWrapper = $('.page-wrapper');
     var $slimScrolls = $('.slimscroll');
@@ -459,8 +459,8 @@ function draggableInit() {
     
 function initializeMap(){
     map = new google.maps.Map(document.getElementById('mapIn'), 
-        { zoom: 12, 
-            center: new google.maps.LatLng(30.3753, 69.3451)
+        { zoom: 18, 
+            center: new google.maps.LatLng(32.443223, 74.1141259)
         }),        
         shapes = [],
         selected_shape  = null,
@@ -718,3 +718,5 @@ let placeSearch;
           });
         }
       }
+
+
