@@ -86,6 +86,11 @@
                         <label>Home Address</label>
                         <input class="form-control" id="autocomplete" placeholder="Enter your address" onFocus="geolocate()" type="text" name="user_address"/>
                      </div>
+
+                     <div class="form-group">
+                        <label>Upload Image</label>
+                        <input type="file" class="form-control" name="filenames" required=""   autocomplete="off" >
+                  </div>
                   </div>
                </div>
                <h4 class="card-title">Company Information</h4>
@@ -105,7 +110,7 @@
                      </div>
                      <div class="form-group">
                         <label>Upload Image</label>
-                        <input type="file" class="form-control" name="filenames[]" multiple required=""   autocomplete="off" >
+                        <input type="file" class="form-control" name="companyLogo" required=""   autocomplete="off" >
                      </div>
                   </div>
                   <div class="col-md-6">
