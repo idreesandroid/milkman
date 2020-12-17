@@ -20,7 +20,7 @@ class ProductController extends Controller
         FROM products a";    
         $products = DB::select($products_rs);
 
-       return view('product/index', compact('products'));
+       return view('product.index', compact('products'));
     }
 
     //create view-------------------------

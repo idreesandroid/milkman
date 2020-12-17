@@ -9,6 +9,7 @@ use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use DB;
 
 use App\Models\Role;
 use App\Models\State;
@@ -54,6 +55,7 @@ class RegisterController extends Controller
     $validator = $request->validate([
         'role_id' =>   'required',
         'name'      => 'required|min:3',
+        'email'     => 'required|unique:users',
         'password'  => 'required|min:6',
         'user_cnic' => 'required|min:15|unique:users',
         'user_phone'=> 'required|min:12|unique:users',
@@ -118,34 +120,43 @@ class RegisterController extends Controller
     //  echo "<pre>";
     //  print_r($as);
     //  exit;
-
-      return view('user/profile', compact('users')); 
-    }
-
-
-  public function edit($id)
-  {
-    $users = User::findOrFail($id);
     $user_roles= Role::select('name','id')->get();
-    return view('user/edit', compact('users','user_roles'));
-  }
+      return view('user/profile', compact('users','user_roles')); 
+    }
 
   public function update(Request $request, $id)
   {
     $updatedata = $request->validate([
 
       'name'      => 'required|min:3',
-      'email'     => 'required',
-      'user_cnic' => 'required|min:13',
-      'user_phone'=> 'required|min:11',
+      'user_cnic' => 'required|min:15',
+      'user_phone'=> 'required|min:12',
       'user_address'  => 'required|min:3',
+      'roleNames' => 'required',
        
     ]);
+   
+    User::whereid($id)->update(array(
+      'name' => $request->name,
+      'user_cnic' => $request->user_cnic,
+      'user_phone' => $request->user_phone,
+      'user_address' => $request->user_address,
+      'email' => $request->email,
+  ));
+  DB::delete('delete from role_user where user_id = ?',[$id]);
 
-
-    User::whereid($id)->update($updatedata);
-    return redirect('user/userList');
+  $rolesName = $request['roleNames'];
+  foreach($rolesName as $roleName)
+  {
+  DB::insert('insert into role_user (role_id, user_id) values (?, ?)', [$roleName, $id]);
+  }
+  return redirect()->route('profile.user', [$id]);
   }
 
+
+
+  
+
+    
 
 }

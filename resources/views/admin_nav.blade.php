@@ -88,11 +88,11 @@
 <a href="#"><i class="fa fa-check-square-o" aria-hidden="true"></i> <span>Sale</span></a>
 <ul class="sub-menus">
 @can('Generate-Invoice')
-<li><a href="/Cart/create" class="active">New Invoice</a></li>
+<li><a href="/cart/create" class="active">New Invoice</a></li>
 @endcan
-<li><a href="/Cart/index" class="active">Sale Record </a></li>
-<li><a href="/Cart/reserveInvoice" class="active">Reserve Stock</a></li>
-<li><a href="/Cart/onHoldInvoice" class="active">On Hold Invoice</a></li>
+<li><a href="/cart/index" class="active">Sale Record </a></li>
+<li><a href="/cart/reserveInvoice" class="active">Reserve Stock</a></li>
+<li><a href="/cart/onHoldInvoice" class="active">On Hold Invoice</a></li>
 </ul>
 </li>
 @endcan

@@ -13,6 +13,10 @@ class PermissionSeeder extends Seeder
      */
     public function run()
     {
+        $permission_1 = new Permission();
+        $permission_1->slug = 'Register-User';
+        $permission_1->name = 'Register-User';
+        $permission_1->save();
     
         $permission_1 = new Permission();
         $permission_1->slug = 'See-User';
@@ -138,6 +142,28 @@ class PermissionSeeder extends Seeder
         $permission_12->slug = 'Delete-Invoice';
         $permission_12->name = 'Delete-Invoice';
         $permission_12->save();
+
+        $permission_13 = new Permission();
+        $permission_13->slug = 'Edit-Company-Detail';
+        $permission_13->name = 'Edit-Company-Detail';
+        $permission_13->save();
+
+        $permission_14 = new Permission();
+        $permission_14->slug = 'Edit-Agreement-Detail';
+        $permission_14->name = 'Edit-Agreement-Detail';
+        $permission_14->save();
+        
+
+        $permission_15 = new Permission();
+        $permission_15->slug = 'Edit-Bank-Detail';
+        $permission_15->name = 'Edit-Bank-Detail';
+        $permission_15->save();
+
+        $permission_16 = new Permission();
+        $permission_16->slug = 'See-profile';
+        $permission_16->name = 'See-profile';
+        $permission_16->save();
+        
         
     }
 }

@@ -1,16 +1,28 @@
 @extends('layouts.master')
 @section('content')
 
-<!-- Main Wrapper -->
+ <!-- Page Header -->
+ <div class="crms-title row bg-white mb-4">
+            <div class="col">
+               <h3 class="page-title">
+                  <span class="page-title-icon bg-gradient-primary text-white mr-2">
+                  <i class="la la-table"></i>
+                  </span> <span>MilkMan Dashboard</span>
+               </h3>
+            </div>
+            <div class="col text-right">
+               <ul class="breadcrumb bg-white float-right m-0 pl-0 pr-0">
+                  <li class="breadcrumb-item"><a href="/">User</a></li>
+                  <li class="breadcrumb-item active">Profile</li>
+               </ul>
+            </div>
+         </div>
+         <!-- /Page Header -->
 
 			
 			<!-- Page Wrapper -->
          
-                           			
-				<!-- Page Content -->
-              
-					
-					<!-- Page Header -->
+
 					<div class="page-header pt-3 mb-0">
 						<div class="card ">
 						<div class="card-body">
@@ -72,7 +84,7 @@
 												</div>
 											</div>
 										</div>
-										<div class="pro-edit"><a data-target="#profile_info" data-toggle="modal" class="edit-icon" href="#"><i class="fa fa-pencil"></i></a></div>
+										<div class="pro-edit"><a data-target="#userModal" data-toggle="modal" class="edit-icon" href="#"><i class="fa fa-pencil"></i></a></div>
 									</div>
 								</div>
 							</div>
@@ -89,17 +101,17 @@
 									<div class="card profile-box flex-fill">
 										<div class="card-body">
 										@if(isset($users->distributorCompany->companyName))
-										<h3 class="card-title">Company Informations <a href="#" class="edit-icon" data-toggle="modal" data-target="#personal_info_modal"><i class="fa fa-pencil"></i></a></h3>
+										<h3 class="card-title">Company Informations <a href="#" class="edit-icon" data-toggle="modal" data-target="#companyModal"><i class="fa fa-pencil"></i></a></h3>
 										@endif
 										@if(isset($users->vendorDetail->decided_milkQuantity))
-										<h3 class="card-title">Company Informations <a href="#" class="edit-icon" data-toggle="modal" data-target="#personal_info_modal"><i class="fa fa-pencil"></i></a></h3>
+										<h3 class="card-title">Deals Information <a href="#" class="edit-icon" data-toggle="modal" data-target="#dealModal"><i class="fa fa-pencil"></i></a></h3>
 										@endif
 
                                             <ul class="personal-info">
                                             @if(isset($users->distributorCompany->companyName))
                                             <li>
 													<div class="title">Logo.</div>
-                                                    <div class="text">logo here</div>
+                                                    <div class="text"><img src="{{asset('/distributorCompany/'.$users->distributorCompany->companyLogo)}}" alt="Logo" class="img-thumbnail"></div>
 												</li>
                                                 @endif
                                                 @if(isset($users->distributorCompany->companyName))
@@ -135,14 +147,14 @@
 
                                                 @if(isset($users->vendorDetail->decided_milkQuantity))
 												<li>
-													<div class="title">Address</div>
+													<div class="title">Decided Quantity</div>
 													<div class="text">{{$users->vendorDetail->decided_milkQuantity}}</div>
 												</li>
                                                 @endif
 
                                                 @if(isset($users->vendorDetail->decided_rate))
 												<li>
-													<div class="title">Address</div>
+													<div class="title">Decided Rate</div>
 													<div class="text">{{$users->vendorDetail->decided_rate}}</div>
 												</li>
                                                 @endif
@@ -188,26 +200,271 @@
 													<div class="text">{{$users->bankDetail->branch_code}}</div>
                                                     @endif
 												</li>
-                                               
+                                        
 											</ul>
+                             
 										</div>
+                         
+									</div>
+                           <div class="pro-edit"><a data-target="#bankModal" data-toggle="modal" class="edit-icon" href="#"><i class="fa fa-pencil"></i></a></div>
 									</div>
 								</div>
-
+                     
 							</div>
-							
-							
+                     
 							<div class="row">
 	
 							</div>
 							
 						</div>
 						<!-- /Profile Info Tab -->
+						<!-- User Model-->
+				<div id="userModal" class="modal fade" role="dialog">
+               <div class="modal-dialog" >
+                  <!-- Modal content-->
+                  <div class="modal-content">
+                     <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                     </div>
+                     <div class="modal-body">
+                        <div class="table-responsive">
+                           <form method="post"  action="{{ route('update.userList' , $users->id) }}">
+                              @csrf 
+							  <div class="form-group row">
+                  <label for="name" class="col-form-label col-md-2">Name</label>
+                  <div class="col-md-10">
+                     <input type="text" class="form-control" name="name" value="{{ $users->name }}" required="">
+                  </div>
+               </div>
+               <div class="form-group row">
+                  <label for="email" class="col-form-label col-md-2">Email</label>
+                  <div class="col-md-10">
+                     <input type="email" class="form-control" name="email" value="{{ $users->email }}" required="">
+                  </div>
+               </div>
+               <div class="form-group row">
+                  <label for="user_cnic" class="col-form-label col-md-2">CNIC</label>
+                  <div class="col-md-10">
+                     <input type="text" class="form-control" name="user_cnic" value="{{ $users->user_cnic }}" required="">
+                  </div>
+               </div>
+               <div class="form-group row">
+                  <label for="user_phone" class="col-form-label col-md-2">Phone</label>
+                  <div class="col-md-10">
+                     <input type="text" class="form-control" name="user_phone" value="{{ $users->user_phone }}" required="">
+                  </div>
+               </div>
+
+<!--Role List-->
+			    @foreach($user_roles as $user_role)
+               <div class="col-sm-3">
+                  <label class="checkbox-inline "for="roleNames[{{ $user_role->id }}]">
+                  <input name="roleNames[{{ $user_role->id }}]" type="checkbox" value="{{ $user_role->id }}"
+                  @if($users->roles->contains($user_role->id)) checked=checked @endif
+                  > {{ $user_role->name }}
+                  </label>
+               </div>
+               @endforeach  
+
+
+<!--/ Role List-->
+               <div class="form-group row">
+                  <label for="user_address" class="col-form-label col-md-2">Address</label>
+                  <div class="col-md-10">
+                     <input type="text" class="form-control" name="user_address" value="{{ $users->user_address }}" required="">
+                  </div>
+               </div>
+               <div class="form-group mb-0 row">
+                  <div class="col-md-10">
+                     <div class="input-group-append">
+                        <button class="btn btn-primary" type="submit">Update</button>
+                     </div>
+                  </div>
+               </div>  
+                           </form>
+                        </div>
+                     </div>
+                     <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                     </div>
+                  </div>
+               </div>
+            </div>
+			<!-- / User Model -->	
+
+
+				@if(isset($users->distributorCompany->companyName))
+				<!-- Company Model-->
+				<div id="companyModal" class="modal fade" role="dialog">
+               <div class="modal-dialog" >
+                  <!-- Modal content-->
+                  <div class="modal-content">
+                     <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                     </div>
+                     <div class="modal-body">
+                        <div class="table-responsive">
+                           <form method="post"  action="{{ route('companyDetail.distributor' , $users->id) }}">
+                              @csrf 
+
+				  <div class="form-group row">
+                  <label for="companyOwner" class="col-form-label col-md-2">Owner</label>
+                  <div class="col-md-10">
+                     <input type="text" class="form-control" name="companyOwner" value="{{ $users->distributorCompany->companyOwner }}" required="">
+                  </div>
+               </div>
+               <div class="form-group row">
+                  <label for="companyName" class="col-form-label col-md-2">Company Name</label>
+                  <div class="col-md-10">
+                     <input type="text" class="form-control" name="companyName" value="{{ $users->distributorCompany->companyName }}" required="">
+                  </div>
+               </div>
+               <div class="form-group row">
+                  <label for="companyContact" class="col-form-label col-md-2">Company Contact</label>
+                  <div class="col-md-10">
+                     <input type="text" class="form-control" name="companyContact" value="{{ $users->distributorCompany->companyContact }}" required="">
+                  </div>
+               </div>
+               <div class="form-group row">
+                  <label for="companyNTN" class="col-form-label col-md-2">Company NTN</label>
+                  <div class="col-md-10">
+                     <input type="text" class="form-control" name="companyNTN" value="{{ $users->distributorCompany->companyNTN }}" required="">
+                  </div>
+               </div>
+               <div class="form-group row">
+                  <label for="companyAddress" class="col-form-label col-md-2">Company Address</label>
+                  <div class="col-md-10">
+                     <input type="text" class="form-control" name="companyAddress" value="{{ $users->distributorCompany->companyAddress }}" required="">
+                  </div>
+               </div>
+               <div class="form-group mb-0 row">
+                  <div class="col-md-10">
+                     <div class="input-group-append">
+                        <button class="btn btn-primary" type="submit">Update</button>
+                     </div>
+                  </div>
+               </div>
+                              </form>
+                        </div>
+                     </div>
+                     <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                     </div>
+                  </div>
+               </div>
+            </div>
 						
+				<!-- / Company Model -->
+
+@endif
+
+@if(isset($users->vendorDetail->decided_milkQuantity))				
+				<!-- Deal Model-->
+				<div id="dealModal" class="modal fade" role="dialog">
+               <div class="modal-dialog" >
+                  <!-- Modal content-->
+                  <div class="modal-content">
+                     <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                     </div>
+                     <div class="modal-body">
+                        <div class="table-responsive">
+                           <form method="post"  action="{{ route('agreementUpdate.vendor' , $users->id) }}">
+                              @csrf 
+							  <div class="form-group row">
+                  <label for="decided_milkQuantity" class="col-form-label col-md-2">Agreed Quantity</label>
+                  <div class="col-md-10">
+                     <input type="text" class="form-control" name="decided_milkQuantity" value="{{ $users->vendorDetail->decided_milkQuantity }}" required="">
+                  </div>
+               </div>
+               <div class="form-group row">
+                  <label for="decided_rate" class="col-form-label col-md-2">Agreed Rate</label>
+                  <div class="col-md-10">
+                     <input type="text" class="form-control" name="decided_rate" value="{{ $users->vendorDetail->decided_rate }}" required="">
+                  </div>
+               </div>
+               <div class="form-group mb-0 row">
+                  <div class="col-md-10">
+                     <div class="input-group-append">
+                        <button class="btn btn-primary" type="submit">Update</button>
+                     </div>
+                  </div>
+               </div>
+							   </form>
+                        </div>
+                     </div>
+                     <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                     </div>
+                  </div>
+               </div>
+            </div>
 						
+				<!-- / Deal Model -->
+				@endif
+            @if(isset($users->bankDetail->user_id))
+				<!-- bank Model-->
+				<div id="bankModal" class="modal fade" role="dialog">
+               <div class="modal-dialog" >
+                  <!-- Modal content-->
+                  <div class="modal-content">
+                     <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                     </div>
+                     <div class="modal-body">
+                        <div class="table-responsive">
+                           <form method="post"  action="{{ route('detailsUpdate.bank' , $users->id) }}">
+                              @csrf 
+                              <div class="form-group row">
+                  <label for="bank_name" class="col-form-label col-md-2">Owner</label>
+                  <div class="col-md-10">
+                     <input type="text" class="form-control" name="bank_name" value="{{ $users->distributorCompany->bank_name }}" required="">
+                  </div>
+               </div>
+               <div class="form-group row">
+                  <label for="branch_name" class="col-form-label col-md-2">Company Name</label>
+                  <div class="col-md-10">
+                     <input type="text" class="form-control" name="branch_name" value="{{ $users->distributorCompany->branch_name }}" required="">
+                  </div>
+               </div>
+               <div class="form-group row">
+                  <label for="branch_code" class="col-form-label col-md-2">Company Contact</label>
+                  <div class="col-md-10">
+                     <input type="text" class="form-control" name="branch_code" value="{{ $users->distributorCompany->branch_code }}" required="">
+                  </div>
+               </div>
+               <div class="form-group row">
+                  <label for="acc_no" class="col-form-label col-md-2">Company NTN</label>
+                  <div class="col-md-10">
+                     <input type="text" class="form-control" name="acc_no" value="{{ $users->distributorCompany->acc_no }}" required="">
+                  </div>
+               </div>
+               <div class="form-group row">
+                  <label for="acc_title" class="col-form-label col-md-2">Company Address</label>
+                  <div class="col-md-10">
+                     <input type="text" class="form-control" name="acc_title" value="{{ $users->distributorCompany->acc_title }}" required="">
+                  </div>
+               </div>
+               <div class="form-group mb-0 row">
+                  <div class="col-md-10">
+                     <div class="input-group-append">
+                        <button class="btn btn-primary" type="submit">Update</button>
+                     </div>
+                  </div>
+               </div>
+                              
+                               </form>
+                        </div>
+                     </div>
+                     <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                     </div>
+                  </div>
+               </div>
+            </div>
 						
-						
-						
+				<!-- / bankInfo Model -->
+					@endif	
 					</div>
 
 					</div>

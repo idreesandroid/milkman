@@ -25,7 +25,7 @@ class CreateDistributorsTable extends Migration
             $table->string('companyNTN');
             $table->string('companyArea');
             
-            $table->string('filenames');
+            $table->string('companyLogo');
 
             $table->timestamps();
         });

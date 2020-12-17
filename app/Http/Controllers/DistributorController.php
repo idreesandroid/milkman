@@ -26,10 +26,7 @@ class DistributorController extends Controller
 
     public function index()
     {       
-    $distributorDetails = User::whereHas('roles', function($query) {
-        $query->where('roles.id', 3); 
-    })->with('distributorCompany')->get();   
-    
+    $distributorDetails = User::whereHas('roles', function($query) {$query->where('roles.id', 3);})->with('distributorCompany')->get();   
     return view('distributor-detail/index', compact('distributorDetails'));
     }
 
@@ -46,20 +43,26 @@ class DistributorController extends Controller
     {  
         
         $this->validate($request,[        
-            'name'      => 'required|min:1',          
+            'name'      => 'required|min:1', 
+            'email'     => 'required|unique:users',         
             'password'  => 'required|min:1',
             'user_cnic' => 'required|min:13|unique:users',
             'user_phone'=> 'required|min:11|unique:users',
             'state'  => 'required',
             'city'  => 'required',
             'user_address'  => 'required|min:1',
+
+            'filenames' => 'required',
+            'filenames.*' => 'mimes:jpg,png,jpeg,gif',   
+
             'companyName'=>'required|min:3',
             'companyOwner'=>'required|min:3', 
             'companyContact' => 'required',
             'companyAddress'=>'required|min:3',
             'companyNTN'=>'required|min:3', 
-            'companyArea' => 'required',            
-            'filenames.*' => 'mimes:jpg,png,jpeg,gif'       
+            'companyArea' => 'required', 
+            'companyLogo' => 'required',           
+            'companyLogo.*' => 'mimes:jpg,png,jpeg,gif'       
         ]);
 
         $distributor_register = new User();
@@ -71,6 +74,14 @@ class DistributorController extends Controller
         $distributor_register->state = $request->state;
         $distributor_register->city = $request->city;
         $distributor_register->user_address = $request->user_address;
+        
+        if($request->hasfile('filenames')) {
+       
+            $name =  time().'.'.$request->file('filenames')->extension();
+            $request->file('filenames')->move(public_path().'/UserProfile/', $name);  
+            $data = $name; 
+    }          
+        $distributor_register->filenames=$data;
         $distributor_register->save();
         $distributor_register->roles()->attach(Role::where('id',3)->first());
 
@@ -85,21 +96,31 @@ class DistributorController extends Controller
         $distributor_details->companyArea = $request->companyArea;
                
 
-        if($request->hasfile('filenames'))
-             {
-                  $count= 1;
-                foreach($request->file('filenames') as $file)
-                {
-                    $name =  $count.''.time().'.'.$file->extension();
-                    $file->move(public_path().'/distributorCompany/', $name);  
-                    $data[] = $name; 
-                    $count++;  
-                }
-            }
-             
-        $distributor_details->filenames=json_encode($data);
+        if($request->hasfile('companyLogo')) {
+       
+            $logoName =  time().'.'.$request->file('companyLogo')->extension();
+            $request->file('companyLogo')->move(public_path().'/distributorCompany/', $name);      
+    }  
+        $distributor_details->companyLogo=$logoName;
         $distributor_details->save();
 
     return redirect('distributor-detail/index');
+    }
+
+
+    public function companyDetailUpdate(Request $request, $id)
+    {
+
+        $updatedata = $request->validate([
+            'companyName'=>'required|min:3',
+            'companyOwner'=>'required|min:3', 
+            'companyContact' => 'required',
+            'companyAddress'=>'required|min:3',
+            'companyNTN'=>'required|min:3', 
+                       
+       
+        ]);
+        Distributor::where('user_id', $id)->update($updatedata);
+        return redirect()->route('profile.user', [$id]);
     }
 }

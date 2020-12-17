@@ -48,7 +48,7 @@
                				 @csrf 
 								<div class="form-group">
 
-									<label>Mobile/CNIC</label>
+									<label>Email/CNIC</label>
 									<input class="form-control" type="text" name="username" required="" autocomplete="off" >
 
 								</div>
