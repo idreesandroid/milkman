@@ -45,7 +45,7 @@ class RegisterController extends Controller
 
   public function showRegistrationForm()
   {
-    $roles = Role::where('id', '!=',  '6')->select('name','id')->orderBy('id', 'ASC')->get();
+    $roles = Role::where('id', '!=',  '6')->where('id', '!=',  '3')->select('name','id')->orderBy('id', 'ASC')->get();
     return  view('auth.register',  compact('roles') );
   }
 

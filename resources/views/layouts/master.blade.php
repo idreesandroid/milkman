@@ -33,6 +33,9 @@
       <script src="assets/js/html5shiv.min.js"></script>
       <script src="assets/js/respond.min.js"></script>
       <![endif]-->
+      
+
+      
       <script>
          function printDiv(div_id) 
          {
@@ -193,6 +196,8 @@
       <!-- <script src="{{asset('assets/js/jquery.js')}}"></script> -->
       <script src="{{asset('assets/js/inputmask.js')}}"></script>
       <!---------ajax---------------->
+  
+  
    </body>
 </html>
 

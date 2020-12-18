@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
+use App\Models\User;
 use App\Models\Product;
 use App\Models\ProductStock;
 class ProductStockController extends Controller
@@ -16,8 +17,16 @@ class ProductStockController extends Controller
     }
 
     public function index()
-    {   
-       $product_stocks = ProductStock::with('product')->get();
+    {  
+       // $product_stock = User::with('productStocks')->get();
+      // return $product_stock;
+
+       $product_stocks = ProductStock::with('product','Manager')->get();
+       //return $product_stocks;
+        // $word=$product_stocks->AddBy->name;
+        // echo "<pre>";
+        // print_r($product_stock);
+        // exit;
        return view('product-stock/index', compact('product_stocks'));
     }
 
@@ -53,8 +62,11 @@ class ProductStockController extends Controller
         $product_stocks->expire_date = $request->expire_date;
         $product_stocks->manufactured_quantity = $request->manufactured_quantity;
         $product_stocks->stockInBatch = $request->manufactured_quantity;
-        $product_stocks->manager_id =$mid; //it should be come from session
+       // $product_stocks->user_id =$mid; //it should be come from session
+        $product_stocks->users()->associate($mid);
         $product_stocks->save();
+
+        //$product_stocks->users($mid);
         return redirect('product-stock/index');
     }
 

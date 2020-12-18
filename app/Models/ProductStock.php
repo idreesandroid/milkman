@@ -19,6 +19,12 @@ class ProductStock extends Model
         return $this->belongsTo(Product::class);
     }
 
+     public function Manager()
+    {
+        return $this->belongsTo(User::class);
+    }
+   
+
     public function sell_stock()
     {
         return $this->hasMany(Cart::class);

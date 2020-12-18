@@ -22,12 +22,13 @@
    <div class="col-sm-12">
       <div class="card mb-0">
          <div class="card-body">
-            <div class="form-group mb-0 row">
+         @can('Create-Product-Stock') <div class="form-group mb-0 row">
                <div class="col-md-4">
                   <div class="input-group-append">
                      <a href="/product-stock/create" class="active"> <button class="btn btn-primary" type="button">Add Stock </button></a>
                   </div>
                </div>
+               @endcan
             </div>
             <div class="table-responsive">
                <table class="datatable table table-stripped mb-0 datatables">
@@ -54,14 +55,15 @@
                         <td>{{$product_stock->expire_date}}</td>
                         <td>{{$product_stock->manufactured_quantity}}</td>
                         <td>{{$product_stock->stockInBatch}}</td>
-                        <td>{{$product_stock->manager_id}}</td>
+                        <td>{{$product_stock->user_id}}</td>
+                        <td></td>
                         <td>
-                           <a href="{{ route('edit.productStock', $product_stock->id)}}" class="btn btn-primary">Edit</a>  
-                           <form action="{{ route('delete.productStock', $product_stock->id)}}" method="post" style="display: inline-block">
+                        @can('Edit-Product-Stock')  <a href="{{ route('edit.productStock', $product_stock->id)}}" class="btn btn-primary">Edit</a>  @endcan 
+                        @can('Delete-Product-Stock')   <form action="{{ route('delete.productStock', $product_stock->id)}}" method="post" style="display: inline-block"> 
                               @csrf
                               @method('DELETE')
                               <button class="btn btn-danger btn-sm" type="submit">Delete</button>
-                           </form>
+                           </form>@endcan
                         </td>
                      </tr>
                      @endforeach
