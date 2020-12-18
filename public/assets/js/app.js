@@ -6,7 +6,7 @@ Version      : 1.0
 $(document).ready(function() {
 
     // Variables declarations
-    initializeMap();
+    //initializeMap();
     var $wrapper = $('.main-wrapper');
     var $pageWrapper = $('.page-wrapper');
     var $slimScrolls = $('.slimscroll');
