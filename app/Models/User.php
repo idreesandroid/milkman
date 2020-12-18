@@ -93,4 +93,8 @@ class User extends Authenticatable
       return $this->hasMany(Invoice::class);
     }
 
+    public function productStocks()
+    {
+        return $this->hasMany(ProductStock::class);
+    }
 }
