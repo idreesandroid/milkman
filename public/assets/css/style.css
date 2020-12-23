@@ -1697,7 +1697,7 @@ table.dataTable thead>tr>td.sorting {
 	position: relative;
 }
 
-.sidebar-menu ul ul {
+.submenu ul{
 	display: none;
 }
 
@@ -8429,11 +8429,6 @@ form .btn-gradient-primary {
 	top: 0;
 	left: -5px;
 }
-
-.mobile-view {
-	display: none;
-}
-
 .modal {
 	z-index: 99999;
 }
@@ -9489,3 +9484,13 @@ form .btn-gradient-primary {
       width: 100%;  
     }
 
+	#userTable_wrapper .dataTables_filter {
+		width: 50%;
+		float: right;
+		text-align: right;
+	 }
+	 #userTable_wrapper #userTable_length{
+		width: 500px;
+		float: left;
+		margin-top: 12px;
+	 }
