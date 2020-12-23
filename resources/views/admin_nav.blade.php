@@ -7,13 +7,15 @@
                		<i class="fa fa-tachometer" aria-hidden="true">               		
                		</i> <span> Dashboard </span>
                </a>
-            </li>           
+            </li>
+            @can('See-User')           
             <li>
             	<a href="/user/userList" class="{{ (request()->segment(2) == 'userList') ? 'active' : '' }}">
             		<i class="fa fa-users" aria-hidden="true"></i>
             		<span> Users </span>
             	</a>
             </li>
+            @endcan
             <li class="submenu">
                <a href="#">
                    <i class="fa fa-database" aria-hidden="true">                       
@@ -21,33 +23,40 @@
                    <span class="menu-arrow"></span>
                 </a>
                 <ul class="sub-menus">
-                  <li><a href="#" class="">Collection Area</a></li>
+                  <li><a href="/collection/create" class="{{ (request()->segment(1) == 'collection') ? 'active' : '' }}">Collection Area</a></li>
                   <li><a href="#" class="">Tasks</a></li>                  
                 </ul>
             </li>
-            <li class="submenu">
-               <a href="#">
-                   <i class="fa fa-product-hunt" aria-hidden="true">                       
-                   </i> <span> Product </span> 
-                   <span class="menu-arrow"></span>
-                </a>
-                <ul class="sub-menus">
-                  <li><a href="/product/index" class="{{ (request()->segment(1) == 'product') ? 'active' : '' }}">Product Listing</a></li>
-                  <li><a href="/product-stock/index" class="{{ (request()->segment(1) == 'product-stock') ? 'active' : '' }}">Product Stock</a></li>                  
-                </ul>
-            </li>
-            <li class="submenu">
-               <a href="#">
-               		<i class="fa fa-cart-plus" aria-hidden="true"></i>
-               		<span> Sale </span>
-               		<span class="menu-arrow"></span>
-               	</a>
-               	<ul class="sub-menus">
-                    <li><a href="/cart/index" class="{{ (request()->segment(1) == 'cart' && request()->segment(2) == 'index') ? 'active' : '' }}">Sale Record </a></li>
-                    <li><a href="/cart/reserveInvoice" class="{{ (request()->segment(2) == 'reserveInvoice') ? 'active' : '' }}">Reserve Stock</a></li>
-                    <li><a href="/cart/onHoldInvoice" class="{{ (request()->segment(2) == 'onHoldInvoice') ? 'active' : '' }}">On Hold Invoice</a></li>
-               </ul>
-            </li>            
+            @can('See-Product')
+                <li class="submenu">
+                    <a href="#">
+                    <i class="fa fa-product-hunt" aria-hidden="true">                       
+                    </i> <span> Product </span> 
+                    <span class="menu-arrow"></span>
+                    </a>
+                    <ul class="sub-menus">
+                    <li><a href="/product/index" class="{{ (request()->segment(1) == 'product') ? 'active' : '' }}">Product Listing</a></li>
+                    @can('See-Product-Stock')
+                        <li><a href="/product-stock/index" class="{{ (request()->segment(1) == 'product-stock') ? 'active' : '' }}">Product Stock</a></li>                  
+                    @endcan
+                    </ul>
+                </li>
+            @endcan
+            @can('See-Cart')
+                <li class="submenu">
+                <a href="#">
+                        <i class="fa fa-cart-plus" aria-hidden="true"></i>
+                        <span> Sale </span>
+                        <span class="menu-arrow"></span>
+                    </a>
+                    <ul class="sub-menus">
+                        <li><a href="/cart/index" class="{{ (request()->segment(1) == 'cart' && request()->segment(2) == 'index') ? 'active' : '' }}">Sale Record </a></li>
+                        <li><a href="/cart/create" class="{{ (request()->segment(1) == 'cart' && request()->segment(2) == 'create') ? 'active' : '' }}">New Invoice</a></li>
+                        <li><a href="/cart/reserveInvoice" class="{{ (request()->segment(2) == 'reserveInvoice') ? 'active' : '' }}">Reserve Stock</a></li>
+                        <li><a href="/cart/onHoldInvoice" class="{{ (request()->segment(2) == 'onHoldInvoice') ? 'active' : '' }}">On Hold Invoice</a></li>
+                    </ul>
+                </li>
+            @endcan            
             <li class="submenu">
                <a href="#">
                    <i class="fa fa-cog" aria-hidden="true">                       
@@ -55,8 +64,12 @@
                    <span class="menu-arrow"></span>
                 </a>
                 <ul class="sub-menus">
-                  <li><a href="/role/index" class="{{ (request()->segment(1) == 'role') ? 'active' : '' }}">Role Settings</a></li>
-                  <li><a href="/permission/index" class="{{ (request()->segment(1) == 'permission') ? 'active' : '' }}">Permissions Settings</a></li>                  
+                    @can('See-Role')
+                        <li><a href="/role/index" class="{{ (request()->segment(1) == 'role') ? 'active' : '' }}">Role Settings</a></li>
+                    @endcan
+                    @can('See-Permission')
+                        <li><a href="/permission/index" class="{{ (request()->segment(1) == 'permission') ? 'active' : '' }}">Permissions Settings</a></li>                  
+                    @endcan
                 </ul>
             </li>
          </ul>
