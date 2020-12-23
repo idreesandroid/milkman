@@ -24,40 +24,48 @@
          <div class="card-body">
             <div class="table-responsive" >
                @can('Create-User')
-               <div class="form-group mb-0 row">
-                  <div class="col-md-2">
-                     <div class="input-group-append">
-                        <a href="/register" class="btn btn-primary">
+                  <div class="form-group mb-0 row">
+                     @can('Register-User')
+                        <div class="col-md-2">
+                           <div class="input-group-append">
+                              <a href="/register" class="btn btn-primary">
+                                 <i class="fa fa-plus" aria-hidden="true"></i>
+                                 Register User
+                              </a>
+                           </div>
+                        </div>
+                     @endcan
+                     @can('See-Vendor')
+                        <div class="col-md-2">
+                           <div class="input-group-append">
+                              <a href="/vendor-detail/create" class="btn btn-primary">
+                              <i class="fa fa-plus" aria-hidden="true"></i>
+                                 Add Vendor
+                              </a>
+                           </div>
+                        </div>
+                     @endcan
+                     @can('See-Vendor')
+                     <div class="col-md-2">
+                        <div class="input-group-append">
+                           <a href="/register" class="btn btn-primary">
                            <i class="fa fa-plus" aria-hidden="true"></i>
-                           Register User
-                        </a>
+                              Add Collector
+                           </a>
+                        </div>
                      </div>
-                  </div>
-                  <div class="col-md-2">
-                     <div class="input-group-append">
-                        <a href="/vendor-detail/create" class="btn btn-primary">
-                        <i class="fa fa-plus" aria-hidden="true"></i>
-                           Add Vendor
-                        </a>
+                     @endcan
+                     @can('See-Distributor')
+                     <div class="col-md-2">
+                        <div class="input-group-append">
+                           <a href="{{url('distributor-detail/create')}}" class="btn btn-primary">
+                           <i class="fa fa-plus" aria-hidden="true"></i>
+                              Add Distributer
+                           </a>
+                        </div>
                      </div>
+                     @endcan
                   </div>
-                  <div class="col-md-2">
-                     <div class="input-group-append">
-                        <a href="/register" class="btn btn-primary">
-                        <i class="fa fa-plus" aria-hidden="true"></i>
-                           Add Collector
-                        </a>
-                     </div>
-                  </div>
-                  <div class="col-md-2">
-                     <div class="input-group-append">
-                        <a href="{{url('distributor-detail/create')}}" class="btn btn-primary">
-                        <i class="fa fa-plus" aria-hidden="true"></i>
-                           Add Distributer
-                        </a>
-                     </div>
-                  </div>
-               </div>
                @endcan
                <table class="datatable table table-stripped mb-0 datatables" id="userTable">
                   <thead>
