@@ -1,7 +1,7 @@
 @extends('layouts.master')
 @section('content')
  <!-- Page Header -->
- <div class="crms-title row bg-white mb-4">
+  <div class="crms-title row bg-white mb-4">
             <div class="col">
                <h3 class="page-title">
                   <span class="page-title-icon bg-gradient-primary text-white mr-2">
@@ -22,16 +22,43 @@
    <div class="col-sm-12">
       <div class="card mb-0">
          <div class="card-body">
-            @can('Create-User')
-            <div class="form-group mb-0 row">
-               <div class="col-md-4">
-                  <div class="input-group-append">
-                     <a href="/register" class="active"> <button class="btn btn-primary" type="button">Register</button></a>
+            <div class="table-responsive" >
+               @can('Create-User')
+               <div class="form-group mb-0 row">
+                  <div class="col-md-2">
+                     <div class="input-group-append">
+                        <a href="/register" class="btn btn-primary">
+                           <i class="fa fa-plus" aria-hidden="true"></i>
+                           Register User
+                        </a>
+                     </div>
+                  </div>
+                  <div class="col-md-2">
+                     <div class="input-group-append">
+                        <a href="/vendor-detail/create" class="btn btn-primary">
+                        <i class="fa fa-plus" aria-hidden="true"></i>
+                           Add Vendor
+                        </a>
+                     </div>
+                  </div>
+                  <div class="col-md-2">
+                     <div class="input-group-append">
+                        <a href="/register" class="btn btn-primary">
+                        <i class="fa fa-plus" aria-hidden="true"></i>
+                           Add Collector
+                        </a>
+                     </div>
+                  </div>
+                  <div class="col-md-2">
+                     <div class="input-group-append">
+                        <a href="{{url('distributor-detail/create')}}" class="btn btn-primary">
+                        <i class="fa fa-plus" aria-hidden="true"></i>
+                           Add Distributer
+                        </a>
+                     </div>
                   </div>
                </div>
-            </div>
-            @endcan
-            <div class="table-responsive" >
+               @endcan
                <table class="datatable table table-stripped mb-0 datatables" id="userTable">
                   <thead>
                      <tr>
