@@ -209,6 +209,7 @@
    $(":input").inputmask();
    $(document).ready(function() {       
            initializeMap();
+           initAutocomplete();  
     });
 </script>
 <!-- /page Wrapper -->

@@ -7,7 +7,7 @@
       <meta name="keywords" content="admin, estimates, bootstrap, business, corporate, creative, management, minimal, modern, accounts, invoice, html5, responsive, CRM, Projects">
       <meta name="author" content="Dreamguys - Bootstrap Admin Template">
       <meta name="robots" content="noindex, nofollow">
-      <title>Milk Man App</title>
+      <title>{{env('APP_NAME')}}</title>
       <!-- Favicon -->
       <link rel="shortcut icon" type="image/x-icon" href="{{asset('assets/img/favicon.png')}}">
       <!-- Bootstrap CSS -->
@@ -172,32 +172,17 @@
       <script src="{{asset('assets/js/popper.min.js')}}"></script>
       <script src="{{asset('assets/js/bootstrap.min.js')}}"></script>
       <!-- Slimscroll JS -->
-      <script src="{{asset('assets/js/jquery.slimscroll.min.js')}}"></script>
-      <!-- Chart JS -->
-      <!--<script src="{{asset('assets/js/morris.js')}}"></script>
-         <script src="{{asset('assets/plugins/raphael/raphael.min.js')}}"></script>
-          <script src="{{asset('assets/js/chart.js')}}"></script> -->
-      <!-- <script src="{{asset('assets/js/linebar.min.js')}}"></script>
-         <script src="{{asset('assets/js/piechart.js')}}"></script> -->
-      <!-- <script src="{{asset('assets/js/apex.min.js')}}"></script> -->
+      <script src="{{asset('assets/js/jquery.slimscroll.min.js')}}"></script>    
       <!-- theme JS -->
       <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>  
       <script async defer
-         src="https://maps.googleapis.com/maps/api/js?libraries=geometry,places,drawing&key=AIzaSyA4d_ChkEg7E_k9rU7zPt09FVPGKpL1aAE&v=3&callback=initAutocomplete"      
-         ></script>
-      <!-- <script async defer src="https://maps.googleapis.com/maps/api/js?libraries=geometry,places,drawing&key=AIzaSyA4d_ChkEg7E_k9rU7zPt09FVPGKpL1aAE&v=3&callback=initializeMap"></script> -->
-      <!-- <script
-         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA4d_ChkEg7E_k9rU7zPt09FVPGKpL1aAE&callback=initAutocomplete&libraries=places&v=weekly"
-         defer
-         ></script> -->
+         src="https://maps.googleapis.com/maps/api/js?libraries=geometry,places,drawing&key={{env('GOOGLE_MAP_KEY')}}&v=3"      
+         ></script>     
       <script src="{{asset('assets/js/theme-settings.js')}}"></script>
       <!-- Custom JS -->
       <script src="{{asset('assets/js/app.js')}}"></script>
       <!-- <script src="{{asset('assets/js/jquery.js')}}"></script> -->
-      <script src="{{asset('assets/js/inputmask.js')}}"></script>
-      <!---------ajax---------------->
-  
-  
+      <script src="{{asset('assets/js/inputmask.js')}}"></script>      
    </body>
 </html>
 

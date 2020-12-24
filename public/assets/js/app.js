@@ -3,8 +3,7 @@ Author       : Dreamguys
 Template Name: CRMS - Bootstrap Admin Template
 Version      : 1.0
 */
-$(document).ready(function() {
-
+$(document).ready(function() {    
     // Variables declarations
     //initializeMap();
     var $wrapper = $('.main-wrapper');
@@ -718,5 +717,3 @@ let placeSearch;
           });
         }
       }
-
-
