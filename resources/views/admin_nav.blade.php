@@ -80,7 +80,7 @@
  <script type="text/javascript">
 $(document).ready(function() {
    $(".submenu").on('click', function(){
-        this.find('sub-menus').css({"display": "block"});       
+    $(".submenu").find('sub-menus').css({"display": "block"});       
    });
 });
 </script>
