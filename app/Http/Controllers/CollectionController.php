@@ -15,7 +15,15 @@ class CollectionController extends Controller
      */
     public function index()
     {
-        echo "test heree";
+
+        $vendors = DB::table('users')
+                    ->select('users.id','users.name')
+                    ->join('role_user', 'role_user.user_id', '=', 'users.id')
+                    ->where('role_user.role_id', '=', 6)
+                    ->get();
+        $bootstrapclass = ['bg-gradient-danger','bg-gradient-warning','bg-gradient-info','bg-gradient-success'];
+        $cols = [1,2,3,4];
+        return view('collection/index', compact('vendors','cols'));
     }
 
     /**
@@ -25,12 +33,12 @@ class CollectionController extends Controller
      */
     public function create()
     {
-        $vendors = DB::table('users')
-                    ->select('users.id','users.name')
+        $allVendors = DB::table('collections')
+                    ->select('vendors_collection.collection_id','users.name')
                     ->join('role_user', 'role_user.user_id', '=', 'users.id')
                     ->where('role_user.role_id', '=', 6)
                     ->get();
-        return view('collection/create', compact('vendors'));
+        return view('collection/index', compact('allVendors'));
     }
 
     /**
@@ -40,28 +48,26 @@ class CollectionController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
+    {        
         $this->validate($request,[        
             'title'      => 'required|min:5',          
             'vendors_location'  => 'required',
             'vendorsIds' => 'required|min:1'
         ]);
         
-        $collection = DB::table('collections')->insert([        
+        $collection_id = DB::table('collections')->insertGetId([        
             'title'      => $request->title,          
             'vendors_location'  => $request->vendors_location            
         ]);
 
-        dd($collection); exit();
-
         foreach($request->vendorsIds as $vendor_id){ 
             DB::table('vendors_collection')->insert([        
-                'collection_id'      => $collection->id,          
+                'collection_id' => $collection_id,          
                 'vendor_id'  => $vendor_id           
             ]);
         }        
 
-        return view('collection/index');
+        return true;
     }
 
     /**
