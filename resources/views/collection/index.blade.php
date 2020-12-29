@@ -48,7 +48,7 @@
       <div class="">
          <div class="card-body p-0 row">
             <div id="sortableKanbanBoards" class="col-md-12 kanban-views p-0">           
-            @foreach($allVendors as $col => $val)                   
+            @foreach($collections as $item)                   
                <div class="panel panel-primary kanban-col m-0">
                   <div class="panel-body slimScrollDiv">
                      <div id="TODO" class="kanban-centered">
@@ -56,7 +56,7 @@
                            <div class="kanban-entry-inner">
                               <div class="kanban-label card bg-gradient-danger card-img-holder text-white h-100" data-toggle="modal" data-target="#leads-details">
                                  <img src="assets/img/circle.png" class="card-img-absolute" alt="circle-image">
-                                 <h2 data-toggle="modal" data-target="#leads">Anne Lynch</h2>
+                                 <h2 data-toggle="modal" data-target="#leads">{{$item->title}}</h2>
                                  <ul class="list-unstyled">
                                     <li>VB of Sales</li>
                                     <li>Howwe-Blanda LLC</li>
@@ -254,6 +254,6 @@
       });
      
    });   
-</script>	
+</script>   
 @endsection
 

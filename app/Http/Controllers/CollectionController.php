@@ -21,9 +21,13 @@ class CollectionController extends Controller
                     ->join('role_user', 'role_user.user_id', '=', 'users.id')
                     ->where('role_user.role_id', '=', 6)
                     ->get();
+        $collections = DB::table('collections')
+                    ->select('collections.*','vendors_collection.collection_id')
+                    ->join('vendors_collection', 'vendors_collection.collection_id', '=', 'collections.id')                    
+                    ->get();
         $bootstrapclass = ['bg-gradient-danger','bg-gradient-warning','bg-gradient-info','bg-gradient-success'];
         $cols = [1,2,3,4];
-        return view('collection/index', compact('vendors','cols'));
+        return view('collection/index', compact('vendors','cols','collections'));
     }
 
     /**
@@ -33,12 +37,12 @@ class CollectionController extends Controller
      */
     public function create()
     {
-        $allVendors = DB::table('collections')
-                    ->select('vendors_collection.collection_id','users.name')
-                    ->join('role_user', 'role_user.user_id', '=', 'users.id')
-                    ->where('role_user.role_id', '=', 6)
-                    ->get();
-        return view('collection/index', compact('allVendors'));
+        $vendors = DB::table('users')
+                            ->select('users.id','users.name')
+                            ->join('role_user', 'role_user.user_id', '=', 'users.id')
+                            ->where('role_user.role_id', '=', 6)
+                            ->get();
+        return view('collection/create', compact('vendors'));
     }
 
     /**
