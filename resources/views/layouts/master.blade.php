@@ -26,6 +26,8 @@
       <link rel="stylesheet" href="{{asset('assets/css/style.css')}}">
       <!-- Custom CSS -->
       <link rel="stylesheet" href="{{asset('assets/css/custom_style.css')}}">
+      <!-- Select 2 CSS -->
+      <link rel="stylesheet" href="{{asset('assets/css/select2.min.css')}}">
       <!-- jQuery -->
       <script src="{{asset('assets/js/jquery-3.5.0.min.js')}}"></script>
       <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -179,10 +181,12 @@
          src="https://maps.googleapis.com/maps/api/js?libraries=geometry,places,drawing&key={{env('GOOGLE_MAP_KEY')}}&v=3"      
          ></script>     
       <script src="{{asset('assets/js/theme-settings.js')}}"></script>
+      <script src="{{asset('assets/js/select2.min.js')}}"></script>
       <!-- Custom JS -->
       <script src="{{asset('assets/js/app.js')}}"></script>
       <!-- <script src="{{asset('assets/js/jquery.js')}}"></script> -->
       <script src="{{asset('assets/js/inputmask.js')}}"></script>      
+      <script src="{{asset('assets/js/sweetalert.js')}}"></script>      
    </body>
 </html>
 

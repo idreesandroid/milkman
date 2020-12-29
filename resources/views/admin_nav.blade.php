@@ -23,8 +23,8 @@
                    <span class="menu-arrow"></span>
                 </a>
                 <ul class="sub-menus">
-                  <li><a href="/collection/create" class="{{ (request()->segment(1) == 'collection') ? 'active' : '' }}">Collection Area</a></li>
-                  <li><a href="#" class="">Tasks</a></li>                  
+                  <li><a href="/collection/create" class="{{ (request()->segment(1) == 'collection') ? 'active' : '' }}">Collection Areas</a></li>
+                  <li><a href="/collections">Tasks</a></li>                  
                 </ul>
             </li>
             @can('See-Product')
