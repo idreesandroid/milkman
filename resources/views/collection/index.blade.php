@@ -54,11 +54,11 @@
                      <div id="TODO" class="kanban-centered">
                         <article class="kanban-entry grab" id="item1" draggable="true">
                            <div class="kanban-entry-inner">
-                              <div class="kanban-label card bg-gradient-danger card-img-holder text-white h-100" data-toggle="modal" data-target="#leads-details">
+                              <div class="kanban-label card <?php echo ($item->status == 'active') ? 'bg-gradient-success' : 'bg-gradient-danger'  ?> card-img-holder text-white h-100" data-toggle="modal" data-target="#leads-details">
                                  <img src="assets/img/circle.png" class="card-img-absolute" alt="circle-image">
                                  <h2 data-toggle="modal" data-target="#leads">{{$item->title}}</h2>
                                  <ul class="list-unstyled">
-                                    <li>VB of Sales</li>
+                                    <li>VB of Sales {{$item->status}}</li>
                                     <li>Howwe-Blanda LLC</li>
                                  </ul>
                               </div>
@@ -68,60 +68,6 @@
                   </div>
                </div>
             @endforeach
-               <div class="panel panel-primary kanban-col mr-0">
-                  <div class="panel-body slimScrollDiv">
-                     <div id="DOING" class="kanban-centered">
-                        <article class="kanban-entry grab" id="item5" draggable="true">
-                           <div class="kanban-entry-inner">
-                              <div class="kanban-label card bg-gradient-warning card-img-holder text-white h-100" data-toggle="modal" data-target="#leads-details">
-                                 <img src="assets/img/circle.png" class="card-img-absolute" alt="circle-image">
-                                 <h2 data-toggle="modal" data-target="#leads">Douglas Baker</h2>
-                                 <ul class="list-unstyled">
-                                    <li>Finance Director</li>
-                                    <li>Ebert and Sons</li>
-                                 </ul>
-                              </div>
-                           </div>
-                        </article>
-                     </div>
-                  </div>
-               </div>
-               <div class="panel panel-primary kanban-col mr-0">
-                  <div class="panel-body slimScrollDiv">
-                     <div id="DONE" class="kanban-centered">
-                        <article class="kanban-entry grab" id="item5" draggable="true">
-                           <div class="kanban-entry-inner">
-                              <div class="kanban-label card bg-gradient-info card-img-holder text-white h-100" data-toggle="modal" data-target="#leads-details">
-                                 <img src="assets/img/circle.png" class="card-img-absolute" alt="circle-image">
-                                 <h2 data-toggle="modal" data-target="#leads">Douglas Baker</h2>
-                                 <ul class="list-unstyled">
-                                    <li>Finance Director</li>
-                                    <li>Ebert and Sons</li>
-                                 </ul>
-                              </div>
-                           </div>
-                        </article>
-                     </div>
-                  </div>
-               </div>
-               <div class="panel panel-primary kanban-col mr-0">
-                  <div class="panel-body slimScrollDiv">
-                     <div id="closed" class="kanban-centered">
-                        <article class="kanban-entry grab" id="item6" draggable="true">
-                           <div class="kanban-entry-inner">
-                              <div class="kanban-label card bg-gradient-success card-img-holder text-white h-100" data-toggle="modal" data-target="#leads-details">
-                                 <img src="assets/img/circle.png" class="card-img-absolute" alt="circle-image">
-                                 <h2 data-toggle="modal" data-target="#leads">Douglas Baker</h2>
-                                 <ul class="list-unstyled">
-                                    <li>Finance Director</li>
-                                    <li>Ebert and Sons</li>
-                                 </ul>
-                              </div>
-                           </div>
-                        </article>
-                     </div>
-                  </div>
-               </div>
             </div>
          </div>
       </div>

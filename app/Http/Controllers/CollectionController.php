@@ -23,11 +23,10 @@ class CollectionController extends Controller
                     ->get();
         $collections = DB::table('collections')
                     ->select('collections.*','vendors_collection.collection_id')
-                    ->join('vendors_collection', 'vendors_collection.collection_id', '=', 'collections.id')                    
+                    ->leftJoin('vendors_collection', 'vendors_collection.collection_id', '=', 'collections.id')                    
                     ->get();
-        $bootstrapclass = ['bg-gradient-danger','bg-gradient-warning','bg-gradient-info','bg-gradient-success'];
-        $cols = [1,2,3,4];
-        return view('collection/index', compact('vendors','cols','collections'));
+        //$bootstrapclass = ['bg-gradient-danger','bg-gradient-warning','bg-gradient-info','bg-gradient-success'];
+        return view('collection/index', compact('vendors','collections'));
     }
 
     /**
