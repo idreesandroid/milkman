@@ -23,7 +23,7 @@
                    <span class="menu-arrow"></span>
                 </a>
                 <ul class="sub-menus">
-                  <li><a href="/collection/create" class="{{ (request()->segment(1) == 'collection') ? 'active' : '' }}">Collection Areas</a></li>
+                  <li><a href="/collections" class="{{ (request()->segment(1) == 'collections') ? 'active' : '' }}">Collection Areas</a></li>
                   <li><a href="/collections">Tasks</a></li>                  
                 </ul>
             </li>

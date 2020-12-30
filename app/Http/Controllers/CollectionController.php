@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Collection;
+use App\Models\User;
+use App\Models\VendorsCollection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
@@ -15,15 +17,12 @@ class CollectionController extends Controller
      */
     public function index()
     {
-
-        $vendors = DB::table('users')
-                    ->select('users.id','users.name')
+        $vendors = User::select('users.id','users.name')
                     ->join('role_user', 'role_user.user_id', '=', 'users.id')
                     ->where('role_user.role_id', '=', 6)
                     ->get();
-        $collections = DB::table('collections')
-                    ->select('collections.*','vendors_collection.collection_id')
-                    ->leftJoin('vendors_collection', 'vendors_collection.collection_id', '=', 'collections.id')                    
+        $collections = Collection::select('collections.*','vendors_collection.collection_id')
+                    ->leftJoin('vendors_collection', 'vendors_collection.collection_id', '=', 'collections.id')                                   
                     ->get();
         //$bootstrapclass = ['bg-gradient-danger','bg-gradient-warning','bg-gradient-info','bg-gradient-success'];
         return view('collection/index', compact('vendors','collections'));
@@ -36,11 +35,10 @@ class CollectionController extends Controller
      */
     public function create()
     {
-        $vendors = DB::table('users')
-                            ->select('users.id','users.name')
-                            ->join('role_user', 'role_user.user_id', '=', 'users.id')
-                            ->where('role_user.role_id', '=', 6)
-                            ->get();
+        $vendors = User::select('users.id','users.name')
+                    ->join('role_user', 'role_user.user_id', '=', 'users.id')
+                    ->where('role_user.role_id', '=', 6)
+                    ->get();
         return view('collection/create', compact('vendors'));
     }
 
@@ -57,14 +55,16 @@ class CollectionController extends Controller
             'vendors_location'  => 'required',
             'vendorsIds' => 'required|min:1'
         ]);
-        
-        $collection_id = DB::table('collections')->insertGetId([        
-            'title'      => $request->title,          
-            'vendors_location'  => $request->vendors_location            
+
+        $collection_id = Collection::insertGetId([
+            'title' => $request->title,
+            'vendors_location' => str_replace("\\", '', $request->vendors_location),
+            'status'   => 'active',
+            'collector_id' => 5
         ]);
 
         foreach($request->vendorsIds as $vendor_id){ 
-            DB::table('vendors_collection')->insert([        
+            VendorsCollection::insert([        
                 'collection_id' => $collection_id,          
                 'vendor_id'  => $vendor_id           
             ]);
