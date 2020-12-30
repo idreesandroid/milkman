@@ -63,6 +63,7 @@
                                  </ul>
                               </div>
                            </div>
+                           <!-- <div><a href="#" class='btn btn-info'>Assign Collector</a></div> -->
                         </article>
                      </div>
                   </div>
@@ -171,9 +172,15 @@
             alert('Please draw Collection Area and then click on Add Map button');
             return false;
          }
+        
+         var json_data = {
+               'title' : title,
+               'vendorsIds' : vendors,
+               'vendors_location' : MapData,
+               '_token' : "{{ csrf_token() }}"
+            };        
 
-         var json_data = {'title' : title, 'vendorsIds' : vendors, 'vendors_location': MapData, "_token": "{{ csrf_token() }}"};        
-
+         //console.log(json_data);
          $.ajax({
             url : "{{ route('store.collection') }}",
             type: "POST",

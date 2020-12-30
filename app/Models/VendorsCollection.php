@@ -5,14 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Collection extends Model
+class VendorsCollection extends Model
 {
     use HasFactory;
 
+    protected $table = 'vendors_collection';
+
     protected $fillable = [
-        'title',
-        'vendors_location',
-        'status',
-        'collector_id'
+        'collection_id',
+        'vendor_id'
     ];
 }

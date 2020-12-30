@@ -18,6 +18,7 @@ class CreateCollectionsTable extends Migration
             $table->string('title');
             $table->text('vendors_location');
             $table->string('status');
+            $table->string('collector_id');
             $table->timestamps();
         });
     }
