@@ -17,15 +17,25 @@ class CollectionController extends Controller
      */
     public function index()
     {
-        $vendors = User::select('users.id','users.name')
+        $vendors = User::select('users.id','users.name','vendor_details.longitude','vendor_details.latitude')
                     ->join('role_user', 'role_user.user_id', '=', 'users.id')
+                    ->join('vendor_details','vendor_details.user_id','=','users.id')
                     ->where('role_user.role_id', '=', 6)
-                    ->get();
+                    ->get();        
+        $location = '[';
+        foreach ($vendors as $value) {
+            $location .='{"type":"MARKER","id":null,"geometry":['.trim($value->latitude).','.trim($value->longitude).']},';
+        }
+        $location .= ']';
+        
+        $location = str_replace("},]","}]",$location);
+
         $collections = Collection::select('collections.*','vendors_collection.collection_id')
-                    ->leftJoin('vendors_collection', 'vendors_collection.collection_id', '=', 'collections.id')                                   
+                    ->leftJoin('vendors_collection', 'vendors_collection.collection_id', '=', 'collections.id')
                     ->get();
+
         //$bootstrapclass = ['bg-gradient-danger','bg-gradient-warning','bg-gradient-info','bg-gradient-success'];
-        return view('collection/index', compact('vendors','collections'));
+        return view('collection/index', compact('vendors','collections','location'));
     }
 
     /**

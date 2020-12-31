@@ -106,7 +106,7 @@
                      <div class="row">
                         <div class="col-md-12">
                            <div class="form-group">                        
-                              <input type="text" min="0"  class="form-control" id="MapData" readonly name="vendors_location">
+                              <input type="text" min="0"  class="form-control" id="MapData" readonly name="vendors_location" value="{{$location}}">
                            </div>
                         </div>
                      </div>
