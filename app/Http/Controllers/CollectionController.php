@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Collection;
 use App\Models\User;
-use App\Models\VendorsCollection;
+use App\Models\CollectionVendor;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
@@ -30,9 +30,12 @@ class CollectionController extends Controller
         
         $location = str_replace("},]","}]",$location);
 
-        $collections = Collection::select('collections.*','vendors_collection.collection_id')
-                    ->leftJoin('vendors_collection', 'vendors_collection.collection_id', '=', 'collections.id')
+        //$collections = Collection::all();
+
+        $collections = Collection::select('collections.*','users.filenames')
+                    ->leftjoin('users','collections.id','=','users.id')
                     ->get();
+        //dd($collections);
 
         //$bootstrapclass = ['bg-gradient-danger','bg-gradient-warning','bg-gradient-info','bg-gradient-success'];
         return view('collection/index', compact('vendors','collections','location'));
@@ -74,7 +77,7 @@ class CollectionController extends Controller
         ]);
 
         foreach($request->vendorsIds as $vendor_id){ 
-            VendorsCollection::insert([        
+            CollectionVendor::insert([        
                 'collection_id' => $collection_id,          
                 'vendor_id'  => $vendor_id           
             ]);

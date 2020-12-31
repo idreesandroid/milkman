@@ -15,4 +15,8 @@ class Collection extends Model
         'status',
         'collector_id'
     ];
+
+    public function vendors(){
+    	return $this->belongsToMany(User::class, 'collection_vendor', 'collection_id', 'vendor_id');
+    }
 }

@@ -1,16 +1,5 @@
-
-
 @extends('layouts.master')
 @section('content')
-<style>
-#add_lead #mapIn{
-   height: 400px;
-}
-.select2-selection:focus, #title:focus, #MapData:focus{
-    border-color:red;
-}
-</style>
-
 <!-- Page Header -->
 <div class="crms-title row bg-white mb-4">
    <div class="col  p-0">
@@ -55,11 +44,17 @@
                         <article class="kanban-entry grab" id="item1" draggable="true">
                            <div class="kanban-entry-inner">
                               <div class="kanban-label card <?php echo ($item->status == 'active') ? 'bg-gradient-success' : 'bg-gradient-danger'  ?> card-img-holder text-white h-100" data-toggle="modal" data-target="#leads-details">
-                                 <img src="assets/img/circle.png" class="card-img-absolute" alt="circle-image">
-                                 <h2 data-toggle="modal" data-target="#leads">{{$item->title}}</h2>
+                                 @if($item->collector_id == 0)
+                                    <img src="assets/img/circle.png" class="card-img-absolute" alt="circle-image">
+                                 @else
+                                    <img src="UserProfile/{{$item->filenames}}" class="card-img-absolute" alt="circle-image">
+                                 @endif
+
+                                 <h2 data-toggle="modal" data-target="#leads">{{$item->title}}</h2>                                
                                  <ul class="list-unstyled">
-                                    <li>VB of Sales {{$item->status}}</li>
-                                    <li>Howwe-Blanda LLC</li>
+                                    @foreach($item->vendors as $subitem) 
+                                       <li>{{$subitem->name}}</li>
+                                    @endforeach
                                  </ul>
                               </div>
                            </div>
@@ -141,72 +136,6 @@
    </div>
    <!-- modal-dialog -->
 </div>
-<!-- modal --> 
-<script>   
-   $(document).ready(function() { 
-      $("#selectedVendors").select2( {
-         placeholder: "Search for a Vendors",
-         width: '100%',
-        dropdownParent: $("#add_lead")
-        });     
-       initializeMap();
-      $("#saveColectionArea").on('click',function(){
-
-         var title = $("#title").val();        
-         if(!title.length){
-            $("#title").focus();
-            alert('Please insert the title');            
-            return false;
-         }  
-         var vendors = [];
-         vendors = $("#selectedVendors").val();
-         if(!vendors.length){
-            $(".select2-selection").focus();
-            alert('Please select the vendors');
-            return false;
-         }
-
-         var MapData = $("#MapData").val();
-         if(!MapData.length){
-            $("#save_raw_map").focus();
-            alert('Please draw Collection Area and then click on Add Map button');
-            return false;
-         }
-        
-         var json_data = {
-               'title' : title,
-               'vendorsIds' : vendors,
-               'vendors_location' : MapData,
-               '_token' : "{{ csrf_token() }}"
-            };        
-
-         //console.log(json_data);
-         $.ajax({
-            url : "{{ route('store.collection') }}",
-            type: "POST",
-            data: json_data,           
-            success : function(data) {              
-               if(data){
-                  $("#title").val("");
-                  $("#selectedVendors").val("");
-                  $("#MapData").val("");
-                  $("#add_lead .close").click();
-                  Swal.fire(
-                    'Collection Area created',
-                    'You clicked the button!',
-                    'success'
-                  )
-               }
-             },
-             error : function(request,error)
-             {
-               console.log("Request: "+JSON.stringify(request));
-             }
-         });
-
-      });
-     
-   });   
-</script>   
+<!-- modal -->   
 @endsection
 
