@@ -9480,17 +9480,23 @@ form .btn-gradient-primary {
 	}
 }
 #mapIn{
-      height:600px;
-      width: 100%;  
-    }
+  height:600px;
+  width: 100%;  
+}
 
-	#userTable_wrapper .dataTables_filter {
-		width: 50%;
-		float: right;
-		text-align: right;
-	 }
-	 #userTable_wrapper #userTable_length{
-		width: 500px;
-		float: left;
-		margin-top: 12px;
-	 }
+#userTable_wrapper .dataTables_filter {
+	width: 50%;
+	float: right;
+	text-align: right;
+ }
+ #userTable_wrapper #userTable_length{
+	width: 500px;
+	float: left;
+	margin-top: 12px;
+ }
+ #add_lead #mapIn{
+   height: 400px;
+}
+.select2-selection:focus, #title:focus, #MapData:focus {
+    border-color:red;
+}
