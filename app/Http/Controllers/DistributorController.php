@@ -94,12 +94,12 @@ class DistributorController extends Controller
         $distributor_details->companyAddress = $request->companyAddress;
         $distributor_details->companyNTN = $request->companyNTN;
         $distributor_details->companyArea = $request->companyArea;
-               
+   
 
         if($request->hasfile('companyLogo')) {
        
             $logoName =  time().'.'.$request->file('companyLogo')->extension();
-            $request->file('companyLogo')->move(public_path().'/distributorCompany/', $name);      
+            $request->file('companyLogo')->move(public_path().'/distributorCompany/', $logoName);      
     }  
         $distributor_details->companyLogo=$logoName;
         $distributor_details->save();
