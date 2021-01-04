@@ -5,20 +5,16 @@
 </li> -->
 <li class="submenu">
 <a href="javascript:void(0);"><i class="fa fa-tachometer" aria-hidden="true"></i> <span> Dashboard</span> <span class="menu-arrow"></span></a>
-<ul >
-
+<ul class="sub-menus">
+@can('Register-User')
+<li><a href="/register" class="active">Register</a></li>
+@endcan
 <!-- <li><a href="/profile">Profile</a></li> -->
 @can('See-User')
 <li><a href="/user/userList">All User</a></li>
 @endcan
 </ul>
 </li>
-
-
-@can('Register-User')
-<li><a href="/register"><i class="" aria-hidden="true"></i> <span>Register</span></a></li>
-
-@endcan
 <!-- ============================================================================ -->
 @can('See-Role')
 <li>

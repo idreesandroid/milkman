@@ -13,6 +13,7 @@ use App\Http\Controllers\CollectionController;
 use App\Http\Controllers\DistributorController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\DistributorPaymentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -103,6 +104,9 @@ Route::get('cart/create',                   [SaleController::class, 'generateInv
 Route::post('cart/create',                  [SaleController::class, 'SaveInvoice'])->name('save.invoice')->middleware('can:Generate-Invoice');
 Route::get('cart/selectbatch',              [SaleController::class, 'selectBatch'])->name('select.batch')->middleware('can:Generate-Invoice');
 Route::Delete('cart/deleteInvoice/{id}',    [SaleController::class, 'deleteInvoice'])->name('delete.invoice')->middleware('can:Delete-Invoice');
+
+//payment routes-------------------------------------------
+Route::get('payment/receipt/{id}',           [DistributorPaymentController::class, 'receipt'])->name('payment.receipt');
 
 //ajax routes-------------------------------
 
