@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Collection;
+use App\Models\User;
+use App\Models\CollectionVendor;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
@@ -15,7 +17,28 @@ class CollectionController extends Controller
      */
     public function index()
     {
-        echo "test heree";
+        $vendors = User::select('users.id','users.name','vendor_details.longitude','vendor_details.latitude')
+                    ->join('role_user', 'role_user.user_id', '=', 'users.id')
+                    ->join('vendor_details','vendor_details.user_id','=','users.id')
+                    ->where('role_user.role_id', '=', 6)
+                    ->get();        
+        $location = '[';
+        foreach ($vendors as $value) {
+            $location .='{"type":"MARKER","id":null,"geometry":['.trim($value->latitude).','.trim($value->longitude).']},';
+        }
+        $location .= ']';
+        
+        $location = str_replace("},]","}]",$location);
+
+        //$collections = Collection::all();
+
+        $collections = Collection::select('collections.*','users.filenames')
+                    ->leftjoin('users','collections.id','=','users.id')
+                    ->get();
+        //dd($collections);
+
+        //$bootstrapclass = ['bg-gradient-danger','bg-gradient-warning','bg-gradient-info','bg-gradient-success'];
+        return view('collection/index', compact('vendors','collections','location'));
     }
 
     /**
@@ -25,8 +48,7 @@ class CollectionController extends Controller
      */
     public function create()
     {
-        $vendors = DB::table('users')
-                    ->select('users.id','users.name')
+        $vendors = User::select('users.id','users.name')
                     ->join('role_user', 'role_user.user_id', '=', 'users.id')
                     ->where('role_user.role_id', '=', 6)
                     ->get();
@@ -40,28 +62,28 @@ class CollectionController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
+    {        
         $this->validate($request,[        
             'title'      => 'required|min:5',          
             'vendors_location'  => 'required',
             'vendorsIds' => 'required|min:1'
         ]);
-        
-        $collection = DB::table('collections')->insert([        
-            'title'      => $request->title,          
-            'vendors_location'  => $request->vendors_location            
+
+        $collection_id = Collection::insertGetId([
+            'title' => $request->title,
+            'vendors_location' => str_replace("\\", '', $request->vendors_location),
+            'status'   => 'active',
+            'collector_id' => 5
         ]);
 
-        dd($collection); exit();
-
         foreach($request->vendorsIds as $vendor_id){ 
-            DB::table('vendors_collection')->insert([        
-                'collection_id'      => $collection->id,          
+            CollectionVendor::insert([        
+                'collection_id' => $collection_id,          
                 'vendor_id'  => $vendor_id           
             ]);
         }        
 
-        return view('collection/index');
+        return true;
     }
 
     /**

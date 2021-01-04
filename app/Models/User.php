@@ -97,4 +97,7 @@ class User extends Authenticatable
     {
         return $this->hasMany(ProductStock::class);
     }
+    public function collections(){
+      return $this->belongsToMany(Collection::class, 'role_user', 'role_id', 'user_id');
+    }
 }
