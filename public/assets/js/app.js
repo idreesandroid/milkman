@@ -455,7 +455,7 @@ function draggableInit() {
 mapIn
 */
     
-function initializeMap(mapID){
+function initializeMap(mapID,clear_shapes,save_raw_map,restore,MapData){
     map = new google.maps.Map(document.getElementById(mapID), 
         { zoom: 17, 
             center: new google.maps.LatLng(32.409675, 74.135081)
@@ -494,24 +494,24 @@ function initializeMap(mapID){
     });
 
     google.maps.event.addListener(map, 'click',clearSelection);
-    google.maps.event.addDomListener(byId('clear_shapes'), 'click', clearShapes);
+    google.maps.event.addDomListener(byId(clear_shapes), 'click', clearShapes);
   
-    google.maps.event.addDomListener(byId('save_raw_map'), 'click', function(e){
+    google.maps.event.addDomListener(byId(save_raw_map), 'click', function(e){
 
     var data=MapFactory.InputMap(shapes,false);
-    byId('MapData').value=JSON.stringify(data);
-    var mapData = byId('MapData').value;
+    byId(MapData).value=JSON.stringify(data);
+    var mapData = byId(MapData).value;
         
     var preventRunDefault = false;    
           
     });
-    google.maps.event.addDomListener(byId('restore'), 'click', function(){
+    google.maps.event.addDomListener(byId(restore), 'click', function(){
       if(this.shapes){
         for(var i=0;i<this.shapes.length;++i){
               this.shapes[i].setMap(null);
         }
       }
-      this.shapes=MapFactory.OutputMap(JSON.parse(byId('MapData').value),map);
+      this.shapes=MapFactory.OutputMap(JSON.parse(byId(MapData).value),map);
     });    
 }
 
