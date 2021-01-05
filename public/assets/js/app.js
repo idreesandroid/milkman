@@ -404,75 +404,6 @@ $(document).ready(function() {
     });
 });
 
-
-$(document).ready(function() { 
-      $("#selectedVendors").select2( {
-         placeholder: "Search for a Vendors",
-         width: '100%',
-        dropdownParent: $("#add_lead")
-        });     
-       initializeMap();
-      $("#saveColectionArea").on('click',function(){
-
-         var title = $("#title").val();        
-         if(!title.length){
-            $("#title").focus();
-            alert('Please insert the title');            
-            return false;
-         }  
-         var vendors = [];
-         vendors = $("#selectedVendors").val();
-         if(!vendors.length){
-            $(".select2-selection").focus();
-            alert('Please select the vendors');
-            return false;
-         }
-
-         var MapData = $("#MapData").val();
-         if(!MapData.length){
-            $("#save_raw_map").focus();
-            alert('Please draw Collection Area and then click on Add Map button');
-            return false;
-         }
-        
-         var json_data = {
-               'title' : title,
-               'vendorsIds' : vendors,
-               'vendors_location' : MapData,
-               '_token' : "{{ csrf_token() }}"
-            };        
-
-         //console.log(json_data);
-         $.ajax({
-            url : "{{ route('store.collection') }}",
-            type: "POST",
-            data: json_data,           
-            success : function(data) {              
-               if(data){
-                  $("#title").val("");
-                  $("#selectedVendors").val("");
-                  $("#MapData").val("");
-                  $("#add_lead .close").click();
-                  Swal.fire(
-                    'Collection Area created',
-                    'You clicked the button!',
-                    'success'
-                  )
-               }
-             },
-             error : function(request,error)
-             {
-               console.log("Request: "+JSON.stringify(request));
-             }
-         });
-
-      });
-     
-   }); 
-
-
-
-
 /*kanban view*/
 $(function() {
 
@@ -521,10 +452,11 @@ function draggableInit() {
 /**   
 @name initializeMap
 @return map
+mapIn
 */
     
-function initializeMap(){
-    map = new google.maps.Map(document.getElementById('mapIn'), 
+function initializeMap(mapID){
+    map = new google.maps.Map(document.getElementById(mapID), 
         { zoom: 17, 
             center: new google.maps.LatLng(32.409675, 74.135081)
         }),        
@@ -719,6 +651,9 @@ var MapFactory = {
   }
   
 }
+
+
+
 
 let placeSearch;
 let autocomplete;
