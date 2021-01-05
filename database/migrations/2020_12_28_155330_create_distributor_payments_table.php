@@ -22,18 +22,17 @@ class CreateDistributorPaymentsTable extends Migration
             $table->integer('distributor_id')->unsigned();
             $table->foreign('distributor_id')->references('id')->on('invoices');
             
-            $table->enum('status',['verified','Not verified']);
-
-            $table->integer('verified_by')->unsigned();
-            $table->foreign('verified_by')->references('id')->on('invoices');
+            
             
             $table->enum('paymentMethod',['atmTransfer','cardForCheckout','cashAtOffice','directDeposit','internetBanking','easyPaisaTransfer','jazzCashTransfer','uPaisa']);
            
             $table->integer('bank_id')->unsigned();
-            $table->foreign('bank_id')->references('id')->on('bank_lists');
-          
             $table->string('branchName');
+            $table->string('depositorName');
+            $table->string('acc_No');
             $table->string('cardLastDigits');
+            
+
             $table->string('transactionId');
             $table->string('senderCNIC');
             $table->string('senderCell');
@@ -41,6 +40,12 @@ class CreateDistributorPaymentsTable extends Migration
             $table->dateTimeTz('timeOfDeposit');
             $table->integer('amountPaid');
             $table->string('receiptPics');
+
+            $table->enum('status',['verified','Not verified']);
+
+            $table->integer('verified_by')->unsigned();
+            $table->foreign('verified_by')->references('id')->on('invoices');
+
             $table->timestamps();
         });
     }

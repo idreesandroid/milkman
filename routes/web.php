@@ -31,8 +31,6 @@ use App\Http\Controllers\DistributorPaymentController;
 
 Auth::routes();
 
-
-
 Route::get('/home', [HomeController::class, 'index'])->name('home');
  
 //Login Register routes--------------------------------
