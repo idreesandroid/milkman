@@ -212,7 +212,7 @@
 <!-- modal -->
 
 
-<!--Collection Area Information Edit Model-->
+<!--Collector Assiging-->
 <div class="modal right fade" id="assignCollectorModel" role="dialog" aria-modal="true">
    <div class="modal-dialog" role="document">
       <button type="button" class="close md-close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>

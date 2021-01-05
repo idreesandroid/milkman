@@ -173,7 +173,7 @@
    
     $(document).ready(function() {  
         $(":input").inputmask();        
-        initializeMap();
+        initializeMap('mapIn');
         initAutocomplete();  
    });
    
