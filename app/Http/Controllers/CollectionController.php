@@ -30,13 +30,9 @@ class CollectionController extends Controller
         
         $location = str_replace("},]","}]",$location);
 
-        //$collections = Collection::all();
-
         $collections = Collection::select('collections.*','users.filenames')
-                    ->leftjoin('users','collections.id','=','users.id')
+                    ->leftjoin('users','users.id','=','collections.collector_id')
                     ->get();
-        //dd($collections);
-
         //$bootstrapclass = ['bg-gradient-danger','bg-gradient-warning','bg-gradient-info','bg-gradient-success'];
         return view('collection/index', compact('vendors','collections','location'));
     }
@@ -103,9 +99,9 @@ class CollectionController extends Controller
      * @param  \App\Models\Collection  $collection
      * @return \Illuminate\Http\Response
      */
-    public function edit(Collection $collection)
+    public function edit(Request $request)
     {
-        //
+        
     }
 
     /**
@@ -126,8 +122,10 @@ class CollectionController extends Controller
      * @param  \App\Models\Collection  $collection
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Collection $collection)
+    public function destroy(Request $request)
     {
-        //
+        $res = Collection::where('id',$request->id)->delete();
+        $result = CollectionVendor::where('collection_id',$request->id)->delete();
+        return ($res || $result) ? true : false;
     }
 }

@@ -9479,7 +9479,10 @@ form .btn-gradient-primary {
 		min-width: inherit;
 	}
 }
-#mapIn{
+#addCollectionMap, 
+#editCollectionMap,
+#mapIn
+{
   height:600px;
   width: 100%;  
 }
