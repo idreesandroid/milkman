@@ -88,7 +88,7 @@
                      </div>
 
                      <div class="form-group">
-                        <label>Upload Image</label>
+                        <label>Distributor Image</label>
                         <input type="file" class="form-control" name="filenames" required=""   autocomplete="off" >
                   </div>
                   </div>
@@ -109,7 +109,7 @@
                         <input type="text" min="0"  class="form-control" name="companyArea"    required=""  autocomplete="off" >
                      </div>
                      <div class="form-group">
-                        <label>Upload Image</label>
+                        <label>Company Logo</label>
                         <input type="file" class="form-control" name="companyLogo" required=""   autocomplete="off" >
                      </div>
                   </div>

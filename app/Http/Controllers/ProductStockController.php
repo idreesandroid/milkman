@@ -63,7 +63,7 @@ class ProductStockController extends Controller
         $product_stocks->manufactured_quantity = $request->manufactured_quantity;
         $product_stocks->stockInBatch = $request->manufactured_quantity;
 
-        $product_stocks->manager_id  =$mid; //it should be come from session
+        $product_stocks->user_id  =$mid; //it should be come from session
        // $product_stocks->users()->associate($mid);
 
         $product_stocks->save();

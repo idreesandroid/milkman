@@ -59,7 +59,7 @@
                <div class="form-group row">
                   <label for="product_price" class="col-form-label col-md-2">Price</label>
                   <div class="col-md-4">
-                     <input type="number" class="form-control" name="product_price" required="" autocomplete="off">
+                     <input type="number" class="form-control" name="product_price" min="0" required="" autocomplete="off">
                   </div>
                </div>
                <div class="form-group row">
@@ -71,11 +71,11 @@
                <div class="form-group row">
                   <label for="ctn_value" class="col-form-label col-md-2">Quantity/Carton</label>
                   <div class="col-md-4">
-                     <input type="number" class="form-control" name="ctn_value" required="" autocomplete="off">
+                     <input type="number" class="form-control" name="ctn_value" min="0" required="" autocomplete="off">
                   </div>
                </div>
                <div class="form-group">
-                  <label>Upload Image</label>
+                  <label>Product Image</label>
                   <input type="file" class="form-control" name="filenames"    autocomplete="off" >
                </div>
                <div class="form-group mb-0 row">
