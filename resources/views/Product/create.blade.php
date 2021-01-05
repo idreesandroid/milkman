@@ -74,9 +74,11 @@
                      <input type="number" class="form-control" name="ctn_value" min="0" required="" autocomplete="off">
                   </div>
                </div>
-               <div class="form-group">
-                  <label>Product Image</label>
-                  <input type="file" class="form-control" name="filenames"    autocomplete="off" >
+               <div class="form-group row">
+                  <label for="filenames" class="col-form-label col-md-2">Product Image</label>
+                  <div class="col-md-4">
+                  <input type="file" class="form-control" name="filenames"  required=""  autocomplete="off" >
+                  </div>
                </div>
                <div class="form-group mb-0 row">
                   <div class="col-md-10">

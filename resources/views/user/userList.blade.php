@@ -23,7 +23,7 @@
       <div class="card mb-0">
          <div class="card-body">
             <div class="table-responsive" >
-               @can('Create-User')
+               
                   <div class="form-group mb-0 row">
                      @can('Register-User')
                         <div class="col-md-2">
@@ -35,7 +35,7 @@
                            </div>
                         </div>
                      @endcan
-                     @can('See-Vendor')
+                     @can('Create-Vendor')
                         <div class="col-md-2">
                            <div class="input-group-append">
                               <a href="/vendor-detail/create" class="btn btn-primary">
@@ -45,17 +45,8 @@
                            </div>
                         </div>
                      @endcan
-                     @can('See-Vendor')
-                     <div class="col-md-2">
-                        <div class="input-group-append">
-                           <a href="/register" class="btn btn-primary">
-                           <i class="fa fa-plus" aria-hidden="true"></i>
-                              Add Collector
-                           </a>
-                        </div>
-                     </div>
-                     @endcan
-                     @can('See-Distributor')
+   
+                     @can('Create-Distributor')
                      <div class="col-md-2">
                         <div class="input-group-append">
                            <a href="{{url('distributor-detail/create')}}" class="btn btn-primary">
@@ -66,7 +57,6 @@
                      </div>
                      @endcan
                   </div>
-               @endcan
                <table class="datatable table table-stripped mb-0 datatables" id="userTable">
                   <thead>
                      <tr>
