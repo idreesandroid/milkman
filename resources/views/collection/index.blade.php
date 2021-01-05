@@ -55,11 +55,11 @@
                                     @foreach($item->vendors as $subitem) 
                                        <li>{{$subitem->name}}</li>
                                     @endforeach
-                                 </ul>
+                                 </ul>                                
                               </div>
                            </div>
                            <div>
-                              <a href="#" id="" class='btn btn-outline-primary assignCollector' data-toggle="modal" data-target="#assignCollectorModel">Assign Collector</a>
+                              <a href="#" class='btn btn-outline-primary assignCollector' data-toggle="modal" data-target="#assignCollectorModel" onclick="setCollectionId(<?php echo $item->id; ?>,<?php echo $item->collector_id; ?>)">Assign Collector</a>
                               <a href="#" onclick="editCollection(this)" class='btn btn-outline-success editCollection' data-toggle="modal" data-target="#editCollectionModel">Edit<input type="hidden" class="editCollectionId" value="{{$item->id}}"></a>
                               <a href="#" onclick="deleteCollection(this)"; class='btn btn-outline-danger'>Delete <input type="hidden" class="deleteCollectionId" value="{{$item->id}}"></a>
                            </div>
@@ -234,54 +234,33 @@
                                        <th>Full Name</th>                                      
                                        <th>Phone</th>
                                        <th>Email</th>
-                                       <th>Location</th>                                      
+                                       <th>Address</th>                                      
                                        <th class="text-right">Actions</th>
                                     </tr>
                                  </thead>
                                  <tbody>
+                                 <input type="hidden" id="collectionId">
+                                 @foreach($collectors as $collector)
                                     <tr>
                                        <td class="checkBox">
                                           <label class="container-checkbox">
-                                             <input type="radio" name="selectedCollector">
+                                             <input type="radio" name="selectedCollector" id="collectionId_{{$collector->id}}">
                                              <span class="checkmark"></span>
                                           </label>
                                        </td>
                                        <td>
-                                          <a href="#" class="avatar"><img alt="" src="assets/img/profiles/avatar-11.jpg"></a>
-                                          <a href="#" data-toggle="modal" data-target="#system-user">Wilmer Deluna</a>
+                                          <a href="#" class="avatar"><img alt="" src="{{asset('/UserProfile/'.$collector->filenames)}}"></a>
+                                          <a href="#" data-toggle="modal" data-target="#system-user">{{$collector->name}}</a>
                                        </td>                                       
-                                       <td>
-                                          875455453
-                                       </td>
-                                       <td>wilmer@gmail.com </td>
-                                       <td><span class="badge badge-gradient-success">Sample_data</span></td>
+                                       <td>{{$collector->user_phone}}</td>
+                                       <td>{{$collector->email}}</td>
+                                       <td><span class="badge badge-gradient-success">{{$collector->city}}, {{$collector->state}}</span></td>
                                               
                                        <td class="text-center">
-                                          <a href="" class="btn btn-outline-success">Assign</a>
+                                          <a href="" onclick="AssignCollectorToACollectionArea(<?php echo $collector->id; ?>)" class="btn btn-outline-success">Assign</a>
                                        </td>
                                     </tr>
-                                    <tr>
-                                       <td class="checkBox">
-                                          <label class="container-checkbox">
-                                             <input type="radio" name="selectedCollector">
-                                             <span class="checkmark"></span>
-                                          </label>
-                                       </td>
-                                       <td>
-                                          <a href="#" class="avatar"><img alt="" src="assets/img/profiles/avatar-11.jpg"></a>
-                                          <a href="#" data-toggle="modal" data-target="#system-user">Wilmer Deluna</a>
-                                       </td>                                      
-                                       <td>
-                                          875455453
-                                       </td>
-                                       <td>wilmer@gmail.com </td>
-                                       <td><span class="badge badge-gradient-success">Sample_data</span></td>
-                                              
-                                          <td class="text-center">
-                                          <a href="" class="btn btn-outline-success">Assign</a>
-                                       </td>
-                                    </tr>                                  
-                                    
+                                 @endforeach                                      
                                  </tbody>
                               </table>
                            </div>
@@ -337,6 +316,40 @@ function deleteCollection(elem){
          }
      });
 }
+function setCollectionId(collectionId,collector_id){
+      $("#collectionId").val(collectionId);
+      if(collector_id != 0){
+         $("#collectionId_"+collector_id).prop("checked", true);
+      }else{
+         $("#collectionId_"+collector_id).prop("checked", false);
+      }
+   }
+function AssignCollectorToACollectionArea(collectorID){
+   event.preventDefault();
+   var collectionId = $("#collectionId").val();   
+   jQuery.ajax({
+        url: "{{ route('assignCollector.collection') }}",
+        type: "POST",
+        data: {
+            id: collectionId,
+            collectorId : collectorID,
+            '_token' : "{{ csrf_token() }}"
+        },
+        success: function (response, status) {
+            jQuery('#assignCollectorModel').modal('hide');
+            if(response){
+               swal.fire("Done!", "Collector Assigned Succesfully!", "success");
+            }else{
+               swal.fire("Error Assiging Collector!", "Collector can not be assign to an In Active Collection Area", "error");
+            }
+        },
+        error: function () {
+            jQuery('#assignCollectorModel').modal('hide');
+            swal.fire("Error deleting!", "Please try again", "error");
+        }
+   });
+   
+}
 
 function editCollection(elem){
    var collectionId = elem.childNodes[1].attributes['value'].value;      
@@ -368,11 +381,16 @@ function editCollection(elem){
          placeholder: "Search for a Vendors",
          width: '100%',
         dropdownParent: $("#editCollectionModel")
-        });
+        });      
+    
 
+      $('#assignCollectorModel').on('hidden.bs.modal', function () {
+        $("#assignCollectorModel input[type=radio]").prop("checked", false);
+      });
 
        initializeMap('addCollectionMap');
        initializeMap('editCollectionMap');
+       
       $("#saveColectionArea").on('click',function(){
 
          var title = $("#title").val();        
