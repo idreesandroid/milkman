@@ -208,7 +208,7 @@
 <script>
    $(":input").inputmask();
    $(document).ready(function() {       
-           initializeMap();
+           initializeMap('mapIn');
            initAutocomplete();  
     });
 </script>
