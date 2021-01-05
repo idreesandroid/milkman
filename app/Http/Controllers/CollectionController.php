@@ -33,8 +33,12 @@ class CollectionController extends Controller
         $collections = Collection::select('collections.*','users.filenames')
                     ->leftjoin('users','users.id','=','collections.collector_id')
                     ->get();
+        $collectors = User::select('users.*')
+                    ->join('role_user', 'role_user.user_id', '=', 'users.id')
+                    ->where('role_user.role_id', '=', 5)
+                    ->get(); 
         //$bootstrapclass = ['bg-gradient-danger','bg-gradient-warning','bg-gradient-info','bg-gradient-success'];
-        return view('collection/index', compact('vendors','collections','location'));
+        return view('collection/index', compact('vendors','collections','location','collectors'));
     }
 
     /**
@@ -127,5 +131,16 @@ class CollectionController extends Controller
         $res = Collection::where('id',$request->id)->delete();
         $result = CollectionVendor::where('collection_id',$request->id)->delete();
         return ($res || $result) ? true : false;
+    }
+
+    public function assignCollector(Request $request){
+        $isCollectionExist = Collection::where('id',$request->id)->where('status','active')->first();
+        if(!is_null($isCollectionExist)){
+            $affected = Collection::where('id', $request->id)->update(['collector_id' => $request->collectorId]);
+            echo ($affected) ? true : false;         
+        }else{
+            echo false;
+        }
+
     }
 }
