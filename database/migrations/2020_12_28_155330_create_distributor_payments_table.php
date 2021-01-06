@@ -26,25 +26,27 @@ class CreateDistributorPaymentsTable extends Migration
             
             $table->enum('paymentMethod',['atmTransfer','cardForCheckout','cashAtOffice','directDeposit','internetBanking','easyPaisaTransfer','jazzCashTransfer','uPaisa']);
            
-            $table->integer('bank_id')->unsigned();
-            $table->string('branchName');
-            $table->string('depositorName');
-            $table->string('acc_No');
-            $table->string('cardLastDigits');
+            $table->string('bank_name')->nullable()->default("null");
+            $table->string('branchName')->nullable()->default("Nill");
+            $table->string('depositorName')->nullable()->default("Nill");
+            $table->string('acc_No')->nullable()->default("Nill");
+            $table->string('cardLastDigits')->nullable()->default("Nill");
             
 
-            $table->string('transactionId');
-            $table->string('senderCNIC');
-            $table->string('senderCell');
+            $table->string('transactionId')->nullable()->default("Nill");
+            $table->string('senderCNIC')->nullable()->default("Nill");
+            $table->string('senderCell')->nullable()->default("Nill");
             
             $table->dateTimeTz('timeOfDeposit');
             $table->integer('amountPaid');
             $table->string('receiptPics');
 
-            $table->enum('status',['verified','Not verified']);
+            $table->string('depositorCNIC')->nullable()->default("Nill");
+            $table->string('receiverName')->nullable()->default("Nill");
+            $table->string('receiverCNIC')->nullable()->default("Nill");
+            
 
-            $table->integer('verified_by')->unsigned();
-            $table->foreign('verified_by')->references('id')->on('invoices');
+            $table->enum('status',['verified','Not verified','verification failed'])->default("verified");
 
             $table->timestamps();
         });

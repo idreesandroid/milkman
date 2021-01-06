@@ -41,6 +41,13 @@ class SaleController extends Controller
         return view('cart/reserveInvoice', compact('invoices'));
     }
 
+    public function SoldStatus($inv_no)
+    {   
+        DB::update("UPDATE invoices SET flag = 'Sold'  WHERE id = '$inv_no'");    
+        $invoices = Invoice::where('flag','Sold')->with('buyer')->get();
+        return view('cart/reserveInvoice', compact('invoices'));
+    }
+
     public function onHoldInvoice()
     {   
         $invoices = Invoice::where('flag','On_Hold')->with('buyer')->get();
@@ -93,14 +100,14 @@ class SaleController extends Controller
             if($product_qty != null && $product_qty != 0)
             {
                 $product_cart = new Cart();
-                //$product_cart->buyer_id = $invoice->buyer_id;
+               
                 $product_cart->invoice_id = $invoice->id;      
                 $product_cart->product_id = $index;
                 $product_cart->delivery_due_date = $delivery_date[$index];
-                // $product_cart->batch_id = 2;
-                // $product_cart->seller_id = session()->get('u_id');
+            
                 $prod_rates = Product::where('id',$product_cart->product_id)->select('product_price','id')->first();
                 $price =$prod_rates->product_price;
+
                 $product_cart->product_quantity =  $product_qty;
                 $product_cart->product_rate=$price;
                 $product_cart->sub_total = $product_cart->product_quantity*$product_cart->product_rate;
