@@ -95,6 +95,7 @@ Route::post('companyDetail/update/{id}',    [DistributorController::class,'compa
 Route::get('cart/index',                    [SaleController::class, 'index'])->name('index.sale')->middleware('can:See-Cart');
 Route::get('cart/reserveInvoice',           [SaleController::class, 'reserveInvoice'])->name('reserve.invoice')->middleware('can:See-Cart');
 Route::get('Invoice/status/{id}',           [SaleController::class, 'reserveStatus'])->name('update.Stock_status')->middleware('can:See-Cart');
+Route::get('Invoice/Sold/{id}',           [SaleController::class, 'SoldStatus'])->name('update.Stock_sold')->middleware('can:See-Cart');
 
 Route::get('cart/onHoldInvoice',            [SaleController::class, 'onHoldInvoice'])->name('onHold.invoice')->middleware('can:See-Cart');
 
@@ -103,10 +104,12 @@ Route::post('cart/create',                  [SaleController::class, 'SaveInvoice
 Route::get('cart/selectbatch',              [SaleController::class, 'selectBatch'])->name('select.batch')->middleware('can:Generate-Invoice');
 Route::Delete('cart/deleteInvoice/{id}',    [SaleController::class, 'deleteInvoice'])->name('delete.invoice')->middleware('can:Delete-Invoice');
 
-//payment routes-------------------------------------------
-Route::get('payment/receipt/{id}',           [DistributorPaymentController::class, 'receipt'])->name('payment.receipt');
+//payment routes-------------------------------------------------
 
-//ajax routes-------------------------------
+Route::get('payment/receipt/{id}',          [DistributorPaymentController::class, 'receipt'])->name('payment.receipt');
+Route::post('payment/receipt',          [DistributorPaymentController::class, 'paymentAgainstReceipt'])->name('pay.receipt.bill');
+
+//ajax routes----------------------------------
 
 Route::post('selectbatch/{id}',             [SaleController::class, 'SaveBatch'])->name('save.Batch')->middleware('can:Generate-Invoice');
 Route::get('batch_selection/ajax/{id}',     [SaleController::class, 'batchSelection'])->name('select.Batch')->middleware('can:Generate-Invoice');

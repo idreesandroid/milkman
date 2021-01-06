@@ -176,7 +176,6 @@ class VendorDetailController extends Controller
 
     public function bankDetailsUpdate(Request $request, $id)
     {
-
         $updatedata = $request->validate([
                 'bank_name'=> 'required|min:1',
                 'branch_name'=>'required|min:1',
@@ -185,7 +184,6 @@ class VendorDetailController extends Controller
                 'acc_title'=>'required|min:1|unique:bank_details',
                 'decided_milkQuantity'=>'required|min:1|numeric',
                 'decided_rate'=>'required|min:1|numeric', 
-       
         ]);
         bankDetail::where('user_id', $id)->update($updatedata);
         return redirect()->route('profile.user', [$id]);
