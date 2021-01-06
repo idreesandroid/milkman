@@ -66,14 +66,15 @@ class CollectionController extends Controller
         $this->validate($request,[        
             'title'      => 'required|min:5',          
             'vendors_location'  => 'required',
-            'vendorsIds' => 'required|min:1'
+            'vendorsIds' => 'required|min:1',
+            'status' => 'required'
         ]);
 
         $collection_id = Collection::insertGetId([
             'title' => $request->title,
             'vendors_location' => str_replace("\\", '', $request->vendors_location),
-            'status'   => 'active',
-            'collector_id' => 5
+            'status'   => $request->status,
+            'collector_id' => 0
         ]);
 
         foreach($request->vendorsIds as $vendor_id){ 
@@ -105,6 +106,13 @@ class CollectionController extends Controller
      */
     public function edit(Request $request)
     {
+       // $collection = Collection::find($request->id);
+
+         $collection = Collection::select('collections.*','collection_vendor.vendor_id')
+                     ->leftjoin('collection_vendor', 'collection_vendor.collection_id', '=', 'collections.id')
+                     ->where('collections.id', '=', $request->id)
+                     ->get();
+        return $collection;
         
     }
 

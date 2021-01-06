@@ -9480,7 +9480,7 @@ form .btn-gradient-primary {
 	}
 }
 #addCollectionMap, 
-#editCollectionMap,
+#updateCollectionMap,
 #mapIn
 {
   height:600px;
@@ -9503,3 +9503,17 @@ form .btn-gradient-primary {
 .select2-selection:focus, #title:focus, #MapData:focus {
     border-color:red;
 }
+.select2-results {
+        max-height: 500px;
+    
+}
+  #addCollectionModel .selection .select2-selection__rendered,
+  #editCollectionModel .selection .select2-selection__rendered
+  {
+    	height: 34px;
+    }
+    #addCollectionModel .select2-selection,
+    #editCollectionMode .select2-selection,
+    {
+    	border-color: red;
+    }

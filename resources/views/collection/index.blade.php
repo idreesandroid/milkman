@@ -90,11 +90,19 @@
                   <form>
                      <h4>Collection Area Information</h4>
                      <div class="form-group row">
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                            <label class="col-form-label">Title <span class="text-danger">*</span></label>
                            <input class="form-control" type="text" placeholder="Add Collection Ttile" name="prefix" id='edit_title'>
                         </div>
-                        <div class="col-md-8">
+                        <div class="col-md-3">
+                           <label class="col-form-label">Status <span class="text-danger">*</span></label>
+                           <select class="form-control" id="editStatus" name="editStatus">
+                                 <option value="">Select Status</option>
+                                 <option value="active">Active</option>
+                                 <option value="inactive">Inactive</option>
+                              </select> 
+                        </div>
+                        <div class="col-md-6">
                            <label for="selectedVendorsInEditModel" class="col-form-label col-md-1">Vendors</label>                           
                               <select class="form-control" id="selectedVendorsInEditModel" name="vendorsIds[]" multiple="multiple">                       
                                  @foreach($vendors as $vendor)
@@ -145,7 +153,7 @@
 <!-- modal
 initializeMap('addCollectionMap','add_clear_shapes','save_raw_map','add_restore','add_MapData')
  -->
-<!--Collection Area Information Edit Model-->
+<!--Collection Area Information Add Model-->
 <div class="modal right fade" id="addCollectionModel" role="dialog" aria-modal="true">
    <div class="modal-dialog" role="document">
       <button type="button" class="close md-close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -160,11 +168,19 @@ initializeMap('addCollectionMap','add_clear_shapes','save_raw_map','add_restore'
                   <form>
                      <h4>Collection Area Information</h4>
                      <div class="form-group row">
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                            <label class="col-form-label">Title <span class="text-danger">*</span></label>
                            <input class="form-control" type="text" placeholder="Add Collection Ttile" name="prefix" id='title'>
                         </div>
-                        <div class="col-md-8">
+                        <div class="col-md-3">
+                           <label class="col-form-label">Status <span class="text-danger">*</span></label>
+                           <select class="form-control" id="addStatus" name="addStatus">
+                                 <option value="">Select Status</option>
+                                 <option value="active">Active</option>
+                                 <option value="inactive">Inactive</option>
+                              </select> 
+                        </div>
+                        <div class="col-md-6">
                            <label for="selectedVendorsInAddModel" class="col-form-label col-md-1">Vendors</label>                           
                               <select class="form-control" id="selectedVendorsInAddModel" name="vendorsIds[]" multiple="multiple">                       
                                  @foreach($vendors as $vendor)
@@ -194,7 +210,7 @@ initializeMap('addCollectionMap','add_clear_shapes','save_raw_map','add_restore'
                         </div>
                         <div class="col-md-4">
                            <div class="form-group">                        
-                              <input type="button" id="add_restore" class="form-control btn btn-primary"  value="Restore Map">
+                              <input type="button" id="restore" class="form-control btn btn-primary"  value="Restore Map">
                            </div>
                         </div>
                         <div class="col-md-4">
@@ -363,8 +379,29 @@ function editCollection(elem){
             id: collectionId,
             '_token' : "{{ csrf_token() }}"
             },
-      success: function(){
-         jQuery('#editCollectionModel').modal('show');
+      success: function(response, status){
+         jQuery('#editCollectionModel').modal('show');         
+
+            $("#edit_title").val(response[0].title);
+            $("#update_MapData").val(response[0].vendors_location);
+            if(response[0].status == 'active'){            
+               $("#editStatus option[value='inactive']").removeAttr("selected");
+               $("#editStatus option[value='active']").attr("selected","selected");
+            }else{
+               $("#editStatus option[value='active']").removeAttr("selected");
+               $("#editStatus option[value='inactive']").attr("selected","selected");            
+            }
+               var selectedItems = [];
+
+            response.forEach(addSelected);
+
+            function addSelected(item, index){
+               selectedItems.push(item.vendor_id); 
+            }
+           // var arrayArea = selectedItems.split(',');
+           // console.log(arrayArea);
+         //$("#selectedVendorsInEditModel").select2("val", ['12','5']);
+         $("#selectedVendorsInEditModel").val(selectedItems).trigger("change");
       }
    });       
 }
@@ -383,14 +420,21 @@ function editCollection(elem){
             return false;
          }  
          var vendors = [];
-         vendors = $("#selectedVendors").val();
+         vendors = $("#selectedVendorsInAddModel").val();
          if(!vendors.length){
             $(".select2-selection").focus();
             alert('Please select the vendors');
             return false;
          }
 
-         var MapData = $("#MapData").val();
+         var addStatus = $("#addStatus").val();
+         if(!addStatus.length){
+            $("#addStatus").focus();
+            alert('Please select the status');
+            return false;
+         }
+
+         var MapData = $("#add_MapData").val();
          if(!MapData.length){
             $("#save_raw_map").focus();
             alert('Please draw Collection Area and then click on Add Map button');
@@ -400,6 +444,7 @@ function editCollection(elem){
          var json_data = {
                'title' : title,
                'vendorsIds' : vendors,
+               'status' : addStatus,
                'vendors_location' : MapData,
                '_token' : "{{ csrf_token() }}"
             };  
@@ -429,7 +474,7 @@ function editCollection(elem){
       });    
 
       //initializeMap(mapID,clear_shapes,save_raw_map,restore,MapData)
-      initializeMap('addCollectionMap','add_clear_shapes','save_raw_map','add_restore','add_MapData');
+      initializeMap('addCollectionMap','add_clear_shapes','save_raw_map','add_MapData');
       initializeMap('updateCollectionMap','edit_clear_shapes','update_raw_map','edit_restore','update_MapData');
       //initializeMap('addCollectionMap','clear_shapes');
      //initializeMap('updateCollectionMap');
