@@ -455,7 +455,7 @@ function draggableInit() {
 mapIn
 */
     
-function initializeMap(mapID,clear_shapes,save_raw_map,restore,MapData){
+function initializeMap(mapID,clear_shapes,save_raw_map,MapData){
     map = new google.maps.Map(document.getElementById(mapID), 
         { zoom: 17, 
             center: new google.maps.LatLng(32.409675, 74.135081)
@@ -505,7 +505,7 @@ function initializeMap(mapID,clear_shapes,save_raw_map,restore,MapData){
     var preventRunDefault = false;    
           
     });
-    google.maps.event.addDomListener(byId(restore), 'click', function(){
+    google.maps.event.addDomListener(byId('restore'), 'click', function(){
       if(this.shapes){
         for(var i=0;i<this.shapes.length;++i){
               this.shapes[i].setMap(null);
