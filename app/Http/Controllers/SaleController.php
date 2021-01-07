@@ -36,15 +36,15 @@ class SaleController extends Controller
 
     public function reserveStatus($inv_no)
     {   
-        DB::update("UPDATE invoices SET flag = 'Reserve'  WHERE id = '$inv_no'");    
+        DB::update("UPDATE invoices SET flag = 'Reserve'  WHERE invoice_number	 = '$inv_no'");    
         $invoices = Invoice::where('flag','Reserve')->with('buyer')->get();
         return view('cart/reserveInvoice', compact('invoices'));
     }
 
-    public function SoldStatus($inv_no)
+    public function PaymentStatus($inv_no)
     {   
-        DB::update("UPDATE invoices SET flag = 'Sold'  WHERE id = '$inv_no'");    
-        $invoices = Invoice::where('flag','Sold')->with('buyer')->get();
+        DB::update("UPDATE invoices SET flag = 'Payment_Pending'  WHERE invoice_number	 = '$inv_no'");    
+        $invoices = Invoice::where('flag','Payment_Pending')->with('buyer')->get();
         return view('cart/reserveInvoice', compact('invoices'));
     }
 

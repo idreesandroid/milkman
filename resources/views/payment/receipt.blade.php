@@ -88,7 +88,7 @@
   <input type="hidden"  name="buyerName" value="{{$invoice->buyer_id}}" >
                  
 <div class="col-md-12" >
-<ul class="inline-check">
+   <ul class="inline-check">
 <li>
 <label >
    <input type="radio" name="paymentMethod" id="atmTransfer" value="atmTransfer" required onClick="paymentMethodes1()" >

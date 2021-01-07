@@ -20,7 +20,7 @@ class CreateDistributorPaymentsTable extends Migration
             $table->foreign('invoice_no')->references('id')->on('invoices');
 
             $table->integer('distributor_id')->unsigned();
-            $table->foreign('distributor_id')->references('id')->on('invoices');
+            $table->foreign('distributor_id')->references('id')->on('users');
             
             
             
@@ -40,13 +40,14 @@ class CreateDistributorPaymentsTable extends Migration
             $table->dateTimeTz('timeOfDeposit');
             $table->integer('amountPaid');
             $table->string('receiptPics');
+            $table->integer('verifiedBy')->default(0);
 
             $table->string('depositorCNIC')->nullable()->default("Nill");
             $table->string('receiverName')->nullable()->default("Nill");
             $table->string('receiverCNIC')->nullable()->default("Nill");
             
 
-            $table->enum('status',['verified','Not verified','verification failed'])->default("verified");
+            $table->enum('status',['verified','Not verified','verification failed'])->default("Not verified");
 
             $table->timestamps();
         });
