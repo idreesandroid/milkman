@@ -30,6 +30,9 @@
       <link rel="stylesheet" href="{{asset('assets/css/select2.min.css')}}">
       <!-- jQuery -->
       <script src="{{asset('assets/js/jquery-3.5.0.min.js')}}"></script>
+      <script async defer
+         src="https://maps.googleapis.com/maps/api/js?libraries=geometry,places,drawing&key={{env('GOOGLE_MAP_KEY')}}&v=3"      
+         ></script> 
       <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
       <!--[if lt IE 9]>
       <script src="assets/js/html5shiv.min.js"></script>
@@ -177,9 +180,7 @@
       <script src="{{asset('assets/js/jquery.slimscroll.min.js')}}"></script>    
       <!-- theme JS -->
       <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>  
-      <script async defer
-         src="https://maps.googleapis.com/maps/api/js?libraries=geometry,places,drawing&key={{env('GOOGLE_MAP_KEY')}}&v=3"      
-         ></script>     
+          
       <script src="{{asset('assets/js/theme-settings.js')}}"></script>
       <script src="{{asset('assets/js/select2.min.js')}}"></script>
       <!-- Custom JS -->

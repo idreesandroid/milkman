@@ -60,7 +60,8 @@
                            </div>
                            <div>
                               <a href="#" class='btn btn-outline-primary assignCollector' data-toggle="modal" data-target="#assignCollectorModel" onclick="setCollectionId(<?php echo $item->id; ?>,<?php echo $item->collector_id; ?>)">Assign Collector</a>
-                              <a href="#" onclick="editCollection(this)" class='btn btn-outline-success editCollection' data-toggle="modal" data-target="#editCollectionModel">Edit<input type="hidden" class="editCollectionId" value="{{$item->id}}"></a>
+                              <a href="#" onclick="editCollection(this)" class='btn btn-outline-success editCollection' data-toggle="modal" data-target="#editCollectionModel">Edit<input type="hidden" class="editCollectionId" value="{{$item->id}}">
+                              </a>
                               <a href="#" onclick="deleteCollection(this)"; class='btn btn-outline-danger'>Delete <input type="hidden" class="deleteCollectionId" value="{{$item->id}}"></a>
                            </div>
                         </article>
@@ -93,6 +94,8 @@
                         <div class="col-md-3">
                            <label class="col-form-label">Title <span class="text-danger">*</span></label>
                            <input class="form-control" type="text" placeholder="Add Collection Ttile" name="prefix" id='edit_title'>
+                           <input type="hidden" id="collector_id">
+                           <input type="hidden" id="collection_id">
                         </div>
                         <div class="col-md-3">
                            <label class="col-form-label">Status <span class="text-danger">*</span></label>
@@ -193,7 +196,7 @@ initializeMap('addCollectionMap','add_clear_shapes','save_raw_map','add_restore'
                      <div class="row">
                         <div class="col-md-12">
                            <div class="form-group">                        
-                              <input type="text" min="0"  class="form-control" id="add_MapData" readonly name="vendors_location" value="{{$location}}">
+                              <input type="text" min="0"  class="form-control" id="add_MapData" name="vendors_location" value="{{$location}}">
                            </div>
                         </div>
                      </div>
@@ -210,7 +213,7 @@ initializeMap('addCollectionMap','add_clear_shapes','save_raw_map','add_restore'
                         </div>
                         <div class="col-md-4">
                            <div class="form-group">                        
-                              <input type="button" id="restore" class="form-control btn btn-primary"  value="Restore Map">
+                              <input type="button" id="add_restore" class="form-control btn btn-primary"  value="Restore Map">
                            </div>
                         </div>
                         <div class="col-md-4">
@@ -306,35 +309,6 @@ initializeMap('addCollectionMap','add_clear_shapes','save_raw_map','add_restore'
       
    });
 
-function deleteCollection(elem){
-   var collectionId = elem.childNodes[1].attributes['value'].value;      
-   swal.fire({
-         title: 'Are you sure?',
-         text: "You won't be able to revert this collection area!",
-         icon: 'warning',
-         showCancelButton: true,
-         confirmButtonColor: '#3085d6',
-         cancelButtonColor: '#d33',
-         confirmButtonText: 'Yes, delete it!'
-     }).then((result) => {
-         if (result.isConfirmed) {
-             jQuery.ajax({
-                 url: "{{ route('destroy.collection') }}",
-                 type: "POST",
-                 data: {
-                     id: collectionId,
-                     '_token' : "{{ csrf_token() }}"
-                 },
-                 success: function () {
-                     swal.fire("Done!", "It was succesfully deleted!", "success");
-                 },
-                 error: function () {
-                     swal.fire("Error deleting!", "Please try again", "error");
-                 }
-             });
-         }
-     });
-}
 function setCollectionId(collectionId,collector_id){
       $("#collectionId").val(collectionId);
       if(collector_id != 0){
@@ -376,13 +350,19 @@ function editCollection(elem){
       url: "{{ route('edit.collection') }}",
       type: "POST",
       data: {
-            id: collectionId,
+            id: collectionId,            
             '_token' : "{{ csrf_token() }}"
             },
       success: function(response, status){
          jQuery('#editCollectionModel').modal('show');         
 
             $("#edit_title").val(response[0].title);
+            $("#collection_id").val();
+            $("#collection_id").val(response[0].id);
+            $("#collector_id").val();
+            $("#collector_id").val(response[0].collector_id);
+
+            $("#update_MapData").val("");
             $("#update_MapData").val(response[0].vendors_location);
             if(response[0].status == 'active'){            
                $("#editStatus option[value='inactive']").removeAttr("selected");
@@ -397,10 +377,7 @@ function editCollection(elem){
 
             function addSelected(item, index){
                selectedItems.push(item.vendor_id); 
-            }
-           // var arrayArea = selectedItems.split(',');
-           // console.log(arrayArea);
-         //$("#selectedVendorsInEditModel").select2("val", ['12','5']);
+            }           
          $("#selectedVendorsInEditModel").val(selectedItems).trigger("change");
       }
    });       
@@ -409,47 +386,53 @@ function editCollection(elem){
   
 
 
-   $(document).ready(function() {        
-       
-      $("#saveColectionArea").on('click',function(){
+   $(document).ready(function() { 
 
-         var title = $("#title").val();        
+
+       $("#updateColectionArea").on('click',function(){
+
+         var title = $("#edit_title").val();        
          if(!title.length){
-            $("#title").focus();
+            $("#edit_title").focus();
             alert('Please insert the title');            
             return false;
          }  
          var vendors = [];
-         vendors = $("#selectedVendorsInAddModel").val();
+         vendors = $("#selectedVendorsInEditModel").val();
          if(!vendors.length){
             $(".select2-selection").focus();
             alert('Please select the vendors');
             return false;
          }
 
-         var addStatus = $("#addStatus").val();
-         if(!addStatus.length){
-            $("#addStatus").focus();
+         var editStatus = $("#editStatus").val();
+         if(!editStatus.length){
+            $("#editStatus").focus();
             alert('Please select the status');
             return false;
          }
 
-         var MapData = $("#add_MapData").val();
+         var MapData = $("#update_MapData").val();
          if(!MapData.length){
-            $("#save_raw_map").focus();
+            $("#update_raw_map").focus();
             alert('Please draw Collection Area and then click on Add Map button');
             return false;
          }
+
+         var collector_id = $("#collector_id").val();        
+         var collection_id = $("#collection_id").val();        
         
          var json_data = {
+               'id' : collection_id,
                'title' : title,
                'vendorsIds' : vendors,
-               'status' : addStatus,
+               'status' : editStatus,
                'vendors_location' : MapData,
+               'collector_id' : collector_id,
                '_token' : "{{ csrf_token() }}"
             };  
          $.ajax({
-            url : "{{ route('store.collection') }}",
+            url : "{{ route('update.collection') }}",
             type: "POST",
             data: json_data,           
             success : function(data) {              
@@ -457,9 +440,9 @@ function editCollection(elem){
                   $("#title").val("");
                   $("#selectedVendors").val("");
                   $("#MapData").val("");
-                  $("#addCollectionModel .close").click();
+                  $("#editCollectionModel .close").click();
                   Swal.fire(
-                    'Collection Area created',
+                    'Collection Area Updated',
                     'You clicked the button!',
                     'success'
                   )
@@ -471,10 +454,10 @@ function editCollection(elem){
              }
          });
 
-      });    
+      }); 
 
       //initializeMap(mapID,clear_shapes,save_raw_map,restore,MapData)
-      initializeMap('addCollectionMap','add_clear_shapes','save_raw_map','add_MapData');
+      initializeMap('addCollectionMap','add_clear_shapes','save_raw_map','add_restore','add_MapData');
       initializeMap('updateCollectionMap','edit_clear_shapes','update_raw_map','edit_restore','update_MapData');
       //initializeMap('addCollectionMap','clear_shapes');
      //initializeMap('updateCollectionMap');

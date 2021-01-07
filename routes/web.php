@@ -121,3 +121,4 @@ Route::post('collection/destroy', [CollectionController::class, 'destroy'])->nam
 Route::post('collection/edit', [CollectionController::class, 'edit'])->name('edit.collection');
 Route::get('collections', [CollectionController::class, 'index'])->name('index.collection');
 Route::post('collection/assignCollector', [CollectionController::class, 'assignCollector'])->name('assignCollector.collection');
+Route::post('collection/update', [CollectionController::class, 'update'])->name('update.collection');
