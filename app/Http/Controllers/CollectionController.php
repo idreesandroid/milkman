@@ -123,9 +123,31 @@ class CollectionController extends Controller
      * @param  \App\Models\Collection  $collection
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Collection $collection)
+    public function update(Request $request)
     {
-        //
+        $this->validate($request,[        
+            'title'      => 'required|min:5',          
+            'vendors_location'  => 'required',
+            'vendorsIds' => 'required|min:1',
+            'status' => 'required'
+        ]);
+
+        Collection::where('id',$request->id)
+                    ->update([
+                        'title' => $request->title,
+                        'vendors_location' => str_replace("\\", '', $request->vendors_location),
+                        'status'   => $request->status,
+                        'collector_id' => $request->collector_id
+                    ]);
+
+        foreach($request->vendorsIds as $vendor_id){ 
+            CollectionVendor::insert([        
+                'collection_id' => $request->id,          
+                'vendor_id'  => $vendor_id           
+            ]);
+        }        
+
+        return true;
     }
 
     /**

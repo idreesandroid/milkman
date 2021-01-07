@@ -3,9 +3,79 @@ Author       : Dreamguys
 Template Name: CRMS - Bootstrap Admin Template
 Version      : 1.0
 */
-$(document).ready(function() {    
-    // Variables declarations
-    //initializeMap();
+$(document).ready(function() { 
+
+
+    
+
+
+    $("#saveColectionArea").on('click',function(){
+
+         var title = $("#title").val();        
+         if(!title.length){
+            $("#title").focus();
+            alert('Please insert the title');            
+            return false;
+         }  
+         var vendors = [];
+         vendors = $("#selectedVendorsInAddModel").val();
+         if(!vendors.length){
+            $(".select2-selection").focus();
+            alert('Please select the vendors');
+            return false;
+         }
+
+         var addStatus = $("#addStatus").val();
+         if(!addStatus.length){
+            $("#addStatus").focus();
+            alert('Please select the status');
+            return false;
+         }
+
+         var MapData = $("#add_MapData").val();
+         if(!MapData.length){
+            $("#save_raw_map").focus();
+            alert('Please draw Collection Area and then click on Add Map button');
+            return false;
+         }
+        
+         var json_data = {
+               'title' : title,
+               'vendorsIds' : vendors,
+               'status' : addStatus,
+               'vendors_location' : MapData,
+               '_token' : "{{ csrf_token() }}"
+            };  
+         $.ajax({
+            url : "{{ route('store.collection') }}",
+            type: "POST",
+            data: json_data,           
+            success : function(data) {              
+               if(data){
+                  $("#title").val("");
+                  $("#selectedVendors").val("");
+                  $("#MapData").val("");
+                  $("#addCollectionModel .close").click();
+                  Swal.fire(
+                    'Collection Area created',
+                    'You clicked the button!',
+                    'success'
+                  )
+               }
+             },
+             error : function(request,error)
+             {
+               console.log("Request: "+JSON.stringify(request));
+             }
+         });
+
+      }); 
+
+
+
+
+
+    // Variables declarations    
     var $wrapper = $('.main-wrapper');
     var $pageWrapper = $('.page-wrapper');
     var $slimScrolls = $('.slimscroll');
@@ -64,15 +134,6 @@ $(document).ready(function() {
         $('#task_window').addClass('opened');
         return false;
     });
-
-    // Select 2
-
-    // if ($('.select').length > 0) {
-    //     $('.select').select2({
-    //         minimumResultsForSearch: -1,
-    //         width: '100%'
-    //     });
-    // }
 
     // Modal Popup hide show
 
@@ -143,14 +204,7 @@ $(document).ready(function() {
             }
         });
     }
-
-    // Datatable
-
-    // if ($('.datatable').length > 0) {
-    //     $('.datatable').DataTable({
-    //         "bFilter": false,
-    //     });
-    // }
+  
 
     // Tooltip
 
@@ -455,7 +509,7 @@ function draggableInit() {
 mapIn
 */
     
-function initializeMap(mapID,clear_shapes,save_raw_map,MapData){
+function initializeMap(mapID,clear_shapes,save_raw_map,restore,MapData){
     map = new google.maps.Map(document.getElementById(mapID), 
         { zoom: 17, 
             center: new google.maps.LatLng(32.409675, 74.135081)
@@ -505,7 +559,7 @@ function initializeMap(mapID,clear_shapes,save_raw_map,MapData){
     var preventRunDefault = false;    
           
     });
-    google.maps.event.addDomListener(byId('restore'), 'click', function(){
+    google.maps.event.addDomListener(byId(restore), 'click', function(){
       if(this.shapes){
         for(var i=0;i<this.shapes.length;++i){
               this.shapes[i].setMap(null);
@@ -717,4 +771,33 @@ function geolocate() {
 }
 
 
+function deleteCollection(elem){
+   var collectionId = elem.childNodes[1].attributes['value'].value;      
+   swal.fire({
+         title: 'Are you sure?',
+         text: "You won't be able to revert this collection area!",
+         icon: 'warning',
+         showCancelButton: true,
+         confirmButtonColor: '#3085d6',
+         cancelButtonColor: '#d33',
+         confirmButtonText: 'Yes, delete it!'
+     }).then((result) => {
+         if (result.isConfirmed) {
+             jQuery.ajax({
+                 url: "{{ route('destroy.collection') }}",
+                 type: "POST",
+                 data: {
+                     id: collectionId,
+                     '_token' : "{{ csrf_token() }}"
+                 },
+                 success: function () {
+                     swal.fire("Done!", "It was succesfully deleted!", "success");
+                 },
+                 error: function () {
+                     swal.fire("Error deleting!", "Please try again", "error");
+                 }
+             });
+         }
+     });
+}
     
