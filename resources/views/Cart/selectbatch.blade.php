@@ -88,7 +88,7 @@
                            <a href="{{ route('update.Stock_status', $invoice_no)}}" ><button class="btn btn-block btn-primary text-uppercase" disabled type="button" id="reserve_btn" >Reserve</button></a>
                         </div>
                         <div class="col-sm-12  col-md-4">
-                        <a href="{{ route('update.Stock_sold', $invoice_no)}}" ><button class="btn btn-block btn-primary text-uppercase" disabled type="button" id="checkout_btn" >CheckOut</button></a>
+                        <a href="{{ route('update.pending_payment', $invoice_no)}}" ><button class="btn btn-block btn-primary text-uppercase" disabled type="button" id="checkout_btn" >CheckOut</button></a>
                         </div>
                      </div>
                   </div>
