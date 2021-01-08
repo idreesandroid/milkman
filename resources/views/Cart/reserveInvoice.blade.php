@@ -41,7 +41,7 @@
                         <td>{{$invoice->invoice_number}}</td>
                         <td>{{$invoice->flag}}</td>
                         <td>{{$invoice->created_at}}</td>
-                        <td><a href="{{ route('payment.receipt', $invoice->id)}}" class="btn btn-primary">Detail</a></td>
+                        
                      </tr>
                      @endforeach
                   </tbody>

@@ -13,6 +13,10 @@ use App\Http\Controllers\CollectionController;
 use App\Http\Controllers\DistributorController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\LoginController;
+
+use App\Http\Controllers\TransactionController;
+
+
 use App\Http\Controllers\DistributorPaymentController;
 use App\Http\Controllers\DistributorDashBoard;
 
@@ -89,7 +93,7 @@ Route::get('distributor-detail/create',          [DistributorController::class, 
 Route::post('distributor-detail/create',         [DistributorController::class, 'store'])->name('store.distributor-detail')->middleware('can:Create-Distributor');
 Route::get('distributor-detail/edit/{id}',       [DistributorController::class, 'edit'])->name('edit.distributor-detail')->middleware('can:Edit-Distributor');
 Route::post('distributor-detail/update/{id}',    [DistributorController::class, 'update'])->name('update.distributor-detail')->middleware('can:Edit-Distributor');
-Route::post('companyDetail/update/{id}',    [DistributorController::class,'companyDetailUpdate'])->name('companyDetail.distributor')->middleware('can:Edit-Company-Detail');
+Route::post('companyDetail/update/{id}',         [DistributorController::class,'companyDetailUpdate'])->name('companyDetail.distributor')->middleware('can:Edit-Company-Detail');
 
 //Cart routes--------------------------------
 
@@ -105,18 +109,34 @@ Route::post('cart/create',                  [SaleController::class, 'SaveInvoice
 Route::get('cart/selectbatch',              [SaleController::class, 'selectBatch'])->name('select.batch')->middleware('can:Generate-Invoice');
 Route::Delete('cart/deleteInvoice/{id}',    [SaleController::class, 'deleteInvoice'])->name('delete.invoice')->middleware('can:Delete-Invoice');
 
+
+
+
+
+
+
+
 //payment routes-------------------------------------------------
 
-Route::get('payment/receipt/{id}',          [DistributorPaymentController::class, 'receipt'])->name('payment.receipt');
-Route::post('payment/receipt',              [DistributorPaymentController::class, 'paymentAgainstReceipt'])->name('pay.receipt.bill');
-Route::get('payment/List',                  [DistributorPaymentController::class, 'PaymentList'])->name('payment.List');
+// Route::get('payment/receipt/{id}',          [DistributorPaymentController::class, 'receipt'])->name('payment.receipt');
+// Route::post('payment/receipt',              [DistributorPaymentController::class, 'paymentAgainstReceipt'])->name('pay.receipt.bill');
+// Route::get('payment/List',                  [DistributorPaymentController::class, 'PaymentList'])->name('payment.List');
 
-Route::post('transaction/status/{id}',      [DistributorPaymentController::class, 'verifyTransaction'])->name('verify.transaction');
 
 //DistributorDashBoard routes-------------------------------------------------
 
 Route::get('payment/myReceipt',             [DistributorDashBoard::class, 'myOrders'])->name('payment.myReceipt');
 //Route::post('payment/receipt',          [DistributorPaymentController::class, 'paymentAgainstReceipt'])->name('pay.receipt.bill');
+
+//Transaction routes-------------------------------------------------
+
+Route::get('transaction/slip',                [TransactionController::class, 'transactionSlip'])->name('transaction.slip')->middleware('can:Make-Transaction');
+Route::post('transaction/slip',               [TransactionController::class, 'transactionStore'])->name('transaction.store')->middleware('can:Make-Transaction');
+Route::get('transaction/List',                [TransactionController::class, 'transactionList'])->name('transaction.List')->middleware('can:See-All-Transactions');
+Route::post('transaction/verify/{id}',        [TransactionController::class, 'verifyTransaction'])->name('verify.transaction')->middleware('can:Verify-Transaction');
+
+Route::get('my/transactions',                 [TransactionController::class, 'userTransaction'])->name('my.transaction')->middleware('can:See-Personal-Transaction');
+
 
 
 //ajax routes-----------------------------------------------------------------

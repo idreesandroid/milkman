@@ -49,32 +49,28 @@
                      </tr>
                   </thead>
                   <tbody>
-                     @foreach($transactions as $index => $transaction)
+                     @foreach($invoices as $index => $invoice)
                      <tr>
                         <td>{{$index+1}}</td>
-                        <td>{{$transaction->invoice_no}}</td>
-                        <td>{{$transaction->distributor_id}}</td>
-                        <td>{{$transaction->paymentMethod}}</td>
-                        <td>{{$transaction->bank_name}}</td>
-                        <td>{{$transaction->branchName}}</td>
-                        <td>{{$transaction->acc_No}}</td>
-                        <td>{{$transaction->cardLastDigits}}</td>
-                        <td>{{$transaction->transactionId}}</td>
-                        <td>{{$transaction->senderCNIC}}</td>
-                        <td>{{$transaction->senderCell}}</td>
+                        <td>{{$invoice->invoice_no}}</td>
+                        <td>{{$invoice->distributor_id}}</td>
+                        <td>{{$invoice->paymentMethod}}</td>
+                        <td>{{$invoice->bank_name}}</td>
+                        <td>{{$invoice->branchName}}</td>
+                        <td>{{$invoice->acc_No}}</td>
+                        <td>{{$invoice->cardLastDigits}}</td>
+                        <td>{{$invoice->transactionId}}</td>
+                        <td>{{$invoice->senderCNIC}}</td>
+                        <td>{{$invoice->senderCell}}</td>
                         
-                        <td>{{$transaction->depositorName}}</td>
-                        <td>{{$transaction->receiverName}}</td>
-                        <td>{{$transaction->receiverCNIC}}</td>
-                        <td>{{$transaction->amountPaid}}</td>
-                        <td>{{$transaction->timeOfDeposit}}</td>
-                        <td>{{$transaction->status}}</td>
-                        <td><img src="{{asset('/receipt_img/'.$transaction->receiptPics)}}" alt="Logo" class="img-thumbnail"></td>
-                        <form method="post" action="{{route ('verify.transaction', $transaction->id) }}">
-                    @csrf
-                         <td><button class="btn btn-block btn-primary text-uppercase" type="submit" name="action" value="1" id="verified" >Verified</button></td>
-                         <td><button class="btn btn-block btn-primary text-uppercase" type="submit" name="action" value="2" id="failed" >Failed</button></td>
-                     </form>
+                        <td>{{$invoice->depositorName}}</td>
+                        <td>{{$invoice->receiverName}}</td>
+                        <td>{{$invoice->receiverCNIC}}</td>
+                        <td>{{$invoice->amountPaid}}</td>
+                        <td>{{$invoice->timeOfDeposit}}</td>
+                        <td>{{$invoice->status}}</td>
+                        <td><img src="{{asset('/receipt_img/'.$invoice->receiptPics)}}" alt="Logo" class="img-thumbnail"></td>
+                                
                      </tr>
                      @endforeach
                   </tbody>

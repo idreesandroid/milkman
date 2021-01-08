@@ -11,8 +11,8 @@
             </div>
             <div class="col text-right">
                <ul class="breadcrumb bg-white float-right m-0 pl-0 pr-0">
-                  <li class="breadcrumb-item"><a href="/">Payment</a></li>
-                  <li class="breadcrumb-item active">Receipt</li>
+                  <li class="breadcrumb-item"><a href="/">Transaction</a></li>
+                  <li class="breadcrumb-item active">Slip</li>
                </ul>
             </div>
          </div>
@@ -24,74 +24,41 @@
       
      
 <div class="card-body">
-          
-            <div class="container mb-4">
+             
+<!-- table start here           -->
+<div class="container mb-4">
                <div class="row">
                   <div class="col-12">
                      <div class="table-responsive">
                         <table class="table table-striped" id="tbl_bat_sel">
                            <thead>
                               <tr>
-                                 <th>Invoice Number:</th>
-                                 <th style="color:black;"><b>{{$invoice->invoice_number}}</b></th>
+                                 <th>Account Number:</th>
+                                 <th style="color:black;"><b>{{$user->userAcc->userAccount}}</b></th>
                                  <th>Name:</th>
-                                 <th style="color:black;"><b>{{$invoice->buyer->name}}</b></th>
-                                 <th>Invoice Date:</th>
-                                 <th style="color:black;"><b>{{$invoice->buyer->created_at}}</b></th>
+                                 <th style="color:black;"><b>{{$user->name}}</b></th>
+                                 <th>Balance:</th>
+                                 <th style="color:black;"><b>{{$user->userAcc->balance}}</b></th>
                                  <th></th>
                               </tr>
-                              <tr>
-                                 <th scope="col">Serial No</th>
-                                 <th scope="col">Product</th>
-                                 <th scope="col" >Price</th>
-                                 <th scope="col" >Quantity</th>
-                                 <th scope="col" >Sub Total</th>
-                                 <th scope="col" >Delivery Date</th>
-                               
-                              </tr>
                            </thead>
-                           <tbody>
-                             
-                              @foreach($carts as $index => $cart)
-                              <tr>
-                                 <td>{{$index+1}}</td>
-                                 <td>{{$cart->product->product_name}}</td>
-                                 <td>{{$cart->product_rate}}</td>
-                                 <td>{{$cart->product_quantity}}</td>
-                                 <td>{{$cart->sub_total}}</td>
-                                 <td>{{$cart->delivery_due_date}}</td>
-                                        
-                              </tr>
-                              @endforeach 
-                              <tr>
-                                 <td></td>
-                                 <td></td>
-                                 <td></td>
-                                 <td></td>
-                                 <td style="color:black;"><strong>Total</strong></td>
-                                 <td style="color:black;"><strong>{{$invoice->total_amount}}</strong></td>
-                              </tr>
-                           </tbody>
+                          
                         </table>
                      </div>
                   </div>
                </div>
-            </div>   
+            </div> 
+<!-- table end here           -->
+
       <!-- form start here           -->
-  <!-- <before radio >--> 
-        
-
-
-
-
-
-<!-- radio start here           --> 
-<form method="post" action="{{ route('pay.receipt.bill') }}" enctype="multipart/form-data">
+ 
+<form method="post" action="{{ route('transaction.store') }}" enctype="multipart/form-data">
                @csrf 
+<!-- radio start here           -->  
 
-   <input type="hidden"  name="invNo"  value="{{$invoice->id}}" >
-  <input type="hidden"  name="buyerName" value="{{$invoice->buyer_id}}" >
-                 
+<input type="hidden"  name="userAccNo"  value="{{$user->userAcc->id}}" >
+<input type="hidden"  name="user" value="{{$user->id}}">
+
 <div class="col-md-12" >
    <ul class="inline-check">
 <li>
