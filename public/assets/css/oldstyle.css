@@ -7223,9 +7223,9 @@ table .badge {
 	margin: 10px 8px;
 	clear: both;
 	border-radius: 4px;
-	-webkit-box-shadow: 0px 5px 16px 0px rgba(50, 50, 50, 0.5);
-	-moz-box-shadow: 0px 5px 16px 0px rgba(50, 50, 50, 0.5);
-	    box-shadow: 0px 5px 16px 0px rgba(50, 50, 50, 0.5);
+	-webkit-box-shadow: 1px 1px 2px 0px rgba(50, 50, 50, 0.5);
+	-moz-box-shadow: 1px 1px 2px 0px rgba(50, 50, 50, 0.5);
+	box-shadow: 1px 1px 2px 0px rgba(50, 50, 50, 0.5);
 }
 
 .kanban-centered .kanban-entry:before,
@@ -9503,51 +9503,16 @@ form .btn-gradient-primary {
     border-color:red;
 }
 .select2-results {
-    max-height: 500px;
+        max-height: 500px;
     
 }
- #addCollectionModel .selection .select2-selection__rendered,
- #editCollectionModel .selection .select2-selection__rendered {
-   height: 34px;
- }
- #addCollectionModel .select2-selection,
- #editCollectionMode .select2-selection {
+  #addCollectionModel .selection .select2-selection__rendered,
+  #editCollectionModel .selection .select2-selection__rendered
+  {
+    	height: 34px;
+    }
+    #addCollectionModel .select2-selection,
+    #editCollectionMode .select2-selection,
+    {
     	border-color: red;
- }
-
- .kanban-label .cb-image {
-     max-width: 75px;
-    text-align: center;
-    border-radius: 7px;
-    max-height: 75px;
-    margin: 0px auto 5px;
-}
-.midle-div a {
-    min-width: 80px;
-    font-size: 13px;
-    font-weight: 700;
-}
-.midle-div {
-    text-align: center;
-    padding-top: 15px;
-    padding-bottom: 15px;
-}
-.kanban-label h2 {
-    color: #000000!important;
-    font-size: 20px!important;
-    text-transform: capitalize;
-    text-align: center;
-}
-
-div#kanban-single-col {
-    width: 33.333%;
-    float: left;
-    display: inline-block;
-    text-align:center;
-}
-
-div#kanban-single-col .list-unstyled {
-    text-transform: capitalize;
-    height: 86px;
-    overflow: hidden;
-}
+    }

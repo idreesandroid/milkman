@@ -42,30 +42,30 @@
                <div class="row">
                   <div class="col-md-6">
                      <div class="form-group">
-                        <label>Full Name</label>
+                        <label>Full Name:</label>
                         <input type="text" class="form-control" name="name" minlength="3"  required=""   autocomplete="off"  >
                      </div>
                      <div class="form-group">
-                        <label>CNIC</label>
+                        <label>CNIC:</label>
                         <input type="text" class="form-control" data-inputmask="'mask': '99999-9999999-9'" placeholder="XXXXX-XXXXXXX-X" name="user_cnic"  maxlength="15"  required="" autocomplete="off"  >
                      </div>
                      <div class="form-group">
-                        <label>Contact No</label>
+                        <label>Contact No:</label>
                         <input type="text" class="form-control" name="user_phone" data-inputmask="'mask': '0399-99999999'" placeholder="03XX-XXXXXXX" maxlength="12" required=""  autocomplete="off"  >
                      </div>
                     
                   </div>
                   <div class="col-md-6">
                      <div class="form-group">
-                        <label>Email</label>
+                        <label>Email:</label>
                         <input type="text" class="form-control" type="email" name="email"  autocomplete="off"  >
                      </div>
                      <div class="form-group">
-                        <label>Password</label>
+                        <label>Password:</label>
                         <input class="form-control" id="password" name="password" type="password"  required=""  minlength="6" autocomplete="off" >
                      </div>
                      <div class="form-group">
-                        <label>Repeat Password</label>
+                        <label>Repeat Password:</label>
                         <input type="password" class="form-control" id="pass1" name="pass1" required=""   minlength="6" autocomplete="off" >
                      </div>
                   </div>
@@ -85,11 +85,11 @@
                   </div>
                   <div class="col-md-6">
                      <div class="form-group">
-                        <label>Home Address</label>
+                        <label>Home Address:</label>
                         <input class="form-control" id="autocomplete" placeholder="Enter your address" onFocus="geolocate()" type="text" name="user_address"/>
                      </div>
                      <div class="form-group">
-                        <label>Upload Image</label>
+                        <label>Upload Image:</label>
                         <input type="file" class="form-control" name="filenames" required=""   autocomplete="off" >
                   </div>
                   </div>
@@ -98,14 +98,42 @@
                <div class="row">
                   <div class="col-md-6">
                      <div class="form-group">
-                        <label>Agreed  Quantity</label>
-                        <input type="number" min="0"  class="form-control" name="decided_milkQuantity"    required=""  autocomplete="off" >
+                        <label>Average Daily Agreed  Quantity:</label>
+                        <input type="number" min="0"  class="form-control" name="decided_milkQuantity"    required=""  autocomplete="off" placeholder="Average Daily Agreed  Quantity">
                      </div>
                   </div>
                   <div class="col-md-6">
                      <div class="form-group">
-                        <label>Agreed Rate</label>
-                        <input type="number" min="0" class="form-control" name="decided_rate" required=""  autocomplete="off"  >
+                        <label>Agreed Rate:</label>
+                        <input type="number" min="0" class="form-control" name="decided_rate" required=""  autocomplete="off" placeholder="Agreed Rate">
+                     </div>
+                  </div>
+               </div>
+               <div class="row">
+                  <div class="col-md-6">
+                     <div class="form-group">
+                        <label>Morning Agreed Quantity:</label>
+                        <input type="number" min="0"  class="form-control" name="decided_milkQuantity"    required=""  autocomplete="off" placeholder="Morning Agreed Quantity">
+                     </div>
+                  </div>
+                  <div class="col-md-6">
+                     <div class="form-group">
+                        <label>Morning Due Time:</label>
+                        <input type="number" min="0" class="form-control" name="decided_rate" required=""  autocomplete="off"  placeholder="Morning Due Time">
+                     </div>
+                  </div>
+               </div>
+               <div class="row">
+                  <div class="col-md-6">
+                     <div class="form-group">
+                        <label>Evening Agreed Quantity:</label>
+                        <input type="number" min="0"  class="form-control" name="decided_milkQuantity"    required=""  autocomplete="off" placeholder="Evening Agreed Quantity">
+                     </div>
+                  </div>
+                  <div class="col-md-6">
+                     <div class="form-group">
+                        <label>Evening Due Time:</label>
+                        <input type="number" min="0" class="form-control" name="decided_rate" required=""  autocomplete="off"  placeholder="Evening Due Time">
                      </div>
                   </div>
                </div>

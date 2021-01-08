@@ -36,18 +36,18 @@
    <div class="col-md-12 grid-margin stretch-card kanban">
       <div class="">
          <div class="card-body p-0 row">
-            <div id="sortableKanbanBoards" class="col-md-12 kanban-views p-0">           
+            <div id="sortableKanbanBoards" class="col-md-12 p-0">           
             @foreach($collections as $item)                   
-               <div class="panel panel-primary kanban-col m-0">
+               <div class="panel panel-primary m-0" id="kanban-single-col">
                   <div class="panel-body slimScrollDiv">
                      <div id="TODO" class="kanban-centered">
                         <article class="kanban-entry grab" id="item1" draggable="true">
                            <div class="kanban-entry-inner">
                               <div class="kanban-label card <?php echo ($item->status == 'active') ? 'bg-gradient-success' : 'bg-gradient-danger'  ?> card-img-holder text-white h-100" data-toggle="modal" data-target="#leads-details">
                                  @if($item->collector_id == 0)
-                                    <img src="assets/img/circle.png" class="card-img-absolute" alt="circle-image">
+                                    <img src="UserProfile/placeholder.jpg" class="cb-image" alt="circle-image">
                                  @else
-                                    <img src="UserProfile/<?php echo $item->filenames; ?>" class="card-img-absolute" alt="collector-image">
+                                    <img src="UserProfile/<?php echo $item->filenames; ?>" class="cb-image" alt="collector-image">
                                  @endif
 
                                  <h2 data-toggle="modal" data-target="#leads">{{$item->title}}</h2>                                
@@ -58,7 +58,7 @@
                                  </ul>                                
                               </div>
                            </div>
-                           <div>
+                           <div class="midle-div">
                               <a href="#" class='btn btn-outline-primary assignCollector' data-toggle="modal" data-target="#assignCollectorModel" onclick="setCollectionId(<?php echo $item->id; ?>,<?php echo $item->collector_id; ?>)">Assign Collector</a>
                               <a href="#" onclick="editCollection(this)" class='btn btn-outline-success editCollection' data-toggle="modal" data-target="#editCollectionModel">Edit<input type="hidden" class="editCollectionId" value="{{$item->id}}">
                               </a>
@@ -74,6 +74,89 @@
       </div>
    </div>
 </div>                     
+
+     
+<!-- modal
+initializeMap('addCollectionMap','add_clear_shapes','save_raw_map','add_restore','add_MapData')
+ -->
+<!--Collection Area Information Add Model-->
+<div class="modal right fade" id="addCollectionModel" role="dialog" aria-modal="true">
+   <div class="modal-dialog" role="document">
+      <button type="button" class="close md-close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <div class="modal-content">
+         <div class="modal-header">
+            <h4 class="modal-title text-center">Add Collection Area</h4>
+            <button type="button" class="close xs-close" data-dismiss="modal">×</button>
+         </div>
+         <div class="modal-body">
+            <div class="row">
+               <div class="col-md-12">
+                  <form>
+                     <h4>Collection Area Information</h4>
+                     <div class="form-group row">
+                        <div class="col-md-3">
+                           <label class="col-form-label">Title <span class="text-danger">*</span></label>
+                           <input class="form-control" type="text" placeholder="Add Collection Ttile" name="prefix" id='title'>
+                        </div>
+                        <div class="col-md-3">
+                           <label class="col-form-label">Status <span class="text-danger">*</span></label>
+                           <select class="form-control" id="addStatus" name="addStatus">
+                                 <option value="">Select Status</option>
+                                 <option value="active">Active</option>
+                                 <option value="inactive">Inactive</option>
+                              </select> 
+                        </div>
+                        <div class="col-md-6">
+                           <label for="selectedVendorsInAddModel" class="col-form-label col-md-1">Vendors</label>                           
+                              <select class="form-control" id="selectedVendorsInAddModel" name="vendorsIds[]" multiple="multiple">                       
+                                 @foreach($vendors as $vendor)
+                                 <option value="{{$vendor->id}}">{{$vendor->name}}</option>
+                                 @endforeach
+                              </select>                           
+                        </div>
+                     </div>    
+                     <div class="map" id="addCollectionMap"></div>
+                     <div class="row">
+                        <div class="col-md-12">
+                           <div class="form-group">                        
+                              <input type="text" min="0"  class="form-control" id="add_MapData" name="vendors_location" value="{{$location}}">
+                           </div>
+                        </div>
+                     </div>
+                     <div class="row">
+                        <div class="col-md-2">
+                           <div class="form-group">                        
+                              <input type="button"  class="form-control btn btn-info"  value="Add Map" id="save_raw_map">
+                           </div>
+                        </div>
+                        <div class="col-md-2">
+                           <div class="form-group">                        
+                              <input type="button" class="form-control btn btn-danger"  value="Clear Map" id="add_clear_shapes">
+                           </div>
+                        </div>
+                        <div class="col-md-4">
+                           <div class="form-group">                        
+                              <input type="button" id="restore" class="form-control btn btn-primary"  value="Restore Map">
+                           </div>
+                        </div>
+                        <div class="col-md-4">
+                           <div class="form-group">                        
+                              <input type="button" class="form-control btn btn-primary"  value="Save Collection Area" id="saveColectionArea">
+                           </div>
+                        </div>
+                     </div>
+                  </form>
+               </div>
+            </div>
+         </div>
+      </div>
+      <!-- modal-content -->
+   </div>
+   <!-- modal-dialog -->
+</div>
+<!-- modal -->
+
+
 <!--Collection Area Information
  initializeMap('updateCollectionMap','edit_clear_shapes','update_raw_map','edit_restore','update_MapData');
 -->
@@ -153,85 +236,7 @@
    </div>
    <!-- modal-dialog -->
 </div>
-<!-- modal
-initializeMap('addCollectionMap','add_clear_shapes','save_raw_map','add_restore','add_MapData')
- -->
-<!--Collection Area Information Add Model-->
-<div class="modal right fade" id="addCollectionModel" role="dialog" aria-modal="true">
-   <div class="modal-dialog" role="document">
-      <button type="button" class="close md-close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-      <div class="modal-content">
-         <div class="modal-header">
-            <h4 class="modal-title text-center">Add Collection Area</h4>
-            <button type="button" class="close xs-close" data-dismiss="modal">×</button>
-         </div>
-         <div class="modal-body">
-            <div class="row">
-               <div class="col-md-12">
-                  <form>
-                     <h4>Collection Area Information</h4>
-                     <div class="form-group row">
-                        <div class="col-md-3">
-                           <label class="col-form-label">Title <span class="text-danger">*</span></label>
-                           <input class="form-control" type="text" placeholder="Add Collection Ttile" name="prefix" id='title'>
-                        </div>
-                        <div class="col-md-3">
-                           <label class="col-form-label">Status <span class="text-danger">*</span></label>
-                           <select class="form-control" id="addStatus" name="addStatus">
-                                 <option value="">Select Status</option>
-                                 <option value="active">Active</option>
-                                 <option value="inactive">Inactive</option>
-                              </select> 
-                        </div>
-                        <div class="col-md-6">
-                           <label for="selectedVendorsInAddModel" class="col-form-label col-md-1">Vendors</label>                           
-                              <select class="form-control" id="selectedVendorsInAddModel" name="vendorsIds[]" multiple="multiple">                       
-                                 @foreach($vendors as $vendor)
-                                 <option value="{{$vendor->id}}">{{$vendor->name}}</option>
-                                 @endforeach
-                              </select>                           
-                        </div>
-                     </div>    
-                     <div class="map" id="addCollectionMap"></div>
-                     <div class="row">
-                        <div class="col-md-12">
-                           <div class="form-group">                        
-                              <input type="text" min="0"  class="form-control" id="add_MapData" name="vendors_location" value="{{$location}}">
-                           </div>
-                        </div>
-                     </div>
-                     <div class="row">
-                        <div class="col-md-2">
-                           <div class="form-group">                        
-                              <input type="button"  class="form-control btn btn-info"  value="Add Map" id="save_raw_map">
-                           </div>
-                        </div>
-                        <div class="col-md-2">
-                           <div class="form-group">                        
-                              <input type="button" class="form-control btn btn-danger"  value="Clear Map" id="add_clear_shapes">
-                           </div>
-                        </div>
-                        <div class="col-md-4">
-                           <div class="form-group">                        
-                              <input type="button" id="add_restore" class="form-control btn btn-primary"  value="Restore Map">
-                           </div>
-                        </div>
-                        <div class="col-md-4">
-                           <div class="form-group">                        
-                              <input type="button" class="form-control btn btn-primary"  value="Save Collection Area" id="saveColectionArea">
-                           </div>
-                        </div>
-                     </div>
-                  </form>
-               </div>
-            </div>
-         </div>
-      </div>
-      <!-- modal-content -->
-   </div>
-   <!-- modal-dialog -->
-</div>
-<!-- modal -->
+
 
 
 <!--Collector Assiging-->
@@ -457,7 +462,7 @@ function editCollection(elem){
       }); 
 
       //initializeMap(mapID,clear_shapes,save_raw_map,restore,MapData)
-      initializeMap('addCollectionMap','add_clear_shapes','save_raw_map','add_restore','add_MapData');
+      initializeMap('addCollectionMap','add_clear_shapes','save_raw_map','restore','add_MapData');
       initializeMap('updateCollectionMap','edit_clear_shapes','update_raw_map','edit_restore','update_MapData');
       //initializeMap('addCollectionMap','clear_shapes');
      //initializeMap('updateCollectionMap');

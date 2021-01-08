@@ -16,6 +16,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\DistributorPaymentController;
 use App\Http\Controllers\TasksController;
 use App\Http\Controllers\DistributorDashBoard;
+use App\Http\Controllers\CollectorController;
 
 
 /*
@@ -137,3 +138,6 @@ Route::post('collection/update', [CollectionController::class, 'update'])->name(
 
 //Tasks routes-------------------------------
 Route::get('tasks', [TasksController::class, 'index'])->name('task_listing');
+
+//Collector routes--------------------------
+Route::get('collector-detail/create', [CollectorController::class, 'create'])->name('create_collector');
