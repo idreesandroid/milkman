@@ -38,44 +38,52 @@
          @endif
          <form method="post" enctype="multipart/form-data">
             @csrf
-            <div class="form-group row">
+            <div class="row">
                <div class="col-md-6">
-                  <label>User Roll</label>
-                  <select class="form-control" name="role_id" required="" onchange="chk_role(this.value)">
-                     <option value="">--User Roll--</option>
-                     @foreach ($roles as $role)
-                     <option value="{{ $role->id}}">{{$role->name }}</option>
-                     @endforeach                          
-                  </select>
+                  <div class="form-group">
+                     <label>User Roll:</label>
+                     <select class="form-control" name="role_id" required="" onchange="chk_role(this.value)">
+                        <option value="">--User Roll--</option>
+                        @foreach ($roles as $role)
+                        <option value="{{ $role->id}}">{{$role->name }}</option>
+                        @endforeach                          
+                     </select>
+                  </div>
+               </div>
+               <div class="col-md-6">
+                  <div class="form-group">
+                     <label>Upload Image:</label>
+                     <input type="file" class="form-control" name="filenames" required=""   autocomplete="off" >
+                  </div>
                </div>
             </div>
             <h4 class="card-title">Personal Information</h4>
             <div class="row">
                <div class="col-md-6">
                   <div class="form-group">
-                     <label>Full Name</label>
-                     <input type="text" class="form-control"  minlength="3" name="name" required=""  autocomplete="off">
+                     <label>Full Name:</label>
+                     <input type="text" class="form-control" placeholder="Enter Full Name"  minlength="3" name="name" required=""  autocomplete="off">
                   </div>
                   <div class="form-group">
-                     <label>CNIC</label>
+                     <label>CNIC:</label>
                      <input type="text" class="form-control" data-inputmask="'mask': '99999-9999999-9'" placeholder="XXXXX-XXXXXXX-X" name="user_cnic" required="" maxlength="15" autocomplete="off">
                   </div>
                   <div class="form-group">
-                     <label>Contact No</label>
+                     <label>Contact No:</label>
                      <input type="text" class="form-control" name="user_phone" data-inputmask="'mask': '0399-99999999'" placeholder="03XX-XXXXXXX" maxlength="12" required="" autocomplete="off">
                   </div>
                </div>
                <div class="col-md-6">
                   <div class="form-group">
-                     <label>Email (Optional)</label>
-                     <input type="text" class="form-control" type="email" name="email"   autocomplete="off">
+                     <label>Email (Optional):</label>
+                     <input type="text" class="form-control" type="email" name="email"   autocomplete="off" placeholder="Enter email">
                   </div>
                   <div class="form-group">
-                     <label>Password</label>
+                     <label>Password:</label>
                      <input type="password" class="form-control" id="pass" name="password" required=""  autocomplete="off"   minlength="6"  >
                   </div>
                   <div class="form-group">
-                     <label>Repeat Password</label>
+                     <label>Repeat Password:</label>
                      <input type="password" class="form-control" id="pass1" name="pass1" required=""  autocomplete="off"  minlength="6"    >
                   </div>
                </div>
@@ -84,7 +92,7 @@
             <div class="row">
                <div class="col-md-6">
                   <div class="form-group"  type="text" required=""  >
-                     <label>State</label>                   
+                     <label>State:</label>                   
                      <input type="text" name="state" class="form-control" id="administrative_area_level_1">
                   </div>
                   <div class="form-group">
@@ -94,14 +102,16 @@
                </div>
                <div class="col-md-6">
                   <div class="form-group">
-                     <label>Address</label>                     
+                     <label>Address:</label>                     
                      <input class="form-control" id="autocomplete" placeholder="Enter your address" onFocus="geolocate()" type="text" name="user_address" />
-                  </div>
-
+                  </div>                  
                   <div class="form-group">
-                        <label>Upload Image</label>
-                        <input type="file" class="form-control" name="filenames" required=""   autocomplete="off" >
-                  </div>
+                     <label>Milk Collection Capacity:</label>                     
+                     <input class="form-control" id="autocomplete" placeholder="Enter Milk Collection Capacity" onFocus="geolocate()" type="text" name="user_address" />
+                  </div> 
+               </div>
+               <div class="col-md-6">
+                                   
                </div>
             </div>            
       <div class="text-right">

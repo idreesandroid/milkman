@@ -59,7 +59,7 @@
                      @can('Create-Distributor')
                      <div class="col-md-2">
                         <div class="input-group-append">
-                           <a href="{{url('distributor-detail/create')}}" class="btn btn-primary">
+                           <a href="{{url('collector-detail/create')}}" class="btn btn-primary">
                            <i class="fa fa-plus" aria-hidden="true"></i>
                               Add Collector
                            </a>

@@ -28,7 +28,7 @@
 			<div class="col text-right">
 				<ul class="list-inline-item pl-0">	                
 	                <li class="list-inline-item">
-	                    <button class="add btn btn-gradient-primary font-weight-bold text-white todo-list-add-btn btn-rounded" id="add-task" data-toggle="modal" data-target="#task-details-modal">Create Custom Task</button>
+	                    <button class="add btn btn-gradient-primary font-weight-bold text-white todo-list-add-btn btn-rounded" id="add-task" data-toggle="modal" data-target="#createCustomTask">Create Custom Task</button>
 	                </li>
 	            </ul>
 			</div>
@@ -103,7 +103,7 @@
 </div>
 
 <!-- Modal -->
-<div class="modal right fade" id="task-details-modal" tabindex="-1" role="dialog" aria-modal="true">
+<div class="modal right fade" id="createCustomTask" tabindex="-1" role="dialog" aria-modal="true">
     <div class="modal-dialog" role="document">
         <button type="button" class="close md-close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         <div class="modal-content">
@@ -135,12 +135,19 @@
 				                <div class="form-group row">
 									<div class="col-sm-6">
 										 <label class="col-form-label">Collector<span class="text-danger">*</span></label>
-		                            	<input class="form-control" type="text" name="task-name" id="task-name" placeholder="Collector Name">
+		                            	<select class="form-control">
+		                            		<option>collector name -- capacity</option>
+			                                <option>anees collector -- 20kg</option>
+			                                <option>kafeel collector -- 10kg</option>
+			                                <option>asim collector -- 25kg</option>
+			                            </select>
 									</div>
 									<div class="col-sm-6">
 										<label class="col-form-label">Vendor Name</label>
 			                            <select class="form-control">
-			                                <option>Me</option>
+			                                <option>Zeeshan</option>
+			                                <option>Qadri</option>
+			                                <option>Kareem</option>
 			                            </select>
 									</div>
 								</div>
@@ -155,7 +162,7 @@
 									</div>
 									<div class="col-sm-6">
 										<label class="col-form-label">Due Date & Time <span class="text-danger">*</span></label>
-		                                <div class="cal-icon"><input class="form-control datetimepicker" type="text" placeholder="MM/DD/YY"></div>
+		                                <div class="cal-icon"><input class="form-control datetimepicker" type="datetime-local" placeholder="MM/DD/YY"></div>
 									</div>
 								</div>
 				                <div class="text-center py-3">

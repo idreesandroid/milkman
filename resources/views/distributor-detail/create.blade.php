@@ -42,29 +42,29 @@
                <div class="row">
                   <div class="col-md-6">
                      <div class="form-group">
-                        <label>Full Name</label>
-                        <input type="text" class="form-control" name="name" minlength="3"  required=""   autocomplete="off"  >
+                        <label>Full Name:</label>
+                        <input type="text" class="form-control" name="name" minlength="3"  required=""   autocomplete="off"  placeholder="Enter Full Name">
                      </div>
                      <div class="form-group">
-                        <label>CNIC</label>
+                        <label>CNIC:</label>
                         <input type="text" class="form-control" data-inputmask="'mask': '99999-9999999-9'" placeholder="XXXXX-XXXXXXX-X" name="user_cnic"  maxlength="15"  required="" autocomplete="off"  >
                      </div>
                      <div class="form-group">
-                        <label>Contact No</label>
+                        <label>Contact No:</label>
                         <input type="text" class="form-control" name="user_phone" data-inputmask="'mask': '0399-99999999'" placeholder="03XX-XXXXXXX" maxlength="12" required=""  autocomplete="off"  >
                      </div>
                   </div>
                   <div class="col-md-6">
                      <div class="form-group">
-                        <label>Email</label>
-                        <input type="text" class="form-control" type="email" name="email"  autocomplete="off"  >
+                        <label>Email:</label>
+                        <input type="text" class="form-control" type="email" name="email"  autocomplete="off" placeholder="Enter Email" >
                      </div>
                      <div class="form-group">
-                        <label>Password</label>
+                        <label>Password:</label>
                         <input class="form-control" id="password" name="password" type="password"  required=""  minlength="6" autocomplete="off" >
                      </div>
                      <div class="form-group">
-                        <label>Repeat Password</label>
+                        <label>Repeat Password:</label>
                         <input type="password" class="form-control" id="pass1" name="pass1" required=""   minlength="6" autocomplete="off" >
                      </div>
                   </div>
@@ -83,12 +83,12 @@
                   </div>
                   <div class="col-md-6">
                      <div class="form-group">
-                        <label>Home Address</label>
+                        <label>Home Address:</label>
                         <input class="form-control" id="autocomplete" placeholder="Enter your address" onFocus="geolocate()" type="text" name="user_address"/>
                      </div>
 
                      <div class="form-group">
-                        <label>Distributor Image</label>
+                        <label>Distributor Image:</label>
                         <input type="file" class="form-control" name="filenames" required=""   autocomplete="off" >
                   </div>
                   </div>
@@ -97,33 +97,33 @@
                <div class="row">
                   <div class="col-md-6">
                      <div class="form-group">
-                        <label>Company Owner</label>
-                        <input type="text" min="0"  class="form-control" name="companyOwner"    required=""  autocomplete="off" >
+                        <label>Company Owner:</label>
+                        <input type="text" min="0"  class="form-control" name="companyOwner"    required=""  autocomplete="off" placeholder="Company Owner Name">
                      </div>
                      <div class="form-group">
-                        <label>Company NTN</label>
-                        <input type="text" min="0"  class="form-control" name="companyNTN"    required=""  autocomplete="off" >
+                        <label>Company NTN:</label>
+                        <input type="text" min="0"  class="form-control" name="companyNTN"    required=""  autocomplete="off" placeholder="Company Nation Tex Number">
                      </div>
                      <div class="form-group">
-                        <label>Company Area</label>
-                        <input type="text" min="0"  class="form-control" name="companyArea"    required=""  autocomplete="off" >
+                        <label>Company Location(area):</label>
+                        <input type="text" min="0"  class="form-control" name="companyArea"    required=""  autocomplete="off" placeholder="Company Location">
                      </div>
                      <div class="form-group">
-                        <label>Company Logo</label>
+                        <label>Company Logo:</label>
                         <input type="file" class="form-control" name="companyLogo" required=""   autocomplete="off" >
                      </div>
                   </div>
                   <div class="col-md-6">
                      <div class="form-group">
-                        <label>Company Name</label>
+                        <label>Company Name:</label>
                         <input type="text" min="0"  class="form-control" name="companyName"    required=""  autocomplete="off" >
                      </div>
                      <div class="form-group">
-                        <label>Company Contact</label>
+                        <label>Company Contact:</label>
                         <input type="text" min="0"  class="form-control" name="companyContact"    required=""  autocomplete="off" >
                      </div>
                      <div class="form-group">
-                        <label>Company Address</label>
+                        <label>Company Address:</label>
                         <input type="text" min="0"  class="form-control" name="companyAddress"    required=""  autocomplete="off" >
                      </div>
                   </div>
