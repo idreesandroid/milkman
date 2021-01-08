@@ -3,11 +3,7 @@ Author       : Dreamguys
 Template Name: CRMS - Bootstrap Admin Template
 Version      : 1.0
 */
-$(document).ready(function() { 
-
-
-    
-
+$(document).ready(function() {  
 
     $("#saveColectionArea").on('click',function(){
 

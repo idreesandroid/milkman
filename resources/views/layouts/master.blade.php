@@ -125,8 +125,8 @@
                <span>{{ session()->get('user_name') }}</span>
                </a>
                <div class="dropdown-menu">
-                  <a class="dropdown-item" href="#">My Profile</a>
-                  <a class="dropdown-item" href="#">Settings</a>
+                  <!-- <a class="dropdown-item" href="#">My Profile</a> -->
+                  <a class="dropdown-item" href="{{ url('role/index') }}">Settings</a>
                   <a class="dropdown-item" href="{{ route('logout') }}"  onclick="event.preventDefault();
                      document.getElementById('logout-form').submit();">
                   {{ __('Logout') }}</a>
