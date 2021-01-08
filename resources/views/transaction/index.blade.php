@@ -22,13 +22,21 @@
    <div class="col-sm-12">
       <div class="card mb-0">
          <div class="card-body">
-
+         @can('Make-Transaction')
+            <div class="form-group mb-0 row">
+               <div class="col-md-4">
+                  <div class="input-group-append">
+                     <a href="/product/create" class="active"> <button class="btn btn-primary" type="button">New Transaction</button></a>
+                  </div>
+               </div>
+            </div>
+            @endcan
             <div class="table-responsive">
                <table class="datatable table table-stripped mb-0 datatables">
                   <thead>
                      <tr>
                         <th>Serial No</th>
-                        <th>Invoice No</th>
+                        <th>Account No</th>
                         <th>Name</th>
                         <th>Payment Method</th>
                         <th>Bank Name</th>
@@ -36,7 +44,6 @@
                         <th>Account No</th>
                         <th>Card No</th>
                         <th>Transaction Id</th>
-                        <th>Sender CNIC</th>
                         <th>Sender Phone</th>
                         <th>Deposited By</th>
                         <th>Receiver Name</th>
@@ -52,15 +59,14 @@
                      @foreach($transactions as $index => $transaction)
                      <tr>
                         <td>{{$index+1}}</td>
-                        <td>{{$transaction->invoice_no}}</td>
-                        <td>{{$transaction->distributor_id}}</td>
+                        <td>{{$transaction->userAcc_id}}</td>
+                        <td>{{$transaction->user_id}}</td>
                         <td>{{$transaction->paymentMethod}}</td>
                         <td>{{$transaction->bank_name}}</td>
                         <td>{{$transaction->branchName}}</td>
                         <td>{{$transaction->acc_No}}</td>
                         <td>{{$transaction->cardLastDigits}}</td>
                         <td>{{$transaction->transactionId}}</td>
-                        <td>{{$transaction->senderCNIC}}</td>
                         <td>{{$transaction->senderCell}}</td>
                         
                         <td>{{$transaction->depositorName}}</td>

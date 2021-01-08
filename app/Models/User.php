@@ -73,6 +73,8 @@ class User extends Authenticatable
       return $this->hasOne(Distributor::class);
     }
 
+   
+
     public function bankDetail()
     {
       return $this->hasOne(bankDetail::class);
@@ -101,8 +103,14 @@ class User extends Authenticatable
       return $this->belongsToMany(Collection::class, 'role_user', 'role_id', 'user_id');
     }
 
-    public function DistributorPaymentTransaction()
+
+    public function userAcc()
     {
-      return $this->hasMany(DistributorPayment::class);
+      return $this->hasOne(UserAccount::class);
+    }
+
+    public function transactionFrom()
+    {
+      return $this->hasMany(UserTransaction::class);
     }
 }

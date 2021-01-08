@@ -13,6 +13,7 @@ use App\Models\ProductStock;
 use App\Models\Invoice;
 use App\Models\Role;
 use App\Models\holdBatch;
+use App\Models\UserAccount;
 
 class SaleController extends Controller
 {
@@ -43,6 +44,20 @@ class SaleController extends Controller
 
     public function PaymentStatus($inv_no)
     {   
+
+    $findBuyer = Invoice::where('invoice_number', $inv_no )->first();
+    $buyer=$findBuyer->buyer_id;
+    $totalBill=$findBuyer->total_amount;
+    
+    $findAcc = UserAccount::where('user_id', $buyer )->first();
+    $userBalance = $findAcc->balance;    
+    
+    $newBal=$userBalance-$totalBill;
+    // echo "<pre>";
+    //     print_r($totalBill);
+    //     exit;
+
+        DB::update("UPDATE user_accounts SET balance = $newBal  WHERE user_id	 = '$buyer'");     
         DB::update("UPDATE invoices SET flag = 'Payment_Pending'  WHERE invoice_number	 = '$inv_no'");    
         $invoices = Invoice::where('flag','Payment_Pending')->with('buyer')->get();
         return view('cart/reserveInvoice', compact('invoices'));
@@ -114,6 +129,7 @@ class SaleController extends Controller
                 $product_cart->cart_flag="In_Process";
 
                 $invoice->total_amount = $invoice->total_amount+$product_cart->sub_total;
+                $invoice->Remains = $invoice->total_amount;
                 $invoice->save();
                 $product_cart->save();
             }

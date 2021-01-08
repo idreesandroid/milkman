@@ -9,6 +9,7 @@ use App\Models\State;
 use App\Models\City;
 use App\Models\bankDetail;
 use App\Models\vendorDetail;
+use App\Models\UserAccount;
 
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
@@ -105,7 +106,10 @@ class VendorDetailController extends Controller
                 $bankDetails->acc_title = $request->acc_title;
                 $bankDetails->save();
 
-        }else{
+        }
+        else
+        
+        {
             $this->validate($request,[        
                 'name'      => 'required|min:1',
                 'email'     => 'required|unique:users',
@@ -157,6 +161,13 @@ class VendorDetailController extends Controller
    
             $vendor_details->save();        
         }
+
+        $vendor_acc = new UserAccount();
+        $vendor_acc->user_id = $vendor_register->id;
+        $vendor_acc->role_id =6;
+        $vendor_acc->userAccount = generateAccNumber();
+        $vendor_acc->balance =0;
+        $vendor_acc->save();
 
         return redirect('vendor-detail/index');
     }

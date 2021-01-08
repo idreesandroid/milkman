@@ -26,4 +26,9 @@ class Role extends Model
     {
         $this->permissions()->sync($permission, false);
     }    
+
+    public function accRole()
+    {
+      return $this->hasOne(VendorDetail::class);
+    }
 }

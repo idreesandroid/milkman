@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateDistributorPaymentsTable extends Migration
+class CreateUserTransactionsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,14 @@ class CreateDistributorPaymentsTable extends Migration
      */
     public function up()
     {
-        Schema::create('distributor_payments', function (Blueprint $table) {
+        Schema::create('user_transactions', function (Blueprint $table) {
             $table->increments('id')->unsigned();
 
-            $table->integer('invoice_no')->unsigned();
-            $table->foreign('invoice_no')->references('id')->on('invoices');
+            $table->integer('userAcc_id')->unsigned();
+            $table->foreign('userAcc_id')->references('id')->on('user_accounts');
 
-            $table->integer('distributor_id')->unsigned();
-            $table->foreign('distributor_id')->references('id')->on('users');
+            $table->integer('user_id')->unsigned();
+            $table->foreign('user_id')->references('id')->on('users');
             
             
             
@@ -34,7 +34,6 @@ class CreateDistributorPaymentsTable extends Migration
             
 
             $table->string('transactionId')->nullable()->default("Nill");
-            $table->string('senderCNIC')->nullable()->default("Nill");
             $table->string('senderCell')->nullable()->default("Nill");
             
             $table->dateTimeTz('timeOfDeposit');
@@ -60,6 +59,6 @@ class CreateDistributorPaymentsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('distributor_payments');
+        Schema::dropIfExists('user_transactions');
     }
 }

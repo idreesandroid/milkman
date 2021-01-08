@@ -11,6 +11,8 @@ use App\Models\State;
 use App\Models\City;
 use App\Models\bankDetail;
 use App\Models\Distributor;
+use App\Models\UserAccount;
+
 
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
@@ -104,6 +106,14 @@ class DistributorController extends Controller
         $distributor_details->companyLogo=$logoName;
         $distributor_details->save();
 
+        $distributor_acc = new UserAccount();
+        $distributor_acc->user_id = $distributor_register->id;
+        $distributor_acc->role_id =3;
+        $distributor_acc->userAccount = generateAccNumber();
+        $distributor_acc->balance =0;
+        $distributor_acc->save();
+
+        
     return redirect('distributor-detail/index');
     }
 
@@ -123,4 +133,5 @@ class DistributorController extends Controller
         Distributor::where('user_id', $id)->update($updatedata);
         return redirect()->route('profile.user', [$id]);
     }
+    
 }

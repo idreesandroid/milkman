@@ -53,6 +53,8 @@
                </ul>
             </li>
             @endcan
+
+            
             @can('See-Cart')
             <li class="submenu">
                <a href="#">
@@ -68,6 +70,33 @@
                </ul>
             </li>
             @endcan
+
+            @can('See-Transactions')
+            <li class="submenu">
+               <a href="#">
+               <i class="fa fa-cart-plus" aria-hidden="true"></i>
+               <span> Transactions </span>
+               <span class="menu-arrow"></span>
+               </a>
+               <ul class="sub-menus">
+                  @can('Make-Transaction')
+                  <li><a href="/transaction/slip" class="{{ (request()->segment(1) == 'transaction' && request()->segment(2) == 'slip') ? 'active' : '' }}">New Transaction </a></li>
+                  @endcan
+                  @can('See-All-Transactions')
+                  <li><a href="/transaction/List" class="{{ (request()->segment(1) == 'transaction' && request()->segment(2) == 'List') ? 'active' : '' }}">All Transactions </a></li>
+                  @endcan
+
+                  @can('See-Personal-Transaction')
+                  <li><a href="/my/transactions" class="{{ (request()->segment(1) == 'my' && request()->segment(2) == 'transactions') ? 'active' : '' }}">My Transactions </a></li>
+                  @endcan
+                  <!-- <li><a href="/cart/create" class="{{ (request()->segment(1) == 'cart' && request()->segment(2) == 'create') ? 'active' : '' }}">empty</a></li>
+                 
+                  <li><a href="/cart/reserveInvoice" class="{{ (request()->segment(2) == 'reserveInvoice') ? 'active' : '' }}">empty</a></li>
+                  <li><a href="/cart/onHoldInvoice" class="{{ (request()->segment(2) == 'onHoldInvoice') ? 'active' : '' }}">empty</a></li> -->
+               </ul>
+            </li>
+            @endcan
+
             <li class="submenu">
                <a href="#">
                <i class="fa fa-cog fa-w-16 fa-spin fa-2x" aria-hidden="true">
@@ -82,6 +111,8 @@
                   <li><a href="/permission/index" class="{{ (request()->segment(1) == 'permission') ? 'active' : '' }}">Permissions Settings</a></li>
                   @endcan
                </ul>
+
+               
             </li>
          </ul>
       </div>

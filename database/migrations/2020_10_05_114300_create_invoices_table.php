@@ -25,7 +25,8 @@ class CreateInvoicesTable extends Migration
             $table->foreign('seller_id')->references('id')->on('users');
 
             $table->integer('total_amount')->default(0);
-            $table->enum('flag',['Reserve','Payment_Pending','Sold','On_Hold','In_Process','Delivered']);
+            $table->integer('Remains')->default(0);
+            $table->enum('flag',['Reserve','Payment_Pending','Sold','On_Hold','In_Process','Partial Paid','Paid']);
             $table->timestamps();
         });
     }
