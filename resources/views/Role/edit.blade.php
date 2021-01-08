@@ -36,10 +36,21 @@
                      <input type="text" class="form-control"type="text" name="name"  value="{{ $roles->name }}" required=""  autocomplete="off">
                   </div>
                </div>
+
+               <div class="form-group row">
+                  <div class="col-md-6">
+                  <button  type="button" id="selectAllRole" onclick="allSelect()">Select All</button>                  </div>
+               </div>
+
+               <div class="form-group row">
+                  <div class="col-md-6">
+                  <button  type="button" id="unselectAllRole" onclick="allUnSelect()">UnSelect All</button>                  </div>
+               </div>
+              
                @foreach($permissions as $permission)
                <div class="col-sm-3">
-                  <label class="checkbox-inline "for="permissionName[{{ $permission->id }}]">
-                  <input id="perm[{{ $permission->id }}]" name="permissionName[{{ $permission->id }}]" type="checkbox" value="{{ $permission->id }}"
+                  <label class="checkbox-inline" for="permissionName[{{ $permission->id }}]">
+                  <input id="perm[{{ $permission->id }}]" name="permissionName[{{ $permission->id }}]" class="checkRole" type="checkbox" value="{{ $permission->id }}"
                   @if($roles->permissions->contains($permission->id)) checked=checked @endif
                   > {{ $permission->name }}
                   </label>
@@ -56,5 +67,16 @@
    </div>
 </div>
 <!-- /page Wrapper -->
-@endsection
 
+<script>
+function allSelect() {
+  
+  $(".checkRole").attr("checked", true);
+ 
+}
+
+function allUnSelect() {
+  $(".checkRole").attr("checked", false);
+}
+</script>
+@endsection

@@ -100,4 +100,9 @@ class User extends Authenticatable
     public function collections(){
       return $this->belongsToMany(Collection::class, 'role_user', 'role_id', 'user_id');
     }
+
+    public function DistributorPaymentTransaction()
+    {
+      return $this->hasMany(DistributorPayment::class);
+    }
 }

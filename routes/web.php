@@ -15,6 +15,8 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\DistributorPaymentController;
 use App\Http\Controllers\TasksController;
+use App\Http\Controllers\DistributorDashBoard;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -26,16 +28,16 @@ use App\Http\Controllers\TasksController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-// Route::get('/', function () {
-//     return view('login');
-// });
+Route::get('/', function () {
+    return view('login');
+});
 
 Auth::routes();
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
  
 //Login Register routes--------------------------------
-Route::get('/',                    [LoginController::class, 'login'])->name('user.login');
+//Route::get('/',                    [LoginController::class, 'login'])->name('user.login');
 Route::get('register',             [RegisterController::class, 'showRegistrationForm'])->name('user.register')->middleware('can:Register-User');
 //Users routes--------------------------------
 Route::get('user/userList',        [RegisterController::class, 'allUserList'])->name('index.userList')->middleware('can:See-User');
@@ -96,7 +98,7 @@ Route::post('companyDetail/update/{id}',    [DistributorController::class,'compa
 Route::get('cart/index',                    [SaleController::class, 'index'])->name('index.sale')->middleware('can:See-Cart');
 Route::get('cart/reserveInvoice',           [SaleController::class, 'reserveInvoice'])->name('reserve.invoice')->middleware('can:See-Cart');
 Route::get('Invoice/status/{id}',           [SaleController::class, 'reserveStatus'])->name('update.Stock_status')->middleware('can:See-Cart');
-Route::get('Invoice/Sold/{id}',           [SaleController::class, 'SoldStatus'])->name('update.Stock_sold')->middleware('can:See-Cart');
+Route::get('Invoice/PaymentPending/{id}',   [SaleController::class, 'PaymentStatus'])->name('update.pending_payment')->middleware('can:See-Cart');
 
 Route::get('cart/onHoldInvoice',            [SaleController::class, 'onHoldInvoice'])->name('onHold.invoice')->middleware('can:See-Cart');
 
@@ -108,9 +110,18 @@ Route::Delete('cart/deleteInvoice/{id}',    [SaleController::class, 'deleteInvoi
 //payment routes-------------------------------------------------
 
 Route::get('payment/receipt/{id}',          [DistributorPaymentController::class, 'receipt'])->name('payment.receipt');
-Route::post('payment/receipt',          [DistributorPaymentController::class, 'paymentAgainstReceipt'])->name('pay.receipt.bill');
+Route::post('payment/receipt',              [DistributorPaymentController::class, 'paymentAgainstReceipt'])->name('pay.receipt.bill');
+Route::get('payment/List',                  [DistributorPaymentController::class, 'PaymentList'])->name('payment.List');
 
-//ajax routes----------------------------------
+Route::post('transaction/status/{id}',      [DistributorPaymentController::class, 'verifyTransaction'])->name('verify.transaction');
+
+//DistributorDashBoard routes-------------------------------------------------
+
+Route::get('payment/myReceipt',             [DistributorDashBoard::class, 'myOrders'])->name('payment.myReceipt');
+//Route::post('payment/receipt',          [DistributorPaymentController::class, 'paymentAgainstReceipt'])->name('pay.receipt.bill');
+
+
+//ajax routes-----------------------------------------------------------------
 
 Route::post('selectbatch/{id}',             [SaleController::class, 'SaveBatch'])->name('save.Batch')->middleware('can:Generate-Invoice');
 Route::get('batch_selection/ajax/{id}',     [SaleController::class, 'batchSelection'])->name('select.Batch')->middleware('can:Generate-Invoice');
