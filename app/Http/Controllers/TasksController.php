@@ -16,7 +16,7 @@ class TasksController extends Controller
      */
     public function index()
     {
-        //
+        return view('task/listing');
     }
 
     /**
@@ -26,12 +26,7 @@ class TasksController extends Controller
      */
     public function create()
     {
-        $vendors = DB::table('users')
-                    ->select('users.id','users.name')
-                    ->join('role_user', 'role_user.user_id', '=', 'users.id')
-                    ->where('role_user.role_id', '=', 6)
-                    ->get();
-        return view('tasks/task-detail', compact('vendors'));
+        
     }
 
     /**

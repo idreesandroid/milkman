@@ -14,6 +14,7 @@ use App\Http\Controllers\DistributorController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\DistributorPaymentController;
+use App\Http\Controllers\TasksController;
 
 /*
 |--------------------------------------------------------------------------
@@ -122,3 +123,6 @@ Route::post('collection/edit', [CollectionController::class, 'edit'])->name('edi
 Route::get('collections', [CollectionController::class, 'index'])->name('index.collection');
 Route::post('collection/assignCollector', [CollectionController::class, 'assignCollector'])->name('assignCollector.collection');
 Route::post('collection/update', [CollectionController::class, 'update'])->name('update.collection');
+
+//Tasks routes-------------------------------
+Route::get('tasks', [TasksController::class, 'index'])->name('task_listing');

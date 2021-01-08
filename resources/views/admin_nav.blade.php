@@ -16,17 +16,28 @@
                </a>
             </li>
             @endcan
-            <li class="submenu">
+           <!--  <li class="submenu">
                <a href="#">
                <i class="fa fa-database" aria-hidden="true">
                </i> <span> Collection </span>
                <span class="menu-arrow"></span>
                </a>
                <ul class="sub-menus">
-                  <li><a href="/collections" class="{{ (request()->segment(1) == 'collections') ? 'active' : '' }}">Collection Areas</a></li>
-                  <li><a href="/collections">Tasks</a></li>
+                  <li><a href="/collections" class="{{ (request()->segment(1) == 'collections') ? 'active' : '' }}">Collection Areas</a></li>                  
                </ul>
-            </li>
+            </li> -->
+            <li>
+               <a href="/collections" class="{{ (request()->segment(1) == 'collections') ? 'active' : '' }}">
+               <i class="fa fa-database" aria-hidden="true"></i>
+               <span>Collection Areas</span>
+               </a>
+            </li> 
+            <li>
+               <a href="/tasks" class="{{ (request()->segment(1) == 'tasks') ? 'active' : '' }}">
+               <i class="fa fa-check-square-o" aria-hidden="true"></i>
+               <span> Tasks </span>
+               </a>
+            </li>            
             @can('See-Product')
             <li class="submenu">
                <a href="#">
@@ -59,7 +70,7 @@
             @endcan
             <li class="submenu">
                <a href="#">
-               <i class="fa fa-cog" aria-hidden="true">
+               <i class="fa fa-cog fa-w-16 fa-spin fa-2x" aria-hidden="true">
                </i> <span> Settings </span>
                <span class="menu-arrow"></span>
                </a>

@@ -1621,7 +1621,6 @@ table.dataTable thead>tr>td.sorting {
 .sidebar-menu ul ul a.active {
 	background-color: #28c3d4;
 	color: #fff;
-	text-decoration: underline;
 }
 
 .mobile-user-menu {
