@@ -15,8 +15,15 @@ class TasksController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
-        return view('task/listing');
+    {        
+        $tasks = Tasks::select('tasks.*',                                
+                                'vn.name AS vendor_name',
+                                'cn.name AS collector_name')
+                    ->leftJoin('users AS vn', 'vn.id', '=', 'tasks.vendor_id')
+                    ->leftJoin('users AS cn','cn.id','=','tasks.collector_id')                    
+                    ->get();
+                   
+        return view('task/listing',compact('tasks'));
     }
 
     /**
@@ -47,9 +54,17 @@ class TasksController extends Controller
      * @param  \App\Models\Tasks  $tasks
      * @return \Illuminate\Http\Response
      */
-    public function show(Tasks $tasks)
+    public function show(Request $request)
     {
-        //
+        //$task = Tasks::find($request->id);
+        $task = Tasks::select('tasks.*',                                
+                                'vn.name AS vendor_name',
+                                'cn.name AS collector_name')
+                    ->join('users AS vn', 'vn.id', '=', 'tasks.vendor_id')
+                    ->join('users AS cn','cn.id','=','tasks.collector_id')
+                    ->where('tasks.id','=',$request->id)                 
+                    ->first();
+        return $task;
     }
 
     /**
@@ -70,9 +85,14 @@ class TasksController extends Controller
      * @param  \App\Models\Tasks  $tasks
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Tasks $tasks)
+    public function update(Request $request)
     {
-        //
+        Tasks::where('id','=',$request->taskId)->update([
+            'milk_amout' => $request->milkAmout,
+            'lactometer_reading' => $request->lactometerReading,
+            'milk_taste' => $request->milkTaste,
+            'status' => 'Collected'
+        ]);        
     }
 
     /**

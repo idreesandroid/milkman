@@ -21,6 +21,7 @@ use App\Http\Controllers\DistributorPaymentController;
 use App\Http\Controllers\TasksController;
 use App\Http\Controllers\DistributorDashBoard;
 use App\Http\Controllers\CollectorController;
+use App\Http\Controllers\TestController;
 
 
 /*
@@ -158,6 +159,12 @@ Route::post('collection/update', [CollectionController::class, 'update'])->name(
 
 //Tasks routes-------------------------------
 Route::get('tasks', [TasksController::class, 'index'])->name('task_listing');
+Route::post('update-tasks', [TasksController::class, 'update'])->name('update.task');
+Route::post('show-tasks', [TasksController::class, 'show'])->name('show.task');
 
 //Collector routes--------------------------
 Route::get('collector-detail/create', [CollectorController::class, 'create'])->name('create_collector');
+
+
+//TestController routes-----------------
+Route::get('test', [TestController::class, 'index'])->name('test');
