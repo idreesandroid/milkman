@@ -15,7 +15,9 @@ class CreateTasksTable extends Migration
     {
         Schema::create('tasks', function (Blueprint $table) {
             $table->id();
+            $table->integer('vendor_id')->unsigned();
             $table->foreign('vendor_id')->references('id')->on('users');
+            $table->integer('collector_id')->unsigned();
             $table->foreign('collector_id')->references('id')->on('users');
             $table->string('milk_amout');
             $table->string('lactometer_reading');

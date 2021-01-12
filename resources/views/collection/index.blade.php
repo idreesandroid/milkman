@@ -343,7 +343,7 @@ function AssignCollectorToACollectionArea(collectorID){
         },
         error: function () {
             jQuery('#assignCollectorModel').modal('hide');
-            swal.fire("Error deleting!", "Please try again", "error");
+            swal.fire("Error Assigning!", "Please try again", "error");
         }
    });
    

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Collection;
 use App\Models\User;
+use App\Models\Tasks;
 use App\Models\CollectionVendor;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
@@ -165,9 +166,19 @@ class CollectionController extends Controller
     }
 
     public function assignCollector(Request $request){
+        $vendors = CollectionVendor::select('vendor_id')->where('collection_id',$request->id)->get();  
+       // var_dump($vendors);                 
         $isCollectionExist = Collection::where('id',$request->id)->where('status','active')->first();
-        if(!is_null($isCollectionExist)){
+        if(!is_null($isCollectionExist)){            
             $affected = Collection::where('id', $request->id)->update(['collector_id' => $request->collectorId]);
+            foreach ($vendors as $vendor) {
+                Tasks::insert([        
+                'vendor_id' => $vendor->vendor_id,          
+                'collector_id'  => $request->collectorId,
+                'status' => 'Not Started'       
+            ]);
+            }
+
             echo ($affected) ? true : false;         
         }else{
             echo false;
