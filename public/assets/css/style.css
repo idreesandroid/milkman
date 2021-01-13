@@ -7825,6 +7825,7 @@ form .btn-gradient-primary {
 
 .user-image {
 	width: 100%;
+	border-radius: 50%;
 }
 
 .company_img {

@@ -23,7 +23,6 @@ class CollectionController extends Controller
                     ->join('vendor_details','vendor_details.user_id','=','users.id')
                     ->where('role_user.role_id', '=', 6)
                     ->get();
-        //dd($vendors);    
         $location = '[';
         foreach ($vendors as $value) {
             $location .='{"type":"MARKER","id":null,"geometry":['.trim($value->latitude).','.trim($value->longitude).']},';

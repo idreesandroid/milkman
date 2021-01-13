@@ -22,8 +22,17 @@ class TasksController extends Controller
                     ->leftJoin('users AS vn', 'vn.id', '=', 'tasks.vendor_id')
                     ->leftJoin('users AS cn','cn.id','=','tasks.collector_id')                    
                     ->get();
+        $collectors = User::select('users.*')
+                    ->join('role_user', 'role_user.user_id', '=', 'users.id')
+                    ->where('role_user.role_id', '=', 5)
+                    ->get();
+
+        $vendors = User::select('users.*')
+                    ->join('role_user', 'role_user.user_id', '=', 'users.id')
+                    ->where('role_user.role_id', '=', 6)
+                    ->get(); 
                    
-        return view('task/listing',compact('tasks'));
+        return view('task/listing',compact('tasks','collectors','vendors'));
     }
 
     /**
@@ -59,7 +68,7 @@ class TasksController extends Controller
         //$task = Tasks::find($request->id);
         $task = Tasks::select('tasks.*',                                
                                 'vn.name AS vendor_name',
-                                'cn.name AS collector_name')
+                                'cn.name AS collector_name','cn.filenames')
                     ->join('users AS vn', 'vn.id', '=', 'tasks.vendor_id')
                     ->join('users AS cn','cn.id','=','tasks.collector_id')
                     ->where('tasks.id','=',$request->id)                 
