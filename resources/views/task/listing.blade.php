@@ -1,48 +1,49 @@
 @extends('layouts.master')
 @section('content')
-<div class="content container-fluid">
-	<div class="crms-title row bg-white">
-		<div class="col  p-0">
-			<h3 class="page-title m-0">
-            <span class="page-title-icon bg-gradient-primary text-white mr-2">
-              <i class="fa fa-check-square-o" aria-hidden="true"></i>
-            </span> Tasks </h3>
-		</div>
-		<div class="col p-0 text-right">
-			<ul class="breadcrumb bg-white float-right m-0 pl-0 pr-0">
-				<li class="breadcrumb-item"><a href="index.php">Dashboard</a></li>
-				<li class="breadcrumb-item active">Task</li>
-			</ul>
-		</div>
-	</div>
-	
-	<!-- Page Header -->
-	<div class="page-header pt-3 mb-0 ">
-		<div class="row">
-			<div class="col">
-				<div class="dropdown">
-					<a class="recently-viewed" href="#" role="button" data-toggle="dropdown" aria-expanded="false"> All Tasks </a>					
-				</div>
-			</div>
-			<div class="col text-right">
-				<ul class="list-inline-item pl-0">	                
-	                <li class="list-inline-item">
-	                    <button class="add btn btn-gradient-primary font-weight-bold text-white todo-list-add-btn btn-rounded" id="add-task" data-toggle="modal" data-target="#createCustomTask">Create Custom Task</button>
-	                </li>
-	            </ul>
-			</div>
-		</div>
-	</div>
+
+<!-- Page Header -->
+<div class="crms-title row bg-white mb-4">
+   <div class="col  p-0">
+      <div></div>
+      <h3 class="page-title">
+         <span class="page-title-icon bg-gradient-primary text-white mr-2">
+         <i class="la la-table"></i>
+         </span>Tasks Management
+      </h3>
+   </div>
+   <div class="col p-0 text-right">
+      <ul class="breadcrumb bg-white float-right m-0 pl-0 pr-0">
+         <li class="breadcrumb-item"><a href="index.php">Dashboard</a></li>
+         <li class="breadcrumb-item active">Task Management</li>
+      </ul>
+   </div>
+</div>
+
+
+<div class="page-header  mb-0 ">
+   <div class="row">
+      <div class="col">
+         <h3>All Tasks</h3>
+      </div>
+      <div class="col text-right">
+         <ul class="list-inline-item pl-0">
+            <li class="list-inline-item">
+               <button class="add btn btn-gradient-primary font-weight-bold text-white todo-list-add-btn btn-rounded" id="add-task" data-toggle="modal" data-target="#createCustomTask">Create Custom Task</button>
+            </li>
+         </ul>
+      </div>
+   </div>
+</div>	
+
 	<!-- /Page Header -->
 
 
 	<!-- Content Starts -->
 
-
-	<div class="row">
-	   <div class="col-md-12">
-	      <div class="card mb-0">
-	         <div class="card-body">
+	<div class="row m-0">
+	   <div class="col-md-12 grid-margin">
+	      <div class="">
+	         <div class="card-body p-0 row">
 	            <div class="table-responsive">
 	               <table class="table table-striped table-nowrap custom-table mb-0 datatable">
 	                  <thead>
@@ -86,7 +87,7 @@
 	      </div>
 	   </div>
 	</div>
-</div>
+
 
 
 
@@ -121,42 +122,59 @@
             <div class="row">
                <div class="col-md-12">
                   <form>
-                     <h4>Task Details</h4>
+                     <h4>Create Custom Task</h4>
                      <div class="form-group row">
                         <div class="col-sm-6">
-                           <label class="col-form-label">Collector<span class="text-danger">*</span></label>
+                           <label class="col-form-label">Collector<span class="text-danger">*</span>:</label>
                            <select class="form-control">
                               <option>collector name -- capacity</option>
-                              <option>anees collector -- 20kg</option>
-                              <option>kafeel collector -- 10kg</option>
-                              <option>asim collector -- 25kg</option>
+                           	@foreach($collectors as $collector)
+                              <option value="{{$collector->id}}">{{$collector->name}} -- 20kg</option>
+                            @endforeach 
                            </select>
                         </div>
                         <div class="col-sm-6">
-                           <label class="col-form-label">Vendor Name</label>
+                           <label class="col-form-label">Vendor Name:</label>
                            <select class="form-control">
-                              <option>Zeeshan</option>
-                              <option>Qadri</option>
-                              <option>Kareem</option>
+                           	@foreach($vendors as $vendor)
+                              <option value="{{$vendor->id}}">{{$vendor->name}}</option>
+                            @endforeach                              
                            </select>
                         </div>
                      </div>
-                     <div class="form-group row">
-                        <div class="col-sm-6">
-                           <label class="col-form-label">Priority</label>
-                           <select class="form-control">
-                              <option>Low</option>
-                              <option>Medium</option>
-                              <option>High</option>
-                           </select>
-                        </div>
+                     <div class="form-group row">                        
                         <div class="col-sm-6">
                            <label class="col-form-label">
-                           	Due Date & Time <span class="text-danger">*</span>
+                           	Due Date<span class="text-danger">*</span>:
                            </label>
                            <div class="cal-icon">
                            		<input class="form-control" type="date" placeholder="MM/DD/YY">
                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                           <label class="col-form-label">
+                           	Due Time <span class="text-danger">*</span>:
+                           </label>
+                           <div class="cal-icon">
+                           		<input class="form-control" type="time" placeholder="&#61442;">
+                           </div>
+                        </div>
+                     </div>
+                     <div class="form-group row">
+                        <div class="col-sm-6">
+                           <label class="col-form-label">Shift (Morning/Evening):</label>
+                           <select class="form-control">
+                              <option value="morning">Morning</option>
+                              <option value="evening">Evening</option>
+                           </select>
+                        </div>
+                        <div class="col-sm-6">
+                           <label class="col-form-label">Priority:</label>
+                           <select class="form-control">
+                              <option value="low">Low</option>
+                              <option value="medium">Medium</option>
+                              <option value="high">High</option>
+                           </select>
                         </div>
                      </div>
                      <div class="text-center py-3">
@@ -258,7 +276,7 @@
             <div class="row w-100">
                <div class="col-md-7 account d-flex">
                   <div class="company_img">
-                     <img src="assets/img/system-user.png" alt="User" class="user-image" class="img-fluid" />
+                     <img src="UserProfile/collector.jpg" alt="User" id="collectorImage" class="user-image img-fluid"/>
                   </div>
                   <div>
                      <p class="mb-0">Collector Name</p>
@@ -367,6 +385,7 @@ function taskDetail(taskId){
 		   	$("#taskLactometerReading").text(response.lactometer_reading);
 		   	$("#taskMilkTaste").text(response.milk_taste);
 		   	$("#taskVendorName").text(response.vendor_name);
+		   	$("#collectorImage").attr("src","UserProfile/"+response.filenames);
 		}
 	});
 }
