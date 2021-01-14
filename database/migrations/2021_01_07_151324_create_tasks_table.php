@@ -23,6 +23,9 @@ class CreateTasksTable extends Migration
             $table->string('lactometer_reading');
             $table->string('milk_taste');
             $table->string('priority');
+            $table->string('shift');
+            $table->string('duedate');
+            $table->string('duetime');
             $table->string('status');
             $table->timestamps();
         });

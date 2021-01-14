@@ -35,9 +35,9 @@
             <li>
                <a href="/tasks" class="{{ (request()->segment(1) == 'tasks') ? 'active' : '' }}">
                <i class="fa fa-check-square-o" aria-hidden="true"></i>
-               <span> Tasks </span>
+               <span>Tasks</span>
                </a>
-            </li>            
+            </li>                        
             @can('See-Product')
             <li class="submenu">
                <a href="#">
