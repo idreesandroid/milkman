@@ -23,8 +23,8 @@ class CreateVendorDetailsTable extends Migration
             $table->integer('morning_decided_milkQuantity');
             $table->integer('evening_decided_milkQuantity');
             $table->integer('decided_rate');
-            $table->dateTime('morningTime');
-            $table->dateTime('eveningTime');
+            $table->string('morningTime');
+            $table->string('eveningTime');
             
             $table->timestamps();
         });
