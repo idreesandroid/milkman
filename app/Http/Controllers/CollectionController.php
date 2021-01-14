@@ -159,23 +159,26 @@ class CollectionController extends Controller
      */
     public function destroy(Request $request)
     {
-        $res = Collection::where('id',$request->id)->delete();
-        $result = CollectionVendor::where('collection_id',$request->id)->delete();
-        return ($res || $result) ? true : false;
+        $deleteCollection = Collection::where('id',$request->id)->delete();
+        $deleteCollectionVendor = CollectionVendor::where('collection_id',$request->id)->delete();
+        $deleteTask = Tasks::where('collection_id',$request->id)->delete();
+
+        return ($deleteCollection || $deleteCollectionVendor || $deleteTask) ? true : false;
     }
 
     public function assignCollector(Request $request){
         $vendors = CollectionVendor::select('vendor_id')->where('collection_id',$request->id)->get();  
         $isCollectionExist = Collection::where('id',$request->id)->where('status','active')->first();
         if(!is_null($isCollectionExist)){            
-            $affected = Collection::where('id', $request->id)->update(['collector_id' => $request->collectorId]);
+            Collection::where('id', $request->id)->update(['collector_id' => $request->collectorId]);
             foreach ($vendors as $vendor) {
-            $updatedtask = Tasks::insertGetId([        
-                'vendor_id' => $vendor->vendor_id,          
-                'collector_id'  => $request->collectorId,
-                'status' => 'Not Started'       
-                ]);
-            }
+                $updatedtask = Tasks::insertGetId([        
+                        'vendor_id' => $vendor->vendor_id,          
+                        'collector_id'  => $request->collectorId,
+                        'collection_id'  => $request->id,
+                        'status' => 'Not Started'       
+                    ]);
+                }
             return ($updatedtask) ? true : false;         
         }else{
             return false;
