@@ -18,6 +18,11 @@
             </div>
          </div>
          <!-- /Page Header -->
+         @if ($errors->any())
+     @foreach ($errors->all() as $error)
+         <div>{{$error}}</div>
+     @endforeach
+ @endif
 <!-- Page Wrapper -->
 <div class="row">
    <div class="col-lg-12">
@@ -86,7 +91,7 @@
                   <div class="col-md-6">
                      <div class="form-group">
                         <label>Home Address:</label>
-                        <input class="form-control" id="autocomplete" placeholder="Enter your address" onFocus="geolocate()" type="text" name="user_address"/>
+                        <input class="form-control" id="autocomplete"  onFocus="geolocate()" type="text" name="user_address"/>
                      </div>
                      <div class="form-group">
                         <label>Upload Image:</label>
@@ -99,13 +104,13 @@
                   <div class="col-md-6">
                      <div class="form-group">
                         <label>Average Daily Agreed  Quantity:</label>
-                        <input type="number" min="0"  class="form-control" name="decided_milkQuantity"    required=""  autocomplete="off" placeholder="Average Daily Agreed  Quantity">
+                        <input type="number" min="0"  class="form-control" name="decided_milkQuantity"    required=""  autocomplete="off" >
                      </div>
                   </div>
                   <div class="col-md-6">
                      <div class="form-group">
                         <label>Agreed Rate:</label>
-                        <input type="number" min="0" class="form-control" name="decided_rate" required=""  autocomplete="off" placeholder="Agreed Rate">
+                        <input type="number" min="0" class="form-control" name="decided_rate" required=""  autocomplete="off" >
                      </div>
                   </div>
                </div>
@@ -113,13 +118,13 @@
                   <div class="col-md-6">
                      <div class="form-group">
                         <label>Morning Agreed Quantity:</label>
-                        <input type="number" min="0"  class="form-control" name="decided_milkQuantity"    required=""  autocomplete="off" placeholder="Morning Agreed Quantity">
+                        <input type="number" min="0"  class="form-control" name="morning_decided_milkQuantity"    required=""  autocomplete="off" >
                      </div>
                   </div>
                   <div class="col-md-6">
                      <div class="form-group">
-                        <label>Morning Due Time:</label>
-                        <input type="number" min="0" class="form-control" name="decided_rate" required=""  autocomplete="off"  placeholder="Morning Due Time">
+                        <label>Morning Expected Time:</label>
+                        <input type="time" min="0" class="form-control" name="morningTime" required=""  autocomplete="off"  >
                      </div>
                   </div>
                </div>
@@ -127,13 +132,13 @@
                   <div class="col-md-6">
                      <div class="form-group">
                         <label>Evening Agreed Quantity:</label>
-                        <input type="number" min="0"  class="form-control" name="decided_milkQuantity"    required=""  autocomplete="off" placeholder="Evening Agreed Quantity">
+                        <input type="number" min="0"  class="form-control" name="evening_decided_milkQuantity"    required=""  autocomplete="off" >
                      </div>
                   </div>
                   <div class="col-md-6">
                      <div class="form-group">
-                        <label>Evening Due Time:</label>
-                        <input type="number" min="0" class="form-control" name="decided_rate" required=""  autocomplete="off"  placeholder="Evening Due Time">
+                        <label>Evening Expected Time:</label>
+                        <input type="time" min="0" class="form-control" name="eveningTime" required=""  autocomplete="off"  >
                      </div>
                   </div>
                </div>

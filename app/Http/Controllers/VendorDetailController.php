@@ -59,9 +59,16 @@ class VendorDetailController extends Controller
                 'branch_code'=>'required|min:1', 
                 'acc_no'=>'required|min:1|unique:bank_details',
                 'acc_title'=>'required|min:1|unique:bank_details',
+
                 'decided_milkQuantity'=>'required|min:1|numeric',
                 'decided_rate'=>'required|min:1|numeric', 
+                'morning_decided_milkQuantity'=>'required|min:1|numeric',
+                'morningTime'=>'required', 
+                'evening_decided_milkQuantity'=>'required|min:1|numeric',
+                'eveningTime'=>'required', 
                
+
+
                 'map_detail' => 'required'
            
                 ]);
@@ -92,7 +99,12 @@ class VendorDetailController extends Controller
                 $vendor_details->latitude = $mapdata[0]->geometry[0];
                 $vendor_details->longitude = $mapdata[0]->geometry[1];
                 $vendor_details->decided_milkQuantity = $request->decided_milkQuantity;
-                $vendor_details->decided_rate = $request->decided_rate;  
+                $vendor_details->decided_rate = $request->decided_rate; 
+                
+                $vendor_details->morning_decided_milkQuantity = $request->morning_decided_milkQuantity;
+                $vendor_details->evening_decided_milkQuantity = $request->evening_decided_milkQuantity;
+                $vendor_details->morningTime = $request->morningTime;
+                $vendor_details->eveningTime = $request->eveningTime;
 
                
                 $vendor_details->save();
@@ -125,6 +137,12 @@ class VendorDetailController extends Controller
 
                 'decided_milkQuantity'=>'required|min:1|numeric',
                 'decided_rate'=>'required|min:1|numeric', 
+                'morning_decided_milkQuantity'=>'required|min:1|numeric',
+                'morningTime'=>'required', 
+                'evening_decided_milkQuantity'=>'required|min:1|numeric',
+                'eveningTime'=>'required', 
+
+                'map_detail' => 'required'
                
            
                 ]);
@@ -159,6 +177,11 @@ class VendorDetailController extends Controller
                 $vendor_details->decided_milkQuantity = $request->decided_milkQuantity;
                 $vendor_details->decided_rate = $request->decided_rate;               
    
+                $vendor_details->morning_decided_milkQuantity = $request->morning_decided_milkQuantity;
+                $vendor_details->evening_decided_milkQuantity = $request->evening_decided_milkQuantity;
+                $vendor_details->morningTime = $request->morningTime;
+                $vendor_details->eveningTime = $request->eveningTime;
+
             $vendor_details->save();        
         }
 

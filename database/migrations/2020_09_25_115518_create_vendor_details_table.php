@@ -20,7 +20,11 @@ class CreateVendorDetailsTable extends Migration
             $table->string('latitude')->nullable();
             // $table->string('filenames');
             $table->integer('decided_milkQuantity');
+            $table->integer('morning_decided_milkQuantity');
+            $table->integer('evening_decided_milkQuantity');
             $table->integer('decided_rate');
+            $table->dateTime('morningTime');
+            $table->dateTime('eveningTime');
             
             $table->timestamps();
         });
