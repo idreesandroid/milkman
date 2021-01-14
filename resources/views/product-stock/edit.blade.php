@@ -19,6 +19,11 @@
             </div>
          </div>
          <!-- /Page Header -->
+      @if ($errors->any())
+     @foreach ($errors->all() as $error)
+         <div>{{$error}}</div>
+     @endforeach
+      @endif
 <!-- Page Wrapper -->
 <div class="row">
    <div class="col-lg-12">
@@ -33,7 +38,7 @@
                   <label for="product_id" class="col-form-label col-md-2">Product Name</label>
                   <div class="col-md-4">
                      <?php $showValue = $product_stocks->product_id; ?>
-                     <select class="form-control" name="product_id" required="">
+                     <select class="form-control" name="product_id" required="" autocomplete="off">
                         <option value="">--Product Name--</option>
                         @foreach ($products as $product)
                         <option value="{{ $product->id}}" <?php echo ($showValue == $product->id) ? 'selected' : '' ?>>{{ $product->product_name}}</option>
@@ -44,19 +49,19 @@
                <div class="form-group row">
                   <label for="manufactured_date" class="col-form-label col-md-2">Manufactured Date</label>
                   <div class="col-md-4">
-                     <input type="date" class="form-control" name="manufactured_date" value="{{ $product_stocks->manufactured_date }}" required="">
+                     <input type="date" class="form-control" name="manufactured_date" value="{{ $product_stocks->manufactured_date }}" required="" autocomplete="off">
                   </div>
                </div>
                <div class="form-group row">
                   <label for="expire_date" class="col-form-label col-md-2">Expire Date</label>
                   <div class="col-md-4">
-                     <input type="date" class="form-control" name="expire_date" value="{{ $product_stocks->expire_date }}" required="">
+                     <input type="date" class="form-control" name="expire_date" value="{{ $product_stocks->expire_date }}" required="" autocomplete="off">
                   </div>
                </div>
                <div class="form-group row">
                   <label for="manufactured_quantity" class="col-form-label col-md-2">Manufactured Quantity</label>
                   <div class="col-md-4">
-                     <input type="text" class="form-control" name="manufactured_quantity" value="{{ $product_stocks->manufactured_quantity }}" required="">
+                     <input type="text" class="form-control" name="manufactured_quantity" value="{{ $product_stocks->manufactured_quantity }}" required="" autocomplete="off">
                   </div>
                </div>
                <div class="form-group mb-0 row">

@@ -24,7 +24,7 @@ class TransactionController extends Controller
     public function transactionSlip()
     { 
    $uid = Auth::id();
-   $user = User::where('id', $uid)->with('userAcc')->first(); 
+   $user = User::whereHas('roles', function($query) {$query->whereIn('roles.id',[6,3]);})->where('id', $uid)->with('userAcc')->first(); 
         // echo "<pre>";
         // print_r($user);
         // exit;
@@ -43,9 +43,9 @@ class TransactionController extends Controller
     //    $findInv = Invoice::where('id' , $Invno)->first();
     //    $totalPayable = $findInv->total_amount;
     //    $pay=$totalPayable-$DepDifference;
-       // echo "<pre>";
-       // print_r($pay);
-       // exit;
+    // echo "<pre>";
+    // print_r($pay);
+    // exit;
 
        if($request->has('paymentMethod'))
    {

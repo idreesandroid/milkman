@@ -20,7 +20,7 @@
             </div>
          </div>
          
-<form method="post"  class="splash-container">
+<form method="post"  class="splash-container" onsubmit="return handleData()" >
    @csrf 
    <div class="card">
       <div class="card-header">
@@ -32,6 +32,10 @@
             </div>
          </div>
       </div>
+      
+      <div style="visibility:hidden; color:red; " id="chk_option_error">
+Please select at least one option.
+</div>
       <div class="form-group">
          @foreach ($permissions as $permission)
          <input type="checkbox"  id="permission" name="permissionName[]" value="{{ $permission->id}}">
@@ -44,5 +48,35 @@
    </div>
    </div>   
 </form>
+<script>
+    $(document).ready(function () {
+    $('#product').validate({ // initialize the plugin
+        rules: {
+         name: {
+                required: true
+            },
+         
+        }
+    });
+});
+</script>
+<script>
+function handleData()
+{
+    var form_data = new FormData(document.querySelector("form"));
+    
+    if(!form_data.has("langs[]"))
+    {
+      document.getElementById("chk_option_error").style.visibility = "visible";
+      return false;
+    }
+    else
+    {
+      document.getElementById("chk_option_error").style.visibility = "hidden";
+      return true;
+    }
+    
+}
+</script>
 @endsection
 
