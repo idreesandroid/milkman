@@ -53,8 +53,16 @@ class TasksController extends Controller
      */
     public function store(Request $request)
     {
-        //
-         
+        $taskID = Tasks::insertGetId([       
+                'vendor_id' => $request->vendor_id,          
+                'collector_id'  => $request->collector_id,           
+                'duedate'  => $request->duedate,           
+                'duetime'  => $request->duetime,           
+                'shift'  => $request->shift,           
+                'priority'  => $request->priority,
+                'status' => 'Not Started'          
+            ]);
+        return ($taskID) ? true : false;         
     }
 
     /**

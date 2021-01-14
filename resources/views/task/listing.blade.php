@@ -3,8 +3,7 @@
 
 <!-- Page Header -->
 <div class="crms-title row bg-white mb-4">
-   <div class="col  p-0">
-      <div></div>
+   <div class="col">      
       <h3 class="page-title">
          <span class="page-title-icon bg-gradient-primary text-white mr-2">
          <i class="la la-table"></i>
@@ -40,53 +39,53 @@
 
 	<!-- Content Starts -->
 
-	<div class="row m-0">
-	   <div class="col-md-12 grid-margin">
-	      <div class="">
-	         <div class="card-body p-0 row">
-	            <div class="table-responsive">
-	               <table class="table table-striped table-nowrap custom-table mb-0 datatable">
-	                  <thead>
-	                     <tr>
-	                        <th>Collector</th>
-	                        <th>Vendor</th>
-	                        <th>Due Date & Time</th>
-	                        <th>Status</th>
-	                        <th style="text-align: center;">Actions</th>
-	                     </tr>
-	                  </thead>
-	                  <tbody>
-	                  	@foreach($tasks as $task)
-	                     <tr id="taskId_{{$task->id}}">
-	                        <td>
-	                           <a href="#" class="text-decoration-none" data-toggle="modal">{{$task->collector_name}}</a>
-	                        </td>
-	                        <td><a href="#" data-toggle="modal" data-target="#system-user">{{$task->vendor_name}}</a></td>
-	                        <td>08, Jan 2021 9:30AM</td>
-	                        <td>
-	                        	@if($task->status == 'Missed')
-	                        	<label class="badge badge-gradient-danger">Missed</label>
-	                        	@elseif($task->status == 'Collected')
-	                        	<label class="badge badge-gradient-success">Collected</label>
-	                        	@elseif($task->status == 'Not Started')
-	                        	<label class="badge badge-gradient-info">Not Started</label>
-	                        	@endif
+<div class="row m-0">
+   <div class="col-md-12 grid-margin">
+      <div class="">
+         <div class="card-body p-0 row">
+            <div class="table-responsive">
+               <table class="table table-striped table-nowrap custom-table mb-0 datatable">
+                  <thead>
+                     <tr>
+                        <th>Collector</th>
+                        <th>Vendor</th>
+                        <th>Due Date & Time</th>
+                        <th>Status</th>
+                        <th style="text-align: center;">Actions</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                  	@foreach($tasks as $task)
+                     <tr id="taskId_{{$task->id}}">
+                        <td>
+                           <a href="#" class="text-decoration-none" data-toggle="modal">{{$task->collector_name}}</a>
+                        </td>
+                        <td><a href="#" data-toggle="modal" data-target="#system-user">{{$task->vendor_name}}</a></td>
+                        <td>08, Jan 2021 9:30AM</td>
+                        <td>
+                        	@if($task->status == 'Missed')
+                        	<label class="badge badge-gradient-danger">Missed</label>
+                        	@elseif($task->status == 'Collected')
+                        	<label class="badge badge-gradient-success">Collected</label>
+                        	@elseif($task->status == 'Not Started')
+                        	<label class="badge badge-gradient-info">Not Started</label>
+                        	@endif
 
-	                        </td>
-	                        <td style="text-align: center;">
-	                           <a href="#" class="btn btn-primary">Start</a>
-	                           <a href="#" onclick="completeTask(<?php echo $task->id ?>)" class="btn btn-primary" data-toggle="modal" data-target="#completedtask">Complete</a>
-	                           <a href="#" onclick="taskDetail(<?php echo $task->id ?>)" class="btn btn-primary" data-toggle="modal" data-target="#taskDetial">Detail</a>
-	                        </td>
-	                     </tr>
-	                     @endforeach
-	                  </tbody>
-	               </table>
-	            </div>
-	         </div>
-	      </div>
-	   </div>
-	</div>
+                        </td>
+                        <td style="text-align: center;">
+                           <a href="#" class="btn btn-primary">Start</a>
+                           <a href="#" onclick="completeTask(<?php echo $task->id ?>)" class="btn btn-primary" data-toggle="modal" data-target="#completedtask">Complete</a>
+                           <a href="#" onclick="taskDetail(<?php echo $task->id ?>)" class="btn btn-primary" data-toggle="modal" data-target="#taskDetial">Detail</a>
+                        </td>
+                     </tr>
+                     @endforeach
+                  </tbody>
+               </table>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
 
 
 
@@ -126,7 +125,7 @@
                      <div class="form-group row">
                         <div class="col-sm-6">
                            <label class="col-form-label">Collector<span class="text-danger">*</span>:</label>
-                           <select class="form-control">
+                           <select class="form-control" id="collectorID">
                               <option>collector name -- capacity</option>
                            	@foreach($collectors as $collector)
                               <option value="{{$collector->id}}">{{$collector->name}} -- 20kg</option>
@@ -135,7 +134,7 @@
                         </div>
                         <div class="col-sm-6">
                            <label class="col-form-label">Vendor Name:</label>
-                           <select class="form-control">
+                           <select class="form-control" id="vendorID">
                            	@foreach($vendors as $vendor)
                               <option value="{{$vendor->id}}">{{$vendor->name}}</option>
                             @endforeach                              
@@ -148,7 +147,7 @@
                            	Due Date<span class="text-danger">*</span>:
                            </label>
                            <div class="cal-icon">
-                           		<input class="form-control" type="date" placeholder="MM/DD/YY">
+                           		<input class="form-control" type="date" placeholder="MM/DD/YY" id="dueDate">
                            </div>
                         </div>
                         <div class="col-sm-6">
@@ -156,21 +155,21 @@
                            	Due Time <span class="text-danger">*</span>:
                            </label>
                            <div class="cal-icon">
-                           		<input class="form-control" type="time" placeholder="&#61442;">
+                           		<input id="dueTime" class="form-control" type="time" placeholder="&#61442;">
                            </div>
                         </div>
                      </div>
                      <div class="form-group row">
                         <div class="col-sm-6">
                            <label class="col-form-label">Shift (Morning/Evening):</label>
-                           <select class="form-control">
+                           <select class="form-control" id="shift">
                               <option value="morning">Morning</option>
                               <option value="evening">Evening</option>
                            </select>
                         </div>
                         <div class="col-sm-6">
                            <label class="col-form-label">Priority:</label>
-                           <select class="form-control">
+                           <select class="form-control" id="priority">
                               <option value="low">Low</option>
                               <option value="medium">Medium</option>
                               <option value="high">High</option>
@@ -178,7 +177,7 @@
                         </div>
                      </div>
                      <div class="text-center py-3">
-                        <button type="button" class="border-0 btn btn-primary btn-gradient-primary btn-rounded">Create Custom Task</button>&nbsp;&nbsp;
+                        <button type="button" class="border-0 btn btn-primary btn-gradient-primary btn-rounded" onclick="createCustomTask()">Create Custom Task</button>&nbsp;&nbsp;
                         <button type="button" class="btn btn-secondary btn-rounded" data-dismiss="modal">Cancel</button>
                      </div>
                   </form>
@@ -320,6 +319,10 @@
                         <td id="taskPriority">High</td>
                      </tr>
                      <tr>
+                        <td>Shift:</td>
+                        <td id="taskShift">High</td>
+                     </tr>
+                     <tr>
                         <td>Status:</td>
                         <td id="taskStatus">Collected</td>
                      </tr>
@@ -333,9 +336,38 @@
    <!-- modal-dialog -->
 </div>
 <!-- modal -->
-@endsection
+
 
 <script type="text/javascript">
+function createCustomTask(){
+	var collectorID = $("#collectorID").val();
+	var vendorID = $("#vendorID").val();
+	var dueDate = $("#dueDate").val();
+	var dueTime = $("#dueTime").val();
+	var shift = $("#shift").val();
+	var priority = $("#priority").val();
+	jQuery.ajax({
+	   url: "{{ route('store.task') }}",
+	   type: "POST",
+	   data: {
+	         collector_id : collectorID,          
+	         vendor_id : vendorID,          
+	         duedate : dueDate,          
+	         duetime  : dueTime,          
+	         shift : shift,          
+	         priority : priority,          
+	         '_token' : "{{ csrf_token() }}"
+	         },
+	   success: function(response, status){
+	   		jQuery('#completedtask').modal('hide');
+	   		swal.fire("Done!", "Task Completed Succesfully!", "success");         
+		   },
+		error: function(){
+			swal.fire("Error Completion Task!", "Task Completion error", "error");
+		}
+	});
+}
+
 function completeTask(taskId){
 	$("#taskId").val(taskId);
 	$("#milkAmout").val("");
@@ -385,8 +417,11 @@ function taskDetail(taskId){
 		   	$("#taskLactometerReading").text(response.lactometer_reading);
 		   	$("#taskMilkTaste").text(response.milk_taste);
 		   	$("#taskVendorName").text(response.vendor_name);
+		   	$("#taskShift").text(response.shift);
 		   	$("#collectorImage").attr("src","UserProfile/"+response.filenames);
 		}
 	});
 }
 </script>
+
+@endsection

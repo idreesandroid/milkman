@@ -161,6 +161,7 @@ Route::post('collection/update', [CollectionController::class, 'update'])->name(
 Route::get('tasks', [TasksController::class, 'index'])->name('task_listing');
 Route::post('update-tasks', [TasksController::class, 'update'])->name('update.task');
 Route::post('show-tasks', [TasksController::class, 'show'])->name('show.task');
+Route::post('store-tasks', [TasksController::class, 'store'])->name('store.task');
 
 //Collector routes--------------------------
 Route::get('collector-detail/create', [CollectorController::class, 'create'])->name('create_collector');
