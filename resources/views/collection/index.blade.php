@@ -60,9 +60,9 @@
                            </div>
                            <div class="midle-div">
                               <a href="#" class='btn btn-outline-primary assignCollector' data-toggle="modal" data-target="#assignCollectorModel" onclick="setCollectionId(<?php echo $item->id; ?>,<?php echo $item->collector_id; ?>)">Assign Collector</a>
-                              <a href="#" onclick="editCollection(this)" class='btn btn-outline-success editCollection' data-toggle="modal" data-target="#editCollectionModel">Edit<input type="hidden" class="editCollectionId" value="{{$item->id}}">
+                              <a href="#" onclick="editCollection(<?php echo $item->id; ?>)" class='btn btn-outline-success editCollection' data-toggle="modal" data-target="#editCollectionModel">Edit<input type="hidden" class="editCollectionId" value="{{$item->id}}">
                               </a>
-                              <a href="#" onclick="deleteCollection(this)"; class='btn btn-outline-danger'>Delete <input type="hidden" class="deleteCollectionId" value="{{$item->id}}"></a>
+                              <a href="#" onclick="deleteCollection(<?php echo $item->id; ?>)"; class='btn btn-outline-danger'>Delete <input type="hidden" class="deleteCollectionId" value="{{$item->id}}"></a>
                            </div>
                         </article>
                      </div>
@@ -75,10 +75,6 @@
    </div>
 </div>                     
 
-     
-<!-- modal
-initializeMap('addCollectionMap','add_clear_shapes','save_raw_map','add_restore','add_MapData')
- -->
 <!--Collection Area Information Add Model-->
 <div class="modal right fade" id="addCollectionModel" role="dialog" aria-modal="true">
    <div class="modal-dialog" role="document">
@@ -157,9 +153,8 @@ initializeMap('addCollectionMap','add_clear_shapes','save_raw_map','add_restore'
 <!-- modal -->
 
 
-<!--Collection Area Information
- initializeMap('updateCollectionMap','edit_clear_shapes','update_raw_map','edit_restore','update_MapData');
--->
+<!--Collection Area Information-->
+
 <div class="modal right fade" id="editCollectionModel" role="dialog" aria-modal="true">
    <div class="modal-dialog" role="document">
       <button type="button" class="close md-close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -349,8 +344,7 @@ function AssignCollectorToACollectionArea(collectorID){
    
 }
 
-function editCollection(elem){
-   var collectionId = elem.childNodes[1].attributes['value'].value;      
+function editCollection(collectionId){        
    jQuery.ajax({
       url: "{{ route('edit.collection') }}",
       type: "POST",
@@ -387,6 +381,36 @@ function editCollection(elem){
       }
    });       
 }
+
+
+function deleteCollection(collectionId){
+   swal.fire({
+         title: 'Are you sure?',
+         text: "You won't be able to revert this collection area!",
+         icon: 'warning',
+         showCancelButton: true,
+         confirmButtonColor: '#3085d6',
+         cancelButtonColor: '#d33',
+         confirmButtonText: 'Yes, delete it!'
+     }).then((result) => {
+         if (result.isConfirmed) {
+             jQuery.ajax({
+                 url: "{{ route('destroy.collection') }}",
+                 type: "POST",
+                 data: {
+                     id: collectionId,
+                     '_token' : "{{ csrf_token() }}"
+                 },
+                 success: function () {
+                     swal.fire("Done!", "It was succesfully deleted!", "success");
+                 },
+                 error: function () {
+                     swal.fire("Error deleting!", "Please try again", "error");
+                 }
+             });
+         }
+     });
+}
   
   
 
@@ -394,7 +418,70 @@ function editCollection(elem){
    $(document).ready(function() { 
 
 
-       $("#updateColectionArea").on('click',function(){
+      $("#saveColectionArea").on('click',function(){
+
+         var title = $("#title").val();        
+         if(!title.length){
+            $("#title").focus();
+            alert('Please insert the title');            
+            return false;
+         }  
+         var vendors = [];
+         vendors = $("#selectedVendorsInAddModel").val();
+         if(!vendors.length){
+            $(".select2-selection").focus();
+            alert('Please select the vendors');
+            return false;
+         }
+
+         var addStatus = $("#addStatus").val();
+         if(!addStatus.length){
+            $("#addStatus").focus();
+            alert('Please select the status');
+            return false;
+         }
+
+         var MapData = $("#add_MapData").val();
+         if(!MapData.length){
+            $("#save_raw_map").focus();
+            alert('Please draw Collection Area and then click on Add Map button');
+            return false;
+         }
+        
+         var json_data = {
+               'title' : title,
+               'vendorsIds' : vendors,
+               'status' : addStatus,
+               'vendors_location' : MapData,
+               '_token' : "{{ csrf_token() }}"
+            };  
+         $.ajax({
+            url : "{{ route('store.collection') }}",
+            type: "POST",
+            data: json_data,           
+            success : function(data) {              
+               if(data){
+                  $("#title").val("");
+                  $("#selectedVendors").val("");
+                  $("#MapData").val("");
+                  $("#addCollectionModel .close").click();
+                  Swal.fire(
+                    'Collection Area created',
+                    'You clicked the button!',
+                    'success'
+                  )
+               }
+             },
+             error : function(request,error)
+             {
+               console.log("Request: "+JSON.stringify(request));
+             }
+         });
+
+      });
+
+
+      $("#updateColectionArea").on('click',function(){
 
          var title = $("#edit_title").val();        
          if(!title.length){
@@ -461,11 +548,8 @@ function editCollection(elem){
 
       }); 
 
-      //initializeMap(mapID,clear_shapes,save_raw_map,restore,MapData)
       initializeMap('addCollectionMap','add_clear_shapes','save_raw_map','restore','add_MapData');
       initializeMap('updateCollectionMap','edit_clear_shapes','update_raw_map','edit_restore','update_MapData');
-      //initializeMap('addCollectionMap','clear_shapes');
-     //initializeMap('updateCollectionMap');
 
       $('#assignCollectorModel').on('hidden.bs.modal', function () {
         $("#assignCollectorModel input[type=radio]").prop("checked", false);
@@ -481,8 +565,7 @@ function editCollection(elem){
          placeholder: "Search for a Vendors",
          width: '100%',
         dropdownParent: $("#editCollectionModel")
-        }); 
-     
+        });      
    }); 
 </script> 
 @endsection

@@ -19,6 +19,8 @@ class CreateTasksTable extends Migration
             $table->foreign('vendor_id')->references('id')->on('users');
             $table->integer('collector_id')->unsigned();
             $table->foreign('collector_id')->references('id')->on('users');
+            $table->integer('collection_id')->unsigned();
+            $table->foreign('collection_id')->references('id')->on('collections');
             $table->string('milk_amout');
             $table->string('lactometer_reading');
             $table->string('milk_taste');
@@ -26,6 +28,8 @@ class CreateTasksTable extends Migration
             $table->string('shift');
             $table->string('duedate');
             $table->string('duetime');
+            $table->string('starttime');
+            $table->string('endtime');
             $table->string('status');
             $table->timestamps();
         });
