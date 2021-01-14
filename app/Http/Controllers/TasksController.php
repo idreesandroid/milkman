@@ -104,10 +104,12 @@ class TasksController extends Controller
      */
     public function update(Request $request)
     {
+        date_default_timezone_set("Asia/Karachi");
         Tasks::where('id','=',$request->taskId)->update([
             'milk_amout' => $request->milkAmout,
             'lactometer_reading' => $request->lactometerReading,
             'milk_taste' => $request->milkTaste,
+            'endtime' => date('Y-m-d H:i:s'),
             'status' => 'Collected'
         ]);        
     }
@@ -121,5 +123,22 @@ class TasksController extends Controller
     public function destroy(Tasks $tasks)
     {
         //
+    }
+
+    /**
+     * To start a task.
+     *
+     * @param  \App\Models\Tasks  $tasks
+     * @return \Illuminate\Http\Response
+     */
+    public function start(Request $request)
+    {
+        date_default_timezone_set("Asia/Karachi");
+        Tasks::where('id', $request->id)->update([
+            'starttime' => date('Y-m-d H:i:s'),
+            'status' => 'Started'
+        ]);
+        return true;
+        
     }
 }

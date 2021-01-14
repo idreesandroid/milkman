@@ -68,14 +68,16 @@
                         	@elseif($task->status == 'Collected')
                         	<label class="badge badge-gradient-success">Collected</label>
                         	@elseif($task->status == 'Not Started')
-                        	<label class="badge badge-gradient-info">Not Started</label>
+                        	<label class="badge badge-gradient-warning">Not Started</label>
+                           @elseif($task->status == 'Started')
+                           <label class="badge badge-gradient-info">Started</label>
                         	@endif
 
                         </td>
-                        <td style="text-align: center;">
-                           <a href="#" class="btn btn-primary">Start</a>
-                           <a href="#" onclick="completeTask(<?php echo $task->id ?>)" class="btn btn-primary" data-toggle="modal" data-target="#completedtask">Complete</a>
-                           <a href="#" onclick="taskDetail(<?php echo $task->id ?>)" class="btn btn-primary" data-toggle="modal" data-target="#taskDetial">Detail</a>
+                        <td style="text-align: center;">                           
+                           <button href="#" id="start_task_<?php echo $task->id ?>" class="btn btn-primary" onclick="startTask(<?php echo $task->id ?>)" <?php echo ($task->status != 'Not Started') ? 'disabled':''; ?> >Start</button>                           
+                           <button href="#" onclick="completeTask(<?php echo $task->id ?>)" class="btn btn-primary" data-toggle="modal" data-target="#completedtask" <?php echo ($task->status == 'Collected' || $task->status == 'Missed') ? 'disabled':''; ?>>Complete</button>
+                           <button href="#" onclick="taskDetail(<?php echo $task->id ?>)" class="btn btn-primary" data-toggle="modal" data-target="#taskDetial">Detail</button>
                         </td>
                      </tr>
                      @endforeach
@@ -296,11 +298,11 @@
                      </tr>
                      <tr>
                         <td>Start Time:</td>
-                        <td>10:05 PM</td>
+                        <td id="startedTime">10:05 PM</td>
                      </tr>
                      <tr>
                         <td>End Time:</td>
-                        <td>10:12 AM</td>
+                        <td id="endTime">10:12 AM</td>
                      </tr>
                      <tr>
                         <td>Milk Taste:</td>
@@ -368,59 +370,82 @@ function createCustomTask(){
 	});
 }
 
-function completeTask(taskId){
-	$("#taskId").val(taskId);
+function completeTask(taskID){
+	$("#taskId").val(taskID);
 	$("#milkAmout").val("");
 	$("#lactometerReading").val("");
 	$("#milkTaste").val("");	
 }
 
 function updateTask(){
-var milkAmout =	$("#milkAmout").val();
-var lactometerReading =	$("#lactometerReading").val();
-var milkTaste =	$("#milkTaste").val();
-var taskId =	$("#taskId").val();
-jQuery.ajax({
-   url: "{{ route('update.task') }}",
-   type: "POST",
-   data: {
-         milkAmout: milkAmout,          
-         lactometerReading: lactometerReading,          
-         milkTaste: milkTaste,          
-         taskId: taskId,          
-         '_token' : "{{ csrf_token() }}"
-         },
-   success: function(response, status){
-   		jQuery('#completedtask').modal('hide');
-   		swal.fire("Done!", "Task Completed Succesfully!", "success");         
-	   },
-	error: function(){
-		swal.fire("Error Completion Task!", "Task Completion error", "error");
-	}
+   var milkAmout =	$("#milkAmout").val();
+   var lactometerReading =	$("#lactometerReading").val();
+   var milkTaste =	$("#milkTaste").val();
+   var taskID =	$("#taskId").val();
+   jQuery.ajax({
+      url: "{{ route('update.task') }}",
+      type: "POST",
+      data: {
+            milkAmout: milkAmout,          
+            lactometerReading: lactometerReading,          
+            milkTaste: milkTaste,          
+            taskId: taskID,          
+            '_token' : "{{ csrf_token() }}"
+            },
+      success: function(response, status){
+      		jQuery('#completedtask').modal('hide');
+      		swal.fire("Done!", "Task Completed Succesfully!", "success");         
+   	   },
+   	error: function(){
+   		swal.fire("Error Completion Task!", "Task Completion error", "error");
+   	}
 	});
 }
 
-function taskDetail(taskId){
+function taskDetail(taskID){
 	jQuery.ajax({
 	   url: "{{ route('show.task') }}",
 	   type: "POST",
 	   data: {
-	         id: taskId,
+	         id: taskID,
 	         '_token' : "{{ csrf_token() }}"
 	         },
 	   	success: function(response, status){
-		   	console.log(response);
 		   	jQuery('#taskDetial').modal('show');
 		   	$("#collectionName").text(response.collector_name);
 		   	$("#taskStatus").text(response.status);
-		   	$("#taskMilkAmount").text(response.milk_amout);
+            if(response.milk_amout){
+		   	   $("#taskMilkAmount").text(response.milk_amout+' KG');
+            }else{
+               $("#taskMilkAmount").text(response.milk_amout);
+            }
 		   	$("#taskLactometerReading").text(response.lactometer_reading);
 		   	$("#taskMilkTaste").text(response.milk_taste);
 		   	$("#taskVendorName").text(response.vendor_name);
 		   	$("#taskShift").text(response.shift);
+            $("#startedTime").text(response.starttime);
+            $("#endTime").text(response.endtime);
 		   	$("#collectorImage").attr("src","UserProfile/"+response.filenames);
 		}
 	});
+}
+
+function startTask(taskID){
+   jQuery.ajax({
+      url: "{{ route('start.task') }}",
+      type: "POST",
+      data: {
+            id: taskID,
+            '_token' : "{{ csrf_token() }}"
+            },
+         success: function(response, status){
+            jQuery('#start_task_'+taskID).prop("disabled",true);
+            swal.fire("Started!", "Task Started Succesfully!", "success");  
+         },
+         error: function(){
+            swal.fire("Error Started Task!", "Task Started error", "error");
+         }
+   });
 }
 </script>
 
