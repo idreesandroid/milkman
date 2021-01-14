@@ -25,7 +25,7 @@
             <h4 class="card-title mb-0">Add Product</h4>
          </div>
          <div class="card-body">
-            <form method="post" action="{{ route('store.product') }}" enctype="multipart/form-data">
+            <form method="post" action="{{ route('store.product') }}"  enctype="multipart/form-data" id="product">
                @csrf 
                <div class="form-group row">
                   <label for="product_name" class="col-form-label col-md-2">Product Name</label>
@@ -93,5 +93,39 @@
    </div>
 </div>
 <!-- /page Wrapper -->
+<script>
+    $(document).ready(function () {
+    $('#product').validate({ // initialize the plugin
+        rules: {
+            product_name: {
+                required: true
+            },
+            product_nick: {
+                required: true,
+            },
+            product_size: {
+                required: true,
+                digits: true,
+                minvalue : 1
+            },
+            unit: {
+                required: true,
+            },
+            product_price: {
+                required: true,
+                minvalue: 1
+            },
+            ctn_value: {
+                required: true,
+                minvalue: 1  
+            },
+            filename: {
+                required: true,
+                extension: "jpeg|png"
+            },
+        }
+    });
+});
+</script>
 @endsection
 

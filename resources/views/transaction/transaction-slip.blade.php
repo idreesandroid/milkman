@@ -16,15 +16,14 @@
                </ul>
             </div>
          </div>
-         <!-- /Page Header -->
+        <!-- /Page Header -->
+
 <!-- Page Wrapper -->
 <div class="row">
    <div class="col-lg-12">
       <div class="card">
-      
-     
-<div class="card-body">
-             
+      @if(isset($user->userAcc->userAccount))
+<div class="card-body">             
 <!-- table start here           -->
 <div class="container mb-4">
                <div class="row">
@@ -52,7 +51,7 @@
 
       <!-- form start here           -->
  
-<form method="post" action="{{ route('transaction.store') }}" enctype="multipart/form-data">
+<form method="post" id="transactionForm" action="{{ route('transaction.store') }}" enctype="multipart/form-data">
                @csrf 
 <!-- radio start here           -->  
 
@@ -204,6 +203,9 @@ Cash</label>
          <!-- form end here ----------->   
 
       </div>
+      @elseif(!isset($user->userAcc->userAccount))
+      <h1>You are not authorized for user Account</h1>
+      @endif
       </div>
    </div>
 </div>
@@ -332,6 +334,21 @@ ul.inline-check li input, ul.inline-check li label {
         
    }
 
+</script>
+
+<script>
+    $(document).ready(function () {
+    $('#transactionForm').validate({ // initialize the plugin
+        rules: {
+         accTitle: {
+            lettersonly: true
+            },
+         cardDigit: {
+            integer: true,
+            },
+        }
+    });
+});
 </script>
 
 @endsection

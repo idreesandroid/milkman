@@ -85,9 +85,8 @@ class ProductStockController extends Controller
 
         $updatedata = $request->validate([
             'product_id'=> 'required',
-            'batch_name'=>'required',
-            'manufactured_date'=>'required',
-            'expire_date'=>'required',
+            'manufactured_date'=>'required|date',
+            'expire_date'=>'required|date|after_or_equal:manufactured_date',
             'manufactured_quantity'=>'required'
        
         ]);
