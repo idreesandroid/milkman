@@ -115,7 +115,7 @@
                      <div class="row">
                         <div class="col-md-12">
                            <div class="form-group">                        
-                              <input type="text" min="0"  class="form-control" id="add_MapData" name="vendors_location" value="{{$location}}" readonly>
+                              <input type="text" class="form-control" id="add_MapData" name="vendors_location" value="{{$location}}">
                            </div>
                         </div>
                      </div>
@@ -196,7 +196,7 @@
                      <div class="row">
                         <div class="col-md-12">
                            <div class="form-group">                        
-                              <input type="text" min="0"  class="form-control" id="update_MapData" readonly name="vendors_location" value="{{$location}}">
+                              <input type="text" class="form-control" id="update_MapData" readonly name="vendors_location" value="{{$location}}">
                            </div>
                         </div>
                      </div>
