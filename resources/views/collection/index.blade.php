@@ -115,7 +115,7 @@
                      <div class="row">
                         <div class="col-md-12">
                            <div class="form-group">                        
-                              <input type="text" min="0"  class="form-control" id="add_MapData" name="vendors_location" value="{{$location}}">
+                              <input type="text" min="0"  class="form-control" id="add_MapData" name="vendors_location" value="{{$location}}" readonly>
                            </div>
                         </div>
                      </div>
@@ -132,7 +132,7 @@
                         </div>
                         <div class="col-md-4">
                            <div class="form-group">                        
-                              <input type="button" id="restore" class="form-control btn btn-primary"  value="Restore Map">
+                              <input type="button" id="add_restore" class="form-control btn btn-primary"  value="Restore Map">
                            </div>
                         </div>
                         <div class="col-md-4">
@@ -462,8 +462,9 @@ function deleteCollection(collectionId){
             success : function(data) {              
                if(data){
                   $("#title").val("");
-                  $("#selectedVendors").val("");
-                  $("#MapData").val("");
+                  $("#selectedVendorsInAddModel").val("");
+                  $("#add_MapData").val("");
+                  $("#addStatus").val("");
                   $("#addCollectionModel .close").click();
                   Swal.fire(
                     'Collection Area created',
@@ -548,7 +549,7 @@ function deleteCollection(collectionId){
 
       }); 
 
-      initializeMap('addCollectionMap','add_clear_shapes','save_raw_map','restore','add_MapData');
+      initializeMap('addCollectionMap','add_clear_shapes','save_raw_map','add_restore','add_MapData');
       initializeMap('updateCollectionMap','edit_clear_shapes','update_raw_map','edit_restore','update_MapData');
 
       $('#assignCollectorModel').on('hidden.bs.modal', function () {

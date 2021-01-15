@@ -489,7 +489,7 @@ function initializeMap(mapID,clear_shapes,save_raw_map,restore,MapData){
     var preventRunDefault = false;    
           
     });
-    google.maps.event.addDomListener(byId(restore), 'click', function(){   
+    google.maps.event.addDomListener(byId(restore), 'click', function(){
       if(this.shapes){
         for(var i=0;i<this.shapes.length;++i){
               this.shapes[i].setMap(null);

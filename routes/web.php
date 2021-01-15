@@ -149,7 +149,6 @@ Route::post('selectbatch/{id}',             [SaleController::class, 'SaveBatch']
 Route::get('batch_selection/ajax/{id}',     [SaleController::class, 'batchSelection'])->name('select.Batch')->middleware('can:Generate-Invoice');
 
 //collection routes-------------------------------
-Route::get('collection/create',[CollectionController::class, 'create'])->name('create.collection');
 Route::post('collection/store', [CollectionController::class, 'store'])->name('store.collection');
 Route::post('collection/destroy', [CollectionController::class, 'destroy'])->name('destroy.collection');
 Route::post('collection/edit', [CollectionController::class, 'edit'])->name('edit.collection');
