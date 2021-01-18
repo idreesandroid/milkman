@@ -17,9 +17,9 @@ class VendorsCollection extends Migration
 
             $table->increments('id')->unsigned();
             $table->integer('collection_id')->unsigned();
-            $table->foreign('collection_id')->references('id')->on('collections');
+            $table->foreign('collection_id')->references('id')->on('collections')->onUpdate('cascade')->onDelete('cascade');
             $table->integer('vendor_id')->unsigned();
-            $table->foreign('vendor_id')->references('id')->on('users');
+            $table->foreign('vendor_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
             $table->timestamps();
 
         });

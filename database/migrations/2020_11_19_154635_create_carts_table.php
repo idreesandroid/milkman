@@ -17,12 +17,12 @@ class CreateCartsTable extends Migration
             $table->increments('id')->unsigned();
 
             $table->integer('invoice_id')->unsigned();
-            $table->foreign('invoice_id')->references('id')->on('invoices');
+            $table->foreign('invoice_id')->references('id')->on('invoices')->onUpdate('cascade')->onDelete('cascade');
             
             // $table->integer('buyer_id')->unsigned();
 
             $table->integer('product_id')->unsigned();
-            $table->foreign('product_id')->references('id')->on('products');
+            $table->foreign('product_id')->references('id')->on('products')->onUpdate('cascade')->onDelete('cascade');
 
             // $table->integer('seller_id')->unsigned();
             // $table->foreign('seller_id')->references('id')->on('users');
