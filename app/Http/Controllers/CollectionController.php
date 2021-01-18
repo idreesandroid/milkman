@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Collection;
 use App\Models\User;
 use App\Models\Tasks;
+use App\Models\vendorDetail;
 use App\Models\CollectionVendor;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
@@ -176,7 +177,7 @@ class CollectionController extends Controller
     }
 
     public function assignCollector(Request $request){
-        
+        date_default_timezone_set("Asia/Karachi");
         $vendors = CollectionVendor::select('vendor_id')->where('collection_id',$request->id)->get(); 
 
         $isCollectionExist = Collection::where('id',$request->id)->where('status','active')->first();
@@ -187,12 +188,29 @@ class CollectionController extends Controller
 
             foreach ($vendors as $vendor) {
 
-                $updatedtask = Tasks::insertGetId([        
-                        'vendor_id' => $vendor->vendor_id,          
-                        'collector_id'  => $request->collectorId,
-                        'collection_id'  => $request->id,
-                        'status' => 'Not Started'       
-                    ]);
+                $vendorDetail = vendorDetail::where('user_id',$vendor->vendor_id)->first();
+                    if($vendorDetail->morningTime){
+                        $updatedtask = Tasks::insertGetId([        
+                            'vendor_id' => $vendor->vendor_id,          
+                            'collector_id'  => $request->collectorId,
+                            'collection_id'  => $request->id,
+                            'status' => 'Not Started',
+                            'shift' => 'morning',
+                            'duedate' => date('Y-m-d'),
+                            'duetime' => $vendorDetail->morningTime
+                        ]);
+                    }
+                    if($vendorDetail->eveningTime){
+                        $updatedtask = Tasks::insertGetId([        
+                            'vendor_id' => $vendor->vendor_id,          
+                            'collector_id'  => $request->collectorId,
+                            'collection_id'  => $request->id,
+                            'status' => 'Not Started',
+                            'shift' => 'evening',
+                            'duedate' => date('Y-m-d'),
+                            'duetime' => $vendorDetail->eveningTime     
+                        ]);
+                    }
                 }
             return ($updatedtask) ? true : false;         
         }else{

@@ -61,7 +61,7 @@
                            <a href="#" class="text-decoration-none" data-toggle="modal">{{$task->collector_name}}</a>
                         </td>
                         <td><a href="#" data-toggle="modal" data-target="#system-user">{{$task->vendor_name}}</a></td>
-                        <td>08, Jan 2021 9:30AM</td>
+                        <td>{{$task->duedate}} {{$task->duetime}}</td>
                         <td>
                         	@if($task->status == 'Missed')
                         	<label class="badge badge-gradient-danger">Missed</label>
