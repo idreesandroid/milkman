@@ -60,11 +60,11 @@ class VendorDetailController extends Controller
                 'acc_no'=>'required|min:1|unique:bank_details',
                 'acc_title'=>'required|min:1|unique:bank_details',
 
-                'decided_milkQuantity'=>'required|min:1|numeric',
+                'decided_milkQuantity'=>'required|min:0|numeric',
                 'decided_rate'=>'required|min:1|numeric', 
-                'morning_decided_milkQuantity'=>'required|min:1|numeric',
+                'morning_decided_milkQuantity'=>'required|min:0|numeric',
                 'morningTime'=>'required', 
-                'evening_decided_milkQuantity'=>'required|min:1|numeric',
+                'evening_decided_milkQuantity'=>'required|min:0|numeric',
                 'eveningTime'=>'required', 
                
 
@@ -135,11 +135,11 @@ class VendorDetailController extends Controller
                 'filenames' => 'required',
                 'filenames.*' => 'mimes:jpg,png,jpeg,gif',   
 
-                'decided_milkQuantity'=>'required|min:1|numeric',
+                'decided_milkQuantity'=>'required|min:0|numeric',
                 'decided_rate'=>'required|min:1|numeric', 
-                'morning_decided_milkQuantity'=>'required|min:1|numeric',
+                'morning_decided_milkQuantity'=>'required|min:0|numeric',
                 'morningTime'=>'required', 
-                'evening_decided_milkQuantity'=>'required|min:1|numeric',
+                'evening_decided_milkQuantity'=>'required|min:0|numeric',
                 'eveningTime'=>'required', 
 
                 'map_detail' => 'required'
@@ -198,10 +198,20 @@ class VendorDetailController extends Controller
 
     public function agreementUpdate(Request $request, $id)
     {
+        // echo "<pre>";
+        // print_r($request->all());
+        // exit;
 
-        $updatedata = $request->validate([
-            'decided_milkQuantity'=>'required|min:1|numeric',
-            'decided_rate'=>'required|min:1|numeric',  
+        $updatedata = $request->validate([ 
+
+       
+
+            'decided_milkQuantity'=>'required|min:0|numeric',
+            'morning_decided_milkQuantity'=>'required|min:0|numeric',
+            'evening_decided_milkQuantity'=>'required|min:0|numeric',
+            'decided_rate'=>'required|min:1|numeric', 
+            'morningTime'=>'required',
+            'eveningTime'=>'required', 
             
         ]);
         vendorDetail::where('user_id', $id)->update($updatedata);
@@ -216,8 +226,8 @@ class VendorDetailController extends Controller
                 'branch_code'=>'required|min:1', 
                 'acc_no'=>'required|min:1|unique:bank_details',
                 'acc_title'=>'required|min:1|unique:bank_details',
-                'decided_milkQuantity'=>'required|min:1|numeric',
-                'decided_rate'=>'required|min:1|numeric', 
+
+
         ]);
         bankDetail::where('user_id', $id)->update($updatedata);
         return redirect()->route('profile.user', [$id]);

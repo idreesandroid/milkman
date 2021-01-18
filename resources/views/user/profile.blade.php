@@ -18,7 +18,11 @@
             </div>
          </div>
          <!-- /Page Header -->
-
+         @if ($errors->any())
+     @foreach ($errors->all() as $error)
+         <div>{{$error}}</div>
+     @endforeach
+ @endif
 			
 			<!-- Page Wrapper -->
          
@@ -152,12 +156,41 @@
 												</li>
                                                 @endif
 
+                                                @if(isset($users->vendorDetail->morning_decided_milkQuantity))
+												<li>
+													<div class="title">Morning Quantity</div>
+													<div class="text">{{$users->vendorDetail->morning_decided_milkQuantity}}</div>
+												</li>
+                                                @endif
+
+                                                @if(isset($users->vendorDetail->evening_decided_milkQuantity))
+												<li>
+													<div class="title">Evening Quantity</div>
+													<div class="text">{{$users->vendorDetail->evening_decided_milkQuantity}}</div>
+												</li>
+                                                @endif
+
                                                 @if(isset($users->vendorDetail->decided_rate))
 												<li>
 													<div class="title">Decided Rate</div>
 													<div class="text">{{$users->vendorDetail->decided_rate}}</div>
 												</li>
                                                 @endif
+
+                                                @if(isset($users->vendorDetail->morningTime))
+												<li>
+													<div class="title">Morning Time</div>
+													<div class="text">{{$users->vendorDetail->morningTime}}</div>
+												</li>
+                                                @endif
+
+                                                @if(isset($users->vendorDetail->eveningTime))
+												<li>
+													<div class="title">Evening Time</div>
+													<div class="text">{{$users->vendorDetail->eveningTime}}</div>
+												</li>
+                                                @endif
+
 
 											</ul>
 										</div>
@@ -375,15 +408,44 @@
 							  <div class="form-group row">
                   <label for="decided_milkQuantity" class="col-form-label col-md-2">Agreed Quantity</label>
                   <div class="col-md-10">
-                     <input type="text" class="form-control" name="decided_milkQuantity" value="{{ $users->vendorDetail->decided_milkQuantity }}" required="">
+                     <input type="number" class="form-control" name="decided_milkQuantity" value="{{ $users->vendorDetail->decided_milkQuantity }}" required="">
                   </div>
                </div>
                <div class="form-group row">
-                  <label for="decided_rate" class="col-form-label col-md-2">Agreed Rate</label>
+                  <label for="morning_decided_milkQuantity" class="col-form-label col-md-2">Morning Quantity</label>
                   <div class="col-md-10">
-                     <input type="text" class="form-control" name="decided_rate" value="{{ $users->vendorDetail->decided_rate }}" required="">
+                     <input type="number" class="form-control" name="morning_decided_milkQuantity" value="{{ $users->vendorDetail->morning_decided_milkQuantity }}" required="">
                   </div>
                </div>
+
+               <div class="form-group row">
+                  <label for="evening_decided_milkQuantity" class="col-form-label col-md-2">Evening Quantity</label>
+                  <div class="col-md-10">
+                     <input type="number" class="form-control" name="evening_decided_milkQuantity" value="{{ $users->vendorDetail->evening_decided_milkQuantity }}" required="">
+                  </div>
+               </div>
+
+               <div class="form-group row">
+                  <label for="decided_rate" class="col-form-label col-md-2">Agreed Rate</label>
+                  <div class="col-md-10">
+                     <input type="number" class="form-control" name="decided_rate" value="{{ $users->vendorDetail->decided_rate }}" required="">
+                  </div>
+               </div>
+
+               <div class="form-group row">
+                  <label for="morningTime" class="col-form-label col-md-2">Morning Time</label>
+                  <div class="col-md-10">
+                     <input type="time" class="form-control" name="morningTime" value="{{ $users->vendorDetail->morningTime }}" required="">
+                  </div>
+               </div>
+
+               <div class="form-group row">
+                  <label for="eveningTime" class="col-form-label col-md-2">Evening Time</label>
+                  <div class="col-md-10">
+                     <input type="time" class="form-control" name="eveningTime" value="{{ $users->vendorDetail->eveningTime }}" required="">
+                  </div>
+               </div>
+
                <div class="form-group mb-0 row">
                   <div class="col-md-10">
                      <div class="input-group-append">
@@ -403,6 +465,7 @@
 						
 				<!-- / Deal Model -->
 				@endif
+
             @if(isset($users->bankDetail->user_id))
 				<!-- bank Model-->
 				<div id="bankModal" class="modal fade" role="dialog">
@@ -416,34 +479,36 @@
                         <div class="table-responsive">
                            <form method="post"  action="{{ route('detailsUpdate.bank' , $users->id) }}">
                               @csrf 
-                              <div class="form-group row">
+                  
+                  <div class="form-group row">
                   <label for="bank_name" class="col-form-label col-md-2">Owner</label>
                   <div class="col-md-10">
-                     <input type="text" class="form-control" name="bank_name" value="{{ $users->distributorCompany->bank_name }}" required="">
+                     <input type="text" class="form-control" name="bank_name" value="{{ $users->bankDetail->bank_name }}" required="">
                   </div>
                </div>
+
                <div class="form-group row">
                   <label for="branch_name" class="col-form-label col-md-2">Company Name</label>
                   <div class="col-md-10">
-                     <input type="text" class="form-control" name="branch_name" value="{{ $users->distributorCompany->branch_name }}" required="">
+                     <input type="text" class="form-control" name="branch_name" value="{{ $users->bankDetail->branch_name }}" required="">
                   </div>
                </div>
                <div class="form-group row">
                   <label for="branch_code" class="col-form-label col-md-2">Company Contact</label>
                   <div class="col-md-10">
-                     <input type="text" class="form-control" name="branch_code" value="{{ $users->distributorCompany->branch_code }}" required="">
+                     <input type="text" class="form-control" name="branch_code" value="{{ $users->bankDetail->branch_code }}" required="">
                   </div>
                </div>
                <div class="form-group row">
                   <label for="acc_no" class="col-form-label col-md-2">Company NTN</label>
                   <div class="col-md-10">
-                     <input type="text" class="form-control" name="acc_no" value="{{ $users->distributorCompany->acc_no }}" required="">
+                     <input type="text" class="form-control" name="acc_no" value="{{ $users->bankDetail->acc_no }}" required="">
                   </div>
                </div>
                <div class="form-group row">
                   <label for="acc_title" class="col-form-label col-md-2">Company Address</label>
                   <div class="col-md-10">
-                     <input type="text" class="form-control" name="acc_title" value="{{ $users->distributorCompany->acc_title }}" required="">
+                     <input type="text" class="form-control" name="acc_title" value="{{ $users->bankDetail->acc_title }}" required="">
                   </div>
                </div>
                <div class="form-group mb-0 row">

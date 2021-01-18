@@ -9,7 +9,7 @@ class vendorDetail extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['filenames','decided_milkQuantity','decided_rate'];
+    protected $fillable = ['filenames','decided_milkQuantity','morning_decided_milkQuantity','evening_decided_milkQuantity','decided_rate','morningTime','eveningTime'];
 
     protected $hidden = [
         'password', 'remember_token',

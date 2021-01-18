@@ -116,10 +116,10 @@ class RegisterController extends Controller
     {
       $users = User::with('roles','vendorDetail','bankDetail','distributorCompany')->findOrFail($id);
     // $as =  $users->filenames;
-
-    //  echo "<pre>";
-    //  print_r($as);
-    //  exit;
+  //  $as =  $users->bankDetail->branch_name;
+  //    echo "<pre>";
+  //    print_r($as);
+  //    exit;
     $user_roles= Role::select('name','id')->get();
       return view('user/profile', compact('users','user_roles')); 
     }
