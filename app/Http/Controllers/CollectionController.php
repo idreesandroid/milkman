@@ -91,8 +91,7 @@ class CollectionController extends Controller
                 'collection_id' => $collection_id,          
                 'vendor_id'  => $vendor_id           
             ]);
-        }        
-
+        }
         return true;
     }
 
@@ -115,9 +114,7 @@ class CollectionController extends Controller
      */
     public function edit(Request $request)
     {
-       // $collection = Collection::find($request->id);
-
-         $collection = Collection::select('collections.*','collection_vendor.vendor_id')
+        $collection = Collection::select('collections.*','collection_vendor.vendor_id')
                      ->leftjoin('collection_vendor', 'collection_vendor.collection_id', '=', 'collections.id')
                      ->where('collections.id', '=', $request->id)
                      ->get();
@@ -149,6 +146,8 @@ class CollectionController extends Controller
                         'collector_id' => $request->collector_id
                     ]);
 
+        CollectionVendor::where('collection_id',$request->id)->delete();
+
         foreach($request->vendorsIds as $vendor_id){ 
             CollectionVendor::insert([        
                 'collection_id' => $request->id,          
@@ -168,18 +167,26 @@ class CollectionController extends Controller
     public function destroy(Request $request)
     {
         $deleteCollection = Collection::where('id',$request->id)->delete();
+
         $deleteCollectionVendor = CollectionVendor::where('collection_id',$request->id)->delete();
+
         $deleteTask = Tasks::where('collection_id',$request->id)->delete();
 
         return ($deleteCollection || $deleteCollectionVendor || $deleteTask) ? true : false;
     }
 
     public function assignCollector(Request $request){
-        $vendors = CollectionVendor::select('vendor_id')->where('collection_id',$request->id)->get();  
+        
+        $vendors = CollectionVendor::select('vendor_id')->where('collection_id',$request->id)->get(); 
+
         $isCollectionExist = Collection::where('id',$request->id)->where('status','active')->first();
+
         if(!is_null($isCollectionExist)){            
+
             Collection::where('id', $request->id)->update(['collector_id' => $request->collectorId]);
+
             foreach ($vendors as $vendor) {
+
                 $updatedtask = Tasks::insertGetId([        
                         'vendor_id' => $vendor->vendor_id,          
                         'collector_id'  => $request->collectorId,
