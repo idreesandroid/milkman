@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\test;
 use App\Models\CollectionVendor;
+use App\Models\vendorDetail;
 use Illuminate\Http\Request;
 
 class TestController extends Controller
@@ -14,15 +15,10 @@ class TestController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
-       // echo "test"; exit();
+    {     
 
-        $vendors = CollectionVendor::select('vendor_id')->where('collection_id','=',8)->get();  
-        echo "<pre>";
-        foreach($vendors as $vendor){
-            echo $vendor->vendor_id."<br>";
-        }
-        echo "</pre>";
+        $vendorDetail = vendorDetail::where('user_id',2)->first();  
+        echo $vendorDetail->evening_decided_milkQuantity;
     }
 
     /**
