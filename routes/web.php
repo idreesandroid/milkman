@@ -155,6 +155,7 @@ Route::post('collection/edit', [CollectionController::class, 'edit'])->name('edi
 Route::get('collections', [CollectionController::class, 'index'])->name('index.collection');
 Route::post('collection/assignCollector', [CollectionController::class, 'assignCollector'])->name('assignCollector.collection');
 Route::post('collection/update', [CollectionController::class, 'update'])->name('update.collection');
+Route::get('collection/create', [CollectionController::class, 'create'])->name('create.collection');
 
 //Tasks routes-------------------------------
 Route::get('tasks', [TasksController::class, 'index'])->name('task_listing');
