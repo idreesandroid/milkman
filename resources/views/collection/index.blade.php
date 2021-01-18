@@ -254,14 +254,26 @@ function AssignCollectorToACollectionArea(collectorID){
         success: function (response, status) {
             jQuery('#assignCollectorModel').modal('hide');
             if(response){
-               swal.fire("Done!", "Collector Assigned Succesfully!", "success");
+               swal.fire("Done!", "Collector Assigned Succesfully!", "success").then((result) => {
+                  if(result.isConfirmed) {
+                     location.reload(true);
+                  }
+               });
             }else{
-               swal.fire("Error Assiging Collector!", "Collector can not be assign to an In Active Collection Area", "error");
+               swal.fire("Error Assiging Collector!", "Collector can not be assign to an In Active Collection Area", "error").then((result) => {
+                  if(result.isConfirmed) {
+                     location.reload(true);
+                  }
+               });
             }
         },
         error: function () {
             jQuery('#assignCollectorModel').modal('hide');
-            swal.fire("Error Assigning!", "Please try again", "error");
+            swal.fire("Error Assigning!", "Please try again", "error").then((result) => {
+               if(result.isConfirmed) {
+                  location.reload(true);
+               }
+            });
         }
    });
    
@@ -325,10 +337,18 @@ function deleteCollection(collectionId){
                      '_token' : "{{ csrf_token() }}"
                  },
                  success: function () {
-                     swal.fire("Done!", "It was succesfully deleted!", "success");
+                     swal.fire("Done!", "It was succesfully deleted!", "success").then((result) => {
+                        if(result.isConfirmed) {
+                           location.reload(true);
+                        }
+                     });
                  },
                  error: function () {
-                     swal.fire("Error deleting!", "Please try again", "error");
+                     swal.fire("Error deleting!", "Please try again", "error").then((result) => {
+                        if(result.isConfirmed) {
+                           location.reload(true);
+                        }
+                     });
                  }
              });
          }
@@ -389,19 +409,21 @@ function deleteCollection(collectionId){
                   $("#add_MapData").val("");
                   $("#addStatus").val("");
                   $("#addCollectionModel .close").click();
-                  Swal.fire(
-                    'Collection Area created',
-                    'You clicked the button!',
-                    'success'
-                  )
+                  Swal.fire('Collection Area created', 'You clicked the button!', 'success').then((result) => {
+                     if(result.isConfirmed) {
+                        location.reload(true);
+                     }
+                  });
                }
              },
-             error : function(request,error)
-             {
-               console.log("Request: "+JSON.stringify(request));
+            error: function(){
+                swal.fire("Error Completion Task!", "Error in Create Collection Area error", "error").then((result) => {
+                   if(result.isConfirmed) {
+                      location.reload(true);
+                   }
+                });
              }
          });
-
       });
 
 
@@ -457,17 +479,20 @@ function deleteCollection(collectionId){
                   $("#selectedVendors").val("");
                   $("#MapData").val("");
                   $("#editCollectionModel .close").click();
-                  Swal.fire(
-                    'Collection Area Updated',
-                    'You clicked the button!',
-                    'success'
-                  )
+                  Swal.fire('Collection Area Updated','You clicked the button!','success').then((result) => {
+                     if(result.isConfirmed) {
+                        location.reload(true);
+                     }
+                  });
                }
              },
-             error : function(request,error)
-             {
-               console.log("Request: "+JSON.stringify(request));
-             }
+            error: function(){
+               swal.fire("Error Completion Task!", "Error in Update Collection Area error", "error").then((result) => {
+                  if(result.isConfirmed) {
+                     location.reload(true);
+                  }
+               });
+            }
          });
 
       }); 

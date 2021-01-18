@@ -120,9 +120,11 @@ class TasksController extends Controller
      * @param  \App\Models\Tasks  $tasks
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Tasks $tasks)
+    public function destroy(Tasks $tasks, Request $request)
     {
-        //
+        $taskDeleted = Tasks::where('id',$request->id)->delete();
+        return ($taskDeleted) ? true : false;
+
     }
 
     /**

@@ -76,8 +76,9 @@
                         </td>
                         <td style="text-align: center;">                           
                            <button href="#" id="start_task_<?php echo $task->id ?>" class="btn btn-primary" onclick="startTask(<?php echo $task->id ?>)" <?php echo ($task->status != 'Not Started') ? 'disabled':''; ?> >Start</button>                           
-                           <button href="#" onclick="completeTask(<?php echo $task->id ?>)" class="btn btn-primary" data-toggle="modal" data-target="#completedtask" <?php echo ($task->status == 'Collected' || $task->status == 'Missed') ? 'disabled':''; ?>>Complete</button>
-                           <button href="#" onclick="taskDetail(<?php echo $task->id ?>)" class="btn btn-primary" data-toggle="modal" data-target="#taskDetial">Detail</button>
+                           <button href="#" onclick="completeTask(<?php echo $task->id ?>)" class="btn btn-success" data-toggle="modal" data-target="#completedtask" <?php echo ($task->status == 'Collected' || $task->status == 'Missed') ? 'disabled':''; ?>>Complete</button>
+                           <button href="#" onclick="taskDetail(<?php echo $task->id ?>)" class="btn btn-info" data-toggle="modal" data-target="#taskDetial">Detail</button>
+                           <button href="#" onclick="deleteTask(<?php echo $task->id ?>)" class="btn btn-danger">Delete</button>
                         </td>
                      </tr>
                      @endforeach
@@ -362,10 +363,18 @@ function createCustomTask(){
 	         },
 	   success: function(response, status){
 	   		jQuery('#completedtask').modal('hide');
-	   		swal.fire("Done!", "Task Completed Succesfully!", "success");         
+	   		swal.fire("Done!", "Task Completed Succesfully!", "success").then((result) => {
+               if(result.isConfirmed) {
+                  location.reload(true);
+               }
+            });         
 		   },
 		error: function(){
-			swal.fire("Error Completion Task!", "Task Completion error", "error");
+			swal.fire("Error Completion Task!", "Task Completion error", "error").then((result) => {
+            if(result.isConfirmed) {
+               location.reload(true);
+            }
+         });
 		}
 	});
 }
@@ -394,10 +403,18 @@ function updateTask(){
             },
       success: function(response, status){
       		jQuery('#completedtask').modal('hide');
-      		swal.fire("Done!", "Task Completed Succesfully!", "success");         
+      		swal.fire("Done!", "Task Completed Succesfully!", "success").then((result) => {
+               if(result.isConfirmed) {
+                  location.reload(true);
+               }
+            });         
    	   },
    	error: function(){
-   		swal.fire("Error Completion Task!", "Task Completion error", "error");
+   		swal.fire("Error Completion Task!", "Task Completion error", "error").then((result) => {
+            if(result.isConfirmed) {
+               location.reload(true);
+            }
+         });
    	}
 	});
 }
@@ -440,12 +457,58 @@ function startTask(taskID){
             },
          success: function(response, status){
             jQuery('#start_task_'+taskID).prop("disabled",true);
-            swal.fire("Started!", "Task Started Succesfully!", "success");  
+            swal.fire("Started!", "Task Started Succesfully!", "success").then((result) => {
+               if(result.isConfirmed) {
+                  location.reload(true);
+               }
+            }); 
          },
          error: function(){
-            swal.fire("Error Started Task!", "Task Started error", "error");
+            swal.fire("Error Started Task!", "Task Started error", "error").then((result) => {
+               if(result.isConfirmed) {
+                  location.reload(true);
+               }
+            });
          }
    });
+}
+
+
+function deleteTask(taskID){
+   swal.fire({
+         title: 'Are you sure?',
+         text: "You won't be able to revert this task!",
+         icon: 'warning',
+         showCancelButton: true,
+         confirmButtonColor: '#3085d6',
+         cancelButtonColor: '#d33',
+         confirmButtonText: 'Yes, delete it!'
+     }).then((result) => {
+         if (result.isConfirmed) {
+             jQuery.ajax({
+                 url: "{{ route('destroy.task') }}",
+                 type: "POST",
+                 data: {
+                     id: taskID,
+                     '_token' : "{{ csrf_token() }}"
+                 },
+                 success: function () {
+                     swal.fire("Done!", "It was succesfully deleted!", "success").then((result) => {
+                        if(result.isConfirmed) {
+                           location.reload(true);
+                        }
+                     });
+                 },
+                 error: function () {
+                     swal.fire("Error deleting!", "Please try again", "error").then((result) => {
+                        if(result.isConfirmed) {
+                           location.reload(true);
+                        }
+                     });
+                 }
+             });
+         }
+     });
 }
 </script>
 

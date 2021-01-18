@@ -163,6 +163,7 @@ Route::post('update-tasks', [TasksController::class, 'update'])->name('update.ta
 Route::post('show-tasks', [TasksController::class, 'show'])->name('show.task');
 Route::post('store-tasks', [TasksController::class, 'store'])->name('store.task');
 Route::post('start-tasks', [TasksController::class, 'start'])->name('start.task');
+Route::post('destroy-tasks', [TasksController::class, 'destroy'])->name('destroy.task');
 
 //Collector routes--------------------------
 Route::get('collector-detail/create', [CollectorController::class, 'create'])->name('create_collector');
