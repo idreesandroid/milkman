@@ -25,7 +25,7 @@
       <div class="col text-right">
          <ul class="list-inline-item pl-0">
             <li class="list-inline-item">
-               <button class="add btn btn-gradient-primary font-weight-bold text-white todo-list-add-btn btn-rounded" id="add-task" data-toggle="modal" data-target="#addCollectionModel">Add Collection Area</button>
+               <a  href="{{url('collection/create')}}"class="add btn btn-gradient-primary font-weight-bold text-white todo-list-add-btn btn-rounded">Add Collection Area</a>
             </li>
          </ul>
       </div>
@@ -74,83 +74,6 @@
       </div>
    </div>
 </div>                     
-
-<!--Collection Area Information Add Model-->
-<div class="modal right fade" id="addCollectionModel" role="dialog" aria-modal="true">
-   <div class="modal-dialog" role="document">
-      <button type="button" class="close md-close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-      <div class="modal-content">
-         <div class="modal-header">
-            <h4 class="modal-title text-center">Add Collection Area</h4>
-            <button type="button" class="close xs-close" data-dismiss="modal">×</button>
-         </div>
-         <div class="modal-body">
-            <div class="row">
-               <div class="col-md-12">
-                  <form>
-                     <h4>Collection Area Information</h4>
-                     <div class="form-group row">
-                        <div class="col-md-3">
-                           <label class="col-form-label">Title <span class="text-danger">*</span></label>
-                           <input class="form-control" type="text" placeholder="Add Collection Ttile" name="prefix" id='title'>
-                        </div>
-                        <div class="col-md-3">
-                           <label class="col-form-label">Status <span class="text-danger">*</span></label>
-                           <select class="form-control" id="addStatus" name="addStatus">
-                                 <option value="">Select Status</option>
-                                 <option value="active">Active</option>
-                                 <option value="inactive">Inactive</option>
-                              </select> 
-                        </div>
-                        <div class="col-md-6">
-                           <label for="selectedVendorsInAddModel" class="col-form-label col-md-1">Vendors</label>                           
-                              <select class="form-control" id="selectedVendorsInAddModel" name="vendorsIds[]" multiple="multiple">                       
-                                 @foreach($vendors as $vendor)
-                                 <option value="{{$vendor->id}}">{{$vendor->name}}</option>
-                                 @endforeach
-                              </select>                           
-                        </div>
-                     </div>    
-                     <div class="map" id="addCollectionMap"></div>
-                     <div class="row">
-                        <div class="col-md-12">
-                           <div class="form-group">                        
-                              <input type="text" class="form-control" id="add_MapData" name="vendors_location" value="{{$location}}">
-                           </div>
-                        </div>
-                     </div>
-                     <div class="row">
-                        <div class="col-md-2">
-                           <div class="form-group">                        
-                              <input type="button"  class="form-control btn btn-info"  value="Add Map" id="save_raw_map">
-                           </div>
-                        </div>
-                        <div class="col-md-2">
-                           <div class="form-group">                        
-                              <input type="button" class="form-control btn btn-danger"  value="Clear Map" id="add_clear_shapes">
-                           </div>
-                        </div>
-                        <div class="col-md-4">
-                           <div class="form-group">                        
-                              <input type="button" id="add_restore" class="form-control btn btn-primary"  value="Restore Map">
-                           </div>
-                        </div>
-                        <div class="col-md-4">
-                           <div class="form-group">                        
-                              <input type="button" class="form-control btn btn-primary"  value="Save Collection Area" id="saveColectionArea">
-                           </div>
-                        </div>
-                     </div>
-                  </form>
-               </div>
-            </div>
-         </div>
-      </div>
-      <!-- modal-content -->
-   </div>
-   <!-- modal-dialog -->
-</div>
-<!-- modal -->
 
 
 <!--Collection Area Information-->
@@ -549,18 +472,11 @@ function deleteCollection(collectionId){
 
       }); 
 
-      initializeMap('addCollectionMap','add_clear_shapes','save_raw_map','add_restore','add_MapData');
       initializeMap('updateCollectionMap','edit_clear_shapes','update_raw_map','edit_restore','update_MapData');
 
       $('#assignCollectorModel').on('hidden.bs.modal', function () {
         $("#assignCollectorModel input[type=radio]").prop("checked", false);
-      });
-
-      $("#selectedVendorsInAddModel").select2( {
-         placeholder: "Search for a Vendors",
-         width: '100%',
-        dropdownParent: $("#addCollectionModel")
-        });
+      });      
 
       $("#selectedVendorsInEditModel").select2( {
          placeholder: "Search for a Vendors",
