@@ -18,11 +18,11 @@ class CreateInvoicesTable extends Migration
             $table->string('invoice_number')->nullable();
             
             $table->integer('buyer_id')->unsigned();
-            $table->foreign('buyer_id')->references('id')->on('users');
+            $table->foreign('buyer_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
 
 
             $table->integer('seller_id')->unsigned();
-            $table->foreign('seller_id')->references('id')->on('users');
+            $table->foreign('seller_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
 
             $table->integer('total_amount')->default(0);
             $table->integer('Remains')->default(0);

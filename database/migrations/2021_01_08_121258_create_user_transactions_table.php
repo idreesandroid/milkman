@@ -17,10 +17,10 @@ class CreateUserTransactionsTable extends Migration
             $table->increments('id')->unsigned();
 
             $table->integer('userAcc_id')->unsigned();
-            $table->foreign('userAcc_id')->references('id')->on('user_accounts');
+            $table->foreign('userAcc_id')->references('id')->on('user_accounts')->onUpdate('cascade')->onDelete('cascade');
 
             $table->integer('user_id')->unsigned();
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('user_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
             
             
             

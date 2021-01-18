@@ -16,11 +16,11 @@ class CreateTasksTable extends Migration
         Schema::create('tasks', function (Blueprint $table) {
             $table->id();
             $table->integer('vendor_id')->unsigned();
-            $table->foreign('vendor_id')->references('id')->on('users');
+            $table->foreign('vendor_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
             $table->integer('collector_id')->unsigned();
-            $table->foreign('collector_id')->references('id')->on('users');
+            $table->foreign('collector_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
             $table->integer('collection_id')->unsigned();
-            $table->foreign('collection_id')->references('id')->on('collections');
+            $table->foreign('collection_id')->references('id')->on('collections')->onUpdate('cascade')->onDelete('cascade');
             $table->string('milk_amout');
             $table->string('lactometer_reading');
             $table->string('milk_taste');
