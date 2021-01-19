@@ -14,6 +14,7 @@ use DB;
 use App\Models\Role;
 use App\Models\State;
 use App\Models\City;
+use App\Models\vendorDetail;
 
 class RegisterController extends Controller
 {
@@ -117,9 +118,9 @@ class RegisterController extends Controller
       $users = User::with('roles','vendorDetail','bankDetail','distributorCompany')->findOrFail($id);
     // $as =  $users->filenames;
   //  $as =  $users->bankDetail->branch_name;
-  //    echo "<pre>";
-  //    print_r($as);
-  //    exit;
+    //  echo "<pre>";
+    //  print_r($users);
+    //  exit;
     $user_roles= Role::select('name','id')->get();
       return view('user/profile', compact('users','user_roles')); 
     }

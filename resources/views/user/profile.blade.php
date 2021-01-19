@@ -71,7 +71,7 @@
 															<div ></div>
 															<div class="text"></div>
 														</li>
-														<li>
+														<!-- <li>
 															<div class="title">Reports to:</div>
 															<div class="text">
 															   <div class="avatar-box">
@@ -83,7 +83,7 @@
 																	here will be the area manager may be
 																
 															</div>
-														</li>
+														</li> -->
 													</ul>
 												</div>
 											</div>
