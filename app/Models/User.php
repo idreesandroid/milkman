@@ -65,7 +65,7 @@ class User extends Authenticatable
 
     public function vendorDetail()
     {
-      return $this->hasOne(VendorDetail::class);
+      return $this->hasOne(vendorDetail::class);
     }
 
     public function distributorCompany()

@@ -24,7 +24,13 @@ class VendorDetailController extends Controller
     {       
         $vendorDetails = User::whereHas('roles', function($query) { 
             $query->where('roles.id', 6);
-             })->with('vendorDetail')->get();        
+             })->with('vendorDetail')->get(); 
+            
+             
+        // echo "<pre>";
+        // print_r($vendorDetails);
+        // exit;
+             
         return view('vendor-detail/index', compact('vendorDetails'));
 
     }
