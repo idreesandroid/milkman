@@ -130,11 +130,11 @@ class RegisterController extends Controller
     $updatedata = $request->validate([
 
       'name'      => 'required|min:3',
-      'user_cnic' => 'required|min:15|unique:users',
-      'user_phone'=> 'required|min:12|unique:users',
+      'user_cnic' => 'required|min:15',
+      'user_phone'=> 'required|min:12',
       'user_address'  => 'required|min:3',
       'roleNames' => 'required',
-      'email' => 'required|unique:users',
+      'email' => 'required',
     ]);
    
     User::whereid($id)->update(array(

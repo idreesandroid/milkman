@@ -230,8 +230,8 @@ class VendorDetailController extends Controller
                 'bank_name'=> 'required|min:1',
                 'branch_name'=>'required|min:1',
                 'branch_code'=>'required|min:1', 
-                'acc_no'=>'required|min:1|unique:bank_details',
-                'acc_title'=>'required|min:1|unique:bank_details',
+                'acc_no'=>'required|min:1',
+                'acc_title'=>'required|min:1',
 
 
         ]);
