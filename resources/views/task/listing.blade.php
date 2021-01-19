@@ -58,9 +58,9 @@
                   	@foreach($tasks as $task)
                      <tr id="taskId_{{$task->id}}">
                         <td>
-                           <a href="#" class="text-decoration-none" data-toggle="modal">{{$task->collector_name}}</a>
+                           <a href="{{ route('profile.user', $task->collector_id)}}" class="text-decoration-none">{{$task->collector_name}}</a>
                         </td>
-                        <td><a href="#" data-toggle="modal" data-target="#system-user">{{$task->vendor_name}}</a></td>
+                        <td><a href="{{ route('profile.user', $task->vendor_id)}}">{{$task->vendor_name}}</a></td>
                         <td>{{$task->duedate}} {{$task->duetime}}</td>
                         <td>
                         	@if($task->status == 'Missed')
