@@ -101,7 +101,7 @@ class TransactionController extends Controller
     //    exit;
       
        $transaction->save();
-       return redirect('transaction/List');
+       return redirect('my/transactions');
     
    }     
 
