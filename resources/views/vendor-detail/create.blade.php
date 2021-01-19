@@ -18,11 +18,6 @@
             </div>
          </div>
          <!-- /Page Header -->
-         @if ($errors->any())
-     @foreach ($errors->all() as $error)
-         <div>{{$error}}</div>
-     @endforeach
- @endif
 <!-- Page Wrapper -->
 <div class="row">
    <div class="col-lg-12">
