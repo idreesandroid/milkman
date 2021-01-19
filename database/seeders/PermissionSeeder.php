@@ -186,8 +186,8 @@ class PermissionSeeder extends Seeder
         $permission_34->save();
 
         $permission_35 = new Permission();
-        $permission_35->slug = 'See-All-Transaction';
-        $permission_35->name = 'See-All-Transaction';
+        $permission_35->slug = 'See-All-Transactions';
+        $permission_35->name = 'See-All-Transactions';
         $permission_35->save();
         
         
