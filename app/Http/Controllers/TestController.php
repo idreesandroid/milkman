@@ -17,8 +17,7 @@ class TestController extends Controller
     public function index()
     {     
 
-        $vendorDetail = vendorDetail::where('user_id',2)->first();  
-        echo $vendorDetail->evening_decided_milkQuantity;
+        return view('test');
     }
 
     /**
