@@ -8,12 +8,12 @@
                <h3 class="page-title">
                   <span class="page-title-icon bg-gradient-primary text-white mr-2">
                   <i class="la la-table"></i>
-                  </span> <span>MilkMan Dashboard</span>
+                  </span> <span>Products</span>
                </h3>
             </div>
             <div class="col text-right">
                <ul class="breadcrumb bg-white float-right m-0 pl-0 pr-0">
-                  <li class="breadcrumb-item"><a href="/product/index">Product</a></li>
+                  <li class="breadcrumb-item"><a href="/DashBoard">Dashboard</a></li>
                   <li class="breadcrumb-item active">Update</li>
                </ul>
             </div>
@@ -26,6 +26,15 @@
             <h4 class="card-title mb-0">Edit Product</h4>
          </div>
          <div class="card-body">
+         @if ($errors->any())
+         <div class="alert alert-danger">
+            <ul>
+               @foreach ($errors->all() as $error)
+               <li>{{ $error }}</li>
+               @endforeach
+            </ul>
+         </div>
+         @endif
             <form method="post"  action="{{ route('update.product', $products->id) }}"  enctype="multipart/form-data" id="edit-product">
                @csrf 
                <div class="form-group row">

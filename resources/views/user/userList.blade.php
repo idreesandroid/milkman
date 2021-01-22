@@ -12,7 +12,7 @@
             <div class="col text-right">
                <ul class="breadcrumb bg-white float-right m-0 pl-0 pr-0">
                   <li class="breadcrumb-item"><a href="{{route('user.dashBoard')}}">Dashboard</a></li>
-                  <li class="breadcrumb-item active">List</li>
+                  <li class="breadcrumb-item active">User List</li>
                </ul>
             </div>
          </div>

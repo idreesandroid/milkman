@@ -6,13 +6,13 @@
                <h3 class="page-title">
                   <span class="page-title-icon bg-gradient-primary text-white mr-2">
                   <i class="la la-table"></i>
-                  </span> <span>MilkMan Dashboard</span>
+                  </span> <span>Products</span>
                </h3>
             </div>
             <div class="col text-right">
                <ul class="breadcrumb bg-white float-right m-0 pl-0 pr-0">
-                  <li class="breadcrumb-item"><a href="/">Product</a></li>
-                  <li class="breadcrumb-item active">Products</li>
+                  <li class="breadcrumb-item"><a href="/DashBoard">Dashboard</a></li>
+                  <li class="breadcrumb-item active">Products List</li>
                </ul>
             </div>
          </div>
@@ -35,13 +35,13 @@
                <table class="datatable table table-stripped mb-0 datatables">
                   <thead>
                      <tr>
-                        <th>Serial No</th>
+                      
                         <th>Image</th>
                         <th>Name</th>
                         <th>Code</th>
                         <th>Size</th>
                         <th>Price</th>
-                        <th>Stock Quantity</th>
+                        @can('See-Product-Stock')  <th>Stock Quantity</th> @endcan
                         <th>Qty/Carton</th>
                         <th>Description</th>
                         <th>Action</th>
@@ -50,13 +50,13 @@
                   <tbody>
                      @foreach($products as $index => $product)
                      <tr>
-                        <td>{{$index+1}}</td>
+                        
                         <td><img src="{{asset('/product_img/'.$product->filenames)}}" alt="Logo" class="img-thumbnail"></td>
                         <td>{{$product->product_name}}</td>
                         <td>{{$product->product_nick}}</td>
                         <td>{{$product->product_size}} {{$product->unit}} </td>
                         <td>Rs {{number_format($product->product_price)}}</td>
-                        <td>{{$product->stockInBatch}}</td>
+                        @can('See-Product-Stock')  <td>{{$product->stockInBatch}}</td> @endcan
                         <td>{{$product->ctn_value}}</td>
                         <td>{{$product->product_description}}</td>
                         <td>

@@ -53,11 +53,11 @@ Route::get('user/personal/profile',    [RegisterController::class, 'personalProf
 Route::post('user/updatePersonal',    [RegisterController::class,'updatePersonalProfile'])->name('update.personal.profile')->middleware('can:Edit-Personal-Profile');
 
 //DashBoard routes--------------------------------
-Route::get('DashBoard',                   [RegisterController::class, 'returnDashBoard'])->name('user.dashBoard')->middleware('can:Can-Login');
-Route::get('Dashboard/admin',             [AdminController::class, 'adminDashboard'])->name('admin.DashBoard')->middleware('can:Can-Login');
-Route::get('Dashboard/distributor',       [DistributorController::class, 'distributorDashboard'])->name('distributor.DashBoard')->middleware('can:Can-Login');
-Route::get('Dashboard/collector',       [DistributorController::class, 'collectorDashboard'])->name('collector.DashBoard')->middleware('can:Can-Login');
-Route::get('Dashboard/vendor',       [DistributorController::class, 'vendorDashboard'])->name('vendor.DashBoard')->middleware('can:Can-Login');
+Route::get('DashBoard',                   [RegisterController::class, 'returnDashBoard'])->name('user.dashBoard')->middleware('can:Login');
+Route::get('Dashboard/admin',             [AdminController::class, 'adminDashboard'])->name('admin.DashBoard')->middleware('can:Login');
+Route::get('Dashboard/distributor',       [DistributorController::class, 'distributorDashboard'])->name('distributor.DashBoard')->middleware('can:Login');
+Route::get('Dashboard/collector',       [DistributorController::class, 'collectorDashboard'])->name('collector.DashBoard')->middleware('can:Login');
+Route::get('Dashboard/vendor',       [DistributorController::class, 'vendorDashboard'])->name('vendor.DashBoard')->middleware('can:Login');
 
 
 //Role routes--------------------------------
