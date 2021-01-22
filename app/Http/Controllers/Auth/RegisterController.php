@@ -189,11 +189,11 @@ public function personalProfile()
           
     if(in_array(1, $roleArray))
     { 
-      return View('dashBoards.admin');
+      return redirect()->route('admin.DashBoard');
     }
     elseif(in_array(3, $roleArray))
     {
-        return View('dashBoards.distributor');
+      return redirect()->route('distributor.DashBoard');
     }
     elseif(in_array(5, $roleArray))
     {
@@ -202,6 +202,11 @@ public function personalProfile()
     elseif(in_array(6, $roleArray))
     {
         return View('dashBoards.vendor');
+    }
+    else
+    {
+      Auth::logout();
+      return redirect()->route('login');
     }
   }
      

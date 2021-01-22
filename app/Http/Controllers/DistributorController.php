@@ -144,5 +144,17 @@ class DistributorController extends Controller
        // return $invoices;
        //return view('role/index', compact('roles'));
     }
+
+    public function distributorDashboard()
+    {
+        $Did = Auth::id();
+
+        $distributorBalance = UserAccount::where('user_id' , $Did)->select('balance')->first();
+    //  echo "<pre>";
+    //  print_r($distributorBalance);
+    //  exit;
+    return view('dashBoards.distributor', compact('distributorBalance'));
+
+    }
     
 }
