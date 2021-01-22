@@ -134,7 +134,6 @@ class SaleController extends Controller
                 $product_cart->save();
             }
         }   
-
         switch ($request->input('action'))
         {
             case 'on_hold':
@@ -193,5 +192,33 @@ class SaleController extends Controller
         $invoices = Invoice::findOrFail($id);
         $invoices->delete();
         return redirect('cart/pendingInvoice');
-    }        
+    }    
+    
+    public function invoiceDetail($id)
+    {   
+
+        $roleArray= auth()->user()->roles()->pluck('roles.id')->toArray();
+       // $roleArray = (array) $userRoles;
+        
+        // echo "<pre>";
+        // print_r($roleArray);
+        // exit; 
+             if(in_array(1, $roleArray))
+             {
+                $invoice = Invoice::where('id',$id)->with('buyer')->findOrFail($id);
+                //   echo "<pre>";
+                //   print_r($invoice);
+                //   exit; 
+             }
+             else
+             {
+                $uid = Auth::id();
+                $invoice = Invoice::where('id',$id)->where('buyer_id', $uid)->findOrFail($id);
+             }
+
+         $carts = Cart::where('invoice_id', $id)->get();
+         return view('cart/invoiceDetail', compact('invoice','carts'));
+
+       
+    }
 }

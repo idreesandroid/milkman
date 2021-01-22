@@ -32,6 +32,7 @@
                         <th>Invoice Number</th>
                         <th>status</th>
                         <th>Date</th>
+                        <th>Action</th>
                      </tr>
                   </thead>
                   <tbody>
@@ -40,8 +41,8 @@
                         <td>{{$invoice->buyer->name}}</td>
                         <td>{{$invoice->invoice_number}}</td>
                         <td>{{$invoice->flag}}</td>
-                        <td>{{$invoice->created_at}}</td>
-                        
+                        <td>{{timeFormat($invoice->created_at)['date']}}<br>{{timeFormat($invoice->created_at)['time']}}</td>
+                        <td><a href="{{ route('invoice.Detail', $invoice->id)}}" class="btn btn-primary">Detail</a></td>
                      </tr>
                      @endforeach
                   </tbody>

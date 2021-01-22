@@ -9,7 +9,7 @@ class Cart extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['product_quantity','product_rate','sub_total','delivery_due_date'];   
+    protected $fillable = ['product_quantity','product_rate','sub_total','delivery_due_date','invoice_id'];   
     
     public function cart_invoice()
     {

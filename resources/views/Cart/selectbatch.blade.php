@@ -151,20 +151,20 @@
      if(BID != null)
      {
       $.ajax({
-   url: '/batch_selection/ajax/'+BID,
-   type: "GET",
-   dataType: "json",
-   success:function(response) {
-       var len = 0;
-       $('#batch_fetch tbody').empty();     
-       if(response.length > 0){
-       len = response.length;
+               url: '/batch_selection/ajax/'+BID,
+               type: "GET",
+               dataType: "json",
+               success:function(response) {
+                                              var len = 0;
+                                             $('#batch_fetch tbody').empty();     
+                                             if(response.length > 0){
+                                                len = response.length;
    
-                var getPName = $('#setPName_'+BID).text();              
-                $('#Pname').text(getPName);
+                                                var getPName = $('#setPName_'+BID).text();              
+                                                $('#Pname').text(getPName);
    
-                getPQuantity = $('#setPQuantity_'+BID).text();              
-                $('#Pquantity').text(getPQuantity);
+                                                getPQuantity = $('#setPQuantity_'+BID).text();              
+                                                $('#Pquantity').text(getPQuantity);
    
                 for(var i=0; i<len; i++){
                    var b_id = response[i].id;                

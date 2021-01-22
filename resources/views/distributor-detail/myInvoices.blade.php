@@ -28,23 +28,21 @@
                <table class="datatable table table-stripped mb-0 datatables">
                   <thead>
                      <tr>
-                        <th>Buyer Name</th>
+                     <th>Serial No</th>
                         <th>Invoice Number</th>
                         <th>status</th>
                         <th>Amount</th>
-                        <th>Paid</th>
                         <th>Date</th>
                         <th>Detail</th>
                      </tr>
                   </thead>
                   <tbody>
-                     @foreach($invoices as $invoice)
+                     @foreach($invoices as $index => $invoice)
                      <tr>
-                        <td>{{$invoice->buyer->name}}</td>
+                     <td>{{$index+1}}</td>
                         <td>{{$invoice->invoice_number}}</td>
                         <td>{{$invoice->flag}}</td>
                         <td>{{$invoice->total_amount}}</td>
-                        <td>{{$invoice->flag}}</td>
                         <td>{{$invoice->created_at}}</td>
                         <td><a href="{{ route('payment.receipt', $invoice->id)}}" class="btn btn-primary">Detail</a></td>
                      </tr>

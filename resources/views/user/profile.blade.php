@@ -48,7 +48,7 @@
 														<h6 class="text-muted">{{$role->name}}</h6>
 														@endforeach
 														<div class="staff-id">CNIC : {{$users->user_cnic}}</div>
-														<div class="small doj text-muted">Date of Join : {{$users->created_at}}</div>
+														<div class="small doj text-muted">Date of Join : {{timeFormat($users->created_at)['date']}}</div>
 														<div class="staff-msg"><a class="btn" href="#" style="visibility:hidden;">$nbsp;</a></div>
 													</div>
 												</div>
@@ -88,8 +88,14 @@
 												</div>
 											</div>
 										</div>
-										<div class="pro-edit"><a data-target="#userModal" data-toggle="modal" class="edit-icon" href="#"><i class="fa fa-pencil"></i></a></div>
-									</div>
+                              @can('Edit-User')
+                              <div class="pro-edit"><a data-target="#userModal" data-toggle="modal" class="edit-icon" href="#"><i class="fa fa-pencil"></i></a></div>
+                              @endcan
+
+                              @can('Edit-Personal-Profile')
+                              <div ><a data-target="#passwordChange" data-toggle="modal"  href="#">Change Password</a></div>
+                              @endcan
+                           </div>
 								</div>
 							</div>
 						</div>
@@ -104,13 +110,17 @@
 								<div class="col-md-6 d-flex">
 									<div class="card profile-box flex-fill">
 										<div class="card-body">
+                              @can('Edit-Company-Detail')
 										@if(isset($users->distributorCompany->companyName))
 										<h3 class="card-title">Company Informations <a href="#" class="edit-icon" data-toggle="modal" data-target="#companyModal"><i class="fa fa-pencil"></i></a></h3>
 										@endif
+                              @endcan
+
+                              @can('Edit-Agreement-Detail')
 										@if(isset($users->vendorDetail->decided_milkQuantity))
 										<h3 class="card-title">Deals Information <a href="#" class="edit-icon" data-toggle="modal" data-target="#dealModal"><i class="fa fa-pencil"></i></a></h3>
 										@endif
-
+                              @endcan
                                             <ul class="personal-info">
                                             @if(isset($users->distributorCompany->companyName))
                                             <li>
@@ -196,7 +206,7 @@
 										</div>
 									</div>
 								</div>
-
+                        @if(isset($users->bankDetail->acc_title))
 								<div class="col-md-6 d-flex">
 									<div class="card profile-box flex-fill">
 										<div class="card-body">
@@ -243,7 +253,7 @@
                            
 									</div>
 								</div>
-                     
+                     @endif
 							</div>
                      
 							<div class="row">
@@ -290,15 +300,7 @@
                </div>
 
 <!--Role List-->
-			    @foreach($user_roles as $user_role)
-               <div class="col-sm-3">
-                  <label class="checkbox-inline "for="roleNames[{{ $user_role->id }}]">
-                  <input name="roleNames[{{ $user_role->id }}]" type="checkbox" value="{{ $user_role->id }}"
-                  @if($users->roles->contains($user_role->id)) checked=checked @endif
-                  > {{ $user_role->name }}
-                  </label>
-               </div>
-               @endforeach  
+			   
 
 
 <!--/ Role List-->
@@ -326,7 +328,7 @@
             </div>
 			<!-- / User Model -->	
 
-
+         @can('Edit-Company-Detail')
 				@if(isset($users->distributorCompany->companyName))
 				<!-- Company Model-->
 				<div id="companyModal" class="modal fade" role="dialog">
@@ -387,12 +389,12 @@
                   </div>
                </div>
             </div>
-						
 				<!-- / Company Model -->
+            @endif
+         @endcan
 
-@endif
-
-@if(isset($users->vendorDetail->decided_milkQuantity))				
+         @can('Edit-Agreement-Detail')
+            @if(isset($users->vendorDetail->decided_milkQuantity))				
 				<!-- Deal Model-->
 				<div id="dealModal" class="modal fade" role="dialog">
                <div class="modal-dialog" >
@@ -461,11 +463,13 @@
                      </div>
                   </div>
                </div>
-            </div>
-						
+            </div>	
 				<!-- / Deal Model -->
 				@endif
+         @endcan
 
+         @can('Edit-Bank-Detail')
+        
             @if(isset($users->bankDetail->user_id))
 				<!-- bank Model-->
 				<div id="bankModal" class="modal fade" role="dialog">
@@ -528,9 +532,66 @@
                   </div>
                </div>
             </div>
-						
 				<!-- / bankInfo Model -->
-					@endif	
+				@endif
+         @endcan
+
+         @can('Edit-Personal-Profile')
+				<!-- password Change Model-->
+				<div id="passwordChange" class="modal fade" role="dialog">
+               <div class="modal-dialog" >
+                  <!-- Modal content-->
+                  <div class="modal-content">
+                     <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                     </div>
+                     <div class="modal-body">
+                        <div class="table-responsive">
+                           <form method="post" action="{{ route('update.personal.profile') }}" >
+                              @csrf 
+                  
+               <!-- <input type="hidden" id="userId" class="form-control" name="userId" value="{{$users->id}}"> -->
+
+               <div class="form-group row">
+                  <label for="oldPassword" class="col-form-label col-md-2">Old Password</label>
+                  <div class="col-md-10">
+                     <input type="password" class="form-control" name="oldPassword" required="" autocomplete="off">
+                  </div>
+               </div>
+
+               <div class="form-group row">
+                  <label for="newPassword" class="col-form-label col-md-2">New Password</label>
+                  <div class="col-md-10">
+                     <input type="password" class="form-control" name="newPassword"  required="" autocomplete="off">
+                  </div>
+               </div>
+
+               <div class="form-group row">
+                  <label for="oldPassword" class="col-form-label col-md-2">Repeat Password</label>
+                  <div class="col-md-10">
+                     <input type="password" class="form-control" name="confirmPassword"  required="" autocomplete="off">
+                  </div>
+               </div>
+               <div class="form-group mb-0 row">
+                  <div class="col-md-10">
+                     <div class="input-group-append">
+                        <button class="btn btn-primary" type="submit" >Update</button>
+                     </div>
+                  </div>
+               </div>
+                              
+                               </form>
+                        </div>
+                     </div>
+                     <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                     </div>
+                  </div>
+               </div>
+            </div>
+				<!-- / password Change Model -->
+				@endcan
+
 					</div>
 
 					</div>
@@ -549,5 +610,29 @@
 			<!-- /Page Wrapper -->
 			
 		<!-- /Main Wrapper -->
+
+
+      <!-- <script type="text/javascript">
+                                    
+      function changePassword()
+                              {
+                     
+                               var bid= $("#userId").val();
+                               alert(bid);  
+
+                               if(bid != null)
+                                             {
+                                                $.ajax({ 
+                                                   url: '/user/updatepersonal/'+bid,
+                                                   type: "POST",
+                                                   dataType: "json",
+                                                   headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}' },
+                                                   data:{"name":sel_qty},
+                                                   success:function(response) { alert(bid);}
+
+                                                       });
+                                             }
+                               }
+      </script> -->
 
 		@endsection

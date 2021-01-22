@@ -19,7 +19,6 @@ use App\Http\Controllers\TransactionController;
 
 use App\Http\Controllers\DistributorPaymentController;
 use App\Http\Controllers\TasksController;
-use App\Http\Controllers\DistributorDashBoard;
 use App\Http\Controllers\CollectorController;
 use App\Http\Controllers\TestController;
 
@@ -40,7 +39,7 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', [HomeController::class, 'index'])->name('home');
+// Route::get('/home', [HomeController::class, 'index'])->name('home');
  
 //Login Register routes--------------------------------
 //Route::get('/',                    [LoginController::class, 'login'])->name('user.login');
@@ -49,6 +48,13 @@ Route::get('register',             [RegisterController::class, 'showRegistration
 Route::get('user/userList',        [RegisterController::class, 'allUserList'])->name('index.userList')->middleware('can:See-User');
 Route::get('user/profile/{id}',    [RegisterController::class, 'profile'])->name('profile.user')->middleware('can:See-profile');
 Route::post('user/update/{id}',    [RegisterController::class,'update'])->name('update.userList')->middleware('can:Edit-User');
+
+Route::get('user/personal/profile',    [RegisterController::class, 'personalProfile'])->name('personal.profile.user')->middleware('can:See-Personal-Profile');
+Route::post('user/updatepersonal',    [RegisterController::class,'updatePersonalProfile'])->name('update.personal.profile')->middleware('can:Edit-Personal-Profile');
+
+//DashBoard routes--------------------------------
+Route::get('DashBoard',             [RegisterController::class, 'returnDashBoard'])->name('user.dashBoard');
+
 //Role routes--------------------------------
 
 Route::get('role/index',           [RoleController::class, 'index'])->name('index.role')->middleware('can:See-Role');
@@ -98,6 +104,8 @@ Route::post('distributor-detail/create',         [DistributorController::class, 
 Route::get('distributor-detail/edit/{id}',       [DistributorController::class, 'edit'])->name('edit.distributor-detail')->middleware('can:Edit-Distributor');
 Route::post('distributor-detail/update/{id}',    [DistributorController::class, 'update'])->name('update.distributor-detail')->middleware('can:Edit-Distributor');
 Route::post('companyDetail/update/{id}',         [DistributorController::class,'companyDetailUpdate'])->name('companyDetail.distributor')->middleware('can:Edit-Company-Detail');
+Route::get('payment/myReceipt',                  [DistributorController::class, 'myOrders'])->name('payment.myReceipt');
+
 
 //Cart routes--------------------------------
 
@@ -105,6 +113,8 @@ Route::get('cart/index',                    [SaleController::class, 'index'])->n
 Route::get('cart/reserveInvoice',           [SaleController::class, 'reserveInvoice'])->name('reserve.invoice')->middleware('can:See-Cart');
 Route::get('Invoice/status/{id}',           [SaleController::class, 'reserveStatus'])->name('update.Stock_status')->middleware('can:See-Cart');
 Route::get('Invoice/PaymentPending/{id}',   [SaleController::class, 'PaymentStatus'])->name('update.pending_payment')->middleware('can:See-Cart');
+
+Route::get('invoice/detail/{id}',           [SaleController::class, 'invoiceDetail'])->name('invoice.Detail');
 
 Route::get('cart/onHoldInvoice',            [SaleController::class, 'onHoldInvoice'])->name('onHold.invoice')->middleware('can:See-Cart');
 
@@ -114,23 +124,11 @@ Route::get('cart/selectbatch',              [SaleController::class, 'selectBatch
 Route::Delete('cart/deleteInvoice/{id}',    [SaleController::class, 'deleteInvoice'])->name('delete.invoice')->middleware('can:Delete-Invoice');
 
 
-
-
-
-
-
-
 //payment routes-------------------------------------------------
 
-// Route::get('payment/receipt/{id}',          [DistributorPaymentController::class, 'receipt'])->name('payment.receipt');
+ //Route::get('payment/receipt/{id}',          [DistributorPaymentController::class, 'receipt'])->name('payment.receipt');
 // Route::post('payment/receipt',              [DistributorPaymentController::class, 'paymentAgainstReceipt'])->name('pay.receipt.bill');
 // Route::get('payment/List',                  [DistributorPaymentController::class, 'PaymentList'])->name('payment.List');
-
-
-//DistributorDashBoard routes-------------------------------------------------
-
-Route::get('payment/myReceipt',             [DistributorDashBoard::class, 'myOrders'])->name('payment.myReceipt');
-//Route::post('payment/receipt',          [DistributorPaymentController::class, 'paymentAgainstReceipt'])->name('pay.receipt.bill');
 
 //Transaction routes-------------------------------------------------
 
@@ -140,7 +138,6 @@ Route::get('transaction/List',                [TransactionController::class, 'tr
 Route::post('transaction/verify/{id}',        [TransactionController::class, 'verifyTransaction'])->name('verify.transaction')->middleware('can:Verify-Transaction');
 
 Route::get('my/transactions',                 [TransactionController::class, 'userTransaction'])->name('my.transaction')->middleware('can:See-Personal-Transaction');
-
 
 
 //ajax routes-----------------------------------------------------------------

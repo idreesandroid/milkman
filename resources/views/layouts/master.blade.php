@@ -130,7 +130,7 @@
                </a>
                <div class="dropdown-menu">
                   <!-- <a class="dropdown-item" href="#">My Profile</a> -->
-                  <a class="dropdown-item" href="{{ url('role/index') }}">Settings</a>
+                  <a class="dropdown-item" href="{{ url('user/personal/profile') }}">My Profile</a>
                   <a class="dropdown-item" href="{{ route('logout') }}"  onclick="event.preventDefault();
                      document.getElementById('logout-form').submit();">
                   {{ __('Logout') }}</a>

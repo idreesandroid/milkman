@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Auth;
 
 use App\Models\User;
 use App\Models\Role;
@@ -12,7 +12,7 @@ use App\Models\City;
 use App\Models\bankDetail;
 use App\Models\Distributor;
 use App\Models\UserAccount;
-
+use App\Models\Invoice;
 
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
@@ -61,7 +61,7 @@ class DistributorController extends Controller
             'companyOwner'=>'required|min:3', 
             'companyContact' => 'required',
             'companyAddress'=>'required|min:3',
-            'companyNTN'=>'required|min:3', 
+            'companyNTN'=>'required|min:3|unique:distributors', 
             'companyArea' => 'required', 
             'companyLogo' => 'required',           
             'companyLogo.*' => 'mimes:jpg,png,jpeg,gif'       
@@ -132,6 +132,17 @@ class DistributorController extends Controller
         ]);
         Distributor::where('user_id', $id)->update($updatedata);
         return redirect()->route('profile.user', [$id]);
+    }
+
+        // DashBoard functions------------------------------------------------
+    public function myOrders()
+    {
+        $mid = Auth::id();
+
+        $invoices = Invoice::where('buyer_id' , $mid)->get();
+        return view('distributor-detail/myInvoices', compact('invoices'));
+       // return $invoices;
+       //return view('role/index', compact('roles'));
     }
     
 }

@@ -19,3 +19,15 @@ function accNumberExists($number) {
     // for instance, it might look like this in Laravel
     return UserAccount::where('userAccount', '=' , $number)->exists();
 }
+
+function timeFormat($date)
+{
+    $strTime = strtotime($date);
+    $dateTimeArray = array(
+        'date' => date('m/d/Y', $strTime),
+        'time' => date('h:i:s a', $strTime)
+    );
+   
+    return $dateTimeArray;
+}
+

@@ -71,6 +71,14 @@
             </li>
             @endcan
 
+
+            <li>
+               <a href="/payment/myReceipt" class="{{ (request()->segment(1) == 'payment' && request()->segment(2) == 'myReceipt') ? 'active' : '' }}">
+               <i class="fa fa-list" aria-hidden="true"></i>
+               <span>My Orders</span>
+               </a>
+            </li> 
+
             @can('See-Transactions')
             <li class="submenu">
                <a href="#">
