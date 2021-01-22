@@ -17,7 +17,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\TransactionController;
 
 
-use App\Http\Controllers\DistributorPaymentController;
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\TasksController;
 use App\Http\Controllers\CollectorController;
 use App\Http\Controllers\TestController;
@@ -53,7 +53,10 @@ Route::get('user/personal/profile',    [RegisterController::class, 'personalProf
 Route::post('user/updatepersonal',    [RegisterController::class,'updatePersonalProfile'])->name('update.personal.profile')->middleware('can:Edit-Personal-Profile');
 
 //DashBoard routes--------------------------------
-Route::get('DashBoard',             [RegisterController::class, 'returnDashBoard'])->name('user.dashBoard');
+Route::get('DashBoard',                   [RegisterController::class, 'returnDashBoard'])->name('user.dashBoard');
+Route::get('Dashboard/admin',             [AdminController::class, 'adminDashboard'])->name('admin.DashBoard');
+Route::get('Dashboard/Distributor',       [DistributorController::class, 'distributorDashboard'])->name('distributor.DashBoard');
+
 
 //Role routes--------------------------------
 

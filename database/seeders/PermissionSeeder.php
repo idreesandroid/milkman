@@ -197,6 +197,7 @@ class PermissionSeeder extends Seeder
         $permission_35->slug = 'Edit-Personal-Profile';
         $permission_35->name = 'Edit-Personal-Profile';
         $permission_35->save();
+
         
     }
 }
