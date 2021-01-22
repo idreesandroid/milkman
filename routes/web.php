@@ -50,12 +50,14 @@ Route::get('user/profile/{id}',    [RegisterController::class, 'profile'])->name
 Route::post('user/update/{id}',    [RegisterController::class,'update'])->name('update.userList')->middleware('can:Edit-User');
 
 Route::get('user/personal/profile',    [RegisterController::class, 'personalProfile'])->name('personal.profile.user')->middleware('can:See-Personal-Profile');
-Route::post('user/updatepersonal',    [RegisterController::class,'updatePersonalProfile'])->name('update.personal.profile')->middleware('can:Edit-Personal-Profile');
+Route::post('user/updatePersonal',    [RegisterController::class,'updatePersonalProfile'])->name('update.personal.profile')->middleware('can:Edit-Personal-Profile');
 
 //DashBoard routes--------------------------------
-Route::get('DashBoard',                   [RegisterController::class, 'returnDashBoard'])->name('user.dashBoard');
-Route::get('Dashboard/admin',             [AdminController::class, 'adminDashboard'])->name('admin.DashBoard');
-Route::get('Dashboard/Distributor',       [DistributorController::class, 'distributorDashboard'])->name('distributor.DashBoard');
+Route::get('DashBoard',                   [RegisterController::class, 'returnDashBoard'])->name('user.dashBoard')->middleware('can:Can-Login');
+Route::get('Dashboard/admin',             [AdminController::class, 'adminDashboard'])->name('admin.DashBoard')->middleware('can:Can-Login');
+Route::get('Dashboard/distributor',       [DistributorController::class, 'distributorDashboard'])->name('distributor.DashBoard')->middleware('can:Can-Login');
+Route::get('Dashboard/collector',       [DistributorController::class, 'collectorDashboard'])->name('collector.DashBoard')->middleware('can:Can-Login');
+Route::get('Dashboard/vendor',       [DistributorController::class, 'vendorDashboard'])->name('vendor.DashBoard')->middleware('can:Can-Login');
 
 
 //Role routes--------------------------------
@@ -107,7 +109,7 @@ Route::post('distributor-detail/create',         [DistributorController::class, 
 Route::get('distributor-detail/edit/{id}',       [DistributorController::class, 'edit'])->name('edit.distributor-detail')->middleware('can:Edit-Distributor');
 Route::post('distributor-detail/update/{id}',    [DistributorController::class, 'update'])->name('update.distributor-detail')->middleware('can:Edit-Distributor');
 Route::post('companyDetail/update/{id}',         [DistributorController::class,'companyDetailUpdate'])->name('companyDetail.distributor')->middleware('can:Edit-Company-Detail');
-Route::get('payment/myReceipt',                  [DistributorController::class, 'myOrders'])->name('payment.myReceipt');
+Route::get('order/myList',                       [DistributorController::class, 'myOrders'])->name('order.myList')->middleware('can:See-My-Orders');
 
 
 //Cart routes--------------------------------
@@ -117,7 +119,7 @@ Route::get('cart/reserveInvoice',           [SaleController::class, 'reserveInvo
 Route::get('Invoice/status/{id}',           [SaleController::class, 'reserveStatus'])->name('update.Stock_status')->middleware('can:See-Cart');
 Route::get('Invoice/PaymentPending/{id}',   [SaleController::class, 'PaymentStatus'])->name('update.pending_payment')->middleware('can:See-Cart');
 
-Route::get('invoice/detail/{id}',           [SaleController::class, 'invoiceDetail'])->name('invoice.Detail');
+Route::get('invoice/detail/{id}',           [SaleController::class, 'invoiceDetail'])->name('invoice.Detail')->middleware('can:See-Invoice-Detail');
 
 Route::get('cart/onHoldInvoice',            [SaleController::class, 'onHoldInvoice'])->name('onHold.invoice')->middleware('can:See-Cart');
 

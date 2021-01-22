@@ -29,6 +29,20 @@ class CollectorController extends Controller
         return view('collector-detail/create',compact('roles'));
     }
 
+    public function collectorDashboard()
+    {
+        $Did = Auth::id();
+
+        $distributorBalance = UserAccount::where('user_id' , $Did)->select('balance')->first();
+
+        $transaction = UserTransaction::where('user_id' , $Did)->count();
+    //  echo "<pre>";
+    //  print_r($transaction);
+    //  exit;
+    return view('collector.distributor', compact('distributorBalance','transaction'));
+
+    }
+
     /**
      * Store a newly created resource in storage.
      *

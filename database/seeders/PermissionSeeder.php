@@ -198,6 +198,21 @@ class PermissionSeeder extends Seeder
         $permission_35->name = 'Edit-Personal-Profile';
         $permission_35->save();
 
+        $permission_35 = new Permission();
+        $permission_35->slug = 'Login';
+        $permission_35->name = 'Login';
+        $permission_35->save();
+
+        $permission_34 = new Permission();
+        $permission_34->slug = 'See-My-Orders';
+        $permission_34->name = 'See-My-Orders';
+        $permission_34->save();
+
+        $permission_35 = new Permission();
+        $permission_35->slug = 'See-Invoice-Detail';
+        $permission_35->name = 'See-Invoice-Detail';
+        $permission_35->save();
+
         
     }
 }

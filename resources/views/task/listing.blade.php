@@ -61,7 +61,7 @@
                            <a href="{{ route('profile.user', $task->collector_id)}}" class="text-decoration-none">{{$task->collector_name}}</a>
                         </td>
                         <td><a href="{{ route('profile.user', $task->vendor_id)}}">{{$task->vendor_name}}</a></td>
-                        <td>{{$task->duedate}} {{$task->duetime}}</td>
+                        <td>{{timeFormat($task->duedate)['date']}}{{timeFormat($task->duetime)['time']}}</td>
                         <td>
                         	@if($task->status == 'Missed')
                         	<label class="badge badge-gradient-danger">Missed</label>

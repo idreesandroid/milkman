@@ -55,7 +55,7 @@
                         <td>{{$product->product_name}}</td>
                         <td>{{$product->product_nick}}</td>
                         <td>{{$product->product_size}} {{$product->unit}} </td>
-                        <td>{{$product->product_price}}</td>
+                        <td>Rs {{number_format($product->product_price)}}</td>
                         <td>{{$product->stockInBatch}}</td>
                         <td>{{$product->ctn_value}}</td>
                         <td>{{$product->product_description}}</td>
