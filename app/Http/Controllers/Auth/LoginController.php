@@ -26,7 +26,7 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = RouteServiceProvider::HOME;
+    
 
     /**
      * Create a new controller instance.
@@ -63,8 +63,10 @@ class LoginController extends Controller
         $fieldType = filter_var($request->username, FILTER_VALIDATE_EMAIL) ? 'email' : 'user_cnic';
         if(auth()->attempt(array($fieldType => $input['username'], 'password' => $input['password'])))
         {
-            return redirect()->route('home');
-        }else{
+            return redirect()->route('user.dashBoard');   
+        }
+        else
+        {
             return redirect()->route('login');
         }
     }

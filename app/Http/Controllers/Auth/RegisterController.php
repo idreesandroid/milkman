@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Auth;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
-use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -15,6 +15,7 @@ use App\Models\Role;
 use App\Models\State;
 use App\Models\City;
 use App\Models\vendorDetail;
+use App\Models\User;
 
 class RegisterController extends Controller
 {
@@ -133,7 +134,6 @@ class RegisterController extends Controller
       'user_cnic' => 'required|min:15',
       'user_phone'=> 'required|min:12',
       'user_address'  => 'required|min:3',
-      'roleNames' => 'required',
       'email' => 'required',
     ]);
    
@@ -144,20 +144,66 @@ class RegisterController extends Controller
       'user_address' => $request->user_address,
       'email' => $request->email,
   ));
-  DB::delete('delete from role_user where user_id = ?',[$id]);
-
-  $rolesName = $request['roleNames'];
-  foreach($rolesName as $roleName)
-  {
-  DB::insert('insert into role_user (role_id, user_id) values (?, ?)', [$roleName, $id]);
-  }
   return redirect()->route('profile.user', [$id]);
   }
 
 
+public function personalProfile()
+    {
+      $uid = Auth::id();
+      $users = User::with('roles','vendorDetail','bankDetail','distributorCompany')->findOrFail($uid);
+      return view('user/profile', compact('users')); 
+    }
 
-  
 
-    
+
+  public function updatePersonalProfile(Request $request)
+  {
+    $updatedata = $request->validate([
+
+      'oldPassword'      => 'required',
+      'newPassword' => 'required',
+      'confirmPassword'=> 'required_with:newPassword|same:newPassword',
+      
+    ]);
+   $pw= auth()->user()->password;
+   $uid = Auth::id();
+
+   if(Hash::check($request->oldPassword, $pw))
+      {
+        User::whereid($uid)->update(array(
+        'password' => Hash::make($request->newPassword), 
+      ));
+      Auth::logout();
+      return redirect('/login');
+      }
+      else
+      { 
+       return redirect()->route('personal.profile.user')->with('status', 'wrong password!'); 
+      }
+  }
+
+  public function returnDashBoard()
+  {
+    $roleArray= auth()->user()->roles()->pluck('roles.id')->toArray();
+          
+    if(in_array(1, $roleArray))
+    { 
+      return View('dashBoards.admin');
+    }
+    elseif(in_array(3, $roleArray))
+    {
+        return View('dashBoards.distributor');
+    }
+    elseif(in_array(5, $roleArray))
+    {
+        return View('dashBoards.collector');
+    }
+    elseif(in_array(6, $roleArray))
+    {
+        return View('dashBoards.vendor');
+    }
+  }
+     
 
 }

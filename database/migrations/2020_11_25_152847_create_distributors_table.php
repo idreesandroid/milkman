@@ -22,7 +22,7 @@ class CreateDistributorsTable extends Migration
             $table->string('companyOwner');
             $table->string('companyContact');
             $table->string('companyAddress');
-            $table->string('companyNTN');
+            $table->string('companyNTN')->unique();
             $table->string('companyArea');
             
             $table->string('companyLogo');

@@ -10,6 +10,7 @@ use App\Models\bankList;
 use App\Models\UserAccount;
 use App\Models\UserTransaction;
 use App\Models\User;
+use App\Models\Invoice;
 
 class TransactionController extends Controller
 {
@@ -101,6 +102,13 @@ class TransactionController extends Controller
     //    exit;
       
        $transaction->save();
+
+
+
+
+
+
+
        return redirect('my/transactions');
     
    }     
@@ -116,9 +124,9 @@ public function verifyTransaction(Request $request , $tr_no)
     $finduser = UserTransaction::where('id' , $tr_no)->first();
     $user = $finduser->user_id;
     $amt = $finduser->amountPaid;
-    
+
     $findAcc = UserAccount::where('user_id', $user )->first();
-    $userBalance = $findAcc->balance;    
+    $userBalance = $findAcc->balance; 
 
     $newBal=$userBalance+$amt;
 
@@ -131,6 +139,36 @@ public function verifyTransaction(Request $request , $tr_no)
         case '1':
             DB::update("UPDATE user_accounts SET balance = $newBal  WHERE user_id	 = '$user'");
             DB::update("UPDATE user_transactions SET `status` = 'verified'  WHERE id = '$tr_no'");
+
+       
+    
+            
+    // $findInvoices= Invoice::where('buyer_id', $user)->where('Remains', '>', 0)->get();
+    
+    // $findBalance = UserAccount::where('user_id', $user)->first();
+    // $userNewBalance = $findBalance->balance; 
+    
+
+    // foreach($findInvoices as $invoices)
+    // {
+    //    $getremains=$invoices->Remains;
+
+    // while($userNewBalance > 0)
+    // {        
+    //     $remaining = $getremains-$userNewBalance; //$remaining hold remaing invoice balance after -ve from new
+    // if($remaining >= 0)
+    // {
+
+    // }
+
+    // }
+  
+    
+    // }
+    // echo "<pre>";
+    // print_r($getremains);
+    // exit;
+
         break;
 
         case '2':
