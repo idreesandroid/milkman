@@ -242,15 +242,15 @@ class VendorDetailController extends Controller
 
     public function vendorDashboard()
     {
-        $Did = Auth::id();
+        // $Did = Auth::id();
 
-        $distributorBalance = UserAccount::where('user_id' , $Did)->select('balance')->first();
+        // $distributorBalance = UserAccount::where('user_id' , $Did)->select('balance')->first();
 
-        $transaction = UserTransaction::where('user_id' , $Did)->count();
+        // $transaction = UserTransaction::where('user_id' , $Did)->count();
     //  echo "<pre>";
     //  print_r($transaction);
     //  exit;
-    return view('vendor.distributor', compact('distributorBalance','transaction'));
+    return view('vendor.distributor');
 
     }
 }
