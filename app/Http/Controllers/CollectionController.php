@@ -176,6 +176,14 @@ class CollectionController extends Controller
         return ($deleteCollection || $deleteCollectionVendor || $deleteTask) ? true : false;
     }
 
+    public function getvendorlatlng(Request $request){ 
+    $currentVendorId = $request->vendor_id[count($request->vendor_id) - 1];
+         
+        //$latlng = vendorDetail::select('longitude','latitude')->where('user_id','=',end($request->vendor_id))->first();
+        //echo $latlng->latitude. ', '.$latlng->longitude;
+        echo $currentVendorId;
+    }
+
     public function assignCollector(Request $request){
         date_default_timezone_set("Asia/Karachi");
         $vendors = CollectionVendor::select('vendor_id')->where('collection_id',$request->id)->get(); 
