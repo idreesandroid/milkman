@@ -151,8 +151,7 @@ class PermissionSeeder extends Seeder
         $permission_28 = new Permission();
         $permission_28->slug = 'Edit-Agreement-Detail';
         $permission_28->name = 'Edit-Agreement-Detail';
-        $permission_28->save();
-        
+        $permission_28->save();        
 
         $permission_29 = new Permission();
         $permission_29->slug = 'Edit-Bank-Detail';
@@ -167,8 +166,7 @@ class PermissionSeeder extends Seeder
         $permission_31 = new Permission();
         $permission_31->slug = 'Make-Transaction';
         $permission_31->name = 'Make-Transaction';
-        $permission_31->save();
-        
+        $permission_31->save();        
 
         $permission_32 = new Permission();
         $permission_32->slug = 'See-Transactions';
@@ -189,7 +187,16 @@ class PermissionSeeder extends Seeder
         $permission_35->slug = 'See-All-Transactions';
         $permission_35->name = 'See-All-Transactions';
         $permission_35->save();
-        
+
+        $permission_34 = new Permission();
+        $permission_34->slug = 'See-Personal-Profile';
+        $permission_34->name = 'See-Personal-Profile';
+        $permission_34->save();
+
+        $permission_35 = new Permission();
+        $permission_35->slug = 'Edit-Personal-Profile';
+        $permission_35->name = 'Edit-Personal-Profile';
+        $permission_35->save();
         
     }
 }

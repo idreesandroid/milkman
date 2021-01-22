@@ -9481,7 +9481,8 @@ form .btn-gradient-primary {
 }
 #addCollectionMap, 
 #updateCollectionMap,
-#mapIn
+#mapIn,
+#ProfielMap
 {
   height:400px;
   width: 100%;  
