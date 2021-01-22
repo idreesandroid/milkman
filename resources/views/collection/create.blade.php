@@ -48,7 +48,7 @@
                      <div class="row">
                         <div class="col-md-12">
                            <div class="form-group">                        
-                              <input type="text" class="form-control" id="add_MapData" name="vendors_location" value="{{$location}}">
+                              <input type="text" class="form-control" id="add_MapData" name="vendors_location" value="{{$location}}" readonly>
                            </div>
                         </div>
                      </div>
