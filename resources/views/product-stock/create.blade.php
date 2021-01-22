@@ -8,12 +8,12 @@
                <h3 class="page-title">
                   <span class="page-title-icon bg-gradient-primary text-white mr-2">
                   <i class="la la-table"></i>
-                  </span> <span>MilkMan Dashboard</span>
+                  </span> <span>Product Stock</span>
                </h3>
             </div>
             <div class="col text-right">
                <ul class="breadcrumb bg-white float-right m-0 pl-0 pr-0">
-                  <li class="breadcrumb-item"><a href="/">Product Stock</a></li>
+                  <li class="breadcrumb-item"><a href="/DashBoard">Dashboard</a></li>
                   <li class="breadcrumb-item active">Add Stock</li>
                </ul>
             </div>

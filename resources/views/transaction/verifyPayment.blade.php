@@ -27,7 +27,7 @@
                <table class="datatable table table-stripped mb-0 datatables">
                   <thead>
                      <tr>
-                        <th>Serial No</th>
+                       
                         <th>Invoice No</th>
                         <th>Name</th>
                         <th>Payment Method</th>
@@ -51,7 +51,7 @@
                   <tbody>
                      @foreach($invoices as $index => $invoice)
                      <tr>
-                        <td>{{$index+1}}</td>
+                        
                         <td>{{$invoice->invoice_no}}</td>
                         <td>{{$invoice->distributor_id}}</td>
                         <td>{{$invoice->paymentMethod}}</td>

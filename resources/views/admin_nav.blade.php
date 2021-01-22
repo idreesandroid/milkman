@@ -3,7 +3,7 @@
       <div id="sidebar-menu" class="sidebar-menu">
          <ul>
             <li>
-               <a href="javascript:void(0);">
+               <a href="{{ url('DashBoard') }}">
                <i class="fa fa-tachometer" aria-hidden="true">
                </i> <span> Dashboard </span>
                </a>

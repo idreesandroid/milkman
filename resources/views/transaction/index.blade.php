@@ -6,13 +6,13 @@
                <h3 class="page-title">
                   <span class="page-title-icon bg-gradient-primary text-white mr-2">
                   <i class="la la-table"></i>
-                  </span> <span>MilkMan Dashboard</span>
+                  </span> <span>Transaction</span>
                </h3>
             </div>
             <div class="col text-right">
                <ul class="breadcrumb bg-white float-right m-0 pl-0 pr-0">
-                  <li class="breadcrumb-item"><a href="/">Payment</a></li>
-                  <li class="breadcrumb-item active">Verification</li>
+                  <li class="breadcrumb-item"><a href="/DashBoard">Dashboard</a></li>
+                  <li class="breadcrumb-item active">Transaction List</li>
                </ul>
             </div>
          </div>
@@ -26,7 +26,7 @@
             <div class="form-group mb-0 row">
                <div class="col-md-4">
                   <div class="input-group-append">
-                     <a href="/product/create" class="active"> <button class="btn btn-primary" type="button">New Transaction</button></a>
+                     <a href="{{route('transaction.slip')}}" class="active"> <button class="btn btn-primary" type="button">New Transaction</button></a>
                   </div>
                </div>
             </div>
@@ -35,7 +35,7 @@
                <table class="datatable table table-stripped mb-0 datatables">
                   <thead>
                      <tr>
-                        <th>Serial No</th>
+                        
                         <th>Account No</th>
                         <th>Name</th>
                         <th>Payment Method</th>
@@ -58,7 +58,7 @@
                   <tbody>
                      @foreach($transactions as $index => $transaction)
                      <tr>
-                        <td>{{$index+1}}</td>
+                       
                         <td>{{$transaction->userAcc_id}}</td>
                         <td>{{$transaction->user_id}}</td>
                         <td>{{$transaction->paymentMethod}}</td>
@@ -78,8 +78,12 @@
                         <td><img src="{{asset('/receipt_img/'.$transaction->receiptPics)}}" alt="Logo" class="img-thumbnail"></td>
                         <form method="post" action="{{route ('verify.transaction', $transaction->id) }}">
                     @csrf
+                    @can('Verify-Transaction')
                          <td><button class="btn btn-block btn-primary text-uppercase" type="submit" name="action" value="1" id="verified" >Verified</button></td>
+                    @endcan
+                    @can('Verify-Transaction')
                          <td><button class="btn btn-block btn-primary text-uppercase" type="submit" name="action" value="2" id="failed" >Failed</button></td>
+                     @endcan
                      </form>
                      </tr>
                      @endforeach
