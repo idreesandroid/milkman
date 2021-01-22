@@ -14,7 +14,9 @@ class ProductController extends Controller
     }
 
     public function index()
-    {        
+    {       
+      
+        
        $products_rs = "SELECT id, product_name, product_nick, product_size, product_price,product_description, unit,  ctn_value, filenames,
        (SELECT IFNULL(SUM(stockInBatch),0)  FROM product_stocks WHERE stockInBatch>0 and product_id=a.id)stockInBatch
         FROM products a";    

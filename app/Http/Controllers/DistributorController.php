@@ -12,6 +12,7 @@ use App\Models\City;
 use App\Models\bankDetail;
 use App\Models\Distributor;
 use App\Models\UserAccount;
+use App\Models\UserTransaction;
 use App\Models\Invoice;
 
 use Illuminate\Support\Facades\Hash;
@@ -150,10 +151,11 @@ class DistributorController extends Controller
         $Did = Auth::id();
 
         $distributorBalance = UserAccount::where('user_id' , $Did)->select('balance')->first();
+        $transaction = UserTransaction::where('user_id' , $Did)->count();
     //  echo "<pre>";
-    //  print_r($distributorBalance);
+    //  print_r($transaction);
     //  exit;
-    return view('dashBoards.distributor', compact('distributorBalance'));
+    return view('dashBoards.distributor', compact('distributorBalance','transaction'));
 
     }
     

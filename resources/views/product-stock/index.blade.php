@@ -41,7 +41,7 @@
                         <th>Expiry Date</th>
                         <th>Manufacture Quantity</th>
                         <th>Current Stock</th>
-                        <th>Entered By</th>
+                       
                         <th>Action</th>
                      </tr>
                   </thead>
@@ -51,15 +51,15 @@
                         <td>{{$index+1}}</td>
                         <td>{{$product_stock->product->product_name}}</td>
                         <td>{{$product_stock->batch_name}}</td>
-                        <td>{{$product_stock->manufactured_date}}</td>
-                        <td>{{$product_stock->expire_date}}</td>
-                        <td>{{$product_stock->manufactured_quantity}}</td>
-                        <td>{{$product_stock->stockInBatch}}</td>
-                        <td>{{$product_stock->user_id}}</td>
-                        <td></td>
+                        <td>{{timeFormat($product_stock->manufactured_date)['date']}}</td>
+                        <td>{{timeFormat($product_stock->expire_date)['date']}}
+                        <td>{{number_format($product_stock->manufactured_quantity)}}</td>
+                        <td>{{number_format($product_stock->stockInBatch)}}</td>
+                    
                         <td>
                         @can('Edit-Product-Stock')  <a href="{{ route('edit.productStock', $product_stock->id)}}" class="btn btn-primary">Edit</a>  @endcan 
-                        @can('Delete-Product-Stock')   <form action="{{ route('delete.productStock', $product_stock->id)}}" method="post" style="display: inline-block"> 
+                        @can('Delete-Product-Stock')
+                        <form action="{{ route('delete.productStock', $product_stock->id)}}" method="post" style="display: inline-block"> 
                               @csrf
                               @method('DELETE')
                               <button class="btn btn-danger btn-sm" type="submit">Delete</button>

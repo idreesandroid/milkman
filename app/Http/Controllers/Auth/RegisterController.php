@@ -211,11 +211,11 @@ class RegisterController extends Controller
     }
     elseif(in_array(5, $roleArray))
     {
-        return View('dashBoards.collector');
+      return redirect()->route('collector.DashBoard');
     }
     elseif(in_array(6, $roleArray))
     {
-        return View('dashBoards.vendor');
+      return redirect()->route('vendor.DashBoard');
     }
     else
     {

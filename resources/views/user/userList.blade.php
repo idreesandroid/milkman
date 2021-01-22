@@ -6,13 +6,13 @@
                <h3 class="page-title">
                   <span class="page-title-icon bg-gradient-primary text-white mr-2">
                   <i class="la la-table"></i>
-                  </span> <span>Deals Dashboard</span>
+                  </span> <span>Users</span>
                </h3>
             </div>
             <div class="col text-right">
                <ul class="breadcrumb bg-white float-right m-0 pl-0 pr-0">
-                  <li class="breadcrumb-item"><a href="/">Dashboard</a></li>
-                  <li class="breadcrumb-item active">Deals Dashboard</li>
+                  <li class="breadcrumb-item"><a href="{{route('user.dashBoard')}}">Dashboard</a></li>
+                  <li class="breadcrumb-item active">List</li>
                </ul>
             </div>
          </div>
@@ -70,7 +70,7 @@
                <table class="datatable table table-stripped mb-0 datatables" id="userTable">
                   <thead>
                      <tr>
-                        <th>Serial No</th>
+                        
                         <th>Image</th>
                         <th>Name</th>
                         <th>Email</th>
@@ -83,11 +83,11 @@
                   <tbody>
                      @foreach($users as $index => $user)
                      <tr>
-                        <td>{{$index+1}}</td>
+                        
                         <td><img alt="" class="profile-img" src="{{asset('/UserProfile/'.$user->filenames)}}"></td>
                         <td>{{$user->name}}</td>
                         <td>{{$user->email}} </td>
-                        <td>@foreach ($user->roles as $role) <span>{{$role->name.','}}</span>@endforeach</td>
+                        <td>@foreach ($user->roles as $role) <span>{{$role->name}}</span>@endforeach</td>
                         <td>{{$user->user_cnic}}</td>
                         <td>{{$user->user_phone}}</td>
                         <td><a href="{{ route('profile.user', $user->id)}}" class="btn btn-primary">Profile</a>

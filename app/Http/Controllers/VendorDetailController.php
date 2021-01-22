@@ -238,5 +238,20 @@ class VendorDetailController extends Controller
         bankDetail::where('user_id', $id)->update($updatedata);
         return redirect()->route('profile.user', [$id]);
     }
+
+
+    public function vendorDashboard()
+    {
+        $Did = Auth::id();
+
+        $distributorBalance = UserAccount::where('user_id' , $Did)->select('balance')->first();
+
+        $transaction = UserTransaction::where('user_id' , $Did)->count();
+    //  echo "<pre>";
+    //  print_r($transaction);
+    //  exit;
+    return view('vendor.distributor', compact('distributorBalance','transaction'));
+
+    }
 }
  

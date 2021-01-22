@@ -198,17 +198,9 @@ class SaleController extends Controller
     {   
 
         $roleArray= auth()->user()->roles()->pluck('roles.id')->toArray();
-       // $roleArray = (array) $userRoles;
-        
-        // echo "<pre>";
-        // print_r($roleArray);
-        // exit; 
              if(in_array(1, $roleArray))
              {
                 $invoice = Invoice::where('id',$id)->with('buyer')->findOrFail($id);
-                //   echo "<pre>";
-                //   print_r($invoice);
-                //   exit; 
              }
              else
              {

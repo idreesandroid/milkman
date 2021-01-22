@@ -61,10 +61,10 @@
                                  <td style="display:none;"  id="cid_{{$cart->product->id}}" >{{$cart->id}}</td>
                                  <td>{{$index+1}}</td>
                                  <td id="setPName_{{$cart->product->id}}">{{$cart->product->product_name}}</td>
-                                 <td>{{$cart->product_rate}}</td>
+                                 <td>Rs {{number_format($cart->product_rate)}}</td>
                                  <td id="setPQuantity_{{$cart->product->id}}">{{$cart->product_quantity}}</td>
-                                 <td>{{$cart->sub_total}}</td>
-                                 <td>{{$cart->delivery_due_date}}</td>
+                                 <td>Rs {{number_format($cart->sub_total)}}</td>
+                                 <td>{{timeFormat($cart->delivery_due_date)['date']}}</td>
                                  <td ><button type="button" id="batch_{{$cart->product->id}}" class=" form-control btn btn-sm btn-primary btn-info btn-lg " data-toggle="modal" data-target="#myModal"  onclick="getBId({{$cart->product->id}})">Batch</button> </td>
                                  @endforeach 
                               </tr>
@@ -74,7 +74,8 @@
                                  <td></td>
                                  <td></td>
                                  <td><strong>Total</strong></td>
-                                 <td id="totalCost"><strong>{{$total_amount}}</strong></td>
+                                 <td id="totalCost"><strong>Rs {{number_format($total_amount)}}</strong></td>
+                                 <td></td>
                               </tr>
                            </tbody>
                         </table>

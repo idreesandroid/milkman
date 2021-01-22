@@ -77,7 +77,7 @@
                                     <td></td>
                                     <td></td>
                                     <td></td>
-                                    <td></td>
+                                    <td></td><td></td>
                                     <td><strong>Total</strong></td>
                                     <td id="totalCost"><strong>0</strong></td>
                                  </tr>

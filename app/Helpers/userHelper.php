@@ -24,10 +24,14 @@ function timeFormat($date)
 {
     $strTime = strtotime($date);
     $dateTimeArray = array(
-        'date' => date('m/d/Y', $strTime),
+        'date' => date('d/m/Y', $strTime),
         'time' => date('h:i:s a', $strTime)
     );
    
     return $dateTimeArray;
 }
+
+
+
+
 
