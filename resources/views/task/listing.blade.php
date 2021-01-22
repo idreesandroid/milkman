@@ -60,8 +60,9 @@
                         <td>
                            <a href="{{ route('profile.user', $task->collector_id)}}" class="text-decoration-none">{{$task->collector_name}}</a>
                         </td>
-                        <td><a href="{{ route('profile.user', $task->vendor_id)}}">{{$task->vendor_name}}</a></td>
-                        <td>{{timeFormat($task->duedate)['date']}}{{timeFormat($task->duetime)['time']}}</td>
+                        <td><a href="{{ route('profile.user', $task->vendor_id)}}">{{$task->vendor_name}}</a></td>                        
+                        <td><?php echo date('d/m/Y h:i A', strtotime($task->duedate . ' '. $task->duetime)); ?>                           
+                        </td>
                         <td>
                         	@if($task->status == 'Missed')
                         	<label class="badge badge-gradient-danger">Missed</label>
@@ -74,9 +75,13 @@
                         	@endif
 
                         </td>
-                        <td style="text-align: center;">                           
-                           <button href="#" id="start_task_<?php echo $task->id ?>" class="btn btn-primary" onclick="startTask(<?php echo $task->id ?>)" <?php echo ($task->status != 'Not Started') ? 'disabled':''; ?> >Start</button>                           
-                           <button href="#" onclick="completeTask(<?php echo $task->id ?>)" class="btn btn-success" data-toggle="modal" data-target="#completedtask" <?php echo ($task->status == 'Collected' || $task->status == 'Missed') ? 'disabled':''; ?>>Complete</button>
+                        <td style="text-align: right;">
+                           @if($task->status == 'Not Started')                      
+                           <button href="#" id="start_task_<?php echo $task->id ?>" class="btn btn-primary" onclick="startTask(<?php echo $task->id ?>)" <?php echo ($task->status != 'Not Started') ? 'disabled':''; ?> >Start</button> 
+                           @endif
+                           @if($task->status != 'Collected' && $task->status != 'Missed' && $task->status != 'Not Started')
+                           <button href="#" onclick="completeTask(<?php echo $task->id ?>)" class="btn btn-success" data-toggle="modal" data-target="#completedtask" <?php echo ($task->status == 'Collected' || $task->status == 'Missed') ? 'disabled':''; ?>>Completed</button>
+                           @endif
                            <button href="#" onclick="taskDetail(<?php echo $task->id ?>)" class="btn btn-info" data-toggle="modal" data-target="#taskDetial">Detail</button>
                            <button href="#" onclick="deleteTask(<?php echo $task->id ?>)" class="btn btn-danger">Delete</button>
                         </td>
@@ -432,7 +437,7 @@ function taskDetail(taskID){
 		   	$("#collectionName").text(response.collector_name);
 		   	$("#taskStatus").text(response.status);
             if(response.milk_amout){
-		   	   $("#taskMilkAmount").text(response.milk_amout+' KG');
+		   	   $("#taskMilkAmount").text(response.milk_amout+' ltr');
             }else{
                $("#taskMilkAmount").text(response.milk_amout);
             }
@@ -440,8 +445,22 @@ function taskDetail(taskID){
 		   	$("#taskMilkTaste").text(response.milk_taste);
 		   	$("#taskVendorName").text(response.vendor_name);
 		   	$("#taskShift").text(response.shift);
-            $("#startedTime").text(response.starttime);
+            if(response.starttime){
+            starttime = new Date(response.starttime)
+            var start_time = moment(starttime, 'DD MMM YYYY - hh:mm a').format('DD-MM-YYYY hh:mm:ss a');          
+            $("#startedTime").text(start_time);
+            }else{
+            $("#startedTime").text(response.endtime);
+
+            }
+            if(response.endtime){
+               endtime = new Date(response.endtime)
+               var end_time = moment(endtime, 'DD MMM YYYY - hh:mm a').format('DD-MM-YYYY hh:mm:ss a');
+            $("#endTime").text(end_time);
+            }else{
             $("#endTime").text(response.endtime);
+
+            }
 		   	$("#collectorImage").attr("src","UserProfile/"+response.filenames);
 		}
 	});

@@ -17,7 +17,11 @@ class TestController extends Controller
     public function index()
     {     
 
-        return view('test');
+         $people = array("Peter", "Joe", "Glenn", "Cleveland");
+         print_r($people);
+
+        echo current($people) . "<br>";
+        echo end($people);
     }
 
     /**

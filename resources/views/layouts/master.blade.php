@@ -192,6 +192,7 @@
       <!-- <script src="{{asset('assets/js/jquery.js')}}"></script> -->
       <script src="{{asset('assets/js/inputmask.js')}}"></script>      
       <script src="{{asset('assets/js/sweetalert.js')}}"></script>      
+      <script src="{{asset('assets/js/moment.min.js')}}"></script>      
    </body>
 </html>
 
