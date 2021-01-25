@@ -98,7 +98,7 @@
                <div class="row">
                   <div class="col-md-6">
                      <div class="form-group">
-                        <label>Average Daily Agreed  Quantity:</label>
+                        <label>Average Daily Quantity:</label>
                         <input type="number" min="0"  class="form-control" name="decided_milkQuantity"    required=""  autocomplete="off" >
                      </div>
                   </div>
