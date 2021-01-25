@@ -28,6 +28,11 @@
             <h4 class="card-title mb-0">Edit Role</h4>
          </div>
          <div class="card-body">
+         @if ($errors->any())
+     @foreach ($errors->all() as $error)
+         <div>{{$error}}</div>
+     @endforeach
+      @endif
             <form method="post"  action="{{ route('update.role', $roles->id) }}">
                @csrf 
                <div class="form-group row">

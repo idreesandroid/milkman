@@ -39,7 +39,7 @@ class CollectorController extends Controller
     //  echo "<pre>";
     //  print_r($transaction);
     //  exit;
-    return view('collector.distributor');
+    return view('dashBoards/collector');
 
     }
 

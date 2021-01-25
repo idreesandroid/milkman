@@ -60,9 +60,11 @@
                         <td>
                            <a href="{{ route('profile.user', $task->collector_id)}}" class="text-decoration-none">{{$task->collector_name}}</a>
                         </td>
-                        <td><a href="{{ route('profile.user', $task->vendor_id)}}">{{$task->vendor_name}}</a></td>                        
-                        <td><?php echo date('d/m/Y h:i A', strtotime($task->duedate . ' '. $task->duetime)); ?>                           
-                        </td>
+
+                        <td><a href="{{ route('profile.user', $task->vendor_id)}}">{{$task->vendor_name}}</a></td>
+                        <td>{{timeFormat($task->duetime)['time']}}<br>{{timeFormat($task->duedate)['date']}}</td>
+
+
                         <td>
                         	@if($task->status == 'Missed')
                         	<label class="badge badge-gradient-danger">Missed</label>
@@ -136,7 +138,7 @@
                            <select class="form-control" id="collectorID">
                               <option>collector name -- capacity</option>
                            	@foreach($collectors as $collector)
-                              <option value="{{$collector->id}}">{{$collector->name}} -- 20kg</option>
+                              <option value="{{$collector->id}}">{{$collector->name}} -- 20 Ltr</option>
                             @endforeach 
                            </select>
                         </div>
@@ -155,7 +157,7 @@
                            	Due Date<span class="text-danger">*</span>:
                            </label>
                            <div class="cal-icon">
-                           		<input class="form-control" type="date" placeholder="MM/DD/YY" id="dueDate">
+                           		<input class="form-control" type="date"  id="dueDate">
                            </div>
                         </div>
                         <div class="col-sm-6">
@@ -163,7 +165,7 @@
                            	Due Time <span class="text-danger">*</span>:
                            </label>
                            <div class="cal-icon">
-                           		<input id="dueTime" class="form-control" type="time" placeholder="&#61442;">
+                           		<input id="dueTime" class="form-control" type="time" >
                            </div>
                         </div>
                      </div>
@@ -235,13 +237,13 @@
                      <h4>Task Details</h4>
                      <div class="form-group row">
                         <div class="col-sm-6">
-                           <label class="col-form-label">Milk Amount<span class="text-danger">*</span></label>
-                           <input class="form-control" type="text" id="milkAmout" placeholder="Milk Amount in KG">
+                           <label class="col-form-label">Milk Quantity<span class="text-danger">*</span></label>
+                           <input class="form-control" type="text" id="milkAmout" >
                            <input type="hidden" id="taskId">
                         </div>
                         <div class="col-sm-6">
                            <label class="col-form-label">Lactometer Reading</label>
-                           <input class="form-control" type="text" id="lactometerReading" placeholder="Lactometer Reading">
+                           <input class="form-control" type="text" id="lactometerReading" >
                         </div>
                      </div>
                      <div class="form-group row">
@@ -320,7 +322,7 @@
                      </tr>
                      <tr>
                         <td>Milk Amount:</td>
-                        <td id="taskMilkAmount">50kg</td>
+                        <td id="taskMilkAmount">50 Ltr</td>
                      </tr>
                      <tr>
                         <td>Priority:</td>
@@ -437,7 +439,9 @@ function taskDetail(taskID){
 		   	$("#collectionName").text(response.collector_name);
 		   	$("#taskStatus").text(response.status);
             if(response.milk_amout){
-		   	   $("#taskMilkAmount").text(response.milk_amout+' ltr');
+
+		   	   $("#taskMilkAmount").text(response.milk_amout+' Ltr');
+
             }else{
                $("#taskMilkAmount").text(response.milk_amout);
             }

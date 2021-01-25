@@ -22,7 +22,7 @@
 <!-- Page Wrapper -->
 <div class="row">
 <div class="col-md-12">
-   <div class="card">
+   <div class="card"></div>
       <div class="card-header">
          <h4 class="card-title mb-0">Registration Form</h4>
       </div>
@@ -75,8 +75,8 @@
                      <input type="password" class="form-control" id="pass" name="password" required=""  autocomplete="off"   minlength="6"  >
                   </div>
                   <div class="form-group">
-                     <label>Repeat Password</label>
-                     <input type="password" class="form-control" id="pass1" name="pass1" required=""  autocomplete="off"  minlength="6"    >
+                     <label>Confirm Password</label>
+                     <input type="password" class="form-control" id="Confirm" name="Confirm" required=""  autocomplete="off"  minlength="6"    >
                   </div>
                </div>
             </div>
