@@ -24,7 +24,7 @@
       <div class="col">
          <h3>All Tasks</h3>
       </div>
-      @can('Store-Task')
+    
       <div class="col text-right">
          <ul class="list-inline-item pl-0">
             <li class="list-inline-item">
@@ -32,7 +32,7 @@
             </li>
          </ul>
       </div>
-      @endcan
+     
    </div>
 </div>	
 
@@ -58,9 +58,9 @@
                   	@foreach($tasks as $task)
                      <tr id="taskId_{{$task->id}}">
                         <td>
-                           <a href="{{ route('profile.user', $task->collector_id)}}" class="text-decoration-none">{{$task->collector_name}}</a>
+                           <a href="" class="text-decoration-none">{{$task->collector_name}}</a>
                         </td>
-                        <td>>{{$task->title}}</td>                        
+                        <td>{{$task->title}}</td>                        
                         <!-- <td><?php //echo date('d/m/Y h:i A', strtotime($task->duedate . ' '. $task->duetime)); ?>                           
                         </td> -->
                         <!-- 
@@ -77,7 +77,7 @@
                         	@endif
 
 
-                        </td>
+                        </td> -->
                         <td style="text-align: center;">
                            
                            @if($task->status == 'Not Started')                      
@@ -86,7 +86,7 @@
                            @if($task->status != 'Collected' && $task->status != 'Missed' && $task->status != 'Not Started')
                            <!-- <button href="#" onclick="completeTask(<?php //echo $task->id ?>)" class="btn btn-success" data-toggle="modal" data-target="#completedtask" <?php //echo ($task->status == 'Collected' || $task->status == 'Missed') ? 'disabled':''; ?>>Completed</button> -->
                            @endif                                                  
-                           <button href="#" onclick="taskDetail(<?php echo $task->id ?>)" class="btn btn-info" data-toggle="modal" data-target="#taskDetial">Detail</button>
+                           <a href="{{url('/task/detail/'.$task->id)}}" class="btn btn-info">Detail</a>
 
                            <!-- <button href="#" onclick="deleteTask(<?php //echo $task->id ?>)" class="btn btn-danger">Delete</button> -->
 
@@ -313,19 +313,19 @@
                <table class="table">
                   <tbody>
                      <tr>
-                        <td class="border-0">Vendor Name:</td>
-                         <td>Start Time:</td>
-                         <td>End Time:</td>
-                         <td>Milk Taste:</td>
-                         <td>Lactometer Reading:</td>
-                         <td>Milk Amount:</td>
-                         <td>Priority:</td>
-                         <td>Shift:</td>
-                         <td>Status:</td>
-                        
+                        <td>Vendor Name</td>
+                         <td>Start Time</td>
+                         <td>End Time</td>
+                         <td>Milk Taste</td>
+                         <td>Lactometer Reading</td>
+                         <td>Milk Amount</td>
+                         <td>Priority</td>
+                         <td>Shift</td>
+                         <td>Status</td>
+                        <td>Action</td>
                      </tr>
                      <tr>
-                        <td class="border-0" id="taskVendorName">Kafeel Ahmed</td>
+                        <td id="taskVendorName">Kafeel Ahmed</td>
                         <td id="startedTime">10:05 PM</td>
                         <td id="endTime">10:12 AM</td>
                         <td id="taskMilkTaste">Good</td>
@@ -334,6 +334,7 @@
                         <td id="taskPriority">High</td>
                         <td id="taskShift">High</td>
                         <td id="taskStatus">Collected</td>
+                        <td >Start | Complete | Delete</td>
                      </tr>
                   </tbody>
                </table>
@@ -348,88 +349,88 @@
 
 
 <script type="text/javascript">
-function createCustomTask(){
-	var collectorID = $("#collectorID").val();
+// function createCustomTask(){
+// 	var collectorID = $("#collectorID").val();
 
-   if(!collectorID.length){
-      $("#collectorID").focus();
-      alert('Please select the collector');            
-      return false;
-   } 
-	var vendorID = $("#vendorID").val();
+//    if(!collectorID.length){
+//       $("#collectorID").focus();
+//       alert('Please select the collector');            
+//       return false;
+//    } 
+// 	var vendorID = $("#vendorID").val();
 
-   if(!vendorID.length){
-      $("#vendorID").focus();
-      alert('Please select the vendor');            
-      return false;
-   }
+//    if(!vendorID.length){
+//       $("#vendorID").focus();
+//       alert('Please select the vendor');            
+//       return false;
+//    }
 
-   var collectionID = $("#collectionID").val();
-   if(!collectionID.length){
-      $("#collectionID").focus();
-      alert('Please select the collection');            
-      return false;
-   }
-	var dueDate = $("#dueDate").val();
+//    var collectionID = $("#collectionID").val();
+//    if(!collectionID.length){
+//       $("#collectionID").focus();
+//       alert('Please select the collection');            
+//       return false;
+//    }
+// 	var dueDate = $("#dueDate").val();
 
-   if(!dueDate.length){
-      $("#dueDate").focus();
-      alert('Please select the Due Date');            
-      return false;
-   }
-	var dueTime = $("#dueTime").val();
+//    if(!dueDate.length){
+//       $("#dueDate").focus();
+//       alert('Please select the Due Date');            
+//       return false;
+//    }
+// 	var dueTime = $("#dueTime").val();
 
-   if(!dueTime.length){
-      $("#dueTime").focus();
-      alert('Please select the Due Time');            
-      return false;
-   }
-	var shift = $("#shift").val();
+//    if(!dueTime.length){
+//       $("#dueTime").focus();
+//       alert('Please select the Due Time');            
+//       return false;
+//    }
+// 	var shift = $("#shift").val();
 
-   if(!shift.length){
-      $("#shift").focus();
-      alert('Please select the shift');            
-      return false;
-   }
-	var priority = $("#priority").val();
+//    if(!shift.length){
+//       $("#shift").focus();
+//       alert('Please select the shift');            
+//       return false;
+//    }
+// 	var priority = $("#priority").val();
 
-   if(!priority.length){
-      $("#priority").focus();
-      alert('Please select the priority');            
-      return false;
-   } 
+//    if(!priority.length){
+//       $("#priority").focus();
+//       alert('Please select the priority');            
+//       return false;
+//    } 
 
 
-	jQuery.ajax({
-	   url: "{{ route('store.task') }}",
-	   type: "POST",
-	   data: {
-	         collector_id : collectorID,          
-	         vendor_id : vendorID,          
-            collectionID : collectionID,          
-	         duedate : dueDate,          
-	         duetime  : dueTime,          
-	         shift : shift,          
-	         priority : priority,          
-	         '_token' : "{{ csrf_token() }}"
-	         },
-	   success: function(response, status){
-	   		jQuery('#createCustomTask').modal('hide');
-	   		swal.fire("Done!", "Task Completed Succesfully!", "success").then((result) => {
-               if(result.isConfirmed) {
-                  location.reload(true);
-               }
-            });         
-		   },
-		error: function(){
-			swal.fire("Error Completion Task!", "Task Completion error", "error").then((result) => {
-            if(result.isConfirmed) {
-               location.reload(true);
-            }
-         });
-		}
-	});
-}
+// 	jQuery.ajax({
+// 	   url: "{{ route('store.task') }}",
+// 	   type: "POST",
+// 	   data: {
+// 	         collector_id : collectorID,          
+// 	         vendor_id : vendorID,          
+//             collectionID : collectionID,          
+// 	         duedate : dueDate,          
+// 	         duetime  : dueTime,          
+// 	         shift : shift,          
+// 	         priority : priority,          
+// 	         '_token' : "{{ csrf_token() }}"
+// 	         },
+// 	   success: function(response, status){
+// 	   		jQuery('#createCustomTask').modal('hide');
+// 	   		swal.fire("Done!", "Task Completed Succesfully!", "success").then((result) => {
+//                if(result.isConfirmed) {
+//                   location.reload(true);
+//                }
+//             });         
+// 		   },
+// 		error: function(){
+// 			swal.fire("Error Completion Task!", "Task Completion error", "error").then((result) => {
+//             if(result.isConfirmed) {
+//                location.reload(true);
+//             }
+//          });
+// 		}
+// 	});
+// }
 
 function completeTask(taskID){
 	$("#taskId").val(taskID);
@@ -496,49 +497,7 @@ function updateTask(){
 	});
 }
 
-function taskDetail(taskID){
-	jQuery.ajax({
-	   url: "{{ route('show.task') }}",
-	   type: "POST",
-	   data: {
-	         id: taskID,
-	         '_token' : "{{ csrf_token() }}"
-	         },
-	   	success: function(response, status){
-		   	jQuery('#taskDetial').modal('show');
-		   	$("#collectionName").text(response.collector_name);
-		   	$("#taskStatus").text(response.status);
-            if(response.milk_amout){
 
-		   	   $("#taskMilkAmount").text(response.milk_amout+' Ltr');
-
-            }else{
-               $("#taskMilkAmount").text(response.milk_amout);
-            }
-		   	$("#taskLactometerReading").text(response.lactometer_reading);
-		   	$("#taskMilkTaste").text(response.milk_taste);
-		   	$("#taskVendorName").text(response.vendor_name);
-		   	$("#taskShift").text(response.shift);
-            if(response.starttime){
-            starttime = new Date(response.starttime)
-            var start_time = moment(starttime, 'DD MMM YYYY - hh:mm a').format('DD-MM-YYYY hh:mm a');          
-            $("#startedTime").text(start_time);
-            }else{
-            $("#startedTime").text(response.endtime);
-
-            }
-            if(response.endtime){
-               endtime = new Date(response.endtime)
-               var end_time = moment(endtime, 'DD MMM YYYY - hh:mm a').format('DD-MM-YYYY hh:mm a');
-            $("#endTime").text(end_time);
-            }else{
-            $("#endTime").text(response.endtime);
-
-            }
-		   	$("#collectorImage").attr("src","UserProfile/"+response.filenames);
-		}
-	});
-}
 
 function startTask(taskID){
    jQuery.ajax({
