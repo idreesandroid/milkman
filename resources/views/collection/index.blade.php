@@ -22,6 +22,7 @@
       <div class="col">
          <h3>Collection Management</h3>
       </div>
+      @can('Create-Collection-Area')
       <div class="col text-right">
          <ul class="list-inline-item pl-0">
             <li class="list-inline-item">
@@ -29,6 +30,7 @@
             </li>
          </ul>
       </div>
+      @endcan
    </div>
 </div>
 <!-- /Page Header -->
@@ -63,10 +65,16 @@
                               </div>
                            </div>
                            <div class="midle-div">
+                             @can('Assign-Collection-Area')
                               <a href="#" class='btn btn-outline-primary assignCollector' data-toggle="modal" data-target="#assignCollectorModel" onclick="setCollectionId(<?php echo $item->id; ?>,<?php echo $item->collector_id; ?>)">Assign Collector</a>
+                             @endcan
+                             @can('Edit-Collection-Area')
                               <a href="#" onclick="editCollection(<?php echo $item->id; ?>)" class='btn btn-outline-success editCollection' data-toggle="modal" data-target="#editCollectionModel">Edit<input type="hidden" class="editCollectionId" value="{{$item->id}}">
                               </a>
+                              @endcan
+                              @can('Delete-Collection-Area')
                               <a href="#" onclick="deleteCollection(<?php echo $item->id; ?>)"; class='btn btn-outline-danger'>Delete <input type="hidden" class="deleteCollectionId" value="{{$item->id}}"></a>
+                              @endcan
                            </div>
                         </article>
                      </div>

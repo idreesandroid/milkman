@@ -25,7 +25,7 @@ function timeFormat($date)
     $strTime = strtotime($date);
     $dateTimeArray = array(
         'date' => date('d/m/Y', $strTime),
-        'time' => date('h:i:s a', $strTime)
+        'time' => date('h:i a', $strTime)
     );
    
     return $dateTimeArray;

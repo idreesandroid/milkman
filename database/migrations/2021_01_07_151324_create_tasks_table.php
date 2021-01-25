@@ -21,16 +21,18 @@ class CreateTasksTable extends Migration
             $table->foreign('collector_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
             $table->integer('collection_id')->unsigned();
             $table->foreign('collection_id')->references('id')->on('collections')->onUpdate('cascade')->onDelete('cascade');
-            $table->string('milk_amout')->nullable()->default("null");
-            $table->string('lactometer_reading')->nullable()->default("null");
-            $table->string('milk_taste')->nullable()->default("null");
-            $table->string('priority')->nullable()->default("null");
-            $table->string('shift')->nullable()->default("null");
-            $table->string('duedate')->nullable()->default("null");
-            $table->string('duetime')->nullable()->default("null");
-            $table->string('starttime')->nullable()->default("null");
-            $table->string('endtime')->nullable()->default("null");
-            $table->string('status')->nullable()->default("null");
+
+            $table->string('milk_amout')->nullable();
+            $table->string('lactometer_reading')->nullable();
+            $table->string('milk_taste')->nullable();
+            $table->string('priority')->nullable();
+            $table->string('shift')->nullable();
+            $table->string('duedate')->nullable();
+            $table->string('duetime')->nullable();
+            $table->string('starttime')->nullable();
+            $table->string('endtime')->nullable();
+            $table->string('status')->nullable();
+
             $table->timestamps();
             $table->softDeletes();
         });

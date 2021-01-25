@@ -42,7 +42,6 @@ Auth::routes();
 // Route::get('/home', [HomeController::class, 'index'])->name('home');
  
 //Login Register routes--------------------------------
-//Route::get('/',                    [LoginController::class, 'login'])->name('user.login');
 Route::get('register',             [RegisterController::class, 'showRegistrationForm'])->name('user.register')->middleware('can:Register-User');
 //Users routes--------------------------------
 Route::get('user/userList',        [RegisterController::class, 'allUserList'])->name('index.userList')->middleware('can:See-User');
@@ -56,8 +55,8 @@ Route::post('user/updatePersonal',    [RegisterController::class,'updatePersonal
 Route::get('DashBoard',                   [RegisterController::class, 'returnDashBoard'])->name('user.dashBoard')->middleware('can:Login');
 Route::get('Dashboard/admin',             [AdminController::class, 'adminDashboard'])->name('admin.DashBoard')->middleware('can:Login');
 Route::get('Dashboard/distributor',       [DistributorController::class, 'distributorDashboard'])->name('distributor.DashBoard')->middleware('can:Login');
-Route::get('Dashboard/collector',       [DistributorController::class, 'collectorDashboard'])->name('collector.DashBoard')->middleware('can:Login');
-Route::get('Dashboard/vendor',       [DistributorController::class, 'vendorDashboard'])->name('vendor.DashBoard')->middleware('can:Login');
+Route::get('Dashboard/collector',         [CollectorController::class, 'collectorDashboard'])->name('collector.DashBoard')->middleware('can:Login');
+Route::get('Dashboard/vendor',            [VendorDetailController::class, 'vendorDashboard'])->name('vendor.DashBoard')->middleware('can:Login');
 
 
 //Role routes--------------------------------
@@ -112,7 +111,10 @@ Route::post('companyDetail/update/{id}',         [DistributorController::class,'
 Route::get('order/myList',                       [DistributorController::class, 'myOrders'])->name('order.myList')->middleware('can:See-My-Orders');
 
 
-//Cart routes--------------------------------
+//Cart routes----------------------------------------
+Route::get('cart/create',                   [SaleController::class, 'generateInvoice'])->name('create.invoice')->middleware('can:Generate-Invoice');
+Route::post('cart/create',                  [SaleController::class, 'SaveInvoice'])->name('save.invoice')->middleware('can:Generate-Invoice');
+Route::get('cart/selectbatch',              [SaleController::class, 'selectBatch'])->name('select.batch')->middleware('can:Generate-Invoice');
 
 Route::get('cart/index',                    [SaleController::class, 'index'])->name('index.sale')->middleware('can:See-Cart');
 Route::get('cart/reserveInvoice',           [SaleController::class, 'reserveInvoice'])->name('reserve.invoice')->middleware('can:See-Cart');
@@ -120,20 +122,8 @@ Route::get('Invoice/status/{id}',           [SaleController::class, 'reserveStat
 Route::get('Invoice/PaymentPending/{id}',   [SaleController::class, 'PaymentStatus'])->name('update.pending_payment')->middleware('can:See-Cart');
 
 Route::get('invoice/detail/{id}',           [SaleController::class, 'invoiceDetail'])->name('invoice.Detail')->middleware('can:See-Invoice-Detail');
-
 Route::get('cart/onHoldInvoice',            [SaleController::class, 'onHoldInvoice'])->name('onHold.invoice')->middleware('can:See-Cart');
-
-Route::get('cart/create',                   [SaleController::class, 'generateInvoice'])->name('create.invoice')->middleware('can:Generate-Invoice');
-Route::post('cart/create',                  [SaleController::class, 'SaveInvoice'])->name('save.invoice')->middleware('can:Generate-Invoice');
-Route::get('cart/selectbatch',              [SaleController::class, 'selectBatch'])->name('select.batch')->middleware('can:Generate-Invoice');
 Route::Delete('cart/deleteInvoice/{id}',    [SaleController::class, 'deleteInvoice'])->name('delete.invoice')->middleware('can:Delete-Invoice');
-
-
-//payment routes-------------------------------------------------
-
- //Route::get('payment/receipt/{id}',          [DistributorPaymentController::class, 'receipt'])->name('payment.receipt');
-// Route::post('payment/receipt',              [DistributorPaymentController::class, 'paymentAgainstReceipt'])->name('pay.receipt.bill');
-// Route::get('payment/List',                  [DistributorPaymentController::class, 'PaymentList'])->name('payment.List');
 
 //Transaction routes-------------------------------------------------
 
@@ -141,7 +131,6 @@ Route::get('transaction/slip',                [TransactionController::class, 'tr
 Route::post('transaction/slip',               [TransactionController::class, 'transactionStore'])->name('transaction.store')->middleware('can:Make-Transaction');
 Route::get('transaction/List',                [TransactionController::class, 'transactionList'])->name('transaction.List')->middleware('can:See-All-Transactions');
 Route::post('transaction/verify/{id}',        [TransactionController::class, 'verifyTransaction'])->name('verify.transaction')->middleware('can:Verify-Transaction');
-
 Route::get('my/transactions',                 [TransactionController::class, 'userTransaction'])->name('my.transaction')->middleware('can:See-Personal-Transaction');
 
 
@@ -151,22 +140,24 @@ Route::post('selectbatch/{id}',             [SaleController::class, 'SaveBatch']
 Route::get('batch_selection/ajax/{id}',     [SaleController::class, 'batchSelection'])->name('select.Batch')->middleware('can:Generate-Invoice');
 
 //collection routes-------------------------------
-Route::post('collection/store', [CollectionController::class, 'store'])->name('store.collection');
-Route::post('collection/destroy', [CollectionController::class, 'destroy'])->name('destroy.collection');
-Route::post('collection/edit', [CollectionController::class, 'edit'])->name('edit.collection');
-Route::get('collections', [CollectionController::class, 'index'])->name('index.collection');
-Route::post('collection/assignCollector', [CollectionController::class, 'assignCollector'])->name('assignCollector.collection');
-Route::post('collection/update', [CollectionController::class, 'update'])->name('update.collection');
-Route::get('collection/create', [CollectionController::class, 'create'])->name('create.collection');
+
+Route::get('collections', [CollectionController::class, 'index'])->name('index.collection')->middleware('can:See-Collection-Area');
+Route::get('collection/create', [CollectionController::class, 'create'])->name('create.collection')->middleware('can:Create-Collection-Area');
+Route::post('collection/store', [CollectionController::class, 'store'])->name('store.collection')->middleware('can:Create-Collection-Area');
+Route::post('collection/destroy', [CollectionController::class, 'destroy'])->name('destroy.collection')->middleware('can:Delete-Collection-Area');
+Route::post('collection/assignCollector', [CollectionController::class, 'assignCollector'])->name('assignCollector.collection')->middleware('can:Assign-Collection-Area');
+Route::post('collection/edit', [CollectionController::class, 'edit'])->name('edit.collection')->middleware('can:Edit-Collection-Area');
+Route::post('collection/update', [CollectionController::class, 'update'])->name('update.collection')->middleware('can:Edit-Collection-Area');
+
 Route::post('collection/getvendorlatlng', [CollectionController::class, 'getvendorlatlng'])->name('getvendorlatlng.collection');
 
 //Tasks routes-------------------------------
-Route::get('tasks', [TasksController::class, 'index'])->name('task_listing');
-Route::post('update-tasks', [TasksController::class, 'update'])->name('update.task');
-Route::post('show-tasks', [TasksController::class, 'show'])->name('show.task');
-Route::post('store-tasks', [TasksController::class, 'store'])->name('store.task');
-Route::post('start-tasks', [TasksController::class, 'start'])->name('start.task');
-Route::post('destroy-tasks', [TasksController::class, 'destroy'])->name('destroy.task');
+Route::get('tasks', [TasksController::class, 'index'])->name('task_listing')->middleware('can:See-Task-List');
+Route::post('update-tasks', [TasksController::class, 'update'])->name('update.task')->middleware('can:Update-Task');
+Route::post('show-tasks', [TasksController::class, 'show'])->name('show.task')->middleware('can:See-Task-Detail');
+Route::post('store-tasks', [TasksController::class, 'store'])->name('store.task')->middleware('can:Store-Task');
+Route::post('start-tasks', [TasksController::class, 'start'])->name('start.task')->middleware('can:Start-Task');
+Route::post('destroy-tasks', [TasksController::class, 'destroy'])->name('destroy.task')->middleware('can:Delete-Task');
 
 //Collector routes--------------------------
 Route::get('collector-detail/create', [CollectorController::class, 'create'])->name('create_collector');

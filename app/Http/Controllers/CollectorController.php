@@ -1,10 +1,12 @@
 <?php
 
 namespace App\Http\Controllers;
+use Illuminate\Support\Facades\Auth;
 
 use App\Models\Collector;
 use Illuminate\Http\Request;
 use App\Models\Role;
+use App\Models\Tasks;
 
 class CollectorController extends Controller
 {
@@ -31,15 +33,15 @@ class CollectorController extends Controller
 
     public function collectorDashboard()
     {
-        // $Did = Auth::id();
-
-        // $distributorBalance = UserAccount::where('user_id' , $Did)->select('balance')->first();
-
-        // $transaction = UserTransaction::where('user_id' , $Did)->count();
+        $Cid = Auth::id();
+     $totalTask = Tasks::where('collector_id' , $Cid)->count();
+     $taskCompleted = Tasks::where('collector_id' , $Cid)->where('status' , 'Collected')->count();
     //  echo "<pre>";
-    //  print_r($transaction);
+    //  print_r($taskCompleted);
     //  exit;
-    return view('collector.distributor');
+    $myMorningTask = Tasks::where('collector_id' , $Cid)->where('status', 'Not Started')->where('shift', 'morning')->count();
+    $myEveningTask = Tasks::where('collector_id' , $Cid)->where('status', 'Not Started')->where('shift', 'evening')->count();
+    return view('dashBoards/collector', compact('taskCompleted','totalTask','myMorningTask','myEveningTask'));
 
     }
 

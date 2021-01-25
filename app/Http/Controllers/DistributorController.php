@@ -46,9 +46,10 @@ class DistributorController extends Controller
     {  
         
         $this->validate($request,[        
-            'name'      => 'required|min:1', 
+            'name'      => 'required|min:3', 
             'email'     => 'required|unique:users',         
-            'password'  => 'required|min:1',
+            'password'  => 'required|min:6',
+            'Confirm'=> 'required_with:password|same:password',
             'user_cnic' => 'required|min:13|unique:users',
             'user_phone'=> 'required|min:11|unique:users',
             'state'  => 'required',
@@ -113,8 +114,7 @@ class DistributorController extends Controller
         $distributor_acc->userAccount = generateAccNumber();
         $distributor_acc->balance =0;
         $distributor_acc->save();
-
-        
+   
     return redirect('distributor-detail/index');
     }
 

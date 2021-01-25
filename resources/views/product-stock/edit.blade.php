@@ -19,11 +19,7 @@
             </div>
          </div>
          <!-- /Page Header -->
-      @if ($errors->any())
-     @foreach ($errors->all() as $error)
-         <div>{{$error}}</div>
-     @endforeach
-      @endif
+   
 <!-- Page Wrapper -->
 <div class="row">
    <div class="col-lg-12">
@@ -32,6 +28,11 @@
             <h4 class="card-title mb-0">Add Product</h4>
          </div>
          <div class="card-body">
+         @if ($errors->any())
+     @foreach ($errors->all() as $error)
+         <div>{{$error}}</div>
+     @endforeach
+      @endif
             <form method="post" action="{{ route('update.productStock', $product_stocks->id) }}">
                @csrf 
                <div class="form-group row">

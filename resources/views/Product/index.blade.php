@@ -31,6 +31,7 @@
                </div>
             </div>
             @endcan
+            
             <div class="table-responsive">
                <table class="datatable table table-stripped mb-0 datatables">
                   <thead>
@@ -41,7 +42,7 @@
                         <th>Code</th>
                         <th>Size</th>
                         <th>Price</th>
-                        @can('See-Product-Stock')  <th>Stock Quantity</th> @endcan
+                        @can('See-Product-Stock')<th>Stock Quantity</th> @endcan
                         <th>Qty/Carton</th>
                         <th>Description</th>
                         <th>Action</th>

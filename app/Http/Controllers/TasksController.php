@@ -132,7 +132,6 @@ class TasksController extends Controller
     {
         $taskDeleted = Tasks::where('id',$request->id)->delete();
         return ($taskDeleted) ? true : false;
-
     }
 
     /**

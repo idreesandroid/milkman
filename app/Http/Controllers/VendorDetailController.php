@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use Illuminate\Support\Facades\Auth;
 
 use Illuminate\Http\Request;
 use App\Models\User;
@@ -10,6 +11,7 @@ use App\Models\City;
 use App\Models\bankDetail;
 use App\Models\vendorDetail;
 use App\Models\UserAccount;
+use App\Models\Tasks;
 
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
@@ -48,11 +50,12 @@ class VendorDetailController extends Controller
         if($request->has('bankDetails')){
 
             $this->validate($request,[        
-                'name'      => 'required|min:1',
+                'name'      => 'required|min:3',
                 'email'     => 'required|unique:users',
-                'password'  => 'required|min:1',
-                'user_cnic' => 'required|min:13|unique:users',
-                'user_phone'=> 'required|min:11|unique:users',
+                'password'  => 'required|min:6',
+                'Confirm'=> 'required_with:password|same:password',
+                'user_cnic' => 'required|min:15|unique:users',
+                'user_phone'=> 'required|min:12|unique:users',
                 'state'  => 'required',
                 'city'  => 'required',
                 'user_address'  => 'required|min:1',
@@ -72,9 +75,7 @@ class VendorDetailController extends Controller
                 'morningTime'=>'required', 
                 'evening_decided_milkQuantity'=>'required|min:0|numeric',
                 'eveningTime'=>'required', 
-               
-
-
+  
                 'map_detail' => 'required'
            
                 ]);
@@ -111,8 +112,6 @@ class VendorDetailController extends Controller
                 $vendor_details->evening_decided_milkQuantity = $request->evening_decided_milkQuantity;
                 $vendor_details->morningTime = $request->morningTime;
                 $vendor_details->eveningTime = $request->eveningTime;
-
-               
                 $vendor_details->save();
 
                 $bankDetails = new bankDetail();
@@ -129,11 +128,12 @@ class VendorDetailController extends Controller
         
         {
             $this->validate($request,[        
-                'name'      => 'required|min:1',
+                'name'      => 'required|min:3',
                 'email'     => 'required|unique:users',
-                'password'  => 'required|min:1',
-                'user_cnic' => 'required|min:13|unique:users',
-                'user_phone'=> 'required|min:11|unique:users',
+                'password'  => 'required|min:6',
+                'Confirm'=> 'required_with:password|same:password',
+                'user_cnic' => 'required|min:15|unique:users',
+                'user_phone'=> 'required|min:12|unique:users',
                 'state'  => 'required',
                 'city'  => 'required',
                 'user_address'  => 'required|min:1',   
@@ -242,15 +242,16 @@ class VendorDetailController extends Controller
 
     public function vendorDashboard()
     {
-        // $Did = Auth::id();
-
-        // $distributorBalance = UserAccount::where('user_id' , $Did)->select('balance')->first();
-
-        // $transaction = UserTransaction::where('user_id' , $Did)->count();
-    //  echo "<pre>";
-    //  print_r($transaction);
-    //  exit;
-    return view('vendor.distributor');
+        $Vid = Auth::id();
+        $saleMilk = Tasks::where('vendor_id', $Vid)->where('status', 'Collected')->sum('milk_amout');
+    //$totalMilk = sum($saleMilk);
+    //$totalMilk = $saleMilk->milk_amout;
+    // $saleMilk = Tasks::where('vendor_id' , $Vid)->select('balance')->first();
+    // $transaction = UserTransaction::where('user_id' , $Did)->count();
+        // echo "<pre>";
+        // print_r($saleMilk);
+        // exit;
+    return view('dashBoards/vendor', compact('saleMilk'));
 
     }
 }

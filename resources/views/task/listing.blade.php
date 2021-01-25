@@ -24,6 +24,7 @@
       <div class="col">
          <h3>All Tasks</h3>
       </div>
+      @can('Store-Task')
       <div class="col text-right">
          <ul class="list-inline-item pl-0">
             <li class="list-inline-item">
@@ -31,6 +32,7 @@
             </li>
          </ul>
       </div>
+      @endcan
    </div>
 </div>	
 
@@ -61,7 +63,9 @@
                         <td>>{{$task->title}}</td>                        
                         <!-- <td><?php //echo date('d/m/Y h:i A', strtotime($task->duedate . ' '. $task->duetime)); ?>                           
                         </td> -->
-                        <!-- <td>
+                        <!-- 
+                        <td>
+
                         	@if($task->status == 'Missed')
                         	<label class="badge badge-gradient-danger">Missed</label>
                         	@elseif($task->status == 'Collected')
@@ -71,17 +75,21 @@
                            @elseif($task->status == 'Started')
                            <label class="badge badge-gradient-info">Started</label>
                         	@endif
- 
-                        </td> -->
+
+
+                        </td>
                         <td style="text-align: center;">
+                           
                            @if($task->status == 'Not Started')                      
                            <!-- <button href="#" id="start_task_<?php //echo $task->id ?>" class="btn btn-primary" onclick="startTask(<?php //echo $task->id ?>)" <?php //echo ($task->status != 'Not Started') ? 'disabled':''; ?> >Start</button>  -->
                            @endif
                            @if($task->status != 'Collected' && $task->status != 'Missed' && $task->status != 'Not Started')
                            <!-- <button href="#" onclick="completeTask(<?php //echo $task->id ?>)" class="btn btn-success" data-toggle="modal" data-target="#completedtask" <?php //echo ($task->status == 'Collected' || $task->status == 'Missed') ? 'disabled':''; ?>>Completed</button> -->
-                           @endif
+                           @endif                                                  
                            <button href="#" onclick="taskDetail(<?php echo $task->id ?>)" class="btn btn-info" data-toggle="modal" data-target="#taskDetial">Detail</button>
+
                            <!-- <button href="#" onclick="deleteTask(<?php //echo $task->id ?>)" class="btn btn-danger">Delete</button> -->
+
                         </td>
                      </tr>
                      @endforeach
@@ -133,7 +141,7 @@
                            <label class="col-form-label">Collector<span class="text-danger">*</span>:</label>
                            <select class="form-control" id="collectorID">
                            	@foreach($collectors as $collector)
-                              <option value="{{$collector->id}}">{{$collector->name}} -- 20 ltr</option>
+                              <option value="{{$collector->id}}">{{$collector->name}} -- 20 Ltr</option>
                             @endforeach 
                            </select>
                         </div>
@@ -160,7 +168,7 @@
                            	Due Time <span class="text-danger">*</span>:
                            </label>
                            <div class="cal-icon">
-                           		<input id="dueTime" class="form-control" type="time" placeholder="&#61442;">
+                           		<input id="dueTime" class="form-control" type="time" >
                            </div>
                         </div>
                      </div>
@@ -242,13 +250,13 @@
                      <h4>Task Details</h4>
                      <div class="form-group row">
                         <div class="col-sm-6">
-                           <label class="col-form-label">Milk Amount<span class="text-danger">*</span></label>
-                           <input class="form-control" type="text" id="milkAmout">
+                           <label class="col-form-label">Milk Quantity<span class="text-danger">*</span></label>
+                           <input class="form-control" type="text" id="milkAmout" required="" >
                            <input type="hidden" id="taskId">
                         </div>
                         <div class="col-sm-6">  
                            <label class="col-form-label">Lactometer Reading</label>
-                           <input class="form-control" type="text" id="lactometerReading">
+                           <input class="form-control" type="text" id="lactometerReading" required="">
                         </div>
                      </div>
                      <div class="form-group row">
@@ -306,38 +314,25 @@
                   <tbody>
                      <tr>
                         <td class="border-0">Vendor Name:</td>
+                         <td>Start Time:</td>
+                         <td>End Time:</td>
+                         <td>Milk Taste:</td>
+                         <td>Lactometer Reading:</td>
+                         <td>Milk Amount:</td>
+                         <td>Priority:</td>
+                         <td>Shift:</td>
+                         <td>Status:</td>
+                        
+                     </tr>
+                     <tr>
                         <td class="border-0" id="taskVendorName">Kafeel Ahmed</td>
-                     </tr>
-                     <tr>
-                        <td>Start Time:</td>
                         <td id="startedTime">10:05 PM</td>
-                     </tr>
-                     <tr>
-                        <td>End Time:</td>
                         <td id="endTime">10:12 AM</td>
-                     </tr>
-                     <tr>
-                        <td>Milk Taste:</td>
                         <td id="taskMilkTaste">Good</td>
-                     </tr>
-                     <tr>
-                        <td>Lactometer Reading:</td>
                         <td id="taskLactometerReading">30</td>
-                     </tr>
-                     <tr>
-                        <td>Milk Amount:</td>
-                        <td id="taskMilkAmount">50kg</td>
-                     </tr>
-                     <tr>
-                        <td>Priority:</td>
+                        <td id="taskMilkAmount">50 Ltr</td>
                         <td id="taskPriority">High</td>
-                     </tr>
-                     <tr>
-                        <td>Shift:</td>
                         <td id="taskShift">High</td>
-                     </tr>
-                     <tr>
-                        <td>Status:</td>
                         <td id="taskStatus">Collected</td>
                      </tr>
                   </tbody>
@@ -514,7 +509,9 @@ function taskDetail(taskID){
 		   	$("#collectionName").text(response.collector_name);
 		   	$("#taskStatus").text(response.status);
             if(response.milk_amout){
-		   	   $("#taskMilkAmount").text(response.milk_amout+' ltr');
+
+		   	   $("#taskMilkAmount").text(response.milk_amout+' Ltr');
+
             }else{
                $("#taskMilkAmount").text(response.milk_amout);
             }
@@ -524,7 +521,7 @@ function taskDetail(taskID){
 		   	$("#taskShift").text(response.shift);
             if(response.starttime){
             starttime = new Date(response.starttime)
-            var start_time = moment(starttime, 'DD MMM YYYY - hh:mm a').format('DD-MM-YYYY hh:mm:ss a');          
+            var start_time = moment(starttime, 'DD MMM YYYY - hh:mm a').format('DD-MM-YYYY hh:mm a');          
             $("#startedTime").text(start_time);
             }else{
             $("#startedTime").text(response.endtime);
@@ -532,7 +529,7 @@ function taskDetail(taskID){
             }
             if(response.endtime){
                endtime = new Date(response.endtime)
-               var end_time = moment(endtime, 'DD MMM YYYY - hh:mm a').format('DD-MM-YYYY hh:mm:ss a');
+               var end_time = moment(endtime, 'DD MMM YYYY - hh:mm a').format('DD-MM-YYYY hh:mm a');
             $("#endTime").text(end_time);
             }else{
             $("#endTime").text(response.endtime);
