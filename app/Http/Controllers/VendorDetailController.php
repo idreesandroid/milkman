@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use Illuminate\Support\Facades\Auth;
 
 use Illuminate\Http\Request;
 use App\Models\User;
@@ -10,6 +11,7 @@ use App\Models\City;
 use App\Models\bankDetail;
 use App\Models\vendorDetail;
 use App\Models\UserAccount;
+use App\Models\Tasks;
 
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
@@ -240,15 +242,16 @@ class VendorDetailController extends Controller
 
     public function vendorDashboard()
     {
-        // $Did = Auth::id();
-
-        // $distributorBalance = UserAccount::where('user_id' , $Did)->select('balance')->first();
-
-        // $transaction = UserTransaction::where('user_id' , $Did)->count();
-    //  echo "<pre>";
-    //  print_r($transaction);
-    //  exit;
-    return view('dashBoards/vendor');
+        $Vid = Auth::id();
+        $saleMilk = Tasks::where('vendor_id', $Vid)->where('status', 'Collected')->sum('milk_amout');
+    //$totalMilk = sum($saleMilk);
+    //$totalMilk = $saleMilk->milk_amout;
+    // $saleMilk = Tasks::where('vendor_id' , $Vid)->select('balance')->first();
+    // $transaction = UserTransaction::where('user_id' , $Did)->count();
+        // echo "<pre>";
+        // print_r($saleMilk);
+        // exit;
+    return view('dashBoards/vendor', compact('saleMilk'));
 
     }
 }

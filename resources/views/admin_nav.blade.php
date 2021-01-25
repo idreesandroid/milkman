@@ -26,18 +26,22 @@
                   <li><a href="/collections" class="{{ (request()->segment(1) == 'collections') ? 'active' : '' }}">Collection Areas</a></li>                  
                </ul>
             </li> -->
+            @can('See-Collection-Area')
             <li>
                <a href="/collections" class="{{ (request()->segment(1) == 'collections') ? 'active' : '' }}">
                <i class="fa fa-database" aria-hidden="true"></i>
                <span>Collection Areas</span>
                </a>
             </li> 
+            @endcan 
+            @can('See-Task-List')
             <li>
                <a href="/tasks" class="{{ (request()->segment(1) == 'tasks') ? 'active' : '' }}">
                <i class="fa fa-check-square-o" aria-hidden="true"></i>
                <span>Tasks</span>
                </a>
-            </li>                        
+            </li>  
+          @endcan                     
             @can('See-Product')
             <li class="submenu">
                <a href="#">
@@ -71,13 +75,14 @@
             </li>
             @endcan
 
-
+            @can('See-My-Orders')
             <li>
-               <a href="/payment/myReceipt" class="{{ (request()->segment(1) == 'payment' && request()->segment(2) == 'myReceipt') ? 'active' : '' }}">
+               <a href="/order/myList" class="{{ (request()->segment(1) == 'order' && request()->segment(2) == 'myList') ? 'active' : '' }}">
                <i class="fa fa-list" aria-hidden="true"></i>
                <span>My Orders</span>
                </a>
             </li> 
+            @endcan
 
             @can('See-Transactions')
             <li class="submenu">

@@ -238,18 +238,18 @@
                      <div class="form-group row">
                         <div class="col-sm-6">
                            <label class="col-form-label">Milk Quantity<span class="text-danger">*</span></label>
-                           <input class="form-control" type="text" id="milkAmout" >
+                           <input class="form-control" type="text" id="milkAmout" required="" >
                            <input type="hidden" id="taskId">
                         </div>
                         <div class="col-sm-6">
                            <label class="col-form-label">Lactometer Reading</label>
-                           <input class="form-control" type="text" id="lactometerReading" >
+                           <input class="form-control" type="text" id="lactometerReading" required="">
                         </div>
                      </div>
                      <div class="form-group row">
                         <div class="col-sm-6">
                            <label class="col-form-label">Milk Taste</label>
-                           <select class="form-control" id="milkTaste">
+                           <select class="form-control" id="milkTaste" required="">
                               <option>Select the Taste you Observe</option>
                               <option value="Poor">Poor</option>
                               <option value="Normal">Normal</option>
@@ -302,38 +302,25 @@
                   <tbody>
                      <tr>
                         <td class="border-0">Vendor Name:</td>
+                         <td>Start Time:</td>
+                         <td>End Time:</td>
+                         <td>Milk Taste:</td>
+                         <td>Lactometer Reading:</td>
+                         <td>Milk Amount:</td>
+                         <td>Priority:</td>
+                         <td>Shift:</td>
+                         <td>Status:</td>
+                        
+                     </tr>
+                     <tr>
                         <td class="border-0" id="taskVendorName">Kafeel Ahmed</td>
-                     </tr>
-                     <tr>
-                        <td>Start Time:</td>
                         <td id="startedTime">10:05 PM</td>
-                     </tr>
-                     <tr>
-                        <td>End Time:</td>
                         <td id="endTime">10:12 AM</td>
-                     </tr>
-                     <tr>
-                        <td>Milk Taste:</td>
                         <td id="taskMilkTaste">Good</td>
-                     </tr>
-                     <tr>
-                        <td>Lactometer Reading:</td>
                         <td id="taskLactometerReading">30</td>
-                     </tr>
-                     <tr>
-                        <td>Milk Amount:</td>
                         <td id="taskMilkAmount">50 Ltr</td>
-                     </tr>
-                     <tr>
-                        <td>Priority:</td>
                         <td id="taskPriority">High</td>
-                     </tr>
-                     <tr>
-                        <td>Shift:</td>
                         <td id="taskShift">High</td>
-                     </tr>
-                     <tr>
-                        <td>Status:</td>
                         <td id="taskStatus">Collected</td>
                      </tr>
                   </tbody>
@@ -451,7 +438,7 @@ function taskDetail(taskID){
 		   	$("#taskShift").text(response.shift);
             if(response.starttime){
             starttime = new Date(response.starttime)
-            var start_time = moment(starttime, 'DD MMM YYYY - hh:mm a').format('DD-MM-YYYY hh:mm:ss a');          
+            var start_time = moment(starttime, 'DD MMM YYYY - hh:mm a').format('DD-MM-YYYY hh:mm a');          
             $("#startedTime").text(start_time);
             }else{
             $("#startedTime").text(response.endtime);
@@ -459,7 +446,7 @@ function taskDetail(taskID){
             }
             if(response.endtime){
                endtime = new Date(response.endtime)
-               var end_time = moment(endtime, 'DD MMM YYYY - hh:mm a').format('DD-MM-YYYY hh:mm:ss a');
+               var end_time = moment(endtime, 'DD MMM YYYY - hh:mm a').format('DD-MM-YYYY hh:mm a');
             $("#endTime").text(end_time);
             }else{
             $("#endTime").text(response.endtime);
