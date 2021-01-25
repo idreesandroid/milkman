@@ -24,6 +24,7 @@
       <div class="col">
          <h3>All Tasks</h3>
       </div>
+      @can('Store-Task')
       <div class="col text-right">
          <ul class="list-inline-item pl-0">
             <li class="list-inline-item">
@@ -31,6 +32,7 @@
             </li>
          </ul>
       </div>
+      @endcan
    </div>
 </div>	
 
@@ -78,14 +80,24 @@
 
                         </td>
                         <td style="text-align: right;">
+                           @can('Start-Task')
                            @if($task->status == 'Not Started')                      
                            <button href="#" id="start_task_<?php echo $task->id ?>" class="btn btn-primary" onclick="startTask(<?php echo $task->id ?>)" <?php echo ($task->status != 'Not Started') ? 'disabled':''; ?> >Start</button> 
                            @endif
+                           @endcan
+
+                           @can('Update-Task')
                            @if($task->status != 'Collected' && $task->status != 'Missed' && $task->status != 'Not Started')
                            <button href="#" onclick="completeTask(<?php echo $task->id ?>)" class="btn btn-success" data-toggle="modal" data-target="#completedtask" <?php echo ($task->status == 'Collected' || $task->status == 'Missed') ? 'disabled':''; ?>>Completed</button>
                            @endif
+                           @endcan
+                           @can('See-Task-Detail')                           
                            <button href="#" onclick="taskDetail(<?php echo $task->id ?>)" class="btn btn-info" data-toggle="modal" data-target="#taskDetial">Detail</button>
+                           @endcan
+                           @can('Delete-Task')
                            <button href="#" onclick="deleteTask(<?php echo $task->id ?>)" class="btn btn-danger">Delete</button>
+                           @endcan
+                        
                         </td>
                      </tr>
                      @endforeach

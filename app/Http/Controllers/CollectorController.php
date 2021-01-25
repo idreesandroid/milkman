@@ -39,7 +39,10 @@ class CollectorController extends Controller
     //  echo "<pre>";
     //  print_r($taskCompleted);
     //  exit;
-    return view('dashBoards/collector', compact('taskCompleted','totalTask'));
+    $myMorningTask = Tasks::where('collector_id' , $Cid)->where('status', 'Not Started')->where('shift', 'morning')->count();
+    $myEveningTask = Tasks::where('collector_id' , $Cid)->where('status', 'Not Started')->where('shift', 'evening')->count();
+    return view('dashBoards/collector', compact('taskCompleted','totalTask','myMorningTask','myEveningTask'));
+
     }
 
     /**

@@ -25,7 +25,7 @@
                      <div class="form-group row">
                         <div class="col-md-3">
                            <label class="col-form-label">Title <span class="text-danger">*</span></label>
-                           <input class="form-control" type="text" placeholder="Add Collection Ttile" name="prefix" id='title'>
+                           <input class="form-control" type="text" name="prefix" id='title'>
                         </div>
                         <div class="col-md-3">
                            <label class="col-form-label">Status <span class="text-danger">*</span></label>

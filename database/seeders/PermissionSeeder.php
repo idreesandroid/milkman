@@ -264,6 +264,9 @@ class PermissionSeeder extends Seeder
         $permission_35->name = 'See-Collection-Area';
         $permission_35->save();
 
-        
+        $permission_35 = new Permission();
+        $permission_35->slug = 'See-Task-Detail';
+        $permission_35->name = 'See-Task-Detail';
+        $permission_35->save(); 
     }
 }
