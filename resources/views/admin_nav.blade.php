@@ -68,7 +68,9 @@
                </a>
                <ul class="sub-menus">
                   <li><a href="/cart/index" class="{{ (request()->segment(1) == 'cart' && request()->segment(2) == 'index') ? 'active' : '' }}">Sale Record </a></li>
+                  @can('Generate-Invoice')  
                   <li><a href="/cart/create" class="{{ (request()->segment(1) == 'cart' && request()->segment(2) == 'create') ? 'active' : '' }}">New Invoice</a></li>
+                  @endcan
                   <li><a href="/cart/reserveInvoice" class="{{ (request()->segment(2) == 'reserveInvoice') ? 'active' : '' }}">Reserve Stock</a></li>
                   <li><a href="/cart/onHoldInvoice" class="{{ (request()->segment(2) == 'onHoldInvoice') ? 'active' : '' }}">On Hold Invoice</a></li>
                </ul>
@@ -109,7 +111,7 @@
                </ul>
             </li>
             @endcan
-
+            @can('Create-Role')
             <li class="submenu">
                <a href="#">
                <i class="fa fa-cog fa-w-16 fa-spin fa-2x" aria-hidden="true">
@@ -127,6 +129,7 @@
 
                
             </li>
+            @endcan
          </ul>
       </div>
    </div>
