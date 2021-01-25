@@ -32,6 +32,7 @@ class CreateTasksTable extends Migration
             $table->string('endtime')->nullable()->default("null");
             $table->string('status')->nullable()->default("null");
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

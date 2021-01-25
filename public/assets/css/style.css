@@ -9553,3 +9553,11 @@ div#kanban-single-col .list-unstyled {
     height: 86px;
     overflow: hidden;
 }
+
+div#kanban-single-col .collector_detial {
+    text-transform: capitalize;    
+    overflow: hidden;
+    list-style: none;
+    text-align: center;
+    padding-left: 0;
+}

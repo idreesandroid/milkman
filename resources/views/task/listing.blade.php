@@ -48,9 +48,7 @@
                   <thead>
                      <tr>
                         <th>Collector</th>
-                        <th>Vendor</th>
-                        <th>Due Date & Time</th>
-                        <th>Status</th>
+                        <th>Collection Area</th>   
                         <th style="text-align: center;">Actions</th>
                      </tr>
                   </thead>
@@ -60,10 +58,10 @@
                         <td>
                            <a href="{{ route('profile.user', $task->collector_id)}}" class="text-decoration-none">{{$task->collector_name}}</a>
                         </td>
-                        <td><a href="{{ route('profile.user', $task->vendor_id)}}">{{$task->vendor_name}}</a></td>                        
-                        <td><?php echo date('d/m/Y h:i A', strtotime($task->duedate . ' '. $task->duetime)); ?>                           
-                        </td>
-                        <td>
+                        <td>>{{$task->title}}</td>                        
+                        <!-- <td><?php //echo date('d/m/Y h:i A', strtotime($task->duedate . ' '. $task->duetime)); ?>                           
+                        </td> -->
+                        <!-- <td>
                         	@if($task->status == 'Missed')
                         	<label class="badge badge-gradient-danger">Missed</label>
                         	@elseif($task->status == 'Collected')
@@ -73,17 +71,17 @@
                            @elseif($task->status == 'Started')
                            <label class="badge badge-gradient-info">Started</label>
                         	@endif
-
-                        </td>
-                        <td style="text-align: right;">
+ 
+                        </td> -->
+                        <td style="text-align: center;">
                            @if($task->status == 'Not Started')                      
-                           <button href="#" id="start_task_<?php echo $task->id ?>" class="btn btn-primary" onclick="startTask(<?php echo $task->id ?>)" <?php echo ($task->status != 'Not Started') ? 'disabled':''; ?> >Start</button> 
+                           <!-- <button href="#" id="start_task_<?php //echo $task->id ?>" class="btn btn-primary" onclick="startTask(<?php //echo $task->id ?>)" <?php //echo ($task->status != 'Not Started') ? 'disabled':''; ?> >Start</button>  -->
                            @endif
                            @if($task->status != 'Collected' && $task->status != 'Missed' && $task->status != 'Not Started')
-                           <button href="#" onclick="completeTask(<?php echo $task->id ?>)" class="btn btn-success" data-toggle="modal" data-target="#completedtask" <?php echo ($task->status == 'Collected' || $task->status == 'Missed') ? 'disabled':''; ?>>Completed</button>
+                           <!-- <button href="#" onclick="completeTask(<?php //echo $task->id ?>)" class="btn btn-success" data-toggle="modal" data-target="#completedtask" <?php //echo ($task->status == 'Collected' || $task->status == 'Missed') ? 'disabled':''; ?>>Completed</button> -->
                            @endif
                            <button href="#" onclick="taskDetail(<?php echo $task->id ?>)" class="btn btn-info" data-toggle="modal" data-target="#taskDetial">Detail</button>
-                           <button href="#" onclick="deleteTask(<?php echo $task->id ?>)" class="btn btn-danger">Delete</button>
+                           <!-- <button href="#" onclick="deleteTask(<?php //echo $task->id ?>)" class="btn btn-danger">Delete</button> -->
                         </td>
                      </tr>
                      @endforeach
@@ -134,9 +132,8 @@
                         <div class="col-sm-6">
                            <label class="col-form-label">Collector<span class="text-danger">*</span>:</label>
                            <select class="form-control" id="collectorID">
-                              <option>collector name -- capacity</option>
                            	@foreach($collectors as $collector)
-                              <option value="{{$collector->id}}">{{$collector->name}} -- 20kg</option>
+                              <option value="{{$collector->id}}">{{$collector->name}} -- 20 ltr</option>
                             @endforeach 
                            </select>
                         </div>
@@ -155,7 +152,7 @@
                            	Due Date<span class="text-danger">*</span>:
                            </label>
                            <div class="cal-icon">
-                           		<input class="form-control" type="date" placeholder="MM/DD/YY" id="dueDate">
+                           		<input class="form-control" type="date" id="dueDate">
                            </div>
                         </div>
                         <div class="col-sm-6">
@@ -183,6 +180,16 @@
                               <option value="high">High</option>
                            </select>
                         </div>
+                     </div>
+                     <div class="form-group row">
+                        <div class="col-sm-6">
+                           <label class="col-form-label">Collection Name:</label>
+                           <select class="form-control" id="collectionID">
+                              @foreach($collections as $collection)
+                              <option value="{{$collection->id}}">{{$collection->title}}</option>
+                            @endforeach                              
+                           </select>
+                        </div>                        
                      </div>
                      <div class="text-center py-3">
                         <button type="button" class="border-0 btn btn-primary btn-gradient-primary btn-rounded" onclick="createCustomTask()">Create Custom Task</button>&nbsp;&nbsp;
@@ -236,19 +243,18 @@
                      <div class="form-group row">
                         <div class="col-sm-6">
                            <label class="col-form-label">Milk Amount<span class="text-danger">*</span></label>
-                           <input class="form-control" type="text" id="milkAmout" placeholder="Milk Amount in KG">
+                           <input class="form-control" type="text" id="milkAmout">
                            <input type="hidden" id="taskId">
                         </div>
-                        <div class="col-sm-6">
+                        <div class="col-sm-6">  
                            <label class="col-form-label">Lactometer Reading</label>
-                           <input class="form-control" type="text" id="lactometerReading" placeholder="Lactometer Reading">
+                           <input class="form-control" type="text" id="lactometerReading">
                         </div>
                      </div>
                      <div class="form-group row">
                         <div class="col-sm-6">
                            <label class="col-form-label">Milk Taste</label>
                            <select class="form-control" id="milkTaste">
-                              <option>Select the Taste you Observe</option>
                               <option value="Poor">Poor</option>
                               <option value="Normal">Normal</option>
                               <option value="Good">Good</option>
@@ -349,17 +355,63 @@
 <script type="text/javascript">
 function createCustomTask(){
 	var collectorID = $("#collectorID").val();
+
+   if(!collectorID.length){
+      $("#collectorID").focus();
+      alert('Please select the collector');            
+      return false;
+   } 
 	var vendorID = $("#vendorID").val();
+
+   if(!vendorID.length){
+      $("#vendorID").focus();
+      alert('Please select the vendor');            
+      return false;
+   }
+
+   var collectionID = $("#collectionID").val();
+   if(!collectionID.length){
+      $("#collectionID").focus();
+      alert('Please select the collection');            
+      return false;
+   }
 	var dueDate = $("#dueDate").val();
+
+   if(!dueDate.length){
+      $("#dueDate").focus();
+      alert('Please select the Due Date');            
+      return false;
+   }
 	var dueTime = $("#dueTime").val();
+
+   if(!dueTime.length){
+      $("#dueTime").focus();
+      alert('Please select the Due Time');            
+      return false;
+   }
 	var shift = $("#shift").val();
+
+   if(!shift.length){
+      $("#shift").focus();
+      alert('Please select the shift');            
+      return false;
+   }
 	var priority = $("#priority").val();
+
+   if(!priority.length){
+      $("#priority").focus();
+      alert('Please select the priority');            
+      return false;
+   } 
+
+
 	jQuery.ajax({
 	   url: "{{ route('store.task') }}",
 	   type: "POST",
 	   data: {
 	         collector_id : collectorID,          
 	         vendor_id : vendorID,          
+            collectionID : collectionID,          
 	         duedate : dueDate,          
 	         duetime  : dueTime,          
 	         shift : shift,          
@@ -367,7 +419,7 @@ function createCustomTask(){
 	         '_token' : "{{ csrf_token() }}"
 	         },
 	   success: function(response, status){
-	   		jQuery('#completedtask').modal('hide');
+	   		jQuery('#createCustomTask').modal('hide');
 	   		swal.fire("Done!", "Task Completed Succesfully!", "success").then((result) => {
                if(result.isConfirmed) {
                   location.reload(true);
@@ -393,9 +445,34 @@ function completeTask(taskID){
 
 function updateTask(){
    var milkAmout =	$("#milkAmout").val();
+   if(!milkAmout.length){
+      $("#milkAmout").focus();
+      alert('Please add the Milk Amout');            
+      return false;
+   } 
    var lactometerReading =	$("#lactometerReading").val();
-   var milkTaste =	$("#milkTaste").val();
+
+   if(!lactometerReading.length){
+      $("#lactometerReading").focus();
+      alert('Please add the Lactometer Reading');            
+      return false;
+   } 
+
+   var milkTaste = $( "#milkTaste option:selected" ).text();
+
+   if(!milkTaste.length || milkTaste === 'undefined'){
+      $("#milkTaste").focus();
+      alert('Please add the milk taste');            
+      return false;
+   } 
    var taskID =	$("#taskId").val();
+
+   if(!taskID.length){
+      $("#taskID").focus();
+      alert('Please select the task');
+      return false;           
+   }
+
    jQuery.ajax({
       url: "{{ route('update.task') }}",
       type: "POST",

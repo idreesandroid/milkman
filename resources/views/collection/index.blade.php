@@ -49,8 +49,12 @@
                                  @else
                                     <a href="{{ route('profile.user', $item->collector_id)}}"><img src="UserProfile/<?php echo $item->filenames; ?>" class="cb-image" alt="collector-image"></a>
                                  @endif
+                                 <ul class="collector_detial">
+                                       <li><a href="{{ route('profile.user', $item->collector_id)}}">{{$item->name}}</a></li>
+                                       <li>{{$item->user_phone}}</li>
+                                 </ul>
 
-                                 <h2 data-toggle="modal" data-target="#leads">{{$item->title}}</h2>                                
+                                 <h2>{{$item->title}}</h2>                                
                                  <ul class="list-unstyled">
                                     @foreach($item->vendors as $subitem) 
                                        <li><a href="{{ route('profile.user', $subitem->id)}}">{{$subitem->name}}</a></li>

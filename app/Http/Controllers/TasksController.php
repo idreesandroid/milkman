@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Tasks;
 use App\Models\User;
+use App\Models\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
@@ -18,10 +19,14 @@ class TasksController extends Controller
     {        
         $tasks = Tasks::select('tasks.*',                                
                                 'vn.name AS vendor_name',
-                                'cn.name AS collector_name')
+                                'cn.name AS collector_name','cln.title')
                     ->leftJoin('users AS vn', 'vn.id', '=', 'tasks.vendor_id')
-                    ->leftJoin('users AS cn','cn.id','=','tasks.collector_id')                    
+                    ->leftJoin('users AS cn','cn.id','=','tasks.collector_id')
+                    ->leftJoin('collections AS cln','cln.id','=','tasks.collection_id')
+                    ->groupBy('tasks.collection_id')                 
                     ->get();
+
+        //$tasks = Collection::select('collections.title','')
         $collectors = User::select('users.*')
                     ->join('role_user', 'role_user.user_id', '=', 'users.id')
                     ->where('role_user.role_id', '=', 5)
@@ -31,8 +36,10 @@ class TasksController extends Controller
                     ->join('role_user', 'role_user.user_id', '=', 'users.id')
                     ->where('role_user.role_id', '=', 6)
                     ->get(); 
+
+        $collections = Collection::all(); 
                    
-        return view('task/listing',compact('tasks','collectors','vendors'));
+        return view('task/listing',compact('tasks','collectors','vendors','collections'));
     }
 
     /**
@@ -56,6 +63,7 @@ class TasksController extends Controller
         $taskID = Tasks::insertGetId([       
                 'vendor_id' => $request->vendor_id,          
                 'collector_id'  => $request->collector_id,           
+                'collection_id'  => $request->collectionID,           
                 'duedate'  => $request->duedate,           
                 'duetime'  => $request->duetime,           
                 'shift'  => $request->shift,           
