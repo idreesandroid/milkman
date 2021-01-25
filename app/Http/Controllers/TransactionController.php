@@ -18,7 +18,7 @@ class TransactionController extends Controller
 
     public function transactionList()
     {
-        $transactions = UserTransaction::all();
+        $transactions = UserTransaction::with('transactionBy','transactionBelongsTo')->all();
         return view('transaction/index', compact('transactions'));
     }
 

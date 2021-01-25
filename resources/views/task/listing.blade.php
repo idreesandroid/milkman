@@ -135,7 +135,9 @@
             <div class="row">
                <div class="col-md-12">
                   <form>
+                  @can('Store-Task')
                      <h4>Create Custom Task</h4>
+                     @endcan
                      <div class="form-group row">
                         <div class="col-sm-6">
                            <label class="col-form-label">Collector<span class="text-danger">*</span>:</label>
