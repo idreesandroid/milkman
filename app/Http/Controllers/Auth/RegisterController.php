@@ -59,6 +59,7 @@ class RegisterController extends Controller
         'name'      => 'required|min:3',
         'email'     => 'required|unique:users',
         'password'  => 'required|min:6',
+        'Confirm'=> 'required_with:password|same:password',
         'user_cnic' => 'required|min:15|unique:users',
         'user_phone'=> 'required|min:12|unique:users',
         'state'  => 'required',
@@ -90,7 +91,7 @@ class RegisterController extends Controller
   
     $role=$request->role_id;
     $user->assignRole(Role::where('id', $role)->first());
-    return redirect('/home');
+    return redirect('/DashBoard');
   }
 
   /**

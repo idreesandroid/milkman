@@ -21,16 +21,16 @@ class CreateTasksTable extends Migration
             $table->foreign('collector_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
             $table->integer('collection_id')->unsigned();
             $table->foreign('collection_id')->references('id')->on('collections')->onUpdate('cascade')->onDelete('cascade');
-            $table->string('milk_amout');
-            $table->string('lactometer_reading');
-            $table->string('milk_taste');
-            $table->string('priority');
-            $table->string('shift');
-            $table->string('duedate');
-            $table->string('duetime');
-            $table->string('starttime');
-            $table->string('endtime');
-            $table->string('status');
+            $table->string('milk_amout')->nullable();
+            $table->string('lactometer_reading')->nullable();
+            $table->string('milk_taste')->nullable();
+            $table->string('priority')->nullable();
+            $table->string('shift')->nullable();
+            $table->string('duedate')->nullable();
+            $table->string('duetime')->nullable();
+            $table->string('starttime')->nullable();
+            $table->string('endtime')->nullable();
+            $table->string('status')->nullable();
             $table->timestamps();
         });
     }

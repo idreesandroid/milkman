@@ -19,7 +19,11 @@
                </ul>
             </div>
          </div>
-         
+         @if ($errors->any())
+     @foreach ($errors->all() as $error)
+         <div>{{$error}}</div>
+     @endforeach
+      @endif        
 <form method="post"  class="splash-container" onsubmit="return handleData()" >
    @csrf 
    <div class="card">

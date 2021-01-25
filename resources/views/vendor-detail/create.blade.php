@@ -7,13 +7,13 @@
                <h3 class="page-title">
                   <span class="page-title-icon bg-gradient-primary text-white mr-2">
                   <i class="la la-table"></i>
-                  </span> <span>MilkMan Dashboard</span>
+                  </span> <span>Register</span>
                </h3>
             </div>
             <div class="col text-right">
                <ul class="breadcrumb bg-white float-right m-0 pl-0 pr-0">
-                  <li class="breadcrumb-item"><a href="/">Vendor</a></li>
-                  <li class="breadcrumb-item active">Register</li>
+                  <li class="breadcrumb-item"><a href="/DashBoard">Dashboard</a></li>
+                  <li class="breadcrumb-item active">Vendor Register</li>
                </ul>
             </div>
          </div>
@@ -65,8 +65,8 @@
                         <input class="form-control" id="password" name="password" type="password"  required=""  minlength="6" autocomplete="off" >
                      </div>
                      <div class="form-group">
-                        <label>Repeat Password:</label>
-                        <input type="password" class="form-control" id="pass1" name="pass1" required=""   minlength="6" autocomplete="off" >
+                        <label>Confirm Password:</label>
+                        <input type="password" class="form-control" id="Confirm" name="Confirm" required=""   minlength="6" autocomplete="off" >
                      </div>
                   </div>
                </div>

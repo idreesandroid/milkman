@@ -25,6 +25,11 @@
             <h4 class="card-title mb-0">Add Product</h4>
          </div>
          <div class="card-body">
+         @if ($errors->any())
+     @foreach ($errors->all() as $error)
+         <div>{{$error}}</div>
+     @endforeach
+      @endif
             <form method="post" action="{{ route('store.product') }}"  enctype="multipart/form-data" id="product">
                @csrf 
                <div class="form-group row">

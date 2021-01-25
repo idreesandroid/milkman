@@ -42,7 +42,6 @@ Auth::routes();
 // Route::get('/home', [HomeController::class, 'index'])->name('home');
  
 //Login Register routes--------------------------------
-//Route::get('/',                    [LoginController::class, 'login'])->name('user.login');
 Route::get('register',             [RegisterController::class, 'showRegistrationForm'])->name('user.register')->middleware('can:Register-User');
 //Users routes--------------------------------
 Route::get('user/userList',        [RegisterController::class, 'allUserList'])->name('index.userList')->middleware('can:See-User');
@@ -56,8 +55,8 @@ Route::post('user/updatePersonal',    [RegisterController::class,'updatePersonal
 Route::get('DashBoard',                   [RegisterController::class, 'returnDashBoard'])->name('user.dashBoard')->middleware('can:Login');
 Route::get('Dashboard/admin',             [AdminController::class, 'adminDashboard'])->name('admin.DashBoard')->middleware('can:Login');
 Route::get('Dashboard/distributor',       [DistributorController::class, 'distributorDashboard'])->name('distributor.DashBoard')->middleware('can:Login');
-Route::get('Dashboard/collector',       [DistributorController::class, 'collectorDashboard'])->name('collector.DashBoard')->middleware('can:Login');
-Route::get('Dashboard/vendor',       [DistributorController::class, 'vendorDashboard'])->name('vendor.DashBoard')->middleware('can:Login');
+Route::get('Dashboard/collector',         [CollectorController::class, 'collectorDashboard'])->name('collector.DashBoard')->middleware('can:Login');
+Route::get('Dashboard/vendor',            [VendorDetailController::class, 'vendorDashboard'])->name('vendor.DashBoard')->middleware('can:Login');
 
 
 //Role routes--------------------------------
@@ -122,18 +121,10 @@ Route::get('Invoice/PaymentPending/{id}',   [SaleController::class, 'PaymentStat
 Route::get('invoice/detail/{id}',           [SaleController::class, 'invoiceDetail'])->name('invoice.Detail')->middleware('can:See-Invoice-Detail');
 
 Route::get('cart/onHoldInvoice',            [SaleController::class, 'onHoldInvoice'])->name('onHold.invoice')->middleware('can:See-Cart');
-
 Route::get('cart/create',                   [SaleController::class, 'generateInvoice'])->name('create.invoice')->middleware('can:Generate-Invoice');
 Route::post('cart/create',                  [SaleController::class, 'SaveInvoice'])->name('save.invoice')->middleware('can:Generate-Invoice');
 Route::get('cart/selectbatch',              [SaleController::class, 'selectBatch'])->name('select.batch')->middleware('can:Generate-Invoice');
 Route::Delete('cart/deleteInvoice/{id}',    [SaleController::class, 'deleteInvoice'])->name('delete.invoice')->middleware('can:Delete-Invoice');
-
-
-//payment routes-------------------------------------------------
-
- //Route::get('payment/receipt/{id}',          [DistributorPaymentController::class, 'receipt'])->name('payment.receipt');
-// Route::post('payment/receipt',              [DistributorPaymentController::class, 'paymentAgainstReceipt'])->name('pay.receipt.bill');
-// Route::get('payment/List',                  [DistributorPaymentController::class, 'PaymentList'])->name('payment.List');
 
 //Transaction routes-------------------------------------------------
 
@@ -141,7 +132,6 @@ Route::get('transaction/slip',                [TransactionController::class, 'tr
 Route::post('transaction/slip',               [TransactionController::class, 'transactionStore'])->name('transaction.store')->middleware('can:Make-Transaction');
 Route::get('transaction/List',                [TransactionController::class, 'transactionList'])->name('transaction.List')->middleware('can:See-All-Transactions');
 Route::post('transaction/verify/{id}',        [TransactionController::class, 'verifyTransaction'])->name('verify.transaction')->middleware('can:Verify-Transaction');
-
 Route::get('my/transactions',                 [TransactionController::class, 'userTransaction'])->name('my.transaction')->middleware('can:See-Personal-Transaction');
 
 
