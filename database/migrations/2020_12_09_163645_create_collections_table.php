@@ -20,6 +20,7 @@ class CreateCollectionsTable extends Migration
             $table->string('status');
             $table->string('collector_id');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

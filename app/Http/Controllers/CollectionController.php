@@ -32,7 +32,7 @@ class CollectionController extends Controller
         
         $location = str_replace("},]","}]",$location);
 
-        $collections = Collection::select('collections.*','users.filenames')
+        $collections = Collection::select('collections.*','users.filenames','users.user_phone','users.name')
                     ->leftjoin('users','users.id','=','collections.collector_id')
                     ->get();
         $collectors = User::select('users.*')

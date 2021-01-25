@@ -30,7 +30,6 @@
                         <div class="col-md-3">
                            <label class="col-form-label">Status <span class="text-danger">*</span></label>
                            <select class="form-control" id="addStatus" name="addStatus">
-                                 <option value="">Select Status</option>
                                  <option value="active">Active</option>
                                  <option value="inactive">Inactive</option>
                               </select> 
