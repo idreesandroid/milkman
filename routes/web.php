@@ -154,7 +154,7 @@ Route::post('collection/getvendorlatlng', [CollectionController::class, 'getvend
 //Tasks routes-------------------------------
 Route::get('tasks', [TasksController::class, 'index'])->name('task_listing')->middleware('can:See-Task-List');
 Route::post('update-tasks', [TasksController::class, 'update'])->name('update.task')->middleware('can:Update-Task');
-Route::post('show-tasks', [TasksController::class, 'show'])->name('show.task')->middleware('can:See-Task-Detail');
+Route::get('task/detail/{id}', [TasksController::class, 'show'])->name('show.task')->middleware('can:See-Task-Detail');
 Route::post('store-tasks', [TasksController::class, 'store'])->name('store.task')->middleware('can:Store-Task');
 Route::post('start-tasks', [TasksController::class, 'start'])->name('start.task')->middleware('can:Start-Task');
 Route::post('destroy-tasks', [TasksController::class, 'destroy'])->name('destroy.task')->middleware('can:Delete-Task');

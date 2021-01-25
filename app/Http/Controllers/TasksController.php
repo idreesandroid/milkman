@@ -17,16 +17,20 @@ class TasksController extends Controller
      */
     public function index()
     {        
-        $tasks = Tasks::select('tasks.*',                                
-                                'vn.name AS vendor_name',
-                                'cn.name AS collector_name','cln.title')
-                    ->leftJoin('users AS vn', 'vn.id', '=', 'tasks.vendor_id')
-                    ->leftJoin('users AS cn','cn.id','=','tasks.collector_id')
-                    ->leftJoin('collections AS cln','cln.id','=','tasks.collection_id')
-                    ->groupBy('tasks.collection_id')                 
-                    ->get();
+        // $tasks = Tasks::select('tasks.*','tasks.collection_id',                            
+        //                         'vn.name AS vendor_name',
+        //                         'cn.name AS collector_name','cln.title')
+        //             ->leftJoin('users AS vn', 'vn.id', '=', 'tasks.vendor_id')
+        //             ->leftJoin('users AS cn','cn.id','=','tasks.collector_id')
+        //             ->rightJoin('collections AS cln','cln.id','=','tasks.collection_id')
+        //             ->get();
 
-        //$tasks = Collection::select('collections.title','')
+        //dd($tasks);
+
+        $tasks = Collection::select('collections.*','cn.name AS collector_name')
+                    ->where('collections.collector_id','!=',0)
+                    ->leftJoin('users AS cn','cn.id','=','collections.collector_id')
+                    ->get();
         $collectors = User::select('users.*')
                     ->join('role_user', 'role_user.user_id', '=', 'users.id')
                     ->where('role_user.role_id', '=', 5)
@@ -37,8 +41,9 @@ class TasksController extends Controller
                     ->where('role_user.role_id', '=', 6)
                     ->get(); 
 
-        $collections = Collection::all(); 
-                   
+        $collections = Collection::all();
+
+
         return view('task/listing',compact('tasks','collectors','vendors','collections'));
     }
 
@@ -81,15 +86,14 @@ class TasksController extends Controller
      */
     public function show(Request $request)
     {
-        //$task = Tasks::find($request->id);
-        $task = Tasks::select('tasks.*',                                
+        $tasks = Tasks::select('tasks.*',                                
                                 'vn.name AS vendor_name',
                                 'cn.name AS collector_name','cn.filenames')
                     ->join('users AS vn', 'vn.id', '=', 'tasks.vendor_id')
                     ->join('users AS cn','cn.id','=','tasks.collector_id')
-                    ->where('tasks.id','=',$request->id)                 
-                    ->first();
-        return $task;
+                    ->where('tasks.collection_id','=',$request->id)                 
+                    ->get();
+        return view('task/detail', compact('tasks'));
     }
 
     /**
