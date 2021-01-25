@@ -213,6 +213,57 @@ class PermissionSeeder extends Seeder
         $permission_35->name = 'See-Invoice-Detail';
         $permission_35->save();
 
+
+        $permission_35 = new Permission();
+        $permission_35->slug = 'See-Task-List';
+        $permission_35->name = 'See-Task-List';
+        $permission_35->save();
+
+        $permission_34 = new Permission();
+        $permission_34->slug = 'Update-Task';
+        $permission_34->name = 'Update-Task';
+        $permission_34->save();
+
+        $permission_35 = new Permission();
+        $permission_35->slug = 'Start-Task';
+        $permission_35->name = 'Start-Task';
+        $permission_35->save();
+
+        $permission_34 = new Permission();
+        $permission_34->slug = 'Store-Task';
+        $permission_34->name = 'Store-Task';
+        $permission_34->save();
+
+        $permission_35 = new Permission();
+        $permission_35->slug = 'Delete-Task';
+        $permission_35->name = 'Delete-Task';
+        $permission_35->save();
+
+        $permission_34 = new Permission();
+        $permission_34->slug = 'Create-Collection-Area';
+        $permission_34->name = 'Create-Collection-Area';
+        $permission_34->save();
+
+        $permission_35 = new Permission();
+        $permission_35->slug = 'Delete-Collection-Area';
+        $permission_35->name = 'Delete-Collection-Area';
+        $permission_35->save();
+
+        $permission_34 = new Permission();
+        $permission_34->slug = 'Edit-Collection-Area';
+        $permission_34->name = 'Edit-Collection-Area';
+        $permission_34->save();
+
+        $permission_35 = new Permission();
+        $permission_35->slug = 'Assign-Collection-Area';
+        $permission_35->name = 'Assign-Collection-Area';
+        $permission_35->save();
+
+        $permission_35 = new Permission();
+        $permission_35->slug = 'See-Collection-Area';
+        $permission_35->name = 'See-Collection-Area';
+        $permission_35->save();
+
         
     }
 }
