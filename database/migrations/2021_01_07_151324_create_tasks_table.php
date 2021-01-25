@@ -21,6 +21,7 @@ class CreateTasksTable extends Migration
             $table->foreign('collector_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
             $table->integer('collection_id')->unsigned();
             $table->foreign('collection_id')->references('id')->on('collections')->onUpdate('cascade')->onDelete('cascade');
+
             $table->string('milk_amout')->nullable();
             $table->string('lactometer_reading')->nullable();
             $table->string('milk_taste')->nullable();
@@ -31,6 +32,7 @@ class CreateTasksTable extends Migration
             $table->string('starttime')->nullable();
             $table->string('endtime')->nullable();
             $table->string('status')->nullable();
+
             $table->timestamps();
         });
     }

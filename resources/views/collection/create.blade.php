@@ -39,7 +39,7 @@
                            <label for="selectedVendorsInAddModel" class="col-form-label col-md-1">Vendors</label>
                               <select class="form-control" id="selectedVendorsInAddModel" name="vendorsIds[]" multiple="multiple">                       
                                  @foreach($vendors as $vendor)
-                                 <option value="{{$vendor->id}}">{{$vendor->name}}</option>
+                                 <option data-vendor-id="{{$vendor->id}}" value="{{$vendor->id}}">{{$vendor->name}}</option>
                                  @endforeach
                               </select>                           
                         </div>
@@ -83,8 +83,27 @@
    
  $(document).ready(function() { 
  $("#selectedVendorsInAddModel").select2( {
-      placeholder: "Search for a Vendors"
-   }); 
+      placeholder: "Search for a Vendors",
+   }).on('change', function(e) {
+      var vendorID = $("#selectedVendorsInAddModel").val();
+      //alert(vendorID);
+      $.ajax({
+         url : "{{ route('getvendorlatlng.collection') }}",
+         type: "POST",
+         data: {
+            '_token' : "{{ csrf_token() }}",
+            'vendor_id' : vendorID
+         },
+         success: function(response, status){
+            console.log(response);
+         },
+         error: function(response, status){
+            console.log(response);
+         }
+
+      });
+         
+    });
    initializeMap('addCollectionMap','add_clear_shapes','save_raw_map','add_restore','add_MapData');
 
    $("#saveColectionArea").on('click',function(){
