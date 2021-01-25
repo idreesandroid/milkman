@@ -37,7 +37,7 @@
                                  <th>Name:</th>
                                  <th style="color:black;"><b>{{$invoice->buyer->name}}</b></th>
                                  <th>Invoice Date:</th>
-                                 <th style="color:black;"><b>{{$invoice->buyer->created_at}}</b></th>
+                                 <th style="color:black;"><b>{{timeFormat($invoice->created_at)['date']}} {{timeFormat($invoice->created_at)['time']}}</b></th>
                                  <th></th>
                               </tr>
                               <tr>
@@ -59,7 +59,7 @@
                                  <td>{{$cart->product_rate}}</td>
                                  <td>{{$cart->product_quantity}}</td>
                                  <td>{{$cart->sub_total}}</td>
-                                 <td>{{$cart->delivery_due_date}}</td>
+                                 <td>{{timeFormat($cart->delivery_due_date)['date']}}</td>
                                         
                               </tr>
                               @endforeach 

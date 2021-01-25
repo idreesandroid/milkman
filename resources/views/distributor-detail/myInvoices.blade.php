@@ -8,13 +8,13 @@
                <h3 class="page-title">
                   <span class="page-title-icon bg-gradient-primary text-white mr-2">
                   <i class="la la-table"></i>
-                  </span> <span>MilkMan Dashboard</span>
+                  </span> <span>Invoices</span>
                </h3>
             </div>
             <div class="col text-right">
                <ul class="breadcrumb bg-white float-right m-0 pl-0 pr-0">
-                  <li class="breadcrumb-item"><a href="/">Sale</a></li>
-                  <li class="breadcrumb-item active">Reserve Invoices</li>
+                  <li class="breadcrumb-item"><a href="/DashBoard">Dashboard</a></li>
+                  <li class="breadcrumb-item active">Invoice List</li>
                </ul>
             </div>
          </div>
@@ -43,8 +43,8 @@
                         <td>{{$invoice->invoice_number}}</td>
                         <td>{{$invoice->flag}}</td>
                         <td>{{$invoice->total_amount}}</td>
-                        <td>{{$invoice->created_at}}</td>
-                        <td><a href="{{ route('payment.receipt', $invoice->id)}}" class="btn btn-primary">Detail</a></td>
+                        <td>{{timeFormat($invoice->created_at)['date']}}</td>
+                        <td><a href="{{ route('invoice.Detail', $invoice->id)}}" class="btn btn-primary">Detail</a></td>
                      </tr>
                      @endforeach
                   </tbody>

@@ -34,7 +34,7 @@
                <table class="datatable table table-stripped mb-0 datatables">
                   <thead>
                      <tr>
-                        <th>Serial No</th>
+                        
                         <th>Product Name</th>
                         <th>Batch ID</th>
                         <th>Manufacture Date</th>
@@ -48,11 +48,10 @@
                   <tbody>
                      @foreach($product_stocks as $index => $product_stock)
                      <tr>
-                        <td>{{$index+1}}</td>
                         <td>{{$product_stock->product->product_name}}</td>
                         <td>{{$product_stock->batch_name}}</td>
                         <td>{{timeFormat($product_stock->manufactured_date)['date']}}</td>
-                        <td>{{timeFormat($product_stock->expire_date)['date']}}
+                        <td>{{timeFormat($product_stock->expire_date)['date']}}</td>
                         <td>{{number_format($product_stock->manufactured_quantity)}}</td>
                         <td>{{number_format($product_stock->stockInBatch)}}</td>
                     
