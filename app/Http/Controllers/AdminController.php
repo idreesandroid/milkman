@@ -20,8 +20,6 @@ class AdminController extends Controller
         
     $user = User::whereHas('roles', function($query) use($roleId) {$query->where('roles.id', $roleId);})->get()->toArray();  
     $userCount[] = count($user);
-     $Counts=$userCount;
-    
     }
     //  echo "<pre>";
     //  print_r($Coutnts);

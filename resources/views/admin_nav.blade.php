@@ -111,6 +111,22 @@
                </ul>
             </li>
             @endcan
+
+            @can('See-Asset')
+            <li class="submenu">
+               <a href="#">
+               <i class="fa fa-cart-plus" aria-hidden="true"></i>
+               <span> Assets </span>
+               <span class="menu-arrow"></span>
+               </a>
+               <ul class="sub-menus">
+                  <li><a href="/asset/list" class="{{ (request()->segment(1) == 'asset' && request()->segment(2) == 'list') ? 'active' : '' }}">Asset List </a></li>
+                  @can('See-Asset-Type')  
+                  <li><a href="/type/list" class="{{ (request()->segment(1) == 'type' && request()->segment(2) == 'list') ? 'active' : '' }}">Type List </a></li>
+                  @endcan
+               </ul>
+            </li>
+            @endcan
             @can('Create-Role')
             <li class="submenu">
                <a href="#">

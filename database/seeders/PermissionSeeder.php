@@ -268,5 +268,50 @@ class PermissionSeeder extends Seeder
         $permission_35->slug = 'See-Task-Detail';
         $permission_35->name = 'See-Task-Detail';
         $permission_35->save(); 
+
+        
+        $permission_35 = new Permission();
+        $permission_35->slug = 'See-Asset-Type';
+        $permission_35->name = 'See-Asset-Type';
+        $permission_35->save(); 
+
+        
+        $permission_35 = new Permission();
+        $permission_35->slug = 'Create-Asset-Type';
+        $permission_35->name = 'Create-Asset-Type';
+        $permission_35->save(); 
+        
+        $permission_35 = new Permission();
+        $permission_35->slug = 'Edit-Asset-Type';
+        $permission_35->name = 'Edit-Asset-Type';
+        $permission_35->save(); 
+
+        $permission_35 = new Permission();
+        $permission_35->slug = 'Delete-Asset-Type';
+        $permission_35->name = 'Delete-Asset-Type';
+        $permission_35->save(); 
+        
+        $permission_35 = new Permission();
+        $permission_35->slug = 'See-Asset';
+        $permission_35->name = 'See-Asset';
+        $permission_35->save();        
+        
+        $permission_35 = new Permission();
+        $permission_35->slug = 'Create-Asset';
+        $permission_35->name = 'Create-Asset';
+        $permission_35->save();         
+        
+        $permission_35 = new Permission();
+        $permission_35->slug = 'Edit-Asset';
+        $permission_35->name = 'Edit-Asset';
+        $permission_35->save(); 
+        
+        $permission_35 = new Permission();
+        $permission_35->slug = 'Delete-Asset';
+        $permission_35->name = 'Delete-Asset';
+        $permission_35->save(); 
+        
+       
+        
     }
 }

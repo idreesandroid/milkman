@@ -103,7 +103,8 @@
                         <input type="file" class="form-control" name="filenames" required=""   autocomplete="off" >
                   </div>
                </div>
-            </div>            
+            </div>  
+                  
       <div class="text-right">
       <button type="submit" class="btn btn-primary">Submit</button>
       </div>
@@ -111,6 +112,7 @@
       </form>
    </div>
 </div>
+
 
 <!-- /Page Wrapper -->
 <script src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/3/jquery.inputmask.bundle.js"></script>
@@ -121,6 +123,10 @@
     });
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+
+
+
 @endsection
 <!-- <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script> -->
 
