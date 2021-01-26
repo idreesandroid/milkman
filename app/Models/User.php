@@ -113,4 +113,11 @@ class User extends Authenticatable
     {
       return $this->hasMany(UserTransaction::class);
     }
+
+    public function userAsset()
+    {
+        return $this->hasMany(milkmanAsset::class);
+    }
+
+
 }

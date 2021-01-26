@@ -18,15 +18,7 @@ class ProductStockController extends Controller
 
     public function index()
     {  
-       // $product_stock = User::with('productStocks')->get();
-      // return $product_stock;
-
        $product_stocks = ProductStock::with('product','Manager')->get();
-       //return $product_stocks;
-        // $word=$product_stocks->AddBy->name;
-        // echo "<pre>";
-        // print_r($product_stock);
-        // exit;
        return view('product-stock/index', compact('product_stocks'));
     }
 

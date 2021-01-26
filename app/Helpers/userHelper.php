@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\UserAccount;
+use App\Models\milkmanAsset;
 
 function generateAccNumber() {
     $number = mt_rand(1000000, 9999999); // better than rand()
@@ -30,6 +31,26 @@ function timeFormat($date)
    
     return $dateTimeArray;
 }
+
+
+function generateAssetCode() {
+    $number = mt_rand(1000000, 9999999); // better than rand()
+
+    // call the same function if the barcode exists already
+    if (assetNumberExists($number)) {
+        return generateAssetCode();
+    }
+
+    // otherwise, it's valid and can be used
+    return $number;
+}
+
+function assetNumberExists($number) {
+    // query the database and return a boolean
+    // for instance, it might look like this in Laravel
+    return milkmanAsset::where('assetCode', '=' , $number)->exists();
+}
+
 
 
 

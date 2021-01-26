@@ -13,10 +13,9 @@ use App\Http\Controllers\CollectionController;
 use App\Http\Controllers\DistributorController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\AssetController;
 
 use App\Http\Controllers\TransactionController;
-
-
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\TasksController;
 use App\Http\Controllers\CollectorController;
@@ -110,6 +109,15 @@ Route::post('distributor-detail/update/{id}',    [DistributorController::class, 
 Route::post('companyDetail/update/{id}',         [DistributorController::class,'companyDetailUpdate'])->name('companyDetail.distributor')->middleware('can:Edit-Company-Detail');
 Route::get('order/myList',                       [DistributorController::class, 'myOrders'])->name('order.myList')->middleware('can:See-My-Orders');
 
+//collector Detail routes--------------------------------
+ 
+Route::get('collector-detail/index',                [CollectorController::class, 'index'])->name('index.collector-detail')->middleware('can:See-Distributor');
+Route::get('collector-detail/create',               [CollectorController::class, 'create'])->name('create.collector-detail')->middleware('can:Create-Distributor');
+Route::post('collector-detail/create',              [CollectorController::class, 'store'])->name('store.collector-detail')->middleware('can:Create-Distributor');
+// Route::get('distributor-detail/edit/{id}',       [DistributorController::class, 'edit'])->name('edit.distributor-detail')->middleware('can:Edit-Distributor');
+// Route::post('distributor-detail/update/{id}',    [DistributorController::class, 'update'])->name('update.distributor-detail')->middleware('can:Edit-Distributor');
+// Route::post('companyDetail/update/{id}',         [DistributorController::class,'companyDetailUpdate'])->name('companyDetail.distributor')->middleware('can:Edit-Company-Detail');
+// Route::get('order/myList',                       [DistributorController::class, 'myOrders'])->name('order.myList')->middleware('can:See-My-Orders');
 
 //Cart routes----------------------------------------
 Route::get('cart/create',                   [SaleController::class, 'generateInvoice'])->name('create.invoice')->middleware('can:Generate-Invoice');
@@ -165,3 +173,21 @@ Route::get('collector-detail/create', [CollectorController::class, 'create'])->n
 
 //TestController routes-----------------
 Route::get('test', [TestController::class, 'index'])->name('test');
+
+//Asset routes--------------------------------
+Route::get('type/list',            [AssetController::class, 'listType'])->name('list.type')->middleware('can:See-Asset-Type');
+Route::get('type/create',          [AssetController::class, 'createType'])->name('create.type')->middleware('can:Create-Asset-Type');
+Route::post('type/create',         [AssetController::class, 'storeType'])->name('store.type')->middleware('can:Create-Asset-Type');
+Route::get('type/edit/{id}',       [AssetController::class, 'editType'])->name('edit.type')->middleware('can:Edit-Asset-Type');
+Route::post('type/update/{id}',    [AssetController::class, 'updateType'])->name('update.type')->middleware('can:Edit-Asset-Type');
+Route::Delete('type/delete/{id}',  [AssetController::class, 'deleteType'])->name('delete.type')->middleware('can:Delete-Asset-Type');
+
+
+Route::get('asset/list',            [AssetController::class, 'listAsset'])->name('list.asset')->middleware('can:See-Asset');
+Route::get('asset/create',          [AssetController::class, 'createAsset'])->name('create.asset')->middleware('can:Create-Asset');
+Route::post('asset/create',         [AssetController::class, 'storeAsset'])->name('store.asset')->middleware('can:Create-Asset');
+Route::get('asset/edit/{id}',       [AssetController::class, 'editAsset'])->name('edit.asset')->middleware('can:Edit-Asset');
+Route::post('asset/update/{id}',    [AssetController::class, 'updateAsset'])->name('update.asset')->middleware('can:Edit-Asset');
+Route::Delete('asset/delete/{id}',  [AssetController::class, 'deleteAsset'])->name('delete.asset')->middleware('can:Delete-Asset');
+
+

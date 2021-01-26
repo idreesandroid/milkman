@@ -121,15 +121,12 @@ class DistributorController extends Controller
 
     public function companyDetailUpdate(Request $request, $id)
     {
-
         $updatedata = $request->validate([
             'companyName'=>'required|min:3',
             'companyOwner'=>'required|min:3', 
             'companyContact' => 'required',
             'companyAddress'=>'required|min:3',
             'companyNTN'=>'required|min:3', 
-                       
-       
         ]);
         Distributor::where('user_id', $id)->update($updatedata);
         return redirect()->route('profile.user', [$id]);
