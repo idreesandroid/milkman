@@ -18,7 +18,13 @@ class TransactionController extends Controller
 
     public function transactionList()
     {
-        $transactions = UserTransaction::with('transactionBy','transactionBelongsTo')->all();
+        //$transactions = UserTransaction::with('transactionBy','transactionBelongsTo')->all();
+        $transactions=DB::table('user_transactions')
+        ->select('userAccount','name','user_transactions.id','paymentMethod','bank_name','branchName','depositorName','acc_No','cardLastDigits','transactionId','senderCell','timeOfDeposit','amountPaid','receiptPics','verifiedBy','depositorCNIC','receiverName','receiverCNIC','status')
+        ->join('users','user_id','=','users.id')
+        ->join('user_accounts','userAcc_id','=','user_accounts.id')
+        ->get();
+       
         return view('transaction/index', compact('transactions'));
     }
 
@@ -26,9 +32,7 @@ class TransactionController extends Controller
     { 
    $uid = Auth::id();
    $user = User::whereHas('roles', function($query) {$query->whereIn('roles.id',[6,3]);})->where('id', $uid)->with('userAcc')->first(); 
-        // echo "<pre>";
-        // print_r($user);
-        // exit;
+        
    $bankLists = bankList::select('id','bankName')->get();
    return view('transaction/transaction-slip', compact('user','bankLists'));
    }
@@ -102,13 +106,6 @@ class TransactionController extends Controller
     //    exit;
       
        $transaction->save();
-
-
-
-
-
-
-
        return redirect('my/transactions');
     
    }     
@@ -185,7 +182,18 @@ public function verifyTransaction(Request $request , $tr_no)
 public function userTransaction()
 {
     $uid = Auth::id();
-    $transactions = UserTransaction::where('user_id' , $uid)->get();
+    // $transactions = UserTransaction::where('user_id' , $uid)->with('transactionBy','transactionBelongsTo')->get();
+    
+    $transactions=DB::table('user_transactions')
+    ->select('userAccount','name','user_transactions.id','paymentMethod','bank_name','branchName','depositorName','acc_No','cardLastDigits','transactionId','senderCell','timeOfDeposit','amountPaid','receiptPics','verifiedBy','depositorCNIC','receiverName','receiverCNIC','status')
+    ->where('user_transactions.user_id', $uid)
+    ->join('users','user_id','=','users.id')
+    ->join('user_accounts','userAcc_id','=','user_accounts.id')
+    ->get();
+    
+    // echo "<pre>";
+    // print_r($transactions);
+    // exit;
     return view('transaction/index', compact('transactions'));
 }
 

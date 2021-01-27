@@ -88,7 +88,7 @@
          <!-- Header Menu -->
          <ul class="nav user-menu">
             <!-- Notifications -->
-            <li class="nav-item dropdown">
+            <!-- <li class="nav-item dropdown">
                <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
                <i class="fa fa-bell-o"></i> <span class="badge badge-pill">3</span>
                </a>
@@ -122,7 +122,7 @@
                      <a href="#">View all Notifications</a>
                   </div>
                </div>
-            </li>
+            </li> -->
             <!-- /Notifications -->    
             <li class="nav-item dropdown has-arrow main-drop">
                <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">

@@ -6,13 +6,13 @@
                <h3 class="page-title">
                   <span class="page-title-icon bg-gradient-primary text-white mr-2">
                   <i class="la la-table"></i>
-                  </span> <span>MilkMan Dashboard</span>
+                  </span> <span>Invoice</span>
                </h3>
             </div>
             <div class="col text-right">
                <ul class="breadcrumb bg-white float-right m-0 pl-0 pr-0">
-                  <li class="breadcrumb-item"><a href="/">Payment</a></li>
-                  <li class="breadcrumb-item active">Receipt</li>
+                  <li class="breadcrumb-item"><a href="/DashBoard">Dashboard</a></li>
+                  <li class="breadcrumb-item active">Detail</li>
                </ul>
             </div>
          </div>
@@ -37,7 +37,7 @@
                                  <th>Name:</th>
                                  <th style="color:black;"><b>{{$invoice->buyer->name}}</b></th>
                                  <th>Invoice Date:</th>
-                                 <th style="color:black;"><b>{{timeFormat($invoice->created_at)['date']}} {{timeFormat($invoice->created_at)['time']}}</b></th>
+                                 <th style="color:black;"><b> {{timeFormat($invoice->created_at)['time']}}<br>{{timeFormat($invoice->created_at)['date']}}</b></th>
                                  <th></th>
                               </tr>
                               <tr>
@@ -56,9 +56,9 @@
                               <tr>
                                  <td>{{$index+1}}</td>
                                  <td>{{$cart->product->product_name}}</td>
-                                 <td>{{$cart->product_rate}}</td>
+                                 <td>{{number_format($cart->product_rate)}} Rs</td>
                                  <td>{{$cart->product_quantity}}</td>
-                                 <td>{{$cart->sub_total}}</td>
+                                 <td>{{number_format($cart->sub_total)}} Rs</td>
                                  <td>{{timeFormat($cart->delivery_due_date)['date']}}</td>
                                         
                               </tr>
