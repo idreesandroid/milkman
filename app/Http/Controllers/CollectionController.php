@@ -119,6 +119,22 @@ class CollectionController extends Controller
                      ->leftjoin('collection_vendor', 'collection_vendor.collection_id', '=', 'collections.id')
                      ->where('collections.id', '=', $request->id)
                      ->get();
+
+        $vendors = User::select('users.id','users.name','vendor_details.longitude','vendor_details.latitude')
+                    ->join('role_user', 'role_user.user_id', '=', 'users.id')
+                    ->join('vendor_details','vendor_details.user_id','=','users.id')
+                    ->where('role_user.role_id', '=', 6)
+                    ->get();
+        $location = '[';
+        foreach ($vendors as $value) {
+            $location .='{"type":"MARKER","id":null,"geometry":['.trim($value->latitude).','.trim($value->longitude).']},';
+        }
+        $location .= substr($collection[0]->vendors_location, 1, -1);        
+        $location .= ']';
+        
+        $location = str_replace("},]","}]",$location);
+
+        $collection[0]->vendors_location = $location;
         return $collection;
         
     }

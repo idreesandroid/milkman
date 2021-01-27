@@ -439,10 +439,20 @@ function draggableInit() {
 mapIn
 */
     
-function initializeMap(mapID,clear_shapes,save_raw_map,restore,MapData){
+function initializeMap(mapID,clear_shapes,save_raw_map,restore,MapData,locations = '',lat='',lng=''){
+    var marker;
+    var infowindow; 
+    if(!lat){
+        var lat = 32.409675;
+    }
+    if(!lng){
+        var lng = 74.135081;
+    }
+    infowindow = new google.maps.InfoWindow();
+    var markers = {};
     map = new google.maps.Map(document.getElementById(mapID), 
-        { zoom: 17, 
-            center: new google.maps.LatLng(32.409675, 74.135081)
+        { zoom: 12, 
+            center: new google.maps.LatLng(lat, lng)
         }),        
         shapes = [],
         selected_shape  = null,
@@ -476,6 +486,96 @@ function initializeMap(mapID,clear_shapes,save_raw_map,restore,MapData){
         setSelection(shape);
         shapes.push(shape);
     });
+
+    for (i = 0; i < locations.length; i++) {
+            marker = new google.maps.Marker({
+                position: new google.maps.LatLng(locations[i][1], locations[i][2]),
+                map: map,
+                //icon :   locations[i][4] === '1' ?  red_icon  : purple_icon,
+                html: document.getElementById('showInfoWindow')
+            });
+
+            google.maps.event.addListener(marker, 'click', (function(marker, i) {
+                return function() {
+                    //confirmed =  locations[i][4] === '1' ?  'checked'  :  0;
+                    //$("#confirmed").prop(confirmed,locations[i][4]);
+                    $("#name").text('');
+                    $("#latitude").text('');
+                    $("#longitude").text('');
+                    $("#name").text(locations[i][0]);
+                    $("#latitude").text(locations[i][1]);
+                    $("#longitude").text(locations[i][2]);
+                    $("#showInfoWindow").show();
+                    infowindow.setContent(marker.html);
+                    infowindow.open(map, marker);
+                }
+            })(marker, i));
+        }
+
+    var bindMarkerinfo = function(marker) {
+        google.maps.event.addListener(marker, "click", function (point) {
+            var markerId = getMarkerUniqueId(point.latLng.lat(), point.latLng.lng()); // get marker id by using clicked point's coordinate
+            var marker = markers[markerId]; // find marker
+            infowindow = new google.maps.InfoWindow();
+            infowindow.setContent(marker.html);
+            infowindow.open(map, marker);
+            removeMarker(marker, markerId); // remove it
+        });
+    };
+
+
+    var bindMarkerEvents = function(marker) {
+        google.maps.event.addListener(marker, "rightclick", function (point) {
+            var markerId = getMarkerUniqueId(point.latLng.lat(), point.latLng.lng()); // get marker id by using clicked point's coordinate
+            var marker = markers[markerId]; // find marker
+            removeMarker(marker, markerId); // remove it
+        });
+    };
+
+    /**
+     * Removes given marker from map.
+     * @param {!google.maps.Marker} marker A google.maps.Marker instance that will be removed.
+     * @param {!string} markerId Id of marker.
+     */
+    var removeMarker = function(marker, markerId) {
+        marker.setMap(null); // set markers setMap to null to remove it from map
+        delete markers[markerId]; // delete marker instance from markers object
+    };
+
+
+
+    var getMarkerUniqueId= function(lat, lng) {
+        return lat + '_' + lng;
+    };
+
+    var getLatLng = function(lat, lng) {
+        return new google.maps.LatLng(lat, lng);
+    };
+
+    // var addMarker = google.maps.event.addListener(map, 'click', function(e) {
+    //     var lat = e.latLng.lat(); // lat of clicked point
+    //     var lng = e.latLng.lng(); // lng of clicked point
+    //     var markerId = getMarkerUniqueId(lat, lng); // an that will be used to cache this marker in markers object.
+    //     var marker = new google.maps.Marker({
+    //         position: getLatLng(lat, lng),
+    //         map: map,
+    //         animation: google.maps.Animation.DROP,
+    //         id: 'marker_' + markerId,
+    //         html: "    <div id='info_"+markerId+"'>\n" +
+    //         "        <table class=\"map1\">\n" +
+    //         "            <tr>\n" +
+    //         "                <td><a>Description:</a></td>\n" +
+    //         "                <td><textarea  id='manual_description' placeholder='Description'></textarea></td></tr>\n" +
+    //         "            <tr><td></td><td><input type='button' value='Save' onclick='saveData("+lat+","+lng+")'/></td></tr>\n" +
+    //         "        </table>\n" +
+    //         "    </div>"
+    //     });
+    //     markers[markerId] = marker; // cache marker in markers object
+    //     bindMarkerEvents(marker); // bind right click event to marker
+    //     bindMarkerinfo(marker); // bind infowindow with click event to marker
+    // });
+
+
 
     google.maps.event.addListener(map, 'click',clearSelection);
     google.maps.event.addDomListener(byId(clear_shapes), 'click', clearShapes);
