@@ -103,7 +103,6 @@ class User extends Authenticatable
       return $this->belongsToMany(Collection::class, 'role_user', 'role_id', 'user_id');
     }
 
-
     public function userAcc()
     {
       return $this->hasOne(UserAccount::class);
@@ -118,6 +117,8 @@ class User extends Authenticatable
     {
         return $this->hasMany(milkmanAsset::class);
     }
+
+
 
 
 }

@@ -13,5 +13,8 @@ class Tasks extends Model
 
     protected $dates = ['deleted_at'];
 
-    protected $fillable = ['vendor_id','collector_id '];   
+    protected $fillable = ['vendor_id','collector_id','collection_id','milk_amout','lactometer_reading','milk_taste','priority','shift','duedate','duetime','starttime','endtime','status'];  
+    
+
+    
 }
