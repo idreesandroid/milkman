@@ -1,6 +1,37 @@
 @extends('layouts.master')
 @section('content')
 <!-- Page Header -->
+<?php
+
+$locations = [];
+
+foreach ($vendors as $key => $value) {
+   $loc = [];
+   array_push($loc, $value['name']);
+   array_push($loc, $value['latitude']);
+   array_push($loc, $value['longitude']);
+   array_push($locations, $loc);
+}
+
+//print_r($locations);
+
+ ?>
+<div style="display: none" id="showInfoWindow">
+    <table class="map1">
+        <tr>
+            <td><a>Name:</a></td>
+            <td id='name'></td>
+        </tr>
+        <tr>
+            <td><a>Latitude:</a></td>
+            <td id='latitude'></td>
+        </tr>
+        <tr>
+            <td><b>longitude:</b></td>
+            <td id='longitude'></td>
+        </tr>
+    </table>
+</div>
 <div class="crms-title row bg-white mb-4">
    <div class="col  p-0">
       <div></div>
@@ -237,9 +268,9 @@
 
 
 <script type="text/javascript">
+var locations = <?php echo json_encode($locations) ?>
 
-
- $(document).ready(function() {   
+$(document).ready(function() {   
 
       
    });
@@ -310,6 +341,7 @@ function editCollection(collectionId){
 
             $("#update_MapData").val("");
             $("#update_MapData").val(response[0].vendors_location);
+
             if(response[0].status == 'active'){            
                $("#editStatus option[value='inactive']").removeAttr("selected");
                $("#editStatus option[value='active']").attr("selected","selected");
@@ -318,7 +350,7 @@ function editCollection(collectionId){
                $("#editStatus option[value='inactive']").attr("selected","selected");            
             }
                var selectedItems = [];
-
+            $( "#edit_restore" ).trigger( "click" );
             response.forEach(addSelected);
 
             function addSelected(item, index){
@@ -373,70 +405,70 @@ function deleteCollection(collectionId){
    $(document).ready(function() { 
 
 
-      $("#saveColectionArea").on('click',function(){
+      // $("#saveColectionArea").on('click',function(){
 
-         var title = $("#title").val();        
-         if(!title.length){
-            $("#title").focus();
-            alert('Please insert the title');            
-            return false;
-         }  
-         var vendors = [];
-         vendors = $("#selectedVendorsInAddModel").val();
-         if(!vendors.length){
-            $(".select2-selection").focus();
-            alert('Please select the vendors');
-            return false;
-         }
+      //    var title = $("#title").val();        
+      //    if(!title.length){
+      //       $("#title").focus();
+      //       alert('Please insert the title');            
+      //       return false;
+      //    }  
+      //    var vendors = [];
+      //    vendors = $("#selectedVendorsInAddModel").val();
+      //    if(!vendors.length){
+      //       $(".select2-selection").focus();
+      //       alert('Please select the vendors');
+      //       return false;
+      //    }
 
-         var addStatus = $("#addStatus").val();
-         if(!addStatus.length){
-            $("#addStatus").focus();
-            alert('Please select the status');
-            return false;
-         }
+      //    var addStatus = $("#addStatus").val();
+      //    if(!addStatus.length){
+      //       $("#addStatus").focus();
+      //       alert('Please select the status');
+      //       return false;
+      //    }
 
-         var MapData = $("#add_MapData").val();
-         if(!MapData.length){
-            $("#save_raw_map").focus();
-            alert('Please draw Collection Area and then click on Add Map button');
-            return false;
-         }
+      //    var MapData = $("#add_MapData").val();
+      //    if(!MapData.length){
+      //       $("#save_raw_map").focus();
+      //       alert('Please draw Collection Area and then click on Add Map button');
+      //       return false;
+      //    }
         
-         var json_data = {
-               'title' : title,
-               'vendorsIds' : vendors,
-               'status' : addStatus,
-               'vendors_location' : MapData,
-               '_token' : "{{ csrf_token() }}"
-            };  
-         $.ajax({
-            url : "{{ route('store.collection') }}",
-            type: "POST",
-            data: json_data,           
-            success : function(data) {              
-               if(data){
-                  $("#title").val("");
-                  $("#selectedVendorsInAddModel").val("");
-                  $("#add_MapData").val("");
-                  $("#addStatus").val("");
-                  $("#addCollectionModel .close").click();
-                  Swal.fire('Collection Area created', 'You clicked the button!', 'success').then((result) => {
-                     if(result.isConfirmed) {
-                        location.reload(true);
-                     }
-                  });
-               }
-             },
-            error: function(){
-                swal.fire("Error Completion Task!", "Error in Create Collection Area error", "error").then((result) => {
-                   if(result.isConfirmed) {
-                      location.reload(true);
-                   }
-                });
-             }
-         });
-      });
+      //    var json_data = {
+      //          'title' : title,
+      //          'vendorsIds' : vendors,
+      //          'status' : addStatus,
+      //          'vendors_location' : MapData,
+      //          '_token' : "{{ csrf_token() }}"
+      //       };  
+      //    $.ajax({
+      //       url : "{{ route('store.collection') }}",
+      //       type: "POST",
+      //       data: json_data,           
+      //       success : function(data) {              
+      //          if(data){
+      //             $("#title").val("");
+      //             $("#selectedVendorsInAddModel").val("");
+      //             $("#add_MapData").val("");
+      //             $("#addStatus").val("");
+      //             $("#addCollectionModel .close").click();
+      //             Swal.fire('Collection Area created', 'You clicked the button!', 'success').then((result) => {
+      //                if(result.isConfirmed) {
+      //                   location.reload(true);
+      //                }
+      //             });
+      //          }
+      //        },
+      //       error: function(){
+      //           swal.fire("Error Completion Task!", "Error in Create Collection Area error", "error").then((result) => {
+      //              if(result.isConfirmed) {
+      //                 location.reload(true);
+      //              }
+      //           });
+      //        }
+      //    });
+      // });
 
 
       $("#updateColectionArea").on('click',function(){
@@ -467,6 +499,13 @@ function deleteCollection(collectionId){
             $("#update_raw_map").focus();
             alert('Please draw Collection Area and then click on Add Map button');
             return false;
+         }
+
+
+         if (MapData.indexOf('MARKER') > -1)
+         {
+           alert("You can not add any additional MARKER on this map");
+           return false;
          }
 
          var collector_id = $("#collector_id").val();        
@@ -509,7 +548,7 @@ function deleteCollection(collectionId){
 
       }); 
 
-      initializeMap('updateCollectionMap','edit_clear_shapes','update_raw_map','edit_restore','update_MapData');
+      initializeMap('updateCollectionMap','edit_clear_shapes','update_raw_map','edit_restore','update_MapData',locations,'30.437318444167968','69.24038656005861');
 
       $('#assignCollectorModel').on('hidden.bs.modal', function () {
         $("#assignCollectorModel input[type=radio]").prop("checked", false);
