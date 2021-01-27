@@ -56,11 +56,11 @@
                      </tr>
                   </thead>
                   <tbody>
-                     @foreach($transactions as $index => $transaction)
+                     @foreach($transactions as $transaction)
                      <tr>
                        
-                        <td>{{$transaction->userAcc_id}}</td>
-                        <td>{{$transaction->user_id}}</td>
+                        <td>{{$transaction->userAccount}}</td>
+                        <td>{{$transaction->name}}</td>
                         <td>{{$transaction->paymentMethod}}</td>
                         <td>{{$transaction->bank_name}}</td>
                         <td>{{$transaction->branchName}}</td>
@@ -73,7 +73,7 @@
                         <td>{{$transaction->receiverName}}</td>
                         <td>{{$transaction->receiverCNIC}}</td>
                         <td>{{$transaction->amountPaid}}</td>
-                        <td>{{$transaction->timeOfDeposit}}</td>
+                        <td>{{timeFormat($transaction->timeOfDeposit)['time']}}<br>{{timeFormat($transaction->timeOfDeposit)['date']}}</td>
                         <td>{{$transaction->status}}</td>
                         <td><img src="{{asset('/receipt_img/'.$transaction->receiptPics)}}" alt="Logo" class="img-thumbnail"></td>
                         <form method="post" action="{{route ('verify.transaction', $transaction->id) }}">

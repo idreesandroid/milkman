@@ -9,12 +9,12 @@
                <h3 class="page-title">
                   <span class="page-title-icon bg-gradient-primary text-white mr-2">
                   <i class="la la-table"></i>
-                  </span> <span>MilkMan Dashboard</span>
+                  </span> <span>Sale</span>
                </h3>
             </div>
             <div class="col text-right">
                <ul class="breadcrumb bg-white float-right m-0 pl-0 pr-0">
-                  <li class="breadcrumb-item"><a href="/">Sale</a></li>
+                  <li class="breadcrumb-item"><a href="/DashBoard">Dashboard</a></li>
                   <li class="breadcrumb-item active">Generate Invoice</li>
                </ul>
             </div>
@@ -48,7 +48,7 @@
                            <table class="table table-striped">
                               <thead>
                                  <tr>
-                                    <th scope="col">Serial No</th>
+                      
                                     <th scope="col">Image</th>
                                     <th scope="col">Product</th>
                                     <th scope="col">Available</th>
@@ -62,11 +62,11 @@
                                  <tr>
                                     @foreach($products as $index => $product)
                                  <tr>
-                                    <td>{{$index+1}}</td>
+                                   
                                     <td><img src="{{asset('/product_img/'.$product->filenames)}}" alt="Logo" class="img-thumbnail" width="48" height="48"></td>
                                     <td>{{$product->product_name}}</td>
-                                    <td>{{$product->stockInBatch}}</td>
-                                    <td id="product_price_{{$product->id}}">{{$product->product_price}}</td>
+                                    <td>{{number_format($product->stockInBatch)}}</td>
+                                    <td id="product_price_{{$product->id}}">{{number_format($product->product_price)}} Rs</td>
                                     <td id="sub_total_{{$product->id}}">0</td>
                                     <td><input type="number" class="form-control col-md-10"   name="product_quantity[{{$product->id}}]" min="0" max="{{$product->stockInBatch}}" id="quantity_{{$product->id}}" onkeyup="changeId({{$product->id}}, this.value )" /></td>
                                     <td><input type="date" class="form-control col-md-12"   name="delivery_date[{{$product->id}}]" id="delivery_date_{{$product->id}}" /></td>

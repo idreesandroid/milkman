@@ -9,13 +9,13 @@
                <h3 class="page-title">
                   <span class="page-title-icon bg-gradient-primary text-white mr-2">
                   <i class="la la-table"></i>
-                  </span> <span>MilkMan Dashboard</span>
+                  </span> <span>Sale</span>
                </h3>
             </div>
             <div class="col text-right">
                <ul class="breadcrumb bg-white float-right m-0 pl-0 pr-0">
-                  <li class="breadcrumb-item"><a href="/">Sale</a></li>
-                  <li class="breadcrumb-item active">Paid Invoices</li>
+                  <li class="breadcrumb-item"><a href="/DashBoard">Dashboard</a></li>
+                  <li class="breadcrumb-item active">Sale Invoices</li>
                </ul>
             </div>
          </div>
@@ -41,9 +41,9 @@
                      <tr>
                         <td>{{$invoice->buyer->name}}</td>
                         <td>{{$invoice->invoice_number}}</td>
-                        <td>{{$invoice->total_amount}}</td>
+                        <td>{{number_format($invoice->total_amount)}} Rs</td>
                         <td>{{$invoice->flag}}</td>
-                        <td>{{$invoice->created_at}}</td>
+                        <td>{{timeFormat($invoice->created_at)['date']}}</td>
                      </tr>
                      @endforeach
                   </tbody>

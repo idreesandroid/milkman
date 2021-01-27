@@ -24,7 +24,7 @@ class SaleController extends Controller
     }
     public function index()
     {   
-        $invoices = Invoice::where('flag','Sold')->with('buyer')->get();            
+        $invoices = Invoice::where('flag','Payment_Pending')->with('buyer')->get();            
         return view('Cart/index', compact('invoices'));
     }
 
