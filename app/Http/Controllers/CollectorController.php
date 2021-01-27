@@ -106,14 +106,29 @@ class CollectorController extends Controller
     public function collectorDashboard()
     {
         $Cid = Auth::id();
+     
      $totalTask = Tasks::where('collector_id' , $Cid)->count();
+
      $taskCompleted = Tasks::where('collector_id' , $Cid)->where('status' , 'Collected')->count();
+
+     
+     //$tasks=Tasks::where('collector_id', $Cid)->get();
+
+     $tasks=DB::table('tasks')
+     ->select('tasks.id','name','title','milk_amout','lactometer_reading','milk_taste','shift','duedate','duetime','starttime','endtime','tasks.status')
+     ->where('tasks.collector_id', $Cid)
+     ->join('users','vendor_id','=','users.id')
+     ->join('collections','collection_id','=','collections.id')
+     ->get();
+           
     //  echo "<pre>";
-    //  print_r($taskCompleted);
+    //  print_r($vendor);
     //  exit;
+     
+    //$tasks=Tasks::where('collector_id' , $Cid)->with('collectors')->get();
     $myMorningTask = Tasks::where('collector_id' , $Cid)->where('status', 'Not Started')->where('shift', 'morning')->count();
     $myEveningTask = Tasks::where('collector_id' , $Cid)->where('status', 'Not Started')->where('shift', 'evening')->count();
-    return view('dashBoards/collector', compact('taskCompleted','totalTask','myMorningTask','myEveningTask'));
+    return view('dashBoards/collector', compact('taskCompleted','totalTask','myMorningTask','myEveningTask','tasks'));
     }
 
 
