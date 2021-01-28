@@ -49,7 +49,7 @@
                      <tr>
                         
                         <td>{{$Asset->typeName}}</td>
-                  
+                        <td>{{$Asset->assetName}}</td>
                         <td>{{$Asset->assetCode}}</td>
                         <td>{{number_format($Asset->assetCapacity)}} {{$Asset->assetUnit}}</td>
                         <td>{{$Asset->name}}</td>

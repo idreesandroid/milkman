@@ -19,8 +19,8 @@ class CreateMilkmanAssetsTable extends Migration
             $table->integer('type_id')->unsigned();
             $table->foreign('type_id')->references('id')->on('assets_types')->onUpdate('cascade')->onDelete('cascade');
 
-            $table->integer('collector_id')->unsigned()->nullable();
-            $table->foreign('collector_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
+            $table->integer('user_id')->unsigned()->nullable();
+            $table->foreign('user_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
             $table->string('assetName');
             $table->string('assetCode');
             $table->integer('assetCapacity');

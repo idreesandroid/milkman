@@ -53,7 +53,7 @@ class CollectorController extends Controller
         //     print_r($assetCode);
         //     exit;
 
-        $assets = milkmanAsset::where('collector_id', NULL)->get();
+        $assets = milkmanAsset::where('user_id', NULL)->get();
         return view('collector-detail/create', compact('assets'));
     }
 
@@ -96,7 +96,7 @@ class CollectorController extends Controller
         $userAssets = $request['userAsset'];
         foreach($userAssets as $userAsset)
         {
-            DB::update("UPDATE milkman_assets SET collector_id = $collector_register->id  WHERE id	 = $userAsset");            
+            DB::update("UPDATE milkman_assets SET user_id = $collector_register->id  WHERE id	 = $userAsset");            
         } 
 
         return redirect()->route('index.collector-detail');

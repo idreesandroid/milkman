@@ -26,10 +26,14 @@
          </div>
          <div class="card-body">
          @if ($errors->any())
-     @foreach ($errors->all() as $error)
-         <div>{{$error}}</div>
-     @endforeach
-      @endif
+            <div class="alert alert-danger">
+               <ul>
+                  @foreach ($errors->all() as $error)
+                  <li>{{ $error }}</li>
+                  @endforeach
+               </ul>
+            </div>
+            @endif
             <form method="post" action="{{ route('store.asset') }}"  id="type">
                @csrf 
                <div class="form-group row">

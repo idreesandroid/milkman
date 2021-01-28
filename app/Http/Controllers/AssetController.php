@@ -69,16 +69,16 @@ class AssetController extends Controller
     public function listAsset()
     {  
        //$Assets = milkmanAsset::with('assetType','assetAssignTo')->get();
-
+      
        $Assets=DB::table('milkman_assets')
-       ->select('milkman_assets.id','assetCode','assetCapacity','assets_types.typeName','assets_types.assetUnit','users.name')
+       ->select('milkman_assets.id','assetCode','assetName','assetCapacity','assets_types.typeName','assets_types.assetUnit','users.name')
        ->join('assets_types','milkman_assets.type_id','=','assets_types.id')
-       ->join('users','milkman_assets.collector_id','=','users.id')
+       ->leftjoin('users','milkman_assets.user_id','=','users.id')
        ->get();
 
-    //  echo "<pre>"; ,'assetName'
-    //  print_r($Assets);
-    //  exit;
+    //    echo "<pre>"; 
+    //    print_r($Assets);
+    //    exit;
              
 
        return view('milkman-asset/asset-list', compact('Assets'));
@@ -92,6 +92,9 @@ class AssetController extends Controller
 
     public function storeAsset(Request $request)
     {
+            // echo "<pre>";
+            // print_r($request->all());
+            // exit;
         $this->validate($request,[      
             'type_id'=> 'required',
             'assetName'=> 'required',

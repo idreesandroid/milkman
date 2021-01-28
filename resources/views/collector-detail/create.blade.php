@@ -101,12 +101,11 @@
 
                <h4 class="card-title">Asset Assign</h4>
                <div class="row">
-                  <div class="col-md-6">
-  
+                  <div class="col-md-6">  
                   <div class="form-group">
                      @foreach ($assets as $asset)
                      <input type="checkbox"  id="userAsset" name="userAsset[]" value="{{ $asset->id}}">
-                     <label class="checkbox-inline" for="userAsset[]">{{$asset->assetCode}}</label>
+                     <label class="checkbox-inline" for="userAsset[]">{{$asset->assetName}} ---> {{$asset->assetCode}}</label><br>
                       @endforeach   
                   </div>
                   </div>
