@@ -52,9 +52,16 @@
                </div>  
             
                <div class="form-group row">
+                  <label for="assetName" class="col-form-label col-md-2">Name</label>
+                  <div class="col-md-6">
+                     <input type="text" class="form-control"type="text" name="assetName"  value="{{$Assets->assetName}}" required=""  autocomplete="off">
+                  </div>
+               </div>
+
+               <div class="form-group row">
                   <label for="assetCapacity" class="col-form-label col-md-2">Capacity</label>
                   <div class="col-md-6">
-                     <input type="text" class="form-control"type="text" name="assetCapacity"  value="{{ $Assets->assetCapacity }}" required=""  autocomplete="off">
+                     <input type="text" class="form-control"type="text" name="assetCapacity"  value="{{$Assets->assetCapacity}}" required=""  autocomplete="off">
                   </div>
                </div>
               

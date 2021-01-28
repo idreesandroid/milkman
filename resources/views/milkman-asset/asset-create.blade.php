@@ -26,10 +26,14 @@
          </div>
          <div class="card-body">
          @if ($errors->any())
-     @foreach ($errors->all() as $error)
-         <div>{{$error}}</div>
-     @endforeach
-      @endif
+            <div class="alert alert-danger">
+               <ul>
+                  @foreach ($errors->all() as $error)
+                  <li>{{ $error }}</li>
+                  @endforeach
+               </ul>
+            </div>
+            @endif
             <form method="post" action="{{ route('store.asset') }}"  id="type">
                @csrf 
                <div class="form-group row">
@@ -45,7 +49,14 @@
                </div>
 
                <div class="form-group row">
-                  <label for="assetCapacity" class="col-form-label col-md-2">Asset Capacity</label>
+                  <label for="assetName" class="col-form-label col-md-2"> Name</label>
+                  <div class="col-md-4">
+                     <input type="text" class="form-control" name="assetName" required=""  autocomplete="off">
+                  </div>
+               </div>
+
+               <div class="form-group row">
+                  <label for="assetCapacity" class="col-form-label col-md-2"> Capacity</label>
                   <div class="col-md-4">
                      <input type="number" class="form-control" name="assetCapacity" required="" min="0" autocomplete="off">
                   </div>

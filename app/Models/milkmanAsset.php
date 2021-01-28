@@ -12,8 +12,9 @@ class milkmanAsset extends Model
 
     protected $fillable = [
         'type_id',
-        'collector_id',
+        'user_id',
         'assetCode',
+        'assetName',
         'assetCapacity'  
     ];
     protected $dates = ['deleted_at'];

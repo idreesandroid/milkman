@@ -117,7 +117,11 @@ class RegisterController extends Controller
 
   public function profile($id)
   {
-    $users = User::with('roles','vendorDetail','bankDetail','distributorCompany')->findOrFail($id);   
+    $users = User::with('roles','vendorDetail','bankDetail','distributorCompany','userAcc','userAsset')->findOrFail($id);
+    $collectorAssets = $users->userAsset;
+
+ 
+
     $user_roles= Role::select('name','id')->get();
     if($users->roles[0]['name'] == 'Vendor'){
       $vendors = User::select('users.id','users.name','vendor_details.longitude','vendor_details.latitude')
@@ -139,7 +143,8 @@ class RegisterController extends Controller
       $location = $alotedArea['alotedArea'];
       return view('user/profile', compact('users','user_roles','location')); 
     }
-    return view('user/profile', compact('users','user_roles')); 
+
+    return view('user/profile', compact('users','user_roles','collectorAssets')); 
   }
 
   public function update(Request $request, $id)
@@ -169,9 +174,7 @@ class RegisterController extends Controller
     $users = User::with('roles','vendorDetail','bankDetail','distributorCompany')->findOrFail($uid);
     return view('user/profile', compact('users')); 
   }
-
-
-
+  
   public function updatePersonalProfile(Request $request)
   {
     $updatedata = $request->validate([

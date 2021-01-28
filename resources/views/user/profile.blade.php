@@ -112,6 +112,7 @@
                      <h3 class="card-title">Deals Information <a href="#" class="edit-icon" data-toggle="modal" data-target="#dealModal"><i class="fa fa-pencil"></i></a></h3>
                      @endif
                      @endcan
+                   
                      <ul class="personal-info">
                         @if(isset($users->distributorCompany->companyName))
                         <li>
@@ -185,17 +186,35 @@
                            <div class="text">{{$users->vendorDetail->eveningTime}}</div>
                         </li>
                         @endif
+                        @if(isset($collectorAssets))
+                        @foreach($collectorAssets as $collectorAsset)
+                           @if(isset($collectorAsset->assetName))
+                           <li>
+                               <div class="title">{{$collectorAsset->assetName}}</div>
+                               <div class="text">{{$collectorAsset->assetCapacity}}</div>
+                           </li>
+                           @endif  
+                        @endforeach 
+                        @endif                 
                      </ul>
                   </div>
                </div>
             </div>
-            @if(isset($users->bankDetail->acc_title))
+            
             <div class="col-md-6 d-flex">
                <div class="card profile-box flex-fill">
                   <div class="card-body">
+                  @if(isset($users->userAcc->userAccount))
                      <h3 class="card-title">Bank information</h3>
+                  @endif
+                    
+                  @if(isset($users->userAsset->assetName))
+                     <h3 class="card-title">Capabilities</h3>
+                  @endif
+
                      <div class="pro-edit bankedit-box"><a data-target="#bankModal" data-toggle="modal" class="edit-icon" href="#"><i class="fa fa-pencil"></i></a></div>
                      <ul class="personal-info">
+                     @if(isset($users->bankDetail->acc_title))
                         <li>
                            <div class="title">Account Holder.</div>
                            @if(isset($users->bankDetail->acc_title))
@@ -226,12 +245,26 @@
                            <div class="text">{{$users->bankDetail->branch_code}}</div>
                            @endif
                         </li>
+                        @endif
+                        <li>
+                        @if(isset($users->userAcc->userAccount))
+                           <div class="title">User MilkMan Account.</div>                          
+                           <div class="text">{{$users->userAcc->userAccount}}</div>
+                           @endif
+                        </li>
+                        <li>
+                        @if(isset($users->userAcc->balance))
+                           <div class="title">User MilkMan Balance.</div>                          
+                           <div class="text">{{$users->userAcc->balance}}</div>
+                           @endif
+                        </li>
+
                      </ul>
                   </div>
                </div>
             </div>
          </div>
-         @endif
+         
       </div>
    </div>
    @if(isset($location))
