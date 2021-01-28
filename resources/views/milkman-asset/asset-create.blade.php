@@ -45,7 +45,14 @@
                </div>
 
                <div class="form-group row">
-                  <label for="assetCapacity" class="col-form-label col-md-2">Asset Capacity</label>
+                  <label for="assetName" class="col-form-label col-md-2"> Name</label>
+                  <div class="col-md-4">
+                     <input type="text" class="form-control" name="assetName" required=""  autocomplete="off">
+                  </div>
+               </div>
+
+               <div class="form-group row">
+                  <label for="assetCapacity" class="col-form-label col-md-2"> Capacity</label>
                   <div class="col-md-4">
                      <input type="number" class="form-control" name="assetCapacity" required="" min="0" autocomplete="off">
                   </div>

@@ -37,8 +37,9 @@
                   <thead>
                      <tr>
                         <th>Type</th>
-                        <th>Asset Code</th>
-                        <th>Asset Capacity</th>
+                        <th>Name</th>
+                        <th>Code</th>
+                        <th>Capacity</th>
                         <th>Assign To</th>
                         <th>Action</th>
                      </tr>
@@ -47,10 +48,11 @@
                      @foreach($Assets as $Asset)
                      <tr>
                         
-                        <td>{{$Asset->type_id}}</td>
+                        <td>{{$Asset->typeName}}</td>
+                  
                         <td>{{$Asset->assetCode}}</td>
-                        <td>{{$Asset->assetCapacity}}</td>
-                        <td>{{$Asset->collector_id}}</td>
+                        <td>{{number_format($Asset->assetCapacity)}} {{$Asset->assetUnit}}</td>
+                        <td>{{$Asset->name}}</td>
                         <td>
                            <a href="{{ route('edit.asset', $Asset->id)}}" class="btn btn-primary">Edit</a>
                            <form action="{{ route('delete.asset', $Asset->id)}}" method="post" style="display: inline-block">

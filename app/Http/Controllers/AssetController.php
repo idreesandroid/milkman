@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use Illuminate\Support\Facades\DB;
 
 use Illuminate\Http\Request;
 use App\Models\assetsType;
@@ -67,7 +68,19 @@ class AssetController extends Controller
 
     public function listAsset()
     {  
-       $Assets = milkmanAsset::with('assetType','assetAssignTo')->get();
+       //$Assets = milkmanAsset::with('assetType','assetAssignTo')->get();
+
+       $Assets=DB::table('milkman_assets')
+       ->select('milkman_assets.id','assetCode','assetCapacity','assets_types.typeName','assets_types.assetUnit','users.name')
+       ->join('assets_types','milkman_assets.type_id','=','assets_types.id')
+       ->join('users','milkman_assets.collector_id','=','users.id')
+       ->get();
+
+    //  echo "<pre>"; ,'assetName'
+    //  print_r($Assets);
+    //  exit;
+             
+
        return view('milkman-asset/asset-list', compact('Assets'));
     }
 
@@ -81,13 +94,15 @@ class AssetController extends Controller
     {
         $this->validate($request,[      
             'type_id'=> 'required',
+            'assetName'=> 'required',
             'assetCapacity'=>'required',       
          ]);
 
         $assetCod=generateAssetCode();
         
         $Asset = new milkmanAsset();
-        $Asset->type_id = $request->type_id;        
+        $Asset->type_id = $request->type_id;
+        $Asset->assetName = $request->assetName;        
         $Asset->assetCode = $assetCod;
         $Asset->assetCapacity = $request->assetCapacity;
         $Asset->save();
@@ -107,6 +122,7 @@ class AssetController extends Controller
         $updatedata = $request->validate([
             'type_id'=> 'required',
             'assetCapacity'=>'required',
+            'assetName'=>'required',
         ]);
         milkmanAsset::whereid($id)->update($updatedata);
         return redirect()->route('list.asset');
