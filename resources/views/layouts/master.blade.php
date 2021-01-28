@@ -32,7 +32,7 @@
       <link rel="stylesheet" href="{{asset('assets/css/select2.min.css')}}">
       <!-- jQuery -->
       <script src="{{asset('assets/js/jquery-3.5.0.min.js')}}"></script>
-      <script async defer
+      <script
          src="https://maps.googleapis.com/maps/api/js?libraries=geometry,places,drawing&key={{env('GOOGLE_MAP_KEY')}}&v=3"      
          ></script> 
       <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
