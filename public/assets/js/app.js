@@ -456,7 +456,6 @@ function initializeMap(mapID,clear_shapes,save_raw_map,restore,MapData,locations
         }),        
         shapes = [],
         selected_shape  = null,
-        drawingManager = new google.maps.drawing.DrawingManager({map:map}),
         byId = function(elementIdAttribute){return document.getElementById(elementIdAttribute)},
         clearSelection  = function(){
                             if(selected_shape){
@@ -475,7 +474,34 @@ function initializeMap(mapID,clear_shapes,save_raw_map,restore,MapData,locations
                               shapes[i].setMap(null);
                             }
                             shapes=[];
-                          };    
+                          };
+
+    //drawingManager = new google.maps.drawing.DrawingManager({map:map})
+    const drawingManager = new google.maps.drawing.DrawingManager({
+    drawingMode: google.maps.drawing.OverlayType.MARKER,
+    drawingControl: true,
+    drawingControlOptions: {
+      position: google.maps.ControlPosition.TOP_LEFT,
+      drawingModes: [
+        google.maps.drawing.OverlayType.MARKER,
+        google.maps.drawing.OverlayType.CIRCLE,
+        google.maps.drawing.OverlayType.POLYGON
+      ],
+    },
+    markerOptions: {
+      icon:
+        "https://maps.gstatic.com/mapfiles/api-3/images/spotlight-poi2.png",
+    },
+    circleOptions: {
+      fillColor: "#252525",
+      fillOpacity: .56,
+      strokeWeight: 2,
+      clickable: false,
+      editable: true,
+      zIndex: 1,
+    },
+  });
+  drawingManager.setMap(map);
 
     google.maps.event.addListener(drawingManager, 'overlaycomplete', function(e) {
     var shape  = e.overlay;
