@@ -76,7 +76,6 @@ class CollectionController extends Controller
         $this->validate($request,[        
             'title'      => 'required|min:3',          
             'vendors_location'  => 'required',
-            'vendorsIds' => 'required|min:1',
             'status' => 'required'
         ]);
 
@@ -87,7 +86,13 @@ class CollectionController extends Controller
             'collector_id' => 0
         ]);
 
-        foreach($request->vendorsIds as $vendor_id){ 
+        $vendorLocation = Collection::select('vendors_location')->where('id','=',$collection_id)->first();
+
+        $allVendorsLatLng = vendorDetail::select('user_id','latitude','longitude')->get();
+
+        $vendorsIds = $this->getAllVendorInsideCollectionArea($vendorLocation['vendors_location'],$allVendorsLatLng);
+
+        foreach($vendorsIds as $vendor_id){ 
             CollectionVendor::insert([        
                 'collection_id' => $collection_id,          
                 'vendor_id'  => $vendor_id           
@@ -150,8 +155,7 @@ class CollectionController extends Controller
     {
         $this->validate($request,[        
             'title'      => 'required|min:5',          
-            'vendors_location'  => 'required',
-            'vendorsIds' => 'required|min:1',
+            'vendors_location'  => 'required',           
             'status' => 'required'
         ]);
 
@@ -162,10 +166,16 @@ class CollectionController extends Controller
                         'status'   => $request->status,
                         'collector_id' => $request->collector_id
                     ]);
+        $vendorLocation = Collection::select('vendors_location')->where('id','=',$request->id)->first();
+
+        $allVendorsLatLng = vendorDetail::select('user_id','latitude','longitude')->get();
+
+        $vendorsIds = $this->getAllVendorInsideCollectionArea($vendorLocation['vendors_location'],$allVendorsLatLng);
 
         CollectionVendor::where('collection_id',$request->id)->delete();
 
-        foreach($request->vendorsIds as $vendor_id){ 
+        //foreach($request->vendorsIds as $vendor_id){ 
+        foreach($vendorsIds as $vendor_id){ 
             CollectionVendor::insert([        
                 'collection_id' => $request->id,          
                 'vendor_id'  => $vendor_id           
@@ -192,13 +202,13 @@ class CollectionController extends Controller
         return ($deleteCollection || $deleteCollectionVendor || $deleteTask) ? true : false;
     }
 
-    public function getvendorlatlng(Request $request){ 
-    $currentVendorId = $request->vendor_id[count($request->vendor_id) - 1];
+    // public function getvendorlatlng(Request $request){ 
+    // $currentVendorId = $request->vendor_id[count($request->vendor_id) - 1];
          
-        //$latlng = vendorDetail::select('longitude','latitude')->where('user_id','=',end($request->vendor_id))->first();
-        //echo $latlng->latitude. ', '.$latlng->longitude;
-        echo $currentVendorId;
-    }
+    //     //$latlng = vendorDetail::select('longitude','latitude')->where('user_id','=',end($request->vendor_id))->first();
+    //     //echo $latlng->latitude. ', '.$latlng->longitude;
+    //     echo $currentVendorId;
+    // }
 
     public function assignCollector(Request $request){
         date_default_timezone_set("Asia/Karachi");
@@ -241,5 +251,43 @@ class CollectionController extends Controller
             return false;
         }
 
+    }
+
+    public function getAllVendorInsideCollectionArea($collectionArea,$allVendorsLatLng){  
+
+        if (strpos($collectionArea, 'POLYGON') !== false) {
+           $AllLatLngs = substr($collectionArea, 43, -5);
+           $LatLngInArray = explode('],[', $AllLatLngs);
+            $allLats = [];
+            $allLngs = [];
+            foreach($LatLngInArray as $item){
+                $singleLatLng = explode(',', $item);
+                array_push($allLats, $singleLatLng[0]);
+                array_push($allLngs, $singleLatLng[1]);
+            }
+            $points_polygon = count($allLats);
+            $allInsideVendors = [];
+            foreach($allVendorsLatLng as $latlngs){
+                if($this->isInPolygon($points_polygon,$allLats,$allLngs,$latlngs['latitude'],$latlngs['longitude'])){
+                    array_push($allInsideVendors, $latlngs['user_id']);
+                }
+            }
+
+            return $allInsideVendors;            
+
+        }else if(strpos($collectionArea, 'CIRCLE') !== false){
+            return 'it is CIRCLE';
+        }
+    }
+
+
+    public function isInPolygon($points_polygon, $vertices_x, $vertices_y, $longitude_x, $latitude_y){
+      $i = $j = $c = 0;
+      for ($i = 0, $j = $points_polygon-1 ; $i < $points_polygon; $j = $i++) {
+        if ( (($vertices_y[$i] > $latitude_y != ($vertices_y[$j] > $latitude_y)) &&
+        ($longitude_x < ($vertices_x[$j] - $vertices_x[$i]) * ($latitude_y - $vertices_y[$i]) / ($vertices_y[$j] - $vertices_y[$i]) + $vertices_x[$i]) ) ) 
+            $c = !$c;
+      }
+      return $c;
     }
 }

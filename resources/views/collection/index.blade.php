@@ -135,28 +135,27 @@ foreach ($vendors as $key => $value) {
                   <form>
                      <h4>Collection Area Information</h4>
                      <div class="form-group row">
-                        <div class="col-md-3">
+                        <div class="col-md-6">
                            <label class="col-form-label">Title <span class="text-danger">*</span></label>
                            <input class="form-control" type="text" placeholder="Add Collection Ttile" name="prefix" id='edit_title'>
                            <input type="hidden" id="collector_id">
                            <input type="hidden" id="collection_id">
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-6">
                            <label class="col-form-label">Status <span class="text-danger">*</span></label>
                            <select class="form-control" id="editStatus" name="editStatus">
-                                 <option value="">Select Status</option>
                                  <option value="active">Active</option>
                                  <option value="inactive">Inactive</option>
                               </select> 
                         </div>
-                        <div class="col-md-6">
+                        <!-- <div class="col-md-6">
                            <label for="selectedVendorsInEditModel" class="col-form-label col-md-1">Vendors</label>                           
                               <select class="form-control" id="selectedVendorsInEditModel" name="vendorsIds[]" multiple="multiple">                       
                                  @foreach($vendors as $vendor)
                                  <option value="{{$vendor->id}}">{{$vendor->name}}</option>
                                  @endforeach
                               </select>                           
-                        </div>
+                        </div> -->
                      </div>    
                      <div class="map" id="updateCollectionMap"></div>
                      <div class="row">
@@ -349,14 +348,14 @@ function editCollection(collectionId){
                $("#editStatus option[value='active']").removeAttr("selected");
                $("#editStatus option[value='inactive']").attr("selected","selected");            
             }
-               var selectedItems = [];
-            $( "#edit_restore" ).trigger( "click" );
-            response.forEach(addSelected);
+            //    var selectedItems = [];
+            // $( "#edit_restore" ).trigger( "click" );
+            // response.forEach(addSelected);
 
-            function addSelected(item, index){
-               selectedItems.push(item.vendor_id); 
-            }           
-         $("#selectedVendorsInEditModel").val(selectedItems).trigger("change");
+            // function addSelected(item, index){
+            //    selectedItems.push(item.vendor_id); 
+            // }           
+        // $("#selectedVendorsInEditModel").val(selectedItems).trigger("change");
       }
    });       
 }
@@ -479,13 +478,13 @@ function deleteCollection(collectionId){
             alert('Please insert the title');            
             return false;
          }  
-         var vendors = [];
-         vendors = $("#selectedVendorsInEditModel").val();
-         if(!vendors.length){
-            $(".select2-selection").focus();
-            alert('Please select the vendors');
-            return false;
-         }
+         // var vendors = [];
+         // vendors = $("#selectedVendorsInEditModel").val();
+         // if(!vendors.length){
+         //    $(".select2-selection").focus();
+         //    alert('Please select the vendors');
+         //    return false;
+         // }
 
          var editStatus = $("#editStatus").val();
          if(!editStatus.length){
@@ -514,7 +513,7 @@ function deleteCollection(collectionId){
          var json_data = {
                'id' : collection_id,
                'title' : title,
-               'vendorsIds' : vendors,
+               //'vendorsIds' : vendors,
                'status' : editStatus,
                'vendors_location' : MapData,
                'collector_id' : collector_id,
@@ -538,7 +537,7 @@ function deleteCollection(collectionId){
                }
              },
             error: function(){
-               swal.fire("Error Completion Task!", "Error in Update Collection Area error", "error").then((result) => {
+               swal.fire("Error Update Collection!", "Error in Update Collection Area error", "error").then((result) => {
                   if(result.isConfirmed) {
                      location.reload(true);
                   }
@@ -554,11 +553,11 @@ function deleteCollection(collectionId){
         $("#assignCollectorModel input[type=radio]").prop("checked", false);
       });      
 
-      $("#selectedVendorsInEditModel").select2( {
-         placeholder: "Search for a Vendors",
-         width: '100%',
-        dropdownParent: $("#editCollectionModel")
-        });      
+      // $("#selectedVendorsInEditModel").select2( {
+      //    placeholder: "Search for a Vendors",
+      //    width: '100%',
+      //   dropdownParent: $("#editCollectionModel")
+      //   });      
    }); 
 </script> 
 @endsection

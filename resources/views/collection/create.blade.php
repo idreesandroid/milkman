@@ -54,25 +54,25 @@ foreach ($vendors as $key => $value) {
                <div class="col-md-12">
                   <form>
                      <div class="form-group row">
-                        <div class="col-md-3">
+                        <div class="col-md-6">
                            <label class="col-form-label">Title <span class="text-danger">*</span></label>
                            <input class="form-control" type="text" name="prefix" id='title'>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-6">
                            <label class="col-form-label">Status <span class="text-danger">*</span></label>
                            <select class="form-control" id="addStatus" name="addStatus">
                                  <option value="active">Active</option>
                                  <option value="inactive">Inactive</option>
                               </select> 
                         </div>
-                        <div class="col-md-6">
+                        <!-- <div class="col-md-6">
                            <label for="selectedVendorsInAddModel" class="col-form-label col-md-1">Vendors</label>
                               <select class="form-control" id="selectedVendorsInAddModel" name="vendorsIds[]" multiple="multiple">                       
                                  @foreach($vendors as $vendor)
                                  <option data-vendor-id="{{$vendor->id}}" value="{{$vendor->id}}">{{$vendor->name}}</option>
                                  @endforeach
                               </select>                           
-                        </div>
+                        </div> -->
                      </div>    
                      <div class="map" id="addCollectionMap"></div>
                      <div class="row">
@@ -113,28 +113,28 @@ foreach ($vendors as $key => $value) {
  var locations = <?php echo json_encode($locations) ?>
 
  $(document).ready(function() { 
- $("#selectedVendorsInAddModel").select2( {
-      placeholder: "Search for a Vendors",
-   }).on('change', function(e) {
-      var vendorID = $("#selectedVendorsInAddModel").val();
-      //alert(vendorID);
-      $.ajax({
-         url : "{{ route('getvendorlatlng.collection') }}",
-         type: "POST",
-         data: {
-            '_token' : "{{ csrf_token() }}",
-            'vendor_id' : vendorID
-         },
-         success: function(response, status){
-            console.log(response);
-         },
-         error: function(response, status){
-            console.log(response);
-         }
+ // $("#selectedVendorsInAddModel").select2( {
+ //      placeholder: "Search for a Vendors",
+ //   }).on('change', function(e) {
+ //      var vendorID = $("#selectedVendorsInAddModel").val();
+ //      //alert(vendorID);
+ //      $.ajax({
+ //         url : "{{ route('getvendorlatlng.collection') }}",
+ //         type: "POST",
+ //         data: {
+ //            '_token' : "{{ csrf_token() }}",
+ //            'vendor_id' : vendorID
+ //         },
+ //         success: function(response, status){
+ //            console.log(response);
+ //         },
+ //         error: function(response, status){
+ //            console.log(response);
+ //         }
 
-      });
+ //      });
          
-    });
+ //    });
    initializeMap('addCollectionMap','add_clear_shapes','save_raw_map','add_restore','add_MapData',locations,'30.437318444167968','69.24038656005861');
 
    $("#saveColectionArea").on('click',function(){
@@ -145,13 +145,13 @@ foreach ($vendors as $key => $value) {
             alert('Please insert the title');            
             return false;
          }  
-         var vendors = [];
-         vendors = $("#selectedVendorsInAddModel").val();
-         if(!vendors.length){
-            $(".select2-selection").focus();
-            alert('Please select the vendors');
-            return false;
-         }
+         // var vendors = [];
+         // vendors = $("#selectedVendorsInAddModel").val();
+         // if(!vendors.length){
+         //    $(".select2-selection").focus();
+         //    alert('Please select the vendors');
+         //    return false;
+         // }
 
          var addStatus = $("#addStatus").val();
          if(!addStatus.length){
@@ -175,7 +175,7 @@ foreach ($vendors as $key => $value) {
         
          var json_data = {
                'title' : title,
-               'vendorsIds' : vendors,
+               //'vendorsIds' : vendors,
                'status' : addStatus,
                'vendors_location' : MapData,
                '_token' : "{{ csrf_token() }}"
@@ -187,7 +187,7 @@ foreach ($vendors as $key => $value) {
             success : function(data) {              
                if(data){
                   $("#title").val("");
-                  $("#selectedVendorsInAddModel").val("");
+                  //$("#selectedVendorsInAddModel").val("");
                   $("#add_MapData").val("");
                   $("#addStatus").val("");
                   $("#addCollectionModel .close").click();
