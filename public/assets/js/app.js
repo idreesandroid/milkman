@@ -484,7 +484,7 @@ function initializeMap(mapID,clear_shapes,save_raw_map,restore,MapData,locations
       position: google.maps.ControlPosition.TOP_LEFT,
       drawingModes: [
         google.maps.drawing.OverlayType.MARKER,
-        google.maps.drawing.OverlayType.CIRCLE,
+        //google.maps.drawing.OverlayType.CIRCLE,
         google.maps.drawing.OverlayType.POLYGON
       ],
     },
