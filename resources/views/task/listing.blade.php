@@ -24,7 +24,7 @@
       <div class="col">
          <h3>All Tasks</h3>
       </div>
-    
+      @can('Store-Task')
       <div class="col text-right">
          <ul class="list-inline-item pl-0">
             <li class="list-inline-item">
@@ -32,7 +32,7 @@
             </li>
          </ul>
       </div>
-     
+      @endcan     
    </div>
 </div>	
 
