@@ -68,6 +68,11 @@ class User extends Authenticatable
       return $this->hasOne(vendorDetail::class);
     }
 
+    public function collectorDetail()
+    {
+      return $this->hasOne(collectorDetail::class);
+    }
+
     public function distributorCompany()
     {
       return $this->hasOne(Distributor::class);
@@ -116,6 +121,11 @@ class User extends Authenticatable
     public function userAsset()
     {
         return $this->hasMany(milkmanAsset::class);
+    }
+
+    public function collectorTaskArea()
+    {
+        return $this->hasMany(TaskArea::class);
     }
 
 

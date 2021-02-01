@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\vendorDetail;
 use App\Models\Tasks;
 use App\Models\User;
 use App\Models\Collection;
+use App\Models\TaskArea;
+use App\Models\collectorDetail;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
@@ -154,4 +157,67 @@ class TasksController extends Controller
         return true;
         
     }
+
+// Asim work on Task as---------------------------------------------------------------
+
+
+public function AssignArea($shift , $id)
+    {    
+     $vendorsCapacities = vendorDetail::where('collection_id', $id)->get();
+     if($shift == 'Morning')
+     {
+        foreach($vendorsCapacities as $vendorsCapacity)
+            {
+                $vendorCap[] = $vendorsCapacity->morning_decided_milkQuantity;
+            }
+            $areaCapacity= array_sum($vendorCap);
+     }  
+     elseif($shift == 'Evening')
+     {
+        foreach($vendorsCapacities as $vendorsCapacity)
+        {
+         $vendorCap[] = $vendorsCapacity->evening_decided_milkQuantity;
+        }
+        $areaCapacity= array_sum($vendorCap); 
+     }
+
+    $collectorCapacities = collectorDetail::where('collectorStatus','Free')->get();
+    $recommendedCollector = array();
+    foreach($collectorCapacities as $collector)
+    {
+        $collectorCap = $collector->collectorCapacity;
+        if($areaCapacity < $collectorCap && $collectorCap <= $areaCapacity+100)
+        {
+           $recommendedCollector[]=DB::table('collector_details')
+           ->select('users.id','name','user_phone','collectorCapacity')
+           ->where('collector_details.user_id', $collector->user_id)
+           ->join('users','user_id','=','users.id')
+           ->first();
+        }     
+    }
+    // echo "<pre>";
+    // print_r($recommendedCollector);
+    // exit;
+     return json_encode($recommendedCollector);
+     //return response()->json([$recommendedCollector]);
+    }
+
+
+    public function selectCollector(Request $request)
+    {
+        $this->validate($request,[        
+            'cArea'      => 'required', 
+            'cShift'     => 'required',         
+            'select_collector'  => 'required',
+        ]);
+
+        $select_collector = new TaskArea();
+        $select_collector->area_id = $request->cArea;        
+        $select_collector->shift = $request->cShift;
+        $select_collector->collector_id = $request->select_collector;
+        $select_collector->save();
+
+    }
+
+
 }

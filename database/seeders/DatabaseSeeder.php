@@ -17,10 +17,10 @@ class DatabaseSeeder extends Seeder
 
         // $this->call(UsersTableSeeder::class);
        $this->call(RoleTableSeeder::class);
-      //  $this->call(StateTableSeeder::class);
+        $this->call(assetTypeSeeder::class);
         $this->call(PermissionSeeder::class);
         $this->call(bankSeeder::class);
-       // $this->call(CityTableSeeder::class);
+       $this->call(StateTableSeeder::class);
         //$this->call(RouteTableSeeder::class);
     }
 }
