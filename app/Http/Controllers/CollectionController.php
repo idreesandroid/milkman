@@ -32,9 +32,20 @@ class CollectionController extends Controller
         
         $location = str_replace("},]","}]",$location);
 
-        $collections = Collection::select('collections.*','users.filenames','users.user_phone','users.name')
+        $collections = Collection::select('collections.*','collections.id','users.filenames','users.user_phone','users.name')
                     ->leftjoin('users','users.id','=','collections.collector_id')
                     ->get();
+
+                   // Asim work on Task as---------------------------------------------------------------
+                    // foreach($collections as $collection)
+                    // {
+                    //     echo "<pre>";
+                    //     print_r($collection->id);
+
+                    // }
+                    //     exit;
+                  // Asim work on Task as---------------------------------------------------------------
+
         $collectors = User::select('users.*')
                     ->join('role_user', 'role_user.user_id', '=', 'users.id')
                     ->where('role_user.role_id', '=', 5)
@@ -93,6 +104,14 @@ class CollectionController extends Controller
                 'vendor_id'  => $vendor_id           
             ]);
         }
+
+        foreach($request->vendorsIds as $vendor_id){ 
+            DB::update("UPDATE vendor_details SET collection_id = $collection_id  WHERE user_id	 = $vendor_id");
+
+        }
+
+
+
         return true;
     }
 

@@ -16,10 +16,23 @@ class Collection extends Model
         'title',
         'vendors_location',
         'status',
-        'collector_id'
+        'collector_id',
+        'areaStatus'
     ];
 
     public function vendors(){
     	return $this->belongsToMany(User::class, 'collection_vendor', 'collection_id', 'vendor_id');
+    }
+
+   // Asim work on Task as---------------------------------------------------------------
+    public function vendorDetail()
+    {
+    	return $this->hasMany(vendorDetail::class);
+    }
+
+
+    public function collectionAsTask()
+    {
+    	return $this->hasMany(TaskArea::class);
     }
 }
