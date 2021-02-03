@@ -439,7 +439,8 @@ function draggableInit() {
 mapIn
 */
     
-function initializeMap(mapID,clear_shapes,save_raw_map,restore,MapData,locations = '',lat='',lng=''){
+function initializeMap(mapID,clear_shapes,save_raw_map,restore,MapData,locations='',lat='',lng=''){
+
     var marker;
     var infowindow; 
     if(!lat){
@@ -448,7 +449,7 @@ function initializeMap(mapID,clear_shapes,save_raw_map,restore,MapData,locations
     if(!lng){
         var lng = 74.135081;
     }
-    infowindow = new google.maps.InfoWindow();
+    
     var markers = {};
     map = new google.maps.Map(document.getElementById(mapID), 
         { zoom: 12, 
@@ -476,9 +477,8 @@ function initializeMap(mapID,clear_shapes,save_raw_map,restore,MapData,locations
                             shapes=[];
                           };
 
-    //drawingManager = new google.maps.drawing.DrawingManager({map:map})
     const drawingManager = new google.maps.drawing.DrawingManager({
-    drawingMode: google.maps.drawing.OverlayType.MARKER,
+   // drawingMode: google.maps.drawing.OverlayType.MARKER,
     drawingControl: true,
     drawingControlOptions: {
       position: google.maps.ControlPosition.TOP_LEFT,
@@ -512,31 +512,46 @@ function initializeMap(mapID,clear_shapes,save_raw_map,restore,MapData,locations
         setSelection(shape);
         shapes.push(shape);
     });
-
+    //infowindow = new google.maps.InfoWindow();
+    var red_icon = '/google_map_markers/red.png';
+    var orange_icon = '/google_map_markers/orange.png';
+    var pink_icon = '/google_map_markers/pink.png';
+    var yellow_icon = '/google_map_markers/yellow.png';
+    var lightBlue_icon = '/google_map_markers/lightBlue.png';
+    var green_icon = '/google_map_markers/green.png';
+    //const iconBase = "https://developers.google.com/maps/documentation/javascript/examples/full/images/";
+    const defaultIcon = "https://maps.gstatic.com/mapfiles/api-3/images/spotlight-poi2.png";
+    //console.log(locations);
     for (i = 0; i < locations.length; i++) {
-            marker = new google.maps.Marker({
-                position: new google.maps.LatLng(locations[i][1], locations[i][2]),
-                map: map,
-                //icon :   locations[i][4] === '1' ?  red_icon  : purple_icon,
-                html: document.getElementById('showInfoWindow')
-            });
-
-            google.maps.event.addListener(marker, 'click', (function(marker, i) {
-                return function() {
-                    //confirmed =  locations[i][4] === '1' ?  'checked'  :  0;
-                    //$("#confirmed").prop(confirmed,locations[i][4]);
-                    $("#name").text('');
-                    $("#latitude").text('');
-                    $("#longitude").text('');
-                    $("#name").text(locations[i][0]);
-                    $("#latitude").text(locations[i][1]);
-                    $("#longitude").text(locations[i][2]);
-                    $("#showInfoWindow").show();
-                    infowindow.setContent(marker.html);
-                    infowindow.open(map, marker);
-                }
-            })(marker, i));
+        var selectedIcon = defaultIcon;
+        if(locations[i][3] == 'green'){
+            selectedIcon = green_icon;
+        }else if(locations[i][3] == 'orange'){
+            selectedIcon = orange_icon;
+        }else if (locations[i][3] == 'pink'){
+            selectedIcon = pink_icon;
+        }else if (locations[i][3] == 'lightBlue'){
+            selectedIcon = lightBlue_icon;
+        }else if (locations[i][3] == 'yellow'){
+            selectedIcon = yellow_icon;
+        }else if (locations[i][3] == 'red'){
+            selectedIcon = red_icon;
         }
+
+        var marker = new MarkerWithLabel({ 
+            position: new google.maps.LatLng(locations[i][1], locations[i][2]),
+            map: map,
+            icon: {
+                url: selectedIcon,
+                labelOrigin: { x: 30, y: 50}
+            },            
+            labelAnchor: new google.maps.Point(45, 0),
+            labelContent : ucFirstAllWords(locations[i][0]),
+            labelClass: "label " + locations[i][3],
+            labelInBackground: true 
+
+        });
+    }
 
     var bindMarkerinfo = function(marker) {
         google.maps.event.addListener(marker, "click", function (point) {
@@ -577,31 +592,6 @@ function initializeMap(mapID,clear_shapes,save_raw_map,restore,MapData,locations
     var getLatLng = function(lat, lng) {
         return new google.maps.LatLng(lat, lng);
     };
-
-    // var addMarker = google.maps.event.addListener(map, 'click', function(e) {
-    //     var lat = e.latLng.lat(); // lat of clicked point
-    //     var lng = e.latLng.lng(); // lng of clicked point
-    //     var markerId = getMarkerUniqueId(lat, lng); // an that will be used to cache this marker in markers object.
-    //     var marker = new google.maps.Marker({
-    //         position: getLatLng(lat, lng),
-    //         map: map,
-    //         animation: google.maps.Animation.DROP,
-    //         id: 'marker_' + markerId,
-    //         html: "    <div id='info_"+markerId+"'>\n" +
-    //         "        <table class=\"map1\">\n" +
-    //         "            <tr>\n" +
-    //         "                <td><a>Description:</a></td>\n" +
-    //         "                <td><textarea  id='manual_description' placeholder='Description'></textarea></td></tr>\n" +
-    //         "            <tr><td></td><td><input type='button' value='Save' onclick='saveData("+lat+","+lng+")'/></td></tr>\n" +
-    //         "        </table>\n" +
-    //         "    </div>"
-    //     });
-    //     markers[markerId] = marker; // cache marker in markers object
-    //     bindMarkerEvents(marker); // bind right click event to marker
-    //     bindMarkerinfo(marker); // bind infowindow with click event to marker
-    // });
-
-
 
     google.maps.event.addListener(map, 'click',clearSelection);
     google.maps.event.addDomListener(byId(clear_shapes), 'click', clearShapes);
@@ -763,6 +753,17 @@ var MapFactory = {
   
 }
 
+
+function ucFirstAllWords( str )
+{
+    var pieces = str.split(" ");
+    for ( var i = 0; i < pieces.length; i++ )
+    {
+        var j = pieces[i].charAt(0).toUpperCase();
+        pieces[i] = j + pieces[i].substr(1);
+    }
+    return pieces.join(" ");
+}
 
 
 
