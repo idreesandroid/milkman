@@ -202,3 +202,6 @@ Route::get('task/area',                       [TasksController::class, 'TaskArea
 Route::get('area/detail/{id}',                [TasksController::class, 'TaskAreaDetails'])->name('area.detail')->middleware('can:See-Collection-Against-Area');
 
 
+Route::get('generate/morning/task',                       [TasksController::class, 'GenerateMorningTask'])->name('morning.task');
+Route::get('generate/Evening/task',                       [TasksController::class, 'GenerateEveningTask'])->name('evening.task');
+

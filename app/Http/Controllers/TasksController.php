@@ -245,7 +245,7 @@ public function AssignArea($shift , $id)
             $assign = DB::update("UPDATE collector_details SET `collectorStatus` = 'HMT'  WHERE user_id = '$request->select_collector'");
             $areaAssignStatus = DB::update("UPDATE collections SET `AFM` = 1  WHERE id = '$request->cArea'");
         }
-        elseif($request->cShift == 'Morning')
+        elseif($request->cShift == 'Evening')
         {
             $assign = DB::update("UPDATE collector_details SET `collectorStatus` = 'HET'  WHERE user_id = '$request->select_collector'");
             $areaAssignStatus = DB::update("UPDATE collections SET `AFE` = 1  WHERE id = '$request->cArea'");
@@ -364,5 +364,15 @@ public function AssignArea($shift , $id)
         ->where('task_id', $id)
         ->get();
         return view('task/taskAreaDetails', compact('taskDetails'));
+    }
+
+    public function GenerateMorningTask()
+    { 
+        assignMorningTask();
+    }
+
+    public function GenerateEveningTask()
+    { 
+        assignEveningTask();
     }
 }
