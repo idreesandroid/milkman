@@ -80,7 +80,6 @@
                      <div class="form-group">
                         <label for="title">City:</label>
                         <input type="text" name="city" id="locality" class="form-control">
-                        </select>
                      </div>
                   </div>
                   <div class="col-md-6">
@@ -91,7 +90,16 @@
                      <div class="form-group">
                         <label>Upload Image:</label>
                         <input type="file" class="form-control" name="filenames" required=""   autocomplete="off" >
+                     </div>
                   </div>
+               </div>
+               <h4 class="card-title">Business Address Information</h4>
+               <div class="row">
+                  <div class="col-md-12">  
+                     <div class="form-group">
+                        <label>Business Address:</label>
+                        <input class="form-control" id="autocomplete2" onfocus="searchLocation()" type="text" name="user_address"/>
+                     </div>
                   </div>
                </div>
                <h4 class="card-title">Business Information</h4>
