@@ -36,15 +36,10 @@ class CollectionController extends Controller
                     ->leftjoin('users','users.id','=','collections.collector_id')
                     ->get();
 
-                   // Asim work on Task as---------------------------------------------------------------
-                    // foreach($collections as $collection)
-                    // {
-                    //     echo "<pre>";
-                    //     print_r($collection->id);
+                // Asim work on Task as---------------------------------------------------------------
+            
 
-                    // }
-                    //     exit;
-                  // Asim work on Task as---------------------------------------------------------------
+                // Asim work on Task as---------------------------------------------------------------
 
         $collectors = User::select('users.*')
                     ->join('role_user', 'role_user.user_id', '=', 'users.id')
@@ -111,8 +106,7 @@ class CollectionController extends Controller
                 'label_marker_color'  => $request->label_marker_color           
             ]);
         vendorDetail::where('user_id',$vendor_id)->update(['collection_id'=>$collection_id]);
-        }     
-
+        }
         return ($insLoc) ? true : false;
     }
 

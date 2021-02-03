@@ -11,8 +11,6 @@ class TaskArea extends Model
     protected $fillable = [
         'area_id',
         'collector_id',
-        'startDate',
-        'endDate',
         'shift'
         
     ];

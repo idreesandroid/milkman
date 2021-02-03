@@ -23,7 +23,7 @@
 
 
 <div class="row m-0">
-   <div class="col-md-12 grid-margin">
+   <div class="col-md-4 grid-margin">
    <div class="card" style="width: 18rem;">
   <div class="card-body">
 <a href="#"> <h5 class="card-title">My Tasks</h5></a>
@@ -34,19 +34,20 @@
     <!-- <a href="{{route('my.transaction')}}" class="card-link">My Transaction</a> -->
   </div>
 </div>	
-
+</div>
+<div class="col-md-4 grid-margin">
 <div class="card" style="width: 18rem;">
   <div class="card-body">
 <a href="#"> <h5 class="card-title">New Tasks</h5></a>
   <ul>
-  <li><h2 class="card-title">Morning Task: {{$myMorningTask}}</h2></li>
-  <li><h2 class="card-title">Evening Task: {{$myEveningTask}}</h2></li>
+  <li><h2 class="card-title">Morning Task: </h2></li>
+  <li><h2 class="card-title">Evening Task: </h2></li>
   </ul>
     <!-- <a href="{{route('my.transaction')}}" class="card-link">My Transaction</a> -->
   </div>
 </div>	
-
-
+</div>
+<div class="col-md-12 grid-margin">
       <div class="">
          <div class="card-body p-0 row">
             <div class="table-responsive">
@@ -54,69 +55,104 @@
                   <thead>
                      <tr>
                         <th>Vendor</th>
-                        <th>Area</th>
-                        <th>Lactometer</th>
-                        <th>Amount</th>   
-                        <th>Taste</th>   
-                        <th>Shift</th>   
-                        <th>Start</th>   
-                        <th>End</th>   
-                        <th>Status</th>   
-                        <th style="text-align: center;">Actions</th>
+                        <th>Vendor Location</th>
+                        <th>Shift</th>
+                        <th>Status</th>
+                        <th>Expected Milk Quantity</th> 
+                        <th>Expected Collection Time</th>
+                        @can('Start-Task')  <th>Actions</th> @endcan
                      </tr>
                   </thead>
                   <tbody>
-                     @foreach($tasks as $task)
+                     @foreach($newTasks as $task)
                      <tr id="taskId_">
                     
                         <td>{{$task->name}}</td>
-                        <td>{{$task->title}}</td>                        
-                        <td>{{$task->lactometer_reading}}</td>                        
-                        <td>{{$task->milk_amout}}</td>                        
-                        <td>{{$task->milk_taste}}</td>                        
-                        <td>{{$task->shift}}</td>                        
-                        <td>@if(isset($task->starttime)){{timeFormat($task->starttime)['time']}}@endif</td>                        
-                        <td>@if(isset($task->endtime)){{timeFormat($task->endtime)['time']}}@endif</td>                        
-                        <td>{{$task->status}}</td>                        
-                        <!-- <td><?php //echo date('d/m/Y h:i A', strtotime($task->duedate . ' '. $task->duetime)); ?>                           
-                        </td> -->
-                        <!-- 
-                        <td>
-
-                           @if($task->status == 'Missed')
-                           <label class="badge badge-gradient-danger">Missed</label>
-                           @elseif($task->status == 'Collected')
-                           <label class="badge badge-gradient-success">Collected</label>
-                           @elseif($task->status == 'Not Started')
-                           <label class="badge badge-gradient-warning">Not Started</label>
-                           @elseif($task->status == 'Started')
-                           <label class="badge badge-gradient-info">Started</label>
-                           @endif
-
-
-                        </td> -->
-                        <td style="text-align: center;">
-                           
-                           @if($task->status == 'Not Started')                      
-                            <button href="#" id="start_task_<?php echo $task->id ?>" class="btn btn-primary" onclick="startTask(<?php echo $task->id ?>)" <?php echo ($task->status != 'Not Started') ? 'disabled':''; ?> >Start</button>  
-                           @endif
-                           @if($task->status != 'Collected' && $task->status != 'Missed' && $task->status != 'Not Started')
-                            <button href="#" onclick="completeTask(<?php echo $task->id ?>)" class="btn btn-success" data-toggle="modal" data-target="#completedtask" <?php echo ($task->status == 'Collected' || $task->status == 'Missed') ? 'disabled':''; ?>>Completed</button> 
-                           @endif                                                 
-                           
-
-                            <button href="#" onclick="deleteTask(<?php echo $task->id ?>)" class="btn btn-danger">Delete</button> 
-
-                        </td>
+                        <td></td>                        
+                        <td>{{$task->taskShift}}</td>                        
+                        <td>{{$task->status}}</td>
+                        <td>@if($task->taskShift == 'Morning'){{$task->morning_decided_milkQuantity}}@endif @if($task->taskShift == 'Evening'){{$task->evening_decided_milkQuantity}}@endif</td>
+                        <td>@if($task->taskShift == 'Morning'){{$task->morningTime}}@endif @if($task->taskShift == 'Evening'){{$task->eveningTime}}@endif</td>
+                        @can('Start-Task') <td>@if($task->status == 'initialize')<a href="{{ route('task.start', $task->id)}}" class="btn btn-primary">Start</a>@endif  @if($task->status == 'inProcess')<button type="button" class=" form-control btn btn-sm btn-primary btn-info btn-lg" onclick="setId({{$task->id}})" data-toggle="modal" data-target="#taskComplete">Complete</button>@endif</td>@endcan 
+                     
                      </tr>
                      @endforeach
                   </tbody>
                </table>
             </div>
+
+            <div id="taskComplete" class="modal fade" role="dialog">
+               <div class="modal-dialog" id="batch-info">
+                  <!-- Modal content-->
+                  <div class="modal-content">
+                     <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                     </div>
+                     <div class="modal-body">
+                        <div class="table-responsive">
+                           <form method="post" action="{{ route('task.complete')}}"  enctype="multipart/form-data" >
+                              @csrf 
+                            
+                              <input type="hidden" name="req_id" id="req_id" value="">
+                            
+                              <div class="form-group row">
+                              <label for="milkCollected" class="col-form-label col-md-2">Milk Quantity</label>
+                              <div class="col-md-6">
+                              <input type="numeric" class="form-control" name="milkCollected" required="" autocomplete="off">
+                              </div></div>
+
+                              <div class="form-group row">
+                              <label for="fat" class="col-form-label col-md-2">Fat</label>
+                              <div class="col-md-6">
+                              <input type="numeric" class="form-control" name="fat" required="" autocomplete="off">
+                              </div></div>
+
+                              <div class="form-group row">
+                              <label for="Lactose" class="col-form-label col-md-2">Lactose</label>
+                              <div class="col-md-6">
+                              <input type="numeric" class="form-control" name="Lactose" required="" autocomplete="off">
+                              </div></div>
+
+                              <div class="form-group row">
+                              <label for="Ash" class="col-form-label col-md-2">Ash</label>
+                              <div class="col-md-6">
+                              <input type="numeric" class="form-control" name="Ash" required="" autocomplete="off">
+                              </div></div>
+
+                              <div class="form-group row">
+                              <label for="totalProteins" class="col-form-label col-md-2">totalProteins</label>
+                              <div class="col-md-6">
+                              <input type="numeric" class="form-control" name="totalProteins" required="" autocomplete="off">
+                              </div></div>
+
+                              <div class="form-group row">
+                              <label for="qualityPic" class="col-form-label col-md-2">Test Result</label>
+                              <div class="col-md-6">
+                              <input type="file" class="form-control" name="qualityPic"  required=""  autocomplete="off" >
+                              </div></div>
+                              
+                              @can('Complete-Task')
+                              <button type="submit" value="ad_bat"  class=" form-control btn btn-primary btn-info btn-lg " >Add</button>@endcan
+                           </form>
+                        </div>
+                     </div>
+                     <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                     </div>
+                  </div>
+               </div>
+            </div>
          </div>
       </div>
    </div>
 </div>
+
+<script type="text/javascript">
+function setId(id)
+{
+$("#req_id").val(id);
+}
+</script>
 
 <script type="text/javascript">
 

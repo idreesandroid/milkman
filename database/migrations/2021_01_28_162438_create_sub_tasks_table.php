@@ -23,6 +23,15 @@ class CreateSubTasksTable extends Migration
             $table->foreign('task_id')->references('id')->on('task_areas')->onUpdate('cascade')->onDelete('cascade');
 
             $table->integer('milkCollected')->nullable();
+
+            $table->float('fat')->nullable();
+            $table->float('Lactose')->nullable();
+            $table->float('Ash')->nullable();
+            $table->float('totalProteins')->nullable();
+            $table->float('totalSolid')->nullable();
+            $table->string('qualityPic')->nullable();
+            $table->float('AssignTo')->nullable();
+            $table->date('collection_date');
             $table->enum('status',['initialize','inProcess','Complete']);
             $table->dateTime('collectedTime')->nullable();
 

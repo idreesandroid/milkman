@@ -310,8 +310,31 @@ class PermissionSeeder extends Seeder
         $permission_35->slug = 'Delete-Asset';
         $permission_35->name = 'Delete-Asset';
         $permission_35->save(); 
+                
+        $permission_35 = new Permission();
+        $permission_35->slug = 'Assign-Area';
+        $permission_35->name = 'Assign-Area';
+        $permission_35->save(); 
         
+        $permission_35 = new Permission();
+        $permission_35->slug = 'Complete-Task';
+        $permission_35->name = 'Complete-Task';
+        $permission_35->save(); 
+
+        $permission_35 = new Permission();
+        $permission_35->slug = 'See-Task-As-Area';
+        $permission_35->name = 'See-Task-As-Area';
+        $permission_35->save(); 
+        
+        $permission_35 = new Permission();
+        $permission_35->slug = 'See-Collection-Against-Area';
+        $permission_35->name = 'See-Collection-Against-Area';
+        $permission_35->save(); 
        
+        $permission_35 = new Permission();
+        $permission_35->slug = 'See-My-Task';
+        $permission_35->name = 'See-My-Task';
+        $permission_35->save(); 
         
     }
 }

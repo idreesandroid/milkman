@@ -34,14 +34,27 @@
                </a>
             </li> 
             @endcan 
+
             @can('See-Task-List')
             <li>
-               <a href="/tasks" class="{{ (request()->segment(1) == 'tasks') ? 'active' : '' }}">
+               <a href="/task/area" class="{{ (request()->segment(1) == 'task' && request()->segment(2) == 'area') ? 'active' : '' }}">
                <i class="fa fa-check-square-o" aria-hidden="true"></i>
-               <span>Tasks</span>
+               <span>Assigned Areas</span>
                </a>
             </li>  
-          @endcan                     
+            @endcan  
+
+            @can('See-My-Task')
+            <li>
+               <a href="/collector-detail/tasks" class="{{ (request()->segment(1) == 'collector-detail' && request()->segment(2) == 'tasks') ? 'active' : '' }}">
+               <i class="fa fa-check-square-o" aria-hidden="true"></i>
+               <span>My Task</span>
+               </a>
+            </li>  
+            @endcan
+
+
+
             @can('See-Product')
             <li class="submenu">
                <a href="#">

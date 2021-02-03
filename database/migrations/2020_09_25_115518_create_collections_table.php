@@ -19,6 +19,8 @@ class CreateCollectionsTable extends Migration
             $table->text('vendors_location');
             $table->string('status');
             $table->string('collector_id');
+            $table->tinyInteger('AFM')->default(0);
+            $table->tinyInteger('AFE')->default(0);
             $table->enum('areaStatus',['Active','inActive','Block']);  //CHANGE BY ASIM
             $table->timestamps();
             $table->softDeletes();
