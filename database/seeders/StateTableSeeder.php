@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use App\Models\State;
+use App\Models\CollectionArea;
 class StateTableSeeder extends Seeder
 {
     /**
@@ -13,20 +13,30 @@ class StateTableSeeder extends Seeder
      */
     public function run()
     {
-        $state_1 = new State();
-        $state_1->state_name = 'Punjab';
-        $state_1->save();
+        $area_1 = new CollectionArea();
+        $area_1->areaTitle = 'i-8';
+        $area_1->areaDimension = 'Json string here';
+        $area_1->areaStatus = 'inActive';
+        $area_1->save();
 
-        $state_2 = new State();
-        $state_2->state_name = 'Kpk';
-        $state_2->save();
+        $area_1 = new CollectionArea();
+        $area_1->areaTitle = 'i-9';
+        $area_1->areaDimension = 'Json string here';
+        $area_1->areaStatus = 'inActive';
+        $area_1->save();
 
-        $state_3 = new State();
-        $state_3->state_name = 'Sindh';
-        $state_3->save();
+        $area_1 = new CollectionArea();
+        $area_1->areaTitle = 'g-8';
+        $area_1->areaDimension = 'Json string here';
+        $area_1->areaStatus = 'inActive';
+        $area_1->save();
 
-        $state_4 = new State();
-        $state_4->state_name = 'Blochistan';
-        $state_4->save();
+        $area_1 = new CollectionArea();
+        $area_1->areaTitle = 'g-9';
+        $area_1->areaDimension = 'Json string here';
+        $area_1->areaStatus = 'inActive';
+        $area_1->save();
+
+        
     }
 }

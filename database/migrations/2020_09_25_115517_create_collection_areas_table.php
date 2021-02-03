@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateCollectionsTable extends Migration
+class CreateCollectionAreasTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,13 @@ class CreateCollectionsTable extends Migration
      */
     public function up()
     {
-        Schema::create('collections', function (Blueprint $table) {
+        Schema::create('collection_areas', function (Blueprint $table) {
             $table->increments('id')->unsigned();
-            $table->string('title');
-            $table->text('vendors_location');
-            $table->string('status');
-            $table->string('collector_id');
+            $table->string('areaTitle');
+            $table->string('areaDimension');
+            $table->enum('areaStatus',['Active','inActive','Block']);
+
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 
@@ -31,6 +30,6 @@ class CreateCollectionsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('collections');
+        Schema::dropIfExists('collection_areas');
     }
 }

@@ -9,7 +9,7 @@ class vendorDetail extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['filenames','decided_milkQuantity','morning_decided_milkQuantity','evening_decided_milkQuantity','decided_rate','morningTime','eveningTime'];
+    protected $fillable = ['filenames','decided_milkQuantity','morning_decided_milkQuantity','evening_decided_milkQuantity','decided_rate','morningTime','eveningTime','collection_id'];
 
     protected $hidden = [
         'password', 'remember_token',
@@ -25,4 +25,15 @@ class vendorDetail extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function vendorArea()
+    {
+        return $this->belongsTo(Collection::class);
+    }
+
+    public function vendorSubTask()
+    {
+        return $this->hasMany(SubTask::class);
+    }
+
 }

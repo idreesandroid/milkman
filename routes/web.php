@@ -190,4 +190,9 @@ Route::get('asset/edit/{id}',       [AssetController::class, 'editAsset'])->name
 Route::post('asset/update/{id}',    [AssetController::class, 'updateAsset'])->name('update.asset')->middleware('can:Edit-Asset');
 Route::Delete('asset/delete/{id}',  [AssetController::class, 'deleteAsset'])->name('delete.asset')->middleware('can:Delete-Asset');
 
+//tasking By Asim routes-------------------------------
+
+Route::get('assign/Area/{shift?}/{id}',       [TasksController::class, 'AssignArea'])->name('assign.Area');
+Route::post('select/Collector',                [TasksController::class, 'selectCollector'])->name('select.Collector');
+
 

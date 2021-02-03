@@ -25,6 +25,9 @@ class CreateVendorDetailsTable extends Migration
             $table->integer('decided_rate');
             $table->string('morningTime');
             $table->string('eveningTime');
+
+            $table->integer('collection_id')->unsigned()->nullable();
+            $table->foreign('collection_id')->references('id')->on('collections')->onUpdate('cascade')->onDelete('cascade');
             
             $table->timestamps();
         });

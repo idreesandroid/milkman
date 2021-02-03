@@ -97,8 +97,16 @@ foreach ($vendors as $key => $value) {
                            </div>
                            <div class="midle-div">
                              @can('Assign-Collection-Area')
-                              <a href="#" class='btn btn-outline-primary assignCollector' data-toggle="modal" data-target="#assignCollectorModel" onclick="setCollectionId(<?php echo $item->id; ?>,<?php echo $item->collector_id; ?>)">Assign Collector</a>
+                              <!-- <a href="#" class='btn btn-outline-primary assignCollector' data-toggle="modal" data-target="#assignCollectorModel" onclick="setCollectionId(<?php echo $item->id; ?>,<?php echo $item->collector_id; ?>)">Assign Collector</a> -->
                              @endcan
+
+                             <!-- Asim work on Task as--------------------------------------------------------------- -->
+                             <br>
+                              <a href="#" id="assignCollectorM_{{$item->id}}" class='btn btn-outline-primary' data-toggle="modal" data-target="#collectorSelection" onclick="findCollectors({{$item->id}},'Morning')">Assign Collector For Morning</a>
+                              <a href="#" id="assignCollectorE_{{$item->id}}" class='btn btn-outline-primary' data-toggle="modal" data-target="#collectorSelection" onclick="findCollectors({{$item->id}},'Evening')">Assign Collector For Evening</a>
+                              <br>
+                            <!-- Asim work on Task as--------------------------------------------------------------- -->
+
                              @can('Edit-Collection-Area')
                               <a href="{{route('edit.collection',$item->id)}}" class='btn btn-outline-success editCollection' >Edit</a>
                               @endcan
@@ -181,6 +189,157 @@ foreach ($vendors as $key => $value) {
    <!-- modal-dialog -->
 </div>
 <!-- modal -->
+
+<!--Asim Make model for batch Selection---->
+
+<div id="collectorSelection" class="modal fade" role="dialog">
+               <div class="modal-dialog" id="batch-info">
+                  <!-- Modal content-->
+                  <div class="modal-content">
+                     <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                     </div>
+                     <div class="modal-body">
+                        <div class="table-responsive">
+                           <form method="post" action="{{route('select.Collector')}}">
+                              @csrf 
+                              <input type="hidden" name="cArea" id="area"/>
+                              <input type="hidden" name="cShift" id="shift"/>
+
+                              <table class="datatable table table-stripped mb-0 fetch_Collector" id="fetch_Collector">
+                                 <thead>
+                                    <tr>
+                                       <th>Select</th>
+                                       <th>Name</th>
+                                       <th>Phone</th>
+                                       <th>Capacity</th>
+                                    </tr>
+                                 </thead>
+                                 <tbody>
+                                 </tbody>
+                              </table>
+                              <button type="submit" class=" form-control btn btn-primary btn-info btn-lg " >Assign</button>
+                           </form>
+                        </div>
+                     </div>
+                     <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                     </div>
+                  </div>
+               </div>
+            </div>
+
+<!--End Asim Make model for batch Selection---->
+
+
+<!-- Asim work on Task as--------------------------------------------------------------- -->
+
+
+<script type="text/javascript">
+
+
+function findCollectors(id , value)
+
+   { 
+      if(value == 'Morning')
+      {
+         $("#shift").val(value);
+         $("#area").val(id);
+
+         if(id != null)
+         {
+
+            $.ajax({
+            url: '/assign/Area/'+value+'/'+id,
+               type: "GET",
+               dataType: "json",
+               success:function(response)
+                {
+                  var len = 0;
+                  $('#fetch_Collector tbody').empty();     
+                  if(response.length > 0)
+                  {
+                     len = response.length;
+
+                     for(var i=0; i<len; i++)
+                     {  
+                   var cid = response[i].id;                
+                   var collector_name = response[i].name;
+                   var collector_Phone = response[i].user_phone;  
+                   var collector_Capacity = response[i].collectorCapacity;
+
+                   //console.log(collector_Capacity);    
+
+                   var tr_str = "<tr>" +
+                   "<td >" + "<input type='radio' value='"+cid+"'  name='select_collector' id='select_collector"+cid+"'/>" + "</td>" +
+                     "<td >" + collector_name + "</td>" +    
+                     "<td >" + collector_Phone + "</td>" +   
+                     "<td >" + collector_Capacity + "</td>" +       
+                   "</tr>";
+                   $("#fetch_Collector tbody").append(tr_str);
+                     }   
+                  }
+                  else
+                  {
+                     alert("There is no collector Available");
+                  }
+                }                              
+               });
+         }
+      }
+
+      else if(value == 'Evening')
+      { 
+         $("#shift").val(value);
+         $("#area").val(id);
+         if(id != null)
+         {
+            $.ajax({
+            url: '/assign/Area/'+value+'/'+id,
+               type: "GET",
+               dataType: "json",
+               success:function(response) 
+               {
+                  var len = 0;
+                  $('#fetch_Collector tbody').empty();     
+                  if(response.length > 0)
+                  {
+                     len = response.length;
+                     for(var i=0; i<len; i++)
+                     {  
+                   var cid = response[i].id;                
+                   var collector_name = response[i].name;
+                   var collector_Phone = response[i].user_phone;  
+                   var collector_Capacity = response[i].collectorCapacity;
+
+                   console.log(collector_Capacity);    
+
+                   var tr_str = "<tr>" +
+                     "<td >" + "<input type='radio' value='"+cid+"'  name='select_collector' id='select_collector"+cid+"'/>" + "</td>" +
+                     "<td >" + collector_name + "</td>" +    
+                     "<td >" + collector_Phone + "</td>" +   
+                     "<td >" + collector_Capacity + "</td>" +             
+                   "</tr>";
+                   $("#fetch_Collector tbody").append(tr_str);
+                     }   
+                  }
+                  else
+                  {
+                     alert("There is no collector Available");
+                  }
+                }
+                                            
+                  });
+         }
+      }
+      
+
+      // var test_val = $("#assignCollectorM_"+id).val();
+      // alert(test_val);
+   }
+
+</script>
+<!-- Asim work on Task as--------------------------------------------------------------- -->
 
 
 
@@ -276,6 +435,95 @@ function deleteCollection(collectionId){
          }
      });
 }
+ 
+
+
+   $(document).ready(function() { 
+
+
+      $("#updateColectionArea").on('click',function(){
+
+         var title = $("#edit_title").val();        
+         if(!title.length){
+            $("#edit_title").focus();
+            alert('Please insert the title');            
+            return false;
+         }  
+         // var vendors = [];
+         // vendors = $("#selectedVendorsInEditModel").val();
+         // if(!vendors.length){
+         //    $(".select2-selection").focus();
+         //    alert('Please select the vendors');
+         //    return false;
+         // }
+
+         var editStatus = $("#editStatus").val();
+         if(!editStatus.length){
+            $("#editStatus").focus();
+            alert('Please select the status');
+            return false;
+         }
+
+         var MapData = $("#update_MapData").val();
+         if(!MapData.length){
+            $("#update_raw_map").focus();
+            alert('Please draw Collection Area and then click on Add Map button');
+            return false;
+         }
+
+
+         if (MapData.indexOf('MARKER') > -1)
+         {
+           alert("You can not add any additional MARKER on this map");
+           return false;
+         }
+
+         var collector_id = $("#collector_id").val();        
+         var collection_id = $("#collection_id").val();        
+        
+         var json_data = {
+               'id' : collection_id,
+               'title' : title,
+               //'vendorsIds' : vendors,
+               'status' : editStatus,
+               'vendors_location' : MapData,
+               'collector_id' : collector_id,
+               '_token' : "{{ csrf_token() }}"
+            };  
+         $.ajax({
+            url : "{{ route('update.collection') }}",
+            type: "POST",
+            data: json_data,           
+            success : function(data) {              
+               if(data){
+                  $("#title").val("");
+                  $("#selectedVendors").val("");
+                  $("#MapData").val("");
+                  $("#editCollectionModel .close").click();
+                  Swal.fire('Collection Area Updated','You clicked the button!','success').then((result) => {
+                     if(result.isConfirmed) {
+                        location.reload(true);
+                     }
+                  });
+               }
+             },
+            error: function(){
+               swal.fire("Error Update Collection!", "Error in Update Collection Area error", "error").then((result) => {
+                  if(result.isConfirmed) {
+                     location.reload(true);
+                  }
+               });
+            }
+         });
+
+      }); 
+
+      initializeMap('updateCollectionMap','edit_clear_shapes','update_raw_map','edit_restore','update_MapData',locations,'30.437318444167968','69.24038656005861');
+
+      $('#assignCollectorModel').on('hidden.bs.modal', function () {
+        $("#assignCollectorModel input[type=radio]").prop("checked", false);
+      });      
+
 
 $(document).ready(function() { 
    $('#assignCollectorModel').on('hidden.bs.modal', function () {
@@ -283,5 +531,7 @@ $(document).ready(function() {
    });      
 }); 
 </script> 
+
+
 @endsection
 

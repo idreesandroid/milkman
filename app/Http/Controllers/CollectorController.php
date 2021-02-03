@@ -12,6 +12,7 @@ use App\Models\Tasks;
 use App\Models\User;
 use App\Models\milkmanAsset;
 use App\Models\assetsType;
+use App\Models\collectorDetail;
 
 class CollectorController extends Controller
 {
@@ -35,7 +36,6 @@ class CollectorController extends Controller
      */
     public function create()
     {
-
         // $assetTypes = assetsType::get();
         // foreach($assetTypes as $assetType)
         // {
@@ -49,7 +49,6 @@ class CollectorController extends Controller
         // }
         // }
         //     echo "<pre>";
-        //     print_r($assetCount);
         //     print_r($assetCode);
         //     exit;
 
@@ -92,12 +91,32 @@ class CollectorController extends Controller
     }          
         $collector_register->filenames=$data;
         $collector_register->save();
-        $collector_register->roles()->attach(Role::where('id',5)->first()); 
+        $collector_register->roles()->attach(Role::where('id',5)->first());
+
         $userAssets = $request['userAsset'];
+        
         foreach($userAssets as $userAsset)
         {
             DB::update("UPDATE milkman_assets SET user_id = $collector_register->id  WHERE id	 = $userAsset");            
         } 
+
+        $collectorCaps = milkmanAsset::where('user_id' , $collector_register->id)->where('type_id' , 2)->get();
+        foreach($collectorCaps as $collectorCap)
+        {
+        $collectorcap[]=$collectorCap->assetCapacity;
+        }
+        $collectorcap1=array_sum($collectorcap);
+
+            // echo "<pre>";
+            // print_r($assetCode);
+            // exit;
+
+        $collector_detail = new collectorDetail();
+        $collector_detail->user_id = $collector_register->id;        
+        $collector_detail->collectorCapacity = $collectorcap1;
+        $collector_detail->collectorStatus = 'Free';
+        $collector_detail->save();
+
 
         return redirect()->route('index.collector-detail');
     }
