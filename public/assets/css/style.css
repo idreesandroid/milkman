@@ -9563,41 +9563,41 @@ div#kanban-single-col .collector_detial {
 }
 
  #map {
-         height: 100%;
-         width: 100%;
-         }
-         html, body {
-         height: 100%;
-         margin: 0;
-         padding: 0;
-         }
-         .label {
-         color: #000;
-         background-color: white;
-         border: 1px solid #000;
-         font-family: "Lucida Grande", "Arial", sans-serif;
-         font-size: 12px;
-         text-align: center;
-         white-space: nowrap;
-         padding: 2px;
-         }
-         .label.green {
-         background-color: #58D400;         
-         }
-         .label.red {
-         background-color: #D80027;
-         color: #fff;
-         }
-         .label.yellow {
-         background-color: #FCCA00;
-         }
-         .label.lightBlue {
-         background-color: #ADD8E6;
-         }
-         .label.orange {
-         background-color: #BF5300;
-         color: #fff;
-         }
-         .label.pink{
-         background-color: #FFC0CB;         
-         }
+	height: 100%;
+	width: 100%;
+}
+	html, body {
+	height: 100%;
+	margin: 0;
+	padding: 0;
+}
+.label {
+	color: #000;
+	background-color: white;
+	border: 1px solid #000;
+	font-family: "Lucida Grande", "Arial", sans-serif;
+	font-size: 12px;
+	text-align: center;
+	white-space: nowrap;
+	padding: 2px;
+}
+.label.green {
+	background-color: #58D400;         
+}
+.label.red {
+	background-color: #D80027;
+	color: #fff;
+}
+.label.yellow {
+	background-color: #FCCA00;
+}
+.label.lightBlue {
+	background-color: #ADD8E6;
+}
+.label.orange {
+	background-color: #BF5300;
+	color: #fff;
+}
+.label.pink{
+	background-color: #FFC0CB;         
+}

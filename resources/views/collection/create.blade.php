@@ -52,65 +52,65 @@ foreach ($vendors as $key => $value) {
 <div class="row m-0">
    <div class="col-md-12 grid-margin">
       <div class="row">
-               <div class="col-md-12">
-                  <form>
-                     <div class="form-group row">
-                        <div class="col-md-4">
-                           <label class="col-form-label">Title <span class="text-danger">*</span></label>
-                           <input class="form-control" type="text" name="prefix" id='title'>
-                        </div>
-                        <div class="col-md-4">
-                           <label class="col-form-label">Status <span class="text-danger">*</span></label>
-                           <select class="form-control" id="addStatus" name="addStatus">
-                                 <option value="active">Active</option>
-                                 <option value="inactive">Inactive</option>
-                              </select> 
-                        </div>
-                        <div class="col-md-4">
-                           <label class="col-form-label">Marker and Label Color <span class="text-danger">*</span></label>
-                           <select class="form-control" id="label_marker_color">
-                                 <option value="green">Green</option>
-                                 <option value="orange">Orange</option>
-                                 <option value="pink">Pink</option>
-                                 <option value="lightBlue">Light Blue</option>
-                                 <option value="yellow">Yellow</option>
-                                 <option value="red">Red</option>
-                              </select> 
-                        </div>                       
-                     </div>    
-                     <div class="map" id="addCollectionMap"></div>
-                     <div class="row">
-                        <div class="col-md-12">
-                           <div class="form-group">                        
-                              <input type="text" class="form-control" id="add_MapData" name="vendors_location" value="{{$location}}" readonly>
-                           </div>
-                        </div>
+         <div class="col-md-12">
+            <form>
+               <div class="form-group row">
+                  <div class="col-md-4">
+                     <label class="col-form-label">Title <span class="text-danger">*</span></label>
+                     <input class="form-control" type="text" name="prefix" id='title'>
+                  </div>
+                  <div class="col-md-4">
+                     <label class="col-form-label">Status <span class="text-danger">*</span></label>
+                     <select class="form-control" id="addStatus" name="addStatus">
+                           <option value="active">Active</option>
+                           <option value="inactive">Inactive</option>
+                        </select> 
+                  </div>
+                  <div class="col-md-4">
+                     <label class="col-form-label">Marker and Label Color <span class="text-danger">*</span></label>
+                     <select class="form-control" id="label_marker_color">
+                           <option value="green">Green</option>
+                           <option value="orange">Orange</option>
+                           <option value="pink">Pink</option>
+                           <option value="lightBlue">Light Blue</option>
+                           <option value="yellow">Yellow</option>
+                           <option value="red">Red</option>
+                        </select> 
+                  </div>                       
+               </div>    
+               <div class="map" id="addCollectionMap"></div>
+               <div class="row">
+                  <div class="col-md-12">
+                     <div class="form-group">                        
+                        <input type="text" class="form-control" id="add_MapData" name="vendors_location" value="{{$location}}" readonly>
                      </div>
-                     <div class="row">
-                        <div class="col-md-2">
-                           <div class="form-group">                        
-                              <input type="button"  class="form-control btn btn-info"  value="Add Map" id="save_raw_map">
-                           </div>
-                        </div>
-                        <div class="col-md-2">
-                           <div class="form-group">                        
-                              <input type="button" class="form-control btn btn-danger"  value="Clear Map" id="add_clear_shapes">
-                           </div>
-                        </div>
-                        <div class="col-md-4">
-                           <div class="form-group">                        
-                              <input type="button" id="add_restore" class="form-control btn btn-primary"  value="Restore Map">
-                           </div>
-                        </div>
-                        <div class="col-md-4">
-                           <div class="form-group">                        
-                              <input type="button" class="form-control btn btn-primary"  value="Save Collection Area" id="saveColectionArea">
-                           </div>
-                        </div>
-                     </div>
-                  </form>
+                  </div>
                </div>
-            </div>
+               <div class="row">
+                  <div class="col-md-2">
+                     <div class="form-group">                        
+                        <input type="button"  class="form-control btn btn-info"  value="Add Map" id="save_raw_map">
+                     </div>
+                  </div>
+                  <div class="col-md-2">
+                     <div class="form-group">                        
+                        <input type="button" class="form-control btn btn-danger"  value="Clear Map" id="add_clear_shapes">
+                     </div>
+                  </div>
+                  <div class="col-md-4">
+                     <div class="form-group">                        
+                        <input type="button" id="add_restore" class="form-control btn btn-primary"  value="Restore Map">
+                     </div>
+                  </div>
+                  <div class="col-md-4">
+                     <div class="form-group">                        
+                        <input type="button" class="form-control btn btn-primary"  value="Save Collection Area" id="saveColectionArea">
+                     </div>
+                  </div>
+               </div>
+            </form>
+         </div>
+      </div>
    </div>
 </div>
 <script type="text/javascript">
