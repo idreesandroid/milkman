@@ -114,6 +114,8 @@ Route::get('order/myList',                       [DistributorController::class, 
 Route::get('collector-detail/index',                [CollectorController::class, 'index'])->name('index.collector-detail')->middleware('can:See-Distributor');
 Route::get('collector-detail/create',               [CollectorController::class, 'create'])->name('create.collector-detail')->middleware('can:Create-Distributor');
 Route::post('collector-detail/create',              [CollectorController::class, 'store'])->name('store.collector-detail')->middleware('can:Create-Distributor');
+Route::get('collector-detail/tasks',                [CollectorController::class, 'MyTask'])->name('my.tasks')->middleware('can:See-My-Task');
+
 // Route::get('distributor-detail/edit/{id}',       [DistributorController::class, 'edit'])->name('edit.distributor-detail')->middleware('can:Edit-Distributor');
 // Route::post('distributor-detail/update/{id}',    [DistributorController::class, 'update'])->name('update.distributor-detail')->middleware('can:Edit-Distributor');
 // Route::post('companyDetail/update/{id}',         [DistributorController::class,'companyDetailUpdate'])->name('companyDetail.distributor')->middleware('can:Edit-Company-Detail');
@@ -192,7 +194,11 @@ Route::Delete('asset/delete/{id}',  [AssetController::class, 'deleteAsset'])->na
 
 //tasking By Asim routes-------------------------------
 
-Route::get('assign/Area/{shift?}/{id}',       [TasksController::class, 'AssignArea'])->name('assign.Area');
-Route::post('select/Collector',                [TasksController::class, 'selectCollector'])->name('select.Collector');
+Route::get('assign/Area/{shift?}/{id}',       [TasksController::class, 'AssignArea'])->name('assign.Area')->middleware('can:Assign-Area');
+Route::post('select/Collector',               [TasksController::class, 'selectCollector'])->name('select.Collector')->middleware('can:Assign-Area');
+Route::get('task/start/{id}',                 [TasksController::class, 'startTask'])->name('task.start')->middleware('can:Start-Task');
+Route::post('task/complete',                  [TasksController::class, 'completeTask'])->name('task.complete')->middleware('can:Complete-Task');
+Route::get('task/area',                       [TasksController::class, 'TaskArea'])->name('task.area')->middleware('can:See-Task-As-Area');
+Route::get('area/detail/{id}',                [TasksController::class, 'TaskAreaDetails'])->name('area.detail')->middleware('can:See-Collection-Against-Area');
 
 

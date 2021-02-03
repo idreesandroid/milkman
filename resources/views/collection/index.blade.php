@@ -102,8 +102,19 @@ foreach ($vendors as $key => $value) {
 
                              <!-- Asim work on Task as--------------------------------------------------------------- -->
                              <br>
+                             @if($item->AFM == 0)
                               <a href="#" id="assignCollectorM_{{$item->id}}" class='btn btn-outline-primary' data-toggle="modal" data-target="#collectorSelection" onclick="findCollectors({{$item->id}},'Morning')">Assign Collector For Morning</a>
+                             @endif
+                             @if($item->AFE == 0)
                               <a href="#" id="assignCollectorE_{{$item->id}}" class='btn btn-outline-primary' data-toggle="modal" data-target="#collectorSelection" onclick="findCollectors({{$item->id}},'Evening')">Assign Collector For Evening</a>
+                             @endif
+
+                             @if($item->AFM == 1)
+                              <a href="#" id="assignCollectorM_{{$item->id}}" class='btn btn-outline-primary' data-toggle="modal" data-target="#collectorSelection" onclick="findCollectors({{$item->id}},'Morning')">Assign Collector For Morning</a>
+                             @endif
+                             @if($item->AFE == 1)
+                              <a href="#" id="assignCollectorE_{{$item->id}}" class='btn btn-outline-primary' data-toggle="modal" data-target="#collectorSelection" onclick="findCollectors({{$item->id}},'Evening')">Assign Collector For Evening</a>
+                             @endif
                               <br>
                             <!-- Asim work on Task as--------------------------------------------------------------- -->
 

@@ -51,6 +51,12 @@ function assetNumberExists($number) {
     return milkmanAsset::where('assetCode', '=' , $number)->exists();
 }
 
+//is area assigned-------------------------------------
+function findArea()
+{  
+    //test
+}
+
 
 
 

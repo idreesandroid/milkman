@@ -11,7 +11,7 @@ use App\Models\City;
 use App\Models\bankDetail;
 use App\Models\vendorDetail;
 use App\Models\UserAccount;
-use App\Models\Tasks;
+use App\Models\SubTask;
 
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
@@ -243,16 +243,21 @@ class VendorDetailController extends Controller
     public function vendorDashboard()
     {
         $Vid = Auth::id();
-        $saleMilk = Tasks::where('vendor_id', $Vid)->where('status', 'Collected')->sum('milk_amout');
-    //$totalMilk = sum($saleMilk);
-    //$totalMilk = $saleMilk->milk_amout;
-    // $saleMilk = Tasks::where('vendor_id' , $Vid)->select('balance')->first();
-    // $transaction = UserTransaction::where('user_id' , $Did)->count();
+        $saleMilk = SubTask::where('vendor_id', $Vid)->where('status', 'Complete')->sum('milkCollected');
+
+        $myMilkTransactions=DB::table('sub_tasks')
+           ->select('sub_tasks.id','name','milkCollected','collectedTime','taskShift','totalSolid','qualityPic')
+           ->where('vendor_id', $Vid)
+           ->where('status', 'Complete')
+           ->join('users','AssignTo','=','users.id')
+           ->get();
         // echo "<pre>";
         // print_r($saleMilk);
         // exit;
-    return view('dashBoards/vendor', compact('saleMilk'));
+    return view('dashBoards/vendor', compact('saleMilk','myMilkTransactions'));
 
     }
+
+    
 }
  
