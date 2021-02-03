@@ -86,6 +86,9 @@ foreach ($vendors as $key => $value) {
                                        <li><a href="{{ route('profile.user', $item->collector_id)}}">{{$item->name}}</a></li>
                                        <li>{{$item->user_phone}}</li>
                                  </ul>
+                                <h5> Morning Capacity: {{calculateAreaMCapacity($item->id)}}</h5>
+                              
+                                 <h5>  Evening Capacity: {{calculateAreaECapacity($item->id)}}</h5>
 
                                  <h2>{{$item->title}}</h2>                                
                                  <ul class="list-unstyled">

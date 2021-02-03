@@ -202,6 +202,9 @@ Route::get('task/area',                       [TasksController::class, 'TaskArea
 Route::get('area/detail/{id}',                [TasksController::class, 'TaskAreaDetails'])->name('area.detail')->middleware('can:See-Collection-Against-Area');
 
 
-Route::get('generate/morning/task',                       [TasksController::class, 'GenerateMorningTask'])->name('morning.task');
-Route::get('generate/Evening/task',                       [TasksController::class, 'GenerateEveningTask'])->name('evening.task');
+Route::get('generate/morning/task',                       [TasksController::class, 'GenerateMorningTask'])->name('generate.morning.task');
+Route::get('generate/Evening/task',                       [TasksController::class, 'GenerateEveningTask'])->name('generate.evening.task');
+
+Route::get('expire/morning/task',                       [TasksController::class, 'ExpireMorningTask'])->name('expire.morning.task');
+Route::get('expire/Evening/task',                       [TasksController::class, 'ExpireEveningTask'])->name('expire.evening.task');
 

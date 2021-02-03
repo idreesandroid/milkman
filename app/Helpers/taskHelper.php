@@ -59,3 +59,26 @@ function assignMorningTask()
        return ("Evening Task Initialized");
     }
 
+
+    function calculateAreaMCapacity($id)
+    {       
+       $AreaMorningCapacities = vendorDetail::where('collection_id', $id)->select('morning_decided_milkQuantity')->get();
+       foreach($AreaMorningCapacities as $AreaMorningCapacity)
+       {
+         $arrayMcapacity[]=$AreaMorningCapacity->morning_decided_milkQuantity;
+         $MorningCapacity= array_sum($arrayMcapacity);
+       }
+       return $MorningCapacity;
+    }
+
+    function calculateAreaECapacity($id)
+    {       
+       $AreaEveningCapacities = vendorDetail::where('collection_id', $id)->select('evening_decided_milkQuantity')->get();
+       foreach($AreaEveningCapacities as $AreaEveningCapacity)
+       {
+         $arrayMcapacity[]=$AreaEveningCapacity->evening_decided_milkQuantity;
+         $EveningCapacity= array_sum($arrayMcapacity);
+       }
+       return $EveningCapacity;
+    }
+

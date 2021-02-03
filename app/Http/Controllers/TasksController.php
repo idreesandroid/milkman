@@ -375,4 +375,22 @@ public function AssignArea($shift , $id)
     { 
         assignEveningTask();
     }
+
+    public function ExpireMorningTask()
+    { 
+        $findTasks = SubTask::where('status', 'initialize')->where('taskShift','Morning')->get();
+        foreach($findTasks as $findTask)
+        {
+            DB::update("UPDATE sub_tasks SET `status` = 'Expired'  WHERE $id = '$findTasks->id'"); 
+        }
+    }
+
+    public function ExpireEveningTask()
+    { 
+        $findTasks = SubTask::where('status', 'initialize')->where('taskShift','Morning')->get();
+        foreach($findTasks as $findTask)
+        {
+            DB::update("UPDATE sub_tasks SET `status` = 'Expired'  WHERE $id = '$findTasks->id'"); 
+        }
+    }
 }
