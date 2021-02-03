@@ -813,41 +813,7 @@ function fillInAddress() {
       // Bias the autocomplete object to the user's geographical location,
       // as supplied by the browser's 'navigator.geolocation' object.
 function geolocate() {
-
-    const input = document.getElementById("autocomplete");
-    const searchBox = new google.maps.places.SearchBox(input);
-
-    searchBox.addListener("places_changed", () => {
-    const places = searchBox.getPlaces();
-
-      if (places.length == 0) {
-        return;
-      }
-     
-      // For each place, get the icon, name and location.
-    const bounds = new google.maps.LatLngBounds();
-      places.forEach((place) => {
-        if (!place.geometry) {
-          console.log("Returned place contains no geometry");
-          return;
-        }
-        const icon = {
-          url: place.icon,
-          size: new google.maps.Size(71, 71),
-          origin: new google.maps.Point(0, 0),
-          anchor: new google.maps.Point(17, 34),
-          scaledSize: new google.maps.Size(25, 25),
-        };       
-
-        if (place.geometry.viewport) {
-          // Only geocodes have viewport.
-          bounds.union(place.geometry.viewport);
-        } else {
-          bounds.extend(place.geometry.location);
-        }
-      });
-      map.fitBounds(bounds);
-    });
+    searchLocation(); 
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((position) => {
         const geolocation = {
@@ -861,4 +827,27 @@ function geolocate() {
         autocomplete.setBounds(circle.getBounds());
       });
     }
+}
+
+
+function searchLocation(){
+    const input = document.getElementById("autocomplete2");
+    const searchBox = new google.maps.places.SearchBox(input);
+
+    searchBox.addListener("places_changed", () => {
+    const places = searchBox.getPlaces();
+     
+      // For each place, get the icon, name and location.
+    const bounds = new google.maps.LatLngBounds();
+      places.forEach((place) => {            
+
+        if (place.geometry.viewport) {
+          // Only geocodes have viewport.
+          bounds.union(place.geometry.viewport);
+        } else {
+          bounds.extend(place.geometry.location);
+        }
+      });
+      map.fitBounds(bounds);
+    });
 }

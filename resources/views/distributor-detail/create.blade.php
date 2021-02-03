@@ -98,6 +98,15 @@
                   </div>
                   </div>
                </div>
+               <h4 class="card-title">Business Address Information</h4>
+               <div class="row">
+                  <div class="col-md-12">  
+                     <div class="form-group">
+                        <label>Business Address:</label>
+                        <input class="form-control" id="autocomplete2" onfocus="searchLocation()" type="text" name="user_address"/>
+                     </div>
+                  </div>
+               </div>
                <h4 class="card-title">Company Information</h4>
                <div class="row">
                   <div class="col-md-6">
