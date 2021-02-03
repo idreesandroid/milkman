@@ -192,7 +192,7 @@ class VendorDetailController extends Controller
                             ->where('user_id','=',$vendor_register->id)
                             ->first();
         $vendorLocations = Collection::select('id','vendors_location')->get();
-
+        $collection_id = '';
         foreach($vendorLocations as $singleLocation){
 
         $collection_id = $this->getCollectionAreaWhereVendorLies($singleLocation, $vendorDetail);
