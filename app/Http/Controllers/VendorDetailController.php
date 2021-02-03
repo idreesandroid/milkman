@@ -191,19 +191,23 @@ class VendorDetailController extends Controller
 
         foreach($vendorLocations as $singleLocation){
 
-        $collection_id = $this->getCollectionAreaWhereVendorLie($singleLocation, $vendorDetail);
+        $collection_id = $this->getCollectionAreaWhereVendorLies($singleLocation, $vendorDetail);
             if($collection_id){
                 break;
             }
         }
+        vendorDetail::where('user_id',$vendor_register->id)->update(['collection_id'=>$collection_id]);
 
-        $label_marker_color = CollectionVendor::select('label_marker_color')->where('collection_id','=',$collection_id)->first();
+        $label_marker_color = CollectionVendor::select('label_marker_color')
+                                                ->where('collection_id','=',$collection_id)
+                                                ->first();
 
         $vendorInserted = CollectionVendor::insertGetId([        
                 'collection_id' => $collection_id,          
                 'vendor_id'  => $vendor_register->id,
                 'label_marker_color' => $label_marker_color['label_marker_color']         
-            ]);       
+            ]);
+
 
         $vendor_acc = new UserAccount();
         $vendor_acc->user_id = $vendor_register->id;
@@ -262,7 +266,7 @@ class VendorDetailController extends Controller
 
     }
 
-    public function getCollectionAreaWhereVendorLie($collectionArea,$locationDetail){
+    public function getCollectionAreaWhereVendorLies($collectionArea,$locationDetail){
 
         if (strpos($collectionArea['vendors_location'], 'POLYGON') !== false) {
            $AllLatLngs = substr($collectionArea['vendors_location'], 43, -5);

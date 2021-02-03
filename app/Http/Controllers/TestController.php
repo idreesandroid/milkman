@@ -30,7 +30,7 @@ class TestController extends Controller
 
         foreach($vendorLocations as $singleLocation){
 
-        $collection_id = $this->getCollectionAreaWhereVendorLie($singleLocation, $vendorDetail);
+        $collection_id = $this->getCollectionAreaWhereVendorLies($singleLocation, $vendorDetail);
             if($collection_id){
                 break;
             }
@@ -167,7 +167,7 @@ class TestController extends Controller
       }
     }
 
-    public function getCollectionAreaWhereVendorLie($collectionArea,$locationDetail){
+    public function getCollectionAreaWhereVendorLies($collectionArea,$locationDetail){
 
         if (strpos($collectionArea['vendors_location'], 'POLYGON') !== false) {
            $AllLatLngs = substr($collectionArea['vendors_location'], 43, -5);
