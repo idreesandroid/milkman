@@ -56,9 +56,10 @@ class CollectionController extends Controller
      */
     public function create()
     {
-        $vendors = User::select('users.id','users.name','vendor_details.longitude','vendor_details.latitude')
+        $vendors = User::select('users.id','users.name','vendor_details.longitude','vendor_details.latitude','collection_vendor.label_marker_color')
                     ->join('role_user', 'role_user.user_id', '=', 'users.id')
                     ->join('vendor_details','vendor_details.user_id','=','users.id')
+                    ->leftjoin('collection_vendor', 'collection_vendor.vendor_id', '=', 'users.id')
                     ->where('role_user.role_id', '=', 6)
                     ->get();
         $location = '[';
@@ -101,7 +102,8 @@ class CollectionController extends Controller
         foreach($vendorsIds as $vendor_id){ 
             CollectionVendor::insert([        
                 'collection_id' => $collection_id,          
-                'vendor_id'  => $vendor_id           
+                'vendor_id'  => $vendor_id,           
+                'label_marker_color'  => $request->label_marker_color           
             ]);
         }
         // Asim work on Task as---------------------------------------------------------------                   
@@ -133,14 +135,15 @@ class CollectionController extends Controller
      */
     public function edit(Request $request)
     {
-        $collection = Collection::select('collections.*','collection_vendor.vendor_id')
+        $collection = Collection::select('collections.*','collection_vendor.vendor_id','collection_vendor.label_marker_color')
                      ->leftjoin('collection_vendor', 'collection_vendor.collection_id', '=', 'collections.id')
                      ->where('collections.id', '=', $request->id)
                      ->get();
 
-        $vendors = User::select('users.id','users.name','vendor_details.longitude','vendor_details.latitude')
+        $vendors = User::select('users.id','users.name','vendor_details.longitude','vendor_details.latitude','collection_vendor.label_marker_color')
                     ->join('role_user', 'role_user.user_id', '=', 'users.id')
                     ->join('vendor_details','vendor_details.user_id','=','users.id')
+                    ->leftjoin('collection_vendor', 'collection_vendor.vendor_id', '=', 'users.id')
                     ->where('role_user.role_id', '=', 6)
                     ->get();
         $location = '[';
@@ -153,7 +156,8 @@ class CollectionController extends Controller
         $location = str_replace("},]","}]",$location);
 
         $collection[0]->vendors_location = $location;
-        return $collection;
+        //$collection;
+        return view('collection/edit', compact('location','vendors','collection'));
         
     }
 
@@ -172,10 +176,24 @@ class CollectionController extends Controller
             'status' => 'required'
         ]);
 
+
+        $vendors = User::select('users.id','users.name','vendor_details.longitude','vendor_details.latitude','collection_vendor.label_marker_color')
+                    ->join('role_user', 'role_user.user_id', '=', 'users.id')
+                    ->join('vendor_details','vendor_details.user_id','=','users.id')
+                    ->leftjoin('collection_vendor', 'collection_vendor.vendor_id', '=', 'users.id')
+                    ->where('role_user.role_id', '=', 6)
+                    ->get();
+        $location = '';
+        foreach ($vendors as $value) {
+            $location .='{"type":"MARKER","id":null,"geometry":['.trim($value->latitude).','.trim($value->longitude).']},';
+        }
+
+        $vendorLoc = str_replace($location,"",$request->vendors_location);
+
         Collection::where('id',$request->id)
                     ->update([
                         'title' => $request->title,
-                        'vendors_location' => str_replace("\\", '', $request->vendors_location),
+                        'vendors_location' => str_replace("\\", '', $vendorLoc),
                         'status'   => $request->status,
                         'collector_id' => $request->collector_id
                     ]);
@@ -187,15 +205,16 @@ class CollectionController extends Controller
 
         CollectionVendor::where('collection_id',$request->id)->delete();
 
-        //foreach($request->vendorsIds as $vendor_id){ 
         foreach($vendorsIds as $vendor_id){ 
-            CollectionVendor::insert([        
+            $vendorInserted = CollectionVendor::insertGetId([        
                 'collection_id' => $request->id,          
-                'vendor_id'  => $vendor_id           
+                'vendor_id'  => $vendor_id,
+                'label_marker_color' => $request->label_marker_color           
             ]);
+            $vendorDetail = vendorDetail::where('user_id','=',$vendor_id)->update(['collection_id'=> $request->id]);
         }        
 
-        return true;
+        return ($vendorDetail) ? true : false;
     }
 
     /**
@@ -213,15 +232,7 @@ class CollectionController extends Controller
         $deleteTask = Tasks::where('collection_id',$request->id)->delete();
 
         return ($deleteCollection || $deleteCollectionVendor || $deleteTask) ? true : false;
-    }
-
-    // public function getvendorlatlng(Request $request){ 
-    // $currentVendorId = $request->vendor_id[count($request->vendor_id) - 1];
-         
-    //     //$latlng = vendorDetail::select('longitude','latitude')->where('user_id','=',end($request->vendor_id))->first();
-    //     //echo $latlng->latitude. ', '.$latlng->longitude;
-    //     echo $currentVendorId;
-    // }
+    } 
 
     public function assignCollector(Request $request){
         date_default_timezone_set("Asia/Karachi");
@@ -281,7 +292,7 @@ class CollectionController extends Controller
             $points_polygon = count($allLats);
             $allInsideVendors = [];
             foreach($allVendorsLatLng as $latlngs){
-                if($this->isInPolygon($points_polygon,$allLats,$allLngs,$latlngs['latitude'],$latlngs['longitude'])){
+                if(isInPolygon($points_polygon,$allLats,$allLngs,$latlngs['latitude'],$latlngs['longitude'])){
                     array_push($allInsideVendors, $latlngs['user_id']);
                 }
             }
@@ -291,16 +302,5 @@ class CollectionController extends Controller
         }else if(strpos($collectionArea, 'CIRCLE') !== false){
             return 'it is CIRCLE';
         }
-    }
-
-
-    public function isInPolygon($points_polygon, $vertices_x, $vertices_y, $longitude_x, $latitude_y){
-      $i = $j = $c = 0;
-      for ($i = 0, $j = $points_polygon-1 ; $i < $points_polygon; $j = $i++) {
-        if ( (($vertices_y[$i] > $latitude_y != ($vertices_y[$j] > $latitude_y)) &&
-        ($longitude_x < ($vertices_x[$j] - $vertices_x[$i]) * ($latitude_y - $vertices_y[$i]) / ($vertices_y[$j] - $vertices_y[$i]) + $vertices_x[$i]) ) ) 
-            $c = !$c;
-      }
-      return $c;
-    }
+    }    
 }
