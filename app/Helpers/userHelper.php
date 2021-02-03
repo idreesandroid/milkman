@@ -51,6 +51,12 @@ function assetNumberExists($number) {
     return milkmanAsset::where('assetCode', '=' , $number)->exists();
 }
 
+//is area assigned-------------------------------------
+function findArea()
+{  
+    //test
+}
+
 
 function isInPolygon($points_polygon, $vertices_x, $vertices_y, $longitude_x, $latitude_y){
   $i = $j = $c = 0;

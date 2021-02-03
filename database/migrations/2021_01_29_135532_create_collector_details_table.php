@@ -18,7 +18,7 @@ class CreateCollectorDetailsTable extends Migration
             $table->integer('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
            
-            $table->enum('collectorStatus',['Free','Have Area']);
+            $table->enum('collectorStatus',['Free','HMT','HET']);
             $table->integer('collectorCapacity')->nullable()->default(0);
             $table->timestamps();
         });

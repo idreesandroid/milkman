@@ -19,7 +19,7 @@ class ProductStockController extends Controller
     public function index()
     {  
         assignMorningTask();
-
+        assignEveningTask();
        $product_stocks = ProductStock::with('product','Manager')->get();
        return view('product-stock/index', compact('product_stocks'));
     }

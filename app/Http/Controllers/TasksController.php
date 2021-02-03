@@ -7,7 +7,9 @@ use App\Models\Tasks;
 use App\Models\User;
 use App\Models\Collection;
 use App\Models\TaskArea;
+use App\Models\SubTask;
 use App\Models\collectorDetail;
+use App\Models\UserAccount;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
@@ -162,7 +164,9 @@ class TasksController extends Controller
 
 
 public function AssignArea($shift , $id)
-    {    
+    {   
+        $vendorCap =  array();
+        $recommendedCollector = array();
      $vendorsCapacities = vendorDetail::where('collection_id', $id)->get();
      if($shift == 'Morning')
      {
@@ -171,30 +175,49 @@ public function AssignArea($shift , $id)
                 $vendorCap[] = $vendorsCapacity->morning_decided_milkQuantity;
             }
             $areaCapacity= array_sum($vendorCap);
+
+
+            // find Morning collector------------------------
+        $collectorCapacities = collectorDetail::where('collectorStatus','<>','HMT')->get();
+        foreach($collectorCapacities as $collector)
+        {
+            $collectorCap = $collector->collectorCapacity;
+            if($areaCapacity < $collectorCap && $collectorCap <= $areaCapacity+100)
+            {
+               $recommendedCollector[]=DB::table('collector_details')
+               ->select('users.id','name','user_phone','collectorCapacity')
+               ->where('collector_details.user_id', $collector->user_id)
+               ->join('users','user_id','=','users.id')
+               ->first();
+            }     
+        }
      }  
+
      elseif($shift == 'Evening')
+
      {
         foreach($vendorsCapacities as $vendorsCapacity)
         {
          $vendorCap[] = $vendorsCapacity->evening_decided_milkQuantity;
         }
-        $areaCapacity= array_sum($vendorCap); 
-     }
-
-    $collectorCapacities = collectorDetail::where('collectorStatus','Free')->get();
-    $recommendedCollector = array();
-    foreach($collectorCapacities as $collector)
-    {
-        $collectorCap = $collector->collectorCapacity;
-        if($areaCapacity < $collectorCap && $collectorCap <= $areaCapacity+100)
+        $areaCapacity= array_sum($vendorCap);
+        // find Evening collector------------------------
+        $collectorCapacities = collectorDetail::where('collectorStatus','<>','HET')->get();
+        foreach($collectorCapacities as $collector)
         {
+        $collectorCap = $collector->collectorCapacity;
+         if($areaCapacity < $collectorCap && $collectorCap <= $areaCapacity+100)
+            {
            $recommendedCollector[]=DB::table('collector_details')
            ->select('users.id','name','user_phone','collectorCapacity')
            ->where('collector_details.user_id', $collector->user_id)
            ->join('users','user_id','=','users.id')
            ->first();
-        }     
-    }
+            }     
+        }
+     }
+
+    
     // echo "<pre>";
     // print_r($recommendedCollector);
     // exit;
@@ -217,7 +240,129 @@ public function AssignArea($shift , $id)
         $select_collector->collector_id = $request->select_collector;
         $select_collector->save();
 
+        if($request->cShift == 'Morning')
+        {
+            $assign = DB::update("UPDATE collector_details SET `collectorStatus` = 'HMT'  WHERE user_id = '$request->select_collector'");
+            $areaAssignStatus = DB::update("UPDATE collections SET `AFM` = 1  WHERE id = '$request->cArea'");
+        }
+        elseif($request->cShift == 'Morning')
+        {
+            $assign = DB::update("UPDATE collector_details SET `collectorStatus` = 'HET'  WHERE user_id = '$request->select_collector'");
+            $areaAssignStatus = DB::update("UPDATE collections SET `AFE` = 1  WHERE id = '$request->cArea'");
+        }
+
+        return redirect()->route('index.collection');
+    } 
+
+    public function startTask($id)
+    {
+        DB::update("UPDATE sub_tasks SET `status` = 'inProcess'  WHERE id = '$id'");
+        return redirect()->route('user.dashBoard');
     }
 
 
+    public function completeTask(Request $request)
+    {
+        $this->validate($request,[ 
+            'req_id'             => 'required',        
+            'milkCollected'      => 'required', 
+            'fat'                => 'required',         
+            'Lactose'            => 'required',
+            'Ash'                => 'required', 
+            'totalProteins'      => 'required',         
+            'qualityPic' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
+
+      
+        $id=$request->req_id;
+        
+        $currentTime = date('Y-m-d h:m');
+        $select_collector = SubTask::find($id);
+
+        $select_collector->milkCollected = $request->milkCollected;        
+        $select_collector->fat = $request->fat;
+        $select_collector->Lactose = $request->Lactose;        
+        $select_collector->Ash = $request->Ash;        
+        $select_collector->totalProteins = $request->totalProteins;
+        $select_collector->totalSolid = $request->totalProteins + $request->Ash + $request->Lactose + $request->fat;
+        $select_collector->collectedTime = $currentTime;
+
+        $imageName = time().'.'.$request->qualityPic->extension();    
+        $request->qualityPic->move(public_path('milkQuality_img'), $imageName);
+        $select_collector->qualityPic = $imageName;        
+        $select_collector->status = 'Complete';
+        $select_collector->save();
+
+        $findVendors = SubTask::where('id', $id)->where('status','Complete')->select('vendor_id')->first();
+        $vendorIs= $findVendors['vendor_id'];
+
+        $findBalances = UserAccount::where('user_id', $vendorIs)->select('balance')->first();
+        $findDecidedRate = vendorDetail::where('user_id', $vendorIs)->select('decided_rate')->first();
+
+
+        $decidedRate=$findDecidedRate['decided_rate'];
+        $preBalance = $findBalances['balance'];
+        $newBalance = $preBalance+($decidedRate*$request->milkCollected);
+        // echo "<pre>";
+        // print_r($newBalance);
+        // exit;
+        $addBalance = DB::update("UPDATE user_accounts SET `balance` = $newBalance  WHERE user_id = '$vendorIs'");
+        return redirect()->route('user.dashBoard');
+    } 
+
+
+    public function TaskArea()
+    {   
+        $arrangedArray = array();
+        $areaTasks=DB::table('task_areas')
+           ->select('task_areas.id','name','title','shift')
+           ->join('collections','area_id','=','collections.id')
+           ->join('users','task_areas.collector_id','=','users.id')
+           ->orderBy('id', 'DESC')
+           ->get();
+     
+           foreach($areaTasks as $areaTask)
+          {
+             $areaIds = $areaTask->id;
+             $areaTitle = $areaTask->title;
+             $areaShift = $areaTask->shift;
+             $areaCollector = $areaTask->name;
+
+             $taskComplete = SubTask::where('status', 'complete')->where('task_id',$areaIds)->select('milkCollected')->count();
+             $taskExpired = SubTask::where('status', 'Expired')->where('task_id',$areaIds)->select('milkCollected')->count();
+             $areaCollections = SubTask::where('task_id',$areaIds)->where('taskShift',$areaShift)->select('milkCollected')->get();
+               foreach($areaCollections as $areaCollection)
+               {
+                $arrayMilk[] = $areaCollection->milkCollected;
+                $totalCollection=array_sum($arrayMilk);
+               }
+               $arrangedArray[] = array(
+                   'id' => $areaIds,
+                   'areaTitle' => $areaTitle,
+                   'collectorName' => $areaCollector,
+                   'areashift' => $areaShift,
+                   'taskCo' => $taskComplete,
+                   'taskEx' => $taskExpired,
+               );
+          }
+     
+    //echo "<pre>";
+    // print_r($areaTasks);
+    // print_r($taskComplete);
+    // print_r($finalMilkCollection);
+    // print_r($arrangedArray);
+     //exit;
+
+    return view('task/AreaTask', compact('arrangedArray'));
+    }
+
+    public function TaskAreaDetails($id)
+    { 
+        //$taskDetails = SubTask::where('task_id', $id)->with('vendorAsTask')->get();
+        $taskDetails = SubTask::select('sub_tasks.*','name')
+        ->join('users', 'sub_tasks.vendor_id', '=', 'users.id')
+        ->where('task_id', $id)
+        ->get();
+        return view('task/taskAreaDetails', compact('taskDetails'));
+    }
 }

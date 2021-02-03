@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Carbon\Carbon;
 
 use App\Models\Collector;
 use Illuminate\Http\Request;
@@ -12,15 +13,13 @@ use App\Models\Tasks;
 use App\Models\User;
 use App\Models\milkmanAsset;
 use App\Models\assetsType;
+use App\Models\TaskArea;
+use App\Models\SubTask;
 use App\Models\collectorDetail;
 
 class CollectorController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+   
     public function index()
     {
        
@@ -29,11 +28,7 @@ class CollectorController extends Controller
         return view('collector-detail/index', compact('collectorDetails'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+ 
     public function create()
     {
         // $assetTypes = assetsType::get();
@@ -126,79 +121,61 @@ class CollectorController extends Controller
     {
         $Cid = Auth::id();
      
-     $totalTask = Tasks::where('collector_id' , $Cid)->count();
+     $totalTask = SubTask::where('AssignTo' , $Cid)->count();
+     $taskCompleted = SubTask::where('AssignTo' , $Cid)->where('status','Complete')->count();
+    
+    $today=date('Y-m-d');
+    $newTasks = DB::table('sub_tasks')
+    ->select('sub_tasks.id','status','taskShift','morning_decided_milkQuantity','evening_decided_milkQuantity','morningTime','eveningTime','name')
+    ->where('sub_tasks.AssignTo', $Cid)
+    ->where('status','<>','Expired')
+    ->where('status','<>','Complete')
+    ->where('sub_tasks.collection_date', $today)
+    ->join('vendor_details','vendor_id','=','vendor_details.user_id')
+    ->join('users','vendor_id','=','users.id')
+    ->get();
 
-     $taskCompleted = Tasks::where('collector_id' , $Cid)->where('status' , 'Collected')->count();
-
-     
-     //$tasks=Tasks::where('collector_id', $Cid)->get();
-
-     $tasks=DB::table('tasks')
-     ->select('tasks.id','name','title','milk_amout','lactometer_reading','milk_taste','shift','duedate','duetime','starttime','endtime','tasks.status')
-     ->where('tasks.collector_id', $Cid)
-     ->join('users','vendor_id','=','users.id')
-     ->join('collections','collection_id','=','collections.id')
-     ->get();
-           
     //  echo "<pre>";
-    //  print_r($vendor);
+    //  print_r($newTasks);
     //  exit;
-     
-    //$tasks=Tasks::where('collector_id' , $Cid)->with('collectors')->get();
-    $myMorningTask = Tasks::where('collector_id' , $Cid)->where('status', 'Not Started')->where('shift', 'morning')->count();
-    $myEveningTask = Tasks::where('collector_id' , $Cid)->where('status', 'Not Started')->where('shift', 'evening')->count();
-    return view('dashBoards/collector', compact('taskCompleted','totalTask','myMorningTask','myEveningTask','tasks'));
+      
+    //$myMorningTask = SubTask::where('AssignTo' , $Cid)->where('status', 'Not Started')->where('shift', 'morning')->count();
+    //$myEveningTask = SubTask::where('AssignTo' , $Cid)->where('status', 'Not Started')->where('shift', 'evening')->count();
+    return view('dashBoards/collector', compact('taskCompleted','totalTask','newTasks'));
+    
+    }
+
+    public function MyTask()
+    { 
+        //$taskDetails = SubTask::where('task_id', $id)->with('vendorAsTask')->get();
+        $Cid = Auth::id();
+        $taskDetails = SubTask::select('sub_tasks.*','name')
+        ->join('users', 'sub_tasks.vendor_id', '=', 'users.id')
+        ->where('AssignTo', $Cid)
+        ->get();
+        return view('collector-detail/myTaskDetails', compact('taskDetails'));
     }
 
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-   
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Collector  $collector
-     * @return \Illuminate\Http\Response
-     */
+ 
     public function show(Collector $collector)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Collector  $collector
-     * @return \Illuminate\Http\Response
-     */
+
     public function edit(Collector $collector)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Collector  $collector
-     * @return \Illuminate\Http\Response
-     */
+
     public function update(Request $request, Collector $collector)
     {
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Collector  $collector
-     * @return \Illuminate\Http\Response
-     */
+ 
     public function destroy(Collector $collector)
     {
         //
