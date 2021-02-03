@@ -57,7 +57,7 @@ foreach ($vendors as $key => $value) {
       <div class="col text-right">
          <ul class="list-inline-item pl-0">
             <li class="list-inline-item">
-               <a  href="{{url('collection/create')}}"class="add btn btn-gradient-primary font-weight-bold text-white todo-list-add-btn btn-rounded">Add Collection Area</a>
+               <a  href="{{url('collection/create')}}"class="add btn btn-gradient-primary font-weight-bold text-white todo-list-add-btn btn-rounded">Create Collection Area</a>
             </li>
          </ul>
       </div>

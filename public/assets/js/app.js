@@ -439,7 +439,7 @@ function draggableInit() {
 mapIn
 */
     
-function initializeMap(mapID,clear_shapes,save_raw_map,restore,MapData,locations = '',lat='',lng=''){
+function initializeMap(mapID,clear_shapes,save_raw_map,restore,MapData,locations='',lat='',lng=''){
 
     var marker;
     var infowindow; 
@@ -477,7 +477,6 @@ function initializeMap(mapID,clear_shapes,save_raw_map,restore,MapData,locations
                             shapes=[];
                           };
 
-    //drawingManager = new google.maps.drawing.DrawingManager({map:map})
     const drawingManager = new google.maps.drawing.DrawingManager({
    // drawingMode: google.maps.drawing.OverlayType.MARKER,
     drawingControl: true,
@@ -545,37 +544,13 @@ function initializeMap(mapID,clear_shapes,save_raw_map,restore,MapData,locations
             icon: {
                 url: selectedIcon,
                 labelOrigin: { x: 30, y: 50}
-            }, 
-            // label: {
-            //     //text: ucFirstAllWords(locations[i][0]),
-            //     color: '#ffffff',
-            //     fontSize: '12px'
-            // },
+            },            
             labelAnchor: new google.maps.Point(45, 0),
             labelContent : ucFirstAllWords(locations[i][0]),
             labelClass: "label " + locations[i][3],
             labelInBackground: true 
 
         });
-        // marker = new google.maps.Marker({
-        //     //icon :   locations[i][4] === '1' ?  red_icon  : orange,
-        //     html: document.getElementById('showInfoWindow')
-        // });
-
-        // google.maps.event.addListener(marker, 'click', (function(marker, i) {
-        // //console.log(locations[i][0]);
-        //     return function() {
-        //         $("#showInfoWindow #name").text();
-        //         $("#showInfoWindow #latitude").text('');
-        //         $("#showInfoWindow #longitude").text('');
-        //         $("#showInfoWindow #name").text(locations[i][0]);
-        //         $("#showInfoWindow #latitude").text(locations[i][1]);
-        //         $("#showInfoWindow #longitude").text(locations[i][2]);
-        //         $("#showInfoWindow").show();
-        //         infowindow.setContent(marker.html);
-        //         infowindow.open(map, marker);
-        //     }
-        // })(marker, i));
     }
 
     var bindMarkerinfo = function(marker) {
@@ -617,31 +592,6 @@ function initializeMap(mapID,clear_shapes,save_raw_map,restore,MapData,locations
     var getLatLng = function(lat, lng) {
         return new google.maps.LatLng(lat, lng);
     };
-
-    // var addMarker = google.maps.event.addListener(map, 'click', function(e) {
-    //     var lat = e.latLng.lat(); // lat of clicked point
-    //     var lng = e.latLng.lng(); // lng of clicked point
-    //     var markerId = getMarkerUniqueId(lat, lng); // an that will be used to cache this marker in markers object.
-    //     var marker = new google.maps.Marker({
-    //         position: getLatLng(lat, lng),
-    //         map: map,
-    //         animation: google.maps.Animation.DROP,
-    //         id: 'marker_' + markerId,
-    //         html: "    <div id='info_"+markerId+"'>\n" +
-    //         "        <table class=\"map1\">\n" +
-    //         "            <tr>\n" +
-    //         "                <td><a>Description:</a></td>\n" +
-    //         "                <td><textarea  id='manual_description' placeholder='Description'></textarea></td></tr>\n" +
-    //         "            <tr><td></td><td><input type='button' value='Save' onclick='saveData("+lat+","+lng+")'/></td></tr>\n" +
-    //         "        </table>\n" +
-    //         "    </div>"
-    //     });
-    //     markers[markerId] = marker; // cache marker in markers object
-    //     bindMarkerEvents(marker); // bind right click event to marker
-    //     bindMarkerinfo(marker); // bind infowindow with click event to marker
-    // });
-
-
 
     google.maps.event.addListener(map, 'click',clearSelection);
     google.maps.event.addDomListener(byId(clear_shapes), 'click', clearShapes);

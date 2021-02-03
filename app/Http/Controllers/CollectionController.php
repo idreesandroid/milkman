@@ -102,24 +102,18 @@ class CollectionController extends Controller
 
         $allVendorsLatLng = vendorDetail::select('user_id','latitude','longitude')->get();
 
-        $vendorsIds = $this->getAllVendorInsideCollectionArea($vendorLocation['vendors_location'],$allVendorsLatLng);
-
+        $vendorsIds = $this->getAllVendorInsideCollectionArea($vendorLocation['vendors_location'],$allVendorsLatLng);        
+                 
         foreach($vendorsIds as $vendor_id){ 
-            CollectionVendor::insert([        
+            $insLoc = CollectionVendor::insertGetId([        
                 'collection_id' => $collection_id,          
                 'vendor_id'  => $vendor_id,           
                 'label_marker_color'  => $request->label_marker_color           
             ]);
-        }
+        vendorDetail::where('user_id',$vendor_id)->update(['collection_id'=>$collection_id]);
+        }     
 
-        foreach($request->vendorsIds as $vendor_id){ 
-            DB::update("UPDATE vendor_details SET collection_id = $collection_id  WHERE user_id	 = $vendor_id");
-
-        }
-
-
-
-        return true;
+        return ($insLoc) ? true : false;
     }
 
     /**
@@ -302,11 +296,7 @@ class CollectionController extends Controller
                     array_push($allInsideVendors, $latlngs['user_id']);
                 }
             }
-
-            return $allInsideVendors;            
-
-        }else if(strpos($collectionArea, 'CIRCLE') !== false){
-            return 'it is CIRCLE';
+            return $allInsideVendors;
         }
     }    
 }
