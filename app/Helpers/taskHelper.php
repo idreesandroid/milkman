@@ -51,7 +51,7 @@ function assignMorningTask()
             $eveningTask->status = 'initialize';
             $eveningTask->taskShift = 'Evening';
             $eveningTask->AssignTo = $Area->collector_id;
-            $eveningTask->collection_date = date('Y-m-d');
+            $eveningTask->collection_date = date('Y-m-d h:s');
             $eveningTask->save();
         }
 
