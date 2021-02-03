@@ -8,6 +8,10 @@ use App\Models\vendorDetail;
 use App\Models\Collection;
 use Illuminate\Http\Request;
 
+use App\Http\Controllers\CollectionController as CollectionController;
+
+use App\Http\Controllers\TasksController as Task;
+
 class TestController extends Controller
 {
     /**
@@ -16,17 +20,27 @@ class TestController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {     
+    {
 
-        $vendorLocation = Collection::select('vendors_location')->where('id','=',8)->first();         
-        $allVendorsLatLng = vendorDetail::select('id','latitude','longitude')->get();
-        $vendorsIds = $this->getAllVendorInsideCollectionArea($vendorLocation['vendors_location'],$allVendorsLatLng);
 
-        foreach ($vendorsIds as $item) {
-            echo "Ids".$item."<br>";
+        $vendorDetail = vendorDetail::select('user_id','latitude','longitude','collection_id')
+                            ->where('user_id','=',20)
+                            ->first();
+        $vendorLocations = Collection::select('id','vendors_location')->get();
+
+        foreach($vendorLocations as $singleLocation){
+
+        $collection_id = $this->getCollectionAreaWhereVendorLie($singleLocation, $vendorDetail);
+            if($collection_id){
+                break;
+            }
         }
 
-        // print_r($vendorsIds);
+        $label_marker_color = CollectionVendor::select('label_marker_color')->where('collection_id','=',$collection_id)->first();
+
+        $labelcolor = $label_marker_color['label_marker_color'];
+
+        var_dump($labelcolor);
     }
 
     /**
@@ -110,39 +124,13 @@ class TestController extends Controller
             $points_polygon = count($allLats);
             $allInsideVendors = [];
             foreach($allVendorsLatLng as $latlngs){
-                if($this->isInPolygon($points_polygon,$allLats,$allLngs,$latlngs['latitude'],$latlngs['longitude'])){
+                if(isInPolygon($points_polygon,$allLats,$allLngs,$latlngs['latitude'],$latlngs['longitude'])){
                     array_push($allInsideVendors, $latlngs['id']);
                 }
             }
-
-            return $allInsideVendors;            
-
-        }else if(strpos($collectionArea, 'CIRCLE') !== false){
-            echo $collectionArea.'<br>';
-            $radius = substr($collectionArea, 37, -52);
-            $centerLatitude = substr($collectionArea, 68, -21);
-            $centerLongitude = substr($collectionArea, 85, -3);
-            echo "Radius: ".$radius. " centerLatitude: ".$centerLatitude." centerLongitude: ".$centerLongitude."<br>";
-            $allInsideVendors = [];
-            foreach($allVendorsLatLng as $latlngs){
-                if($this->isInsideCircle($centerLatitude,$centerLongitude,$radius,$latlngs['latitude'],$latlngs['longitude'])){
-                    array_push($allInsideVendors, $latlngs['id']);
-                }
-            }                     
-            return $allInsideVendors; 
+            return $allInsideVendors;
         }
-    }
-
-
-    public function isInPolygon($points_polygon, $vertices_x, $vertices_y, $longitude_x, $latitude_y){
-      $i = $j = $c = 0;
-      for ($i = 0, $j = $points_polygon-1 ; $i < $points_polygon; $j = $i++) {
-        if ( (($vertices_y[$i] > $latitude_y != ($vertices_y[$j] > $latitude_y)) &&
-        ($longitude_x < ($vertices_x[$j] - $vertices_x[$i]) * ($latitude_y - $vertices_y[$i]) / ($vertices_y[$j] - $vertices_y[$i]) + $vertices_x[$i]) ) ) 
-            $c = !$c;
-      }
-      return $c;
-    }
+    }   
 
     public function getDistanceBetweenPoints($lat1, $lon1, $lat2, $lon2) {
         $theta = $lon1 - $lon2;
@@ -177,5 +165,29 @@ class TestController extends Controller
       } else {
           return false; // Outside
       }
+    }
+
+    public function getCollectionAreaWhereVendorLie($collectionArea,$locationDetail){
+
+        if (strpos($collectionArea['vendors_location'], 'POLYGON') !== false) {
+           $AllLatLngs = substr($collectionArea['vendors_location'], 43, -5);
+           $LatLngInArray = explode('],[', $AllLatLngs);
+            $allLats = [];
+            $allLngs = [];
+            foreach($LatLngInArray as $item){
+                $singleLatLng = explode(',', $item);
+                array_push($allLats, $singleLatLng[0]);
+                array_push($allLngs, $singleLatLng[1]);
+            }
+            $points_polygon = count($allLats);
+
+            echo $locationDetail['latitude'].',  '.$locationDetail['longitude'];
+            echo "<br>";
+            
+            if(isInPolygon($points_polygon,$allLats,$allLngs,$locationDetail['latitude'],$locationDetail['longitude'])){
+                return ($collectionArea['id']) ? $collectionArea['id'] : false;
+            }
+            
+        }
     }
 }

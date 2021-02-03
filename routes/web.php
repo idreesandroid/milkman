@@ -154,7 +154,7 @@ Route::get('collection/create', [CollectionController::class, 'create'])->name('
 Route::post('collection/store', [CollectionController::class, 'store'])->name('store.collection')->middleware('can:Create-Collection-Area');
 Route::post('collection/destroy', [CollectionController::class, 'destroy'])->name('destroy.collection')->middleware('can:Delete-Collection-Area');
 Route::post('collection/assignCollector', [CollectionController::class, 'assignCollector'])->name('assignCollector.collection')->middleware('can:Assign-Collection-Area');
-Route::post('collection/edit', [CollectionController::class, 'edit'])->name('edit.collection')->middleware('can:Edit-Collection-Area');
+Route::get('collection/edit/{id}', [CollectionController::class, 'edit'])->name('edit.collection')->middleware('can:Edit-Collection-Area');
 Route::post('collection/update', [CollectionController::class, 'update'])->name('update.collection')->middleware('can:Edit-Collection-Area');
 
 Route::post('collection/getvendorlatlng', [CollectionController::class, 'getvendorlatlng'])->name('getvendorlatlng.collection');
