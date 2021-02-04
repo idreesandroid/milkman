@@ -88,7 +88,7 @@ foreach ($vendors as $key => $value) {
                                  </ul>
                                 <h5> Morning Capacity: {{calculateAreaMCapacity($item->id)}}</h5>
                               
-                                 <h5>  Evening Capacity: {{calculateAreaECapacity($item->id)}}</h5>
+                                <h5>  Evening Capacity: {{calculateAreaECapacity($item->id)}}</h5>
 
                                  <h2>{{$item->title}}</h2>                                
                                  <ul class="list-unstyled">
