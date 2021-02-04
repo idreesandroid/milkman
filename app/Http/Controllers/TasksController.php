@@ -389,7 +389,7 @@ public function AssignArea($shift , $id)
 
     public function ExpireEveningTask()
     { 
-        $findTasks = SubTask::where('status','initialize')->where('taskShift','Morning')->get();
+        $findTasks = SubTask::where('status','initialize')->where('taskShift','Evening')->get();
         foreach($findTasks as $findTask)
         {
             $var = $findTask->id;
