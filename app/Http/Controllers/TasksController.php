@@ -153,7 +153,7 @@ public function AssignArea($shift , $id)
         foreach($collectorCapacities as $collector)
         {
             $collectorCap = $collector->collectorCapacity;
-            if($areaCapacity < $collectorCap && $collectorCap <= $areaCapacity+100)
+            if($areaCapacity < $collectorCap)
             {
                $recommendedCollector[]=DB::table('collector_details')
                ->select('users.id','name','user_phone','collectorCapacity')
@@ -177,7 +177,7 @@ public function AssignArea($shift , $id)
         foreach($collectorCapacities as $collector)
         {
         $collectorCap = $collector->collectorCapacity;
-         if($areaCapacity < $collectorCap && $collectorCap <= $areaCapacity+100)
+         if($areaCapacity < $collectorCap )
             {
            $recommendedCollector[]=DB::table('collector_details')
            ->select('users.id','name','user_phone','collectorCapacity')
