@@ -77,7 +77,7 @@
                         <td>{{$task->taskShift}}</td>                        
                         <td>{{$task->status}}</td>
                         <td>@if($task->taskShift == 'Morning'){{$task->morning_decided_milkQuantity}}@endif @if($task->taskShift == 'Evening'){{$task->evening_decided_milkQuantity}}@endif</td>
-                        <td>@if($task->taskShift == 'Morning'){{$task->morningTime}}@endif @if($task->taskShift == 'Evening'){{$task->eveningTime}}@endif</td>
+                        <td>@if($task->taskShift == 'Morning'){{timeFormat($task->morningTime)['time']}}@endif @if($task->taskShift == 'Evening'){{timeFormat($task->eveningTime)['time']}}@endif</td>
                         @can('Start-Task') <td>@if($task->status == 'initialize')<a href="{{ route('task.start', $task->id)}}" class="btn btn-primary">Start</a>@endif  @if($task->status == 'inProcess')<button type="button" class=" form-control btn btn-sm btn-primary btn-info btn-lg" onclick="setId({{$task->id}})" data-toggle="modal" data-target="#taskComplete">Complete</button>@endif</td>@endcan 
                      
                      </tr>

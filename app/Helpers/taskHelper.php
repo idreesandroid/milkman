@@ -82,3 +82,13 @@ function assignMorningTask()
        return $EveningCapacity;
     }
 
+
+   //  function morningCollectorInfo($id)
+   //  {       
+   //     $findCollectors = TaskArea::where('area_id',$id)->get();
+   //     foreach($findCollectors as $findCollector)
+   //     {
+   //       $collector[]=$findCollector->collector_id;
+   //     }
+   //    // return $collector;
+   //  }

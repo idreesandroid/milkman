@@ -152,6 +152,7 @@ class CollectorController extends Controller
         $taskDetails = SubTask::select('sub_tasks.*','name')
         ->join('users', 'sub_tasks.vendor_id', '=', 'users.id')
         ->where('AssignTo', $Cid)
+        ->orderBy('collection_date', "DESC")
         ->get();
         return view('collector-detail/myTaskDetails', compact('taskDetails'));
     }
