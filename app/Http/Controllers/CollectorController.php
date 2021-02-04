@@ -94,7 +94,6 @@ class CollectorController extends Controller
         {
             DB::update("UPDATE milkman_assets SET user_id = $collector_register->id  WHERE id	 = $userAsset");            
         } 
-
         $collectorCaps = milkmanAsset::where('user_id' , $collector_register->id)->where('type_id' , 2)->get();
         foreach($collectorCaps as $collectorCap)
         {
