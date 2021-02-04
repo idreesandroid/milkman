@@ -347,9 +347,6 @@ public function AssignArea($shift , $id)
           }
      
     //echo "<pre>";
-    // print_r($areaTasks);
-    // print_r($taskComplete);
-    // print_r($finalMilkCollection);
     // print_r($arrangedArray);
      //exit;
 
@@ -378,19 +375,25 @@ public function AssignArea($shift , $id)
 
     public function ExpireMorningTask()
     { 
-        $findTasks = SubTask::where('status', 'initialize')->where('taskShift','Morning')->get();
+        $findTasks = SubTask::where('status','initialize')->where('taskShift','Morning')->get();
         foreach($findTasks as $findTask)
         {
-            DB::update("UPDATE sub_tasks SET `status` = 'Expired'  WHERE $id = '$findTasks->id'"); 
+            $var = $findTask->id;
+            //  echo "<pre>";
+            // print_r($var);
+            // exit;
+
+            DB::update("UPDATE sub_tasks SET `status` = 'Expired'  WHERE id = '$var'"); 
         }
     }
 
     public function ExpireEveningTask()
     { 
-        $findTasks = SubTask::where('status', 'initialize')->where('taskShift','Morning')->get();
+        $findTasks = SubTask::where('status','initialize')->where('taskShift','Morning')->get();
         foreach($findTasks as $findTask)
         {
-            DB::update("UPDATE sub_tasks SET `status` = 'Expired'  WHERE $id = '$findTasks->id'"); 
+            $var = $findTask->id;
+            DB::update("UPDATE sub_tasks SET `status` = 'Expired'  WHERE id = '$var'"); 
         }
     }
 }
