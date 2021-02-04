@@ -86,9 +86,9 @@ foreach ($vendors as $key => $value) {
                                        <li><a href="{{ route('profile.user', $item->collector_id)}}">{{$item->name}}</a></li>
                                        <li>{{$item->user_phone}}</li>
                                  </ul>
-                                <h5> Morning Capacity: {{calculateAreaMCapacity($item->id)}}</h5>
+                                <h5> Area Morning Capacity: {{calculateAreaMCapacity($item->id)}}</h5>
                               
-                                <h5>  Evening Capacity: {{calculateAreaECapacity($item->id)}}</h5>
+                                <h5>  Area Evening Capacity: {{calculateAreaECapacity($item->id)}}</h5>
 
                                  <h2>{{$item->title}}</h2>                                
                                  <ul class="list-unstyled">
@@ -108,10 +108,20 @@ foreach ($vendors as $key => $value) {
                              @if($item->AFM == 0)
                               <a href="#" id="assignCollectorM_{{$item->id}}" class='btn btn-outline-primary' data-toggle="modal" data-target="#collectorSelection" onclick="findCollectors({{$item->id}},'Morning')">Assign Collector For Morning</a>
                              @endif
+                             
+                             @if($item->AFM == 1)
+                              <a href="#" id="ReassignCollectorM_{{$item->id}}" class='btn btn-outline-primary' data-toggle="modal" data-target="#collectorReSelection" onclick="ReAssignCollectors({{$item->id}},'Morning')">Reassign Collector For Morning</a>
+                             @endif
+                            
                              @if($item->AFE == 0)
                               <a href="#" id="assignCollectorE_{{$item->id}}" class='btn btn-outline-primary' data-toggle="modal" data-target="#collectorSelection" onclick="findCollectors({{$item->id}},'Evening')">Assign Collector For Evening</a>
                              @endif
-   
+
+                           
+                             @if($item->AFE == 1)
+                              <a href="#" id="ReassignCollectorE_{{$item->id}}" class='btn btn-outline-primary' data-toggle="modal" data-target="#collectorReSelection" onclick="ReAssignCollectors({{$item->id}},'Evening')">ReAssign Collector For Evening</a>
+                             @endif
+                              <br>
                             <!-- Asim work on Task as--------------------------------------------------------------- -->
 
                              @can('Edit-Collection-Area')
@@ -197,7 +207,7 @@ foreach ($vendors as $key => $value) {
 </div>
 <!-- modal -->
 
-<!--Asim Make model for batch Selection---->
+<!--Asim Make model for Assign Collector For Task Selection---->
 
 <div id="collectorSelection" class="modal fade" role="dialog">
                <div class="modal-dialog" id="batch-info">
@@ -236,17 +246,55 @@ foreach ($vendors as $key => $value) {
                </div>
             </div>
 
-<!--End Asim Make model for batch Selection---->
+<!--End Asim Make model for AssignTask Selection---->
 
+
+<!--Asim Make model for ReAssign Collector For Task Selection---->
+
+<div id="collectorReSelection" class="modal fade" role="dialog">
+               <div class="modal-dialog" id="batch-info">
+                  <!-- Modal content-->
+                  <div class="modal-content">
+                     <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                     </div>
+                     <div class="modal-body">
+                        <div class="table-responsive">
+                           <form method="post" action="{{route('reselect.Collector')}}">
+                              @csrf 
+                              <input type="hidden" name="reArea" id="rearea"/>
+                              <input type="hidden" name="reShift" id="reshift"/>
+
+                              <table class="datatable table table-stripped mb-0 fetch_Collector" id="Refetch_Collector">
+                                 <thead>
+                                    <tr>
+                                       <th>Select</th>
+                                       <th>Name</th>
+                                       <th>Phone</th>
+                                       <th>Capacity</th>
+                                    </tr>
+                                 </thead>
+                                 <tbody>
+                                 </tbody>
+                              </table>
+                              <button type="submit" class=" form-control btn btn-primary btn-info btn-lg " >Assign</button>
+                           </form>
+                        </div>
+                     </div>
+                     <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                     </div>
+                  </div>
+               </div>
+            </div>
+
+<!--End Asim Make model for ReAssignTask Selection---->
 
 <!-- Asim work on Task as--------------------------------------------------------------- -->
 
 
 <script type="text/javascript">
-
-
-function findCollectors(id , value)
-
+   function findCollectors(id , value)
    { 
       if(value == 'Morning')
       {
@@ -341,6 +389,103 @@ function findCollectors(id , value)
       }
       
 
+      // var test_val = $("#assignCollectorM_"+id).val();
+      // alert(test_val);
+   }
+</script>
+
+
+<script type="text/javascript">
+   function ReAssignCollectors(id , value)
+      { 
+          if(value == 'Morning')
+            {
+             $("#reshift").val(value);
+             $("#rearea").val(id);
+               if(id != null)
+                {
+                 $.ajax({
+                 url: '/assign/Area/'+value+'/'+id,
+                 type: "GET",
+                 dataType: "json",
+                 success:function(response)
+                 {
+                  var len = 0;
+                  $('#Refetch_Collector tbody').empty();     
+                  if(response.length > 0)
+                  {
+                     len = response.length;
+                     for(var i=0; i<len; i++)
+                     {  
+                   var cid = response[i].id;                
+                   var collector_name = response[i].name;
+                   var collector_Phone = response[i].user_phone;  
+                   var collector_Capacity = response[i].collectorCapacity;
+
+                   //console.log(collector_Capacity);    
+
+                   var tr_str = "<tr>" +
+                   "<td >" + "<input type='radio' value='"+cid+"'  name='reselect_collector' id='select_collector"+cid+"'/>" + "</td>" +
+                     "<td >" + collector_name + "</td>" +    
+                     "<td >" + collector_Phone + "</td>" +   
+                     "<td >" + collector_Capacity + "</td>" +       
+                   "</tr>";
+                   $("#Refetch_Collector tbody").append(tr_str);
+                     }   
+                  }
+                  else
+                  {
+                     alert("There is no collector Available");
+                  }
+                  }                              
+                       });
+                }
+               }
+
+      else if(value == 'Evening')
+      { 
+         $("#reshift").val(value);
+         $("#rearea").val(id);
+         if(id != null)
+         {
+            $.ajax({
+            url: '/assign/Area/'+value+'/'+id,
+               type: "GET",
+               dataType: "json",
+               success:function(response) 
+               {
+                  var len = 0;
+                  $('#Refetch_Collector tbody').empty();     
+                  if(response.length > 0)
+                  {
+                     len = response.length;
+                     for(var i=0; i<len; i++)
+                     {  
+                   var cid = response[i].id;                
+                   var collector_name = response[i].name;
+                   var collector_Phone = response[i].user_phone;  
+                   var collector_Capacity = response[i].collectorCapacity;
+
+                   console.log(collector_Capacity);    
+
+                   var tr_str = "<tr>" +
+                     "<td >" + "<input type='radio' value='"+cid+"'  name='reselect_collector' id='select_collector"+cid+"'/>" + "</td>" +
+                     "<td >" + collector_name + "</td>" +    
+                     "<td >" + collector_Phone + "</td>" +   
+                     "<td >" + collector_Capacity + "</td>" +             
+                   "</tr>";
+                   $("#Refetch_Collector tbody").append(tr_str);
+                     }   
+                  }
+                  else
+                  {
+                     alert("There is no collector Available");
+                  }
+                }
+                                            
+                  });
+         }
+      }
       // var test_val = $("#assignCollectorM_"+id).val();
       // alert(test_val);
    }
@@ -446,8 +591,6 @@ function deleteCollection(collectionId){
 
 
    $(document).ready(function() { 
-
-
       $("#updateColectionArea").on('click',function(){
 
          var title = $("#edit_title").val();        
