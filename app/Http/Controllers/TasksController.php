@@ -242,12 +242,12 @@ public function AssignArea($shift , $id)
 
         if($request->cShift == 'Morning')
         {
-            $assign = DB::update("UPDATE collector_details SET `collectorStatus` = 'HMT'  WHERE user_id = '$request->select_collector'");
+            $assign = DB::update("UPDATE collector_details SET `collectorNorStatus` = 'Have Task'  WHERE user_id = '$request->select_collector'");
             $areaAssignStatus = DB::update("UPDATE collections SET `AFM` = 1  WHERE id = '$request->cArea'");
         }
         elseif($request->cShift == 'Evening')
         {
-            $assign = DB::update("UPDATE collector_details SET `collectorStatus` = 'HET'  WHERE user_id = '$request->select_collector'");
+            $assign = DB::update("UPDATE collector_details SET `collectorEveStatus` = 'Have Task'  WHERE user_id = '$request->select_collector'");
             $areaAssignStatus = DB::update("UPDATE collections SET `AFE` = 1  WHERE id = '$request->cArea'");
         }
 
