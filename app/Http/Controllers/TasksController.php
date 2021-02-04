@@ -83,12 +83,7 @@ class TasksController extends Controller
         return ($taskID) ? true : false;         
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Tasks  $tasks
-     * @return \Illuminate\Http\Response
-     */
+   
     public function show(Request $request)
     {
         $tasks = Tasks::select('tasks.*',                                
@@ -120,24 +115,13 @@ class TasksController extends Controller
         ]);        
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Tasks  $tasks
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Tasks $tasks, Request $request)
     {
         $taskDeleted = Tasks::where('id',$request->id)->delete();
         return ($taskDeleted) ? true : false;
     }
 
-    /**
-     * To start a task.
-     *
-     * @param  \App\Models\Tasks  $tasks
-     * @return \Illuminate\Http\Response
-     */
+
     public function start(Request $request)
     {
         date_default_timezone_set("Asia/Karachi");

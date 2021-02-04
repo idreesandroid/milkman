@@ -109,7 +109,8 @@ class CollectorController extends Controller
         $collector_detail = new collectorDetail();
         $collector_detail->user_id = $collector_register->id;        
         $collector_detail->collectorCapacity = $collectorcap1;
-        $collector_detail->collectorStatus = 'Free';
+        $collector_detail->collectorMorStatus = 'Free';
+        $collector_detail->collectorEveStatus = 'Free';
         $collector_detail->save();
 
 
