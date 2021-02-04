@@ -126,7 +126,7 @@ class CollectorController extends Controller
     
     $today=date('Y-m-d');
     $newTasks = DB::table('sub_tasks')
-    ->select('sub_tasks.id','status','taskShift','morning_decided_milkQuantity','evening_decided_milkQuantity','morningTime','eveningTime','name')
+    ->select('sub_tasks.id','status','taskShift','morning_decided_milkQuantity','evening_decided_milkQuantity','morningTime','eveningTime','name','vendor_details.longitude','vendor_details.latitude')
     ->where('sub_tasks.AssignTo', $Cid)
     ->where('status','<>','Expired')
     ->where('status','<>','Complete')
