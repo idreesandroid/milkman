@@ -31,7 +31,7 @@
                      <tr>
                     
                         <td>{{$myMilkTransaction->milkCollected}} ltr</td>
-                        <td>{{$myMilkTransaction->collectedTime}}</td>                        
+                        <td>{{timeFormat($myMilkTransaction->collectedTime)['date']}}</td>                        
                         <td>{{$myMilkTransaction->taskShift}}</td>                        
                         <td>{{$myMilkTransaction->name}}</td>
                         <td>{{$myMilkTransaction->totalSolid}}</td>
