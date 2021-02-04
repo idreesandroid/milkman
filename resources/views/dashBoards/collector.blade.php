@@ -64,11 +64,16 @@
                      </tr>
                   </thead>
                   <tbody>
+                    <span style="display: none;" id="location"></span>
+                    
                      @foreach($newTasks as $task)
                      <tr id="taskId_">
                     
                         <td>{{$task->name}}</td>
-                        <td></td>                        
+                        <td><a href="#" onclick="redirectToGoogleMap(<?php echo $task->latitude.','. $task->longitude?>);" id>
+                          
+                          
+                        Google Map Direction</a></td>                        
                         <td>{{$task->taskShift}}</td>                        
                         <td>{{$task->status}}</td>
                         <td>@if($task->taskShift == 'Morning'){{$task->morning_decided_milkQuantity}}@endif @if($task->taskShift == 'Evening'){{$task->evening_decided_milkQuantity}}@endif</td>
@@ -285,6 +290,40 @@ function deleteTask(taskID){
              });
          }
      });
+}
+window.onload = function() {
+  getLocation();
+};
+
+var x = document.getElementById("location");
+function getLocation() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(showPosition);
+  } else {
+    x.innerHTML = "Geolocation is not supported by this browser.";
+  }
+}
+
+function showPosition(position) {
+  x.innerHTML = position.coords.latitude +"," + position.coords.longitude;
+}
+
+// var x = document.getElementById("latitude");
+// var y = document.getElementById("longitude");
+
+// function showPosition(position) { 
+//   return position.coords.longitude+','+ position.coords.latitude;
+// }
+
+function redirectToGoogleMap(lat,lng){
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(showPosition);
+  } else { 
+    x.innerHTML = "Geolocation is not supported by this browser.";
+  }
+  var googleUrl = 'https://www.google.com/maps/dir/'+lat+','+lng+'/'+$("#location").text(); 
+ 
+  window.open(googleUrl, '_blank');
 }
 </script>
 
