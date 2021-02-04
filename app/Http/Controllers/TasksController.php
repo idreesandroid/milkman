@@ -178,7 +178,7 @@ public function AssignArea($shift , $id)
 
 
             // find Morning collector------------------------
-        $collectorCapacities = collectorDetail::where('collectorStatus','<>','HMT')->get();
+        $collectorCapacities = collectorDetail::where('collectorMorStatus','Free')->get();
         foreach($collectorCapacities as $collector)
         {
             $collectorCap = $collector->collectorCapacity;
@@ -202,7 +202,7 @@ public function AssignArea($shift , $id)
         }
         $areaCapacity= array_sum($vendorCap);
         // find Evening collector------------------------
-        $collectorCapacities = collectorDetail::where('collectorStatus','<>','HET')->get();
+        $collectorCapacities = collectorDetail::where('collectorEveStatus','Free')->get();
         foreach($collectorCapacities as $collector)
         {
         $collectorCap = $collector->collectorCapacity;
@@ -382,7 +382,6 @@ public function AssignArea($shift , $id)
             //  echo "<pre>";
             // print_r($var);
             // exit;
-
             DB::update("UPDATE sub_tasks SET `status` = 'Expired'  WHERE id = '$var'"); 
         }
     }
