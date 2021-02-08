@@ -44,8 +44,7 @@ class CollectionController extends Controller
         $collectors = User::select('users.*')
                     ->join('role_user', 'role_user.user_id', '=', 'users.id')
                     ->where('role_user.role_id', '=', 5)
-                    ->get(); 
-        //$bootstrapclass = ['bg-gradient-danger','bg-gradient-warning','bg-gradient-info','bg-gradient-success'];
+                    ->get();        
         return view('collection/index', compact('vendors','collections','location','collectors'));
     }
 

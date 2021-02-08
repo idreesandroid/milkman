@@ -522,35 +522,37 @@ function initializeMap(mapID,clear_shapes,save_raw_map,restore,MapData,locations
     //const iconBase = "https://developers.google.com/maps/documentation/javascript/examples/full/images/";
     const defaultIcon = "https://maps.gstatic.com/mapfiles/api-3/images/spotlight-poi2.png";
     //console.log(locations);
-    for (i = 0; i < locations.length; i++) {
-        var selectedIcon = defaultIcon;
-        if(locations[i][3] == 'green'){
-            selectedIcon = green_icon;
-        }else if(locations[i][3] == 'orange'){
-            selectedIcon = orange_icon;
-        }else if (locations[i][3] == 'pink'){
-            selectedIcon = pink_icon;
-        }else if (locations[i][3] == 'lightBlue'){
-            selectedIcon = lightBlue_icon;
-        }else if (locations[i][3] == 'yellow'){
-            selectedIcon = yellow_icon;
-        }else if (locations[i][3] == 'red'){
-            selectedIcon = red_icon;
+    if(locations.length){
+        for (i = 0; i < locations.length; i++) {
+            var selectedIcon = defaultIcon;
+            if(locations[i][3] == 'green'){
+                selectedIcon = green_icon;
+            }else if(locations[i][3] == 'orange'){
+                selectedIcon = orange_icon;
+            }else if (locations[i][3] == 'pink'){
+                selectedIcon = pink_icon;
+            }else if (locations[i][3] == 'lightBlue'){
+                selectedIcon = lightBlue_icon;
+            }else if (locations[i][3] == 'yellow'){
+                selectedIcon = yellow_icon;
+            }else if (locations[i][3] == 'red'){
+                selectedIcon = red_icon;
+            }
+
+            var marker = new MarkerWithLabel({ 
+                position: new google.maps.LatLng(locations[i][1], locations[i][2]),
+                map: map,
+                icon: {
+                    url: selectedIcon,
+                    labelOrigin: { x: 30, y: 50}
+                },            
+                labelAnchor: new google.maps.Point(45, 0),
+                labelContent : ucFirstAllWords(locations[i][0]),
+                labelClass: "label " + locations[i][3],
+                labelInBackground: true 
+
+            });
         }
-
-        var marker = new MarkerWithLabel({ 
-            position: new google.maps.LatLng(locations[i][1], locations[i][2]),
-            map: map,
-            icon: {
-                url: selectedIcon,
-                labelOrigin: { x: 30, y: 50}
-            },            
-            labelAnchor: new google.maps.Point(45, 0),
-            labelContent : ucFirstAllWords(locations[i][0]),
-            labelClass: "label " + locations[i][3],
-            labelInBackground: true 
-
-        });
     }
 
     var bindMarkerinfo = function(marker) {

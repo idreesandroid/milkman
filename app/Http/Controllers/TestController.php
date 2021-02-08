@@ -23,24 +23,8 @@ class TestController extends Controller
     {
 
 
-        $vendorDetail = vendorDetail::select('user_id','latitude','longitude','collection_id')
-                            ->where('user_id','=',20)
-                            ->first();
-        $vendorLocations = Collection::select('id','vendors_location')->get();
-
-        foreach($vendorLocations as $singleLocation){
-
-        $collection_id = $this->getCollectionAreaWhereVendorLies($singleLocation, $vendorDetail);
-            if($collection_id){
-                break;
-            }
-        }
-
-        $label_marker_color = CollectionVendor::select('label_marker_color')->where('collection_id','=',$collection_id)->first();
-
-        $labelcolor = $label_marker_color['label_marker_color'];
-
-        var_dump($labelcolor);
+        //assignMorningTask();
+        //assignEveningTask();
     }
 
     /**
