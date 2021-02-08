@@ -123,6 +123,11 @@ class PermissionSeeder extends Seeder
         $permission_22->name = 'Create-Distributor';
         $permission_22->save();
 
+        $permission_22 = new Permission();
+        $permission_22->slug = 'Create-Collector';
+        $permission_22->name = 'Create-Collector';
+        $permission_22->save();        
+
         $permission_23 = new Permission();
         $permission_23->slug = 'Edit-Distributor';
         $permission_23->name = 'Edit-Distributor';
