@@ -602,10 +602,12 @@
    <!-- / password Change Model -->
    @endcan
 </div>
+
 <script type="text/javascript">
-   
+var latitude = <?php echo (isset($users->vendorDetail->latitude)) ? $users->vendorDetail->latitude : ''; ?>;
+var longitude = <?php echo (isset($users->vendorDetail->longitude)) ? $users->vendorDetail->longitude : ''; ?>;
  $(document).ready(function() {  
-   initializeMap('ProfielMap','ProfileClearShapes','saveProfleMap','ProfileRestoreMap','addProfileMapData');
+   initializeMap('ProfielMap','ProfileClearShapes','saveProfleMap','ProfileRestoreMap','addProfileMapData','',latitude,longitude);
    $( "#ProfileRestoreMap" ).trigger( "click" );      
    });
 </script>

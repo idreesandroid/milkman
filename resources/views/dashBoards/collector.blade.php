@@ -308,21 +308,14 @@ function showPosition(position) {
   x.innerHTML = position.coords.latitude +"," + position.coords.longitude;
 }
 
-// var x = document.getElementById("latitude");
-// var y = document.getElementById("longitude");
-
-// function showPosition(position) { 
-//   return position.coords.longitude+','+ position.coords.latitude;
-// }
-
 function redirectToGoogleMap(lat,lng){
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(showPosition);
   } else { 
     x.innerHTML = "Geolocation is not supported by this browser.";
   }
-  var googleUrl = 'https://www.google.com/maps/dir/'+lat+','+lng+'/'+$("#location").text(); 
- 
+  var googleUrl = 'https://www.google.com/maps/dir/'+$("#location").text()+'/'+lat+','+lng;
+
   window.open(googleUrl, '_blank');
 }
 </script>

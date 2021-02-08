@@ -12,10 +12,7 @@ foreach ($vendors as $key => $value) {
    array_push($loc, $value['longitude']);
    array_push($locations, $loc);
 }
-
-//print_r($locations);
-
- ?>
+?>
 <div style="display: none" id="showInfoWindow">
     <table class="map1">
         <tr>
@@ -388,11 +385,7 @@ foreach ($vendors as $key => $value) {
                                             
                   });
          }
-      }
-      
-
-      // var test_val = $("#assignCollectorM_"+id).val();
-      // alert(test_val);
+      }      
    }
 </script>
 
@@ -483,13 +476,10 @@ foreach ($vendors as $key => $value) {
                   {
                      alert("There is no collector Available");
                   }
-                }
-                                            
-                  });
+                }                                            
+            });
          }
-      }
-      // var test_val = $("#assignCollectorM_"+id).val();
-      // alert(test_val);
+      }      
    }
 
 </script>
@@ -601,15 +591,7 @@ function deleteCollection(collectionId){
             alert('Please insert the title');            
             return false;
          }  
-         // var vendors = [];
-         // vendors = $("#selectedVendorsInEditModel").val();
-         // if(!vendors.length){
-         //    $(".select2-selection").focus();
-         //    alert('Please select the vendors');
-         //    return false;
-         // }
-
-         var editStatus = $("#editStatus").val();
+        var editStatus = $("#editStatus").val();
          if(!editStatus.length){
             $("#editStatus").focus();
             alert('Please select the status');
@@ -636,7 +618,6 @@ function deleteCollection(collectionId){
          var json_data = {
                'id' : collection_id,
                'title' : title,
-               //'vendorsIds' : vendors,
                'status' : editStatus,
                'vendors_location' : MapData,
                'collector_id' : collector_id,
