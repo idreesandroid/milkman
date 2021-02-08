@@ -8,7 +8,7 @@
       <h3 class="page-title">
          <span class="page-title-icon bg-gradient-primary text-white mr-2">
          <i class="la la-table"></i>
-         </span> <span>User</span>
+         </span> <span>User Profile</span>
       </h3>
    </div>
    <div class="col text-right">
@@ -20,281 +20,346 @@
 </div>
 <!-- /Page Header -->
 @if ($errors->any())
-@foreach ($errors->all() as $error)
-<div>{{$error}}</div>
-@endforeach
+   @foreach ($errors->all() as $error)
+      <div>{{$error}}</div>
+   @endforeach
 @endif
-<!-- Page Wrapper -->
-<div class="page-header pt-3 mb-0">
-   <div class="card ">
-      <div class="card-body">
-         <div class="row">
-            <div class="col-md-12">
-               <div class="profile-view">
-                  <div class="profile-img-wrap">
-                     <div class="profile-img">
-                        <img alt="" src="{{asset('/UserProfile/'.$users->filenames)}}">
-                     </div>
-                  </div>
-                  <div class="profile-basic">
-                     <div class="row">
-                        <div class="col-md-5">
-                           <div class="profile-info-left">
-                              <h3 class="user-name m-t-0 mb-0">{{$users->name}}</h3>
-                              @foreach ($users->roles as $role)
-                              <h6 class="text-muted">{{$role->name}}</h6>
-                              @endforeach
-                              <div class="staff-id">CNIC : {{$users->user_cnic}}</div>
-                              <div class="small doj text-muted">Date of Join : {{timeFormat($users->created_at)['date']}}</div>
-                              <div class="staff-msg"><a class="btn" href="#" style="visibility:hidden;">$nbsp;</a></div>
-                           </div>
-                        </div>                        
-                        <div class="col-md-7">
-                           <ul class="personal-info">
-                              <li>
-                                 <div class="title">Phone:</div>
-                                 <div class="text">{{$users->user_phone}}</div>
-                              </li>
-                              <li>
-                                 <div class="title">Email:</div>
-                                 <div class="text"><a href="">{{$users->email}}</a></div>
-                              </li>
-                              <li>
-                                 <div class="title">Address:</div>
-                                 <div class="text">{{$users->user_address}}</div>
-                              </li>
-                              <li>
-                                 <div ></div>
-                                 <div class="text"></div>
-                              </li>
-                              <!-- <li>
-                                 <div class="title">Reports to:</div>
-                                 <div class="text">
-                                    <div class="avatar-box">
-                                 	  <div class="avatar avatar-xs">
-                                 		 <img src="assets/img/profiles/avatar-16.jpg" alt="">
-                                 	  </div>
+<div class="row">  
+   <div class="col-md-12">
+      <div class="card">
+         <div class="card-body">
+            <!-- <h6 class="card-title">Bottom line justified</h6> -->
+            <ul class="nav nav-tabs nav-tabs-bottom nav-justified">
+               <li class="nav-item">
+                  <a class="nav-link active" href="#profile" data-toggle="tab">Profile</a>
+               </li>
+               @if($users->roles[0]->name == 'Distributor')
+               <li class="nav-item">
+                  <a class="nav-link" href="#orderHistory" data-toggle="tab">Order History</a>
+               </li>
+               @endif
+               @if($users->roles[0]->name == 'Collector')
+               <li class="nav-item">
+                  <a class="nav-link" href="#taskHistory" data-toggle="tab">Task History</a>
+               </li>
+               @endif
+               @if($users->roles[0]->name == 'Vendor')
+               <li class="nav-item">
+                  <a class="nav-link" href="#collectionHistory" data-toggle="tab">Collection History</a>
+               </li>
+               @endif
+               @if($users->roles[0]->name != 'Collector')
+               <li class="nav-item">
+                  <a class="nav-link" href="#paymentHistory" data-toggle="tab">Payment History</a>
+               </li>
+               @endif
+               @if($users->roles[0]->name == 'Collector')
+               <li class="nav-item">
+                  <a class="nav-link" href="#inventory" data-toggle="tab">Inventory</a>
+               </li>
+               @endif
+            </ul>
+            <div class="tab-content">
+               <div class="tab-pane show active" id="profile">
+                  <div class="card ">
+                     <div class="card-body">
+                        <div class="row">
+                           <div class="col-md-12">
+                              <div class="profile-view">
+                                 <div class="profile-img-wrap">
+                                    <div class="profile-img">
+                                       <img alt="" src="{{asset('/UserProfile/'.$users->filenames)}}">
                                     </div>
-                                   
-                                 		here will be the area manager may be
-                                 	
                                  </div>
-                                 </li> -->
-                           </ul>
-                        </div>                        
+                                 <div class="profile-basic">
+                                    <div class="row">
+                                       <div class="col-md-5">
+                                          <div class="profile-info-left">
+                                             <h3 class="user-name m-t-0 mb-0">{{$users->name}}</h3>
+                                             @foreach ($users->roles as $role)
+                                             <h6 class="text-muted">{{$role->name}}</h6>
+                                             @endforeach
+                                             <div class="staff-id">CNIC : {{$users->user_cnic}}</div>
+                                             <div class="small doj text-muted">Date of Join : {{timeFormat($users->created_at)['date']}}</div>
+                                             <div class="staff-msg"><a class="btn" href="#" style="visibility:hidden;">$nbsp;</a></div>
+                                          </div>
+                                       </div>                        
+                                       <div class="col-md-7">
+                                          <ul class="personal-info">
+                                             <li>
+                                                <div class="title">Phone:</div>
+                                                <div class="text">{{$users->user_phone}}</div>
+                                             </li>
+                                             <li>
+                                                <div class="title">Email:</div>
+                                                <div class="text"><a href="">{{$users->email}}</a></div>
+                                             </li>
+                                             <li>
+                                                <div class="title">Address:</div>
+                                                <div class="text">{{$users->user_address}}</div>
+                                             </li>
+                                             <li>
+                                                <div ></div>
+                                                <div class="text"></div>
+                                             </li>
+                                             <!-- <li>
+                                                <div class="title">Reports to:</div>
+                                                <div class="text">
+                                                   <div class="avatar-box">
+                                                     <div class="avatar avatar-xs">
+                                                       <img src="assets/img/profiles/avatar-16.jpg" alt="">
+                                                     </div>
+                                                   </div>
+                                                  
+                                                      here will be the area manager may be
+                                                   
+                                                </div>
+                                                </li> -->
+                                          </ul>
+                                       </div>                        
+                                    </div>
+                                 </div>
+                                 @can('Edit-User')
+                                 <div class="pro-edit"><a data-target="#userModal" data-toggle="modal" class="edit-icon" href="#"><i class="fa fa-pencil"></i></a></div>
+                                 @endcan
+                                 @can('Edit-Personal-Profile')
+                                 <div ><a data-target="#passwordChange" data-toggle="modal"  href="#">Change Password</a></div>
+                                 @endcan
+                              </div>
+                           </div>
+                        </div>
                      </div>
                   </div>
-                  @can('Edit-User')
-                  <div class="pro-edit"><a data-target="#userModal" data-toggle="modal" class="edit-icon" href="#"><i class="fa fa-pencil"></i></a></div>
-                  @endcan
-                  @can('Edit-Personal-Profile')
-                  <div ><a data-target="#passwordChange" data-toggle="modal"  href="#">Change Password</a></div>
-                  @endcan
-               </div>
-            </div>
-         </div>
-      </div>
-   </div>
-   <div class="tab-content p-0">
-      <!-- Profile Info Tab -->
-      <div id="emp_profile" class="pro-overview tab-pane fade show active">
-         <div class="row">
-            <div class="col-md-6 d-flex">
-               <div class="card profile-box flex-fill">
-                  <div class="card-body">
-                     @can('Edit-Company-Detail')
-                     @if(isset($users->distributorCompany->companyName))
-                     <h3 class="card-title">Company Informations <a href="#" class="edit-icon" data-toggle="modal" data-target="#companyModal"><i class="fa fa-pencil"></i></a></h3>
-                     @endif
-                     @endcan
-                     @can('Edit-Agreement-Detail')
-                     @if(isset($users->vendorDetail->decided_milkQuantity))
-                     <h3 class="card-title">Deals Information <a href="#" class="edit-icon" data-toggle="modal" data-target="#dealModal"><i class="fa fa-pencil"></i></a></h3>
-                     @endif
-                     @endcan
-                   
-                     <ul class="personal-info">
-                        @if(isset($users->distributorCompany->companyName))
-                        <li>
-                           <div class="title">Logo.</div>
-                           <div class="text company-logo"><img src="{{asset('/distributorCompany/'.$users->distributorCompany->companyLogo)}}" alt="Logo" class="img-thumbnail"></div>
-                        </li>
-                        @endif
-                        @if(isset($users->distributorCompany->companyName))
-                        <li>
-                           <div class="title">Name.</div>
-                           <div class="text">{{$users->distributorCompany->companyName}}</div>
-                        </li>
-                        @endif
-                        @if(isset($users->distributorCompany->companyOwner))
-                        <li>
-                           <div class="title">Owner.</div>
-                           <div class="text">{{$users->distributorCompany->companyOwner}}</div>
-                        </li>
-                        @endif
-                        @if(isset($users->distributorCompany->companyContact))
-                        <li>
-                           <div class="title">Tel</div>
-                           <div class="text">{{$users->distributorCompany->companyContact}}</div>
-                        </li>
-                        @endif
-                        @if(isset($users->distributorCompany->companyNTN))
-                        <li>
-                           <div class="title">NTN</div>
-                           <div class="text">{{$users->distributorCompany->companyNTN}}</div>
-                        </li>
-                        @endif
-                        @if(isset($users->distributorCompany->companyAddress))
-                        <li>
-                           <div class="title">Address</div>
-                           <div class="text">{{$users->distributorCompany->companyAddress}}</div>
-                        </li>
-                        @endif
-                        @if(isset($users->vendorDetail->decided_milkQuantity))
-                        <li>
-                           <div class="title">Decided Quantity</div>
-                           <div class="text">{{$users->vendorDetail->decided_milkQuantity}}</div>
-                        </li>
-                        @endif
-                        @if(isset($users->vendorDetail->morning_decided_milkQuantity))
-                        <li>
-                           <div class="title">Morning Quantity</div>
-                           <div class="text">{{$users->vendorDetail->morning_decided_milkQuantity}}</div>
-                        </li>
-                        @endif
-                        @if(isset($users->vendorDetail->evening_decided_milkQuantity))
-                        <li>
-                           <div class="title">Evening Quantity</div>
-                           <div class="text">{{$users->vendorDetail->evening_decided_milkQuantity}}</div>
-                        </li>
-                        @endif
-                        @if(isset($users->vendorDetail->decided_rate))
-                        <li>
-                           <div class="title">Decided Rate</div>
-                           <div class="text">{{$users->vendorDetail->decided_rate}}</div>
-                        </li>
-                        @endif
-                        @if(isset($users->vendorDetail->morningTime))
-                        <li>
-                           <div class="title">Morning Time</div>
-                           <div class="text">{{$users->vendorDetail->morningTime}}</div>
-                        </li>
-                        @endif
-                        @if(isset($users->vendorDetail->eveningTime))
-                        <li>
-                           <div class="title">Evening Time</div>
-                           <div class="text">{{$users->vendorDetail->eveningTime}}</div>
-                        </li>
-                        @endif
-                        @if(isset($collectorAssets))
-                        @foreach($collectorAssets as $collectorAsset)
-                           @if(isset($collectorAsset->assetName))
-                           <li>
-                               <div class="title">{{$collectorAsset->assetName}}</div>
-                               <div class="text">{{$collectorAsset->assetCapacity}}</div>
-                           </li>
-                           @endif  
-                        @endforeach 
-                        @endif                 
-                     </ul>
-                  </div>
-               </div>
-            </div>
-            
-            <div class="col-md-6 d-flex">
-               <div class="card profile-box flex-fill">
-                  <div class="card-body">
-                  @if(isset($users->userAcc->userAccount))
-                     <h3 class="card-title">Bank information</h3>
-                  @endif
-                    
-                  @if(isset($users->userAsset->assetName))
-                     <h3 class="card-title">Capabilities</h3>
-                  @endif
+                  <div class="tab-content p-0">
+                     <!-- Profile Info Tab -->
+                     <div id="emp_profile" class="pro-overview tab-pane fade show active">
+                        <div class="row">
+                           <div class="col-md-6 d-flex">
+                              <div class="card profile-box flex-fill">
+                                 <div class="card-body">
+                                    @can('Edit-Company-Detail')
+                                    @if(isset($users->distributorCompany->companyName))
+                                    <h3 class="card-title">Company Informations <a href="#" class="edit-icon" data-toggle="modal" data-target="#companyModal"><i class="fa fa-pencil"></i></a></h3>
+                                    @endif
+                                    @endcan
+                                    @can('Edit-Agreement-Detail')
+                                    @if(isset($users->vendorDetail->decided_milkQuantity))
+                                    <h3 class="card-title">Deals Information <a href="#" class="edit-icon" data-toggle="modal" data-target="#dealModal"><i class="fa fa-pencil"></i></a></h3>
+                                    @endif
+                                    @endcan
+                                  
+                                    <ul class="personal-info">
+                                       @if(isset($users->distributorCompany->companyName))
+                                       <li>
+                                          <div class="title">Logo.</div>
+                                          <div class="text company-logo"><img src="{{asset('/distributorCompany/'.$users->distributorCompany->companyLogo)}}" alt="Logo" class="img-thumbnail"></div>
+                                       </li>
+                                       @endif
+                                       @if(isset($users->distributorCompany->companyName))
+                                       <li>
+                                          <div class="title">Name.</div>
+                                          <div class="text">{{$users->distributorCompany->companyName}}</div>
+                                       </li>
+                                       @endif
+                                       @if(isset($users->distributorCompany->companyOwner))
+                                       <li>
+                                          <div class="title">Owner.</div>
+                                          <div class="text">{{$users->distributorCompany->companyOwner}}</div>
+                                       </li>
+                                       @endif
+                                       @if(isset($users->distributorCompany->companyContact))
+                                       <li>
+                                          <div class="title">Tel</div>
+                                          <div class="text">{{$users->distributorCompany->companyContact}}</div>
+                                       </li>
+                                       @endif
+                                       @if(isset($users->distributorCompany->companyNTN))
+                                       <li>
+                                          <div class="title">NTN</div>
+                                          <div class="text">{{$users->distributorCompany->companyNTN}}</div>
+                                       </li>
+                                       @endif
+                                       @if(isset($users->distributorCompany->companyAddress))
+                                       <li>
+                                          <div class="title">Address</div>
+                                          <div class="text">{{$users->distributorCompany->companyAddress}}</div>
+                                       </li>
+                                       @endif
+                                       @if(isset($users->vendorDetail->decided_milkQuantity))
+                                       <li>
+                                          <div class="title">Decided Quantity</div>
+                                          <div class="text">{{$users->vendorDetail->decided_milkQuantity}}</div>
+                                       </li>
+                                       @endif
+                                       @if(isset($users->vendorDetail->morning_decided_milkQuantity))
+                                       <li>
+                                          <div class="title">Morning Quantity</div>
+                                          <div class="text">{{$users->vendorDetail->morning_decided_milkQuantity}}</div>
+                                       </li>
+                                       @endif
+                                       @if(isset($users->vendorDetail->evening_decided_milkQuantity))
+                                       <li>
+                                          <div class="title">Evening Quantity</div>
+                                          <div class="text">{{$users->vendorDetail->evening_decided_milkQuantity}}</div>
+                                       </li>
+                                       @endif
+                                       @if(isset($users->vendorDetail->decided_rate))
+                                       <li>
+                                          <div class="title">Decided Rate</div>
+                                          <div class="text">{{$users->vendorDetail->decided_rate}}</div>
+                                       </li>
+                                       @endif
+                                       @if(isset($users->vendorDetail->morningTime))
+                                       <li>
+                                          <div class="title">Morning Time</div>
+                                          <div class="text">{{$users->vendorDetail->morningTime}}</div>
+                                       </li>
+                                       @endif
+                                       @if(isset($users->vendorDetail->eveningTime))
+                                       <li>
+                                          <div class="title">Evening Time</div>
+                                          <div class="text">{{$users->vendorDetail->eveningTime}}</div>
+                                       </li>
+                                       @endif
+                                       @if(isset($collectorAssets))
+                                       @foreach($collectorAssets as $collectorAsset)
+                                          @if(isset($collectorAsset->assetName))
+                                          <li>
+                                              <div class="title">{{$collectorAsset->assetName}}</div>
+                                              <div class="text">{{$collectorAsset->assetCapacity}}</div>
+                                          </li>
+                                          @endif  
+                                       @endforeach 
+                                       @endif                 
+                                    </ul>
+                                 </div>
+                              </div>
+                           </div>
+                           
+                           <div class="col-md-6 d-flex">
+                              <div class="card profile-box flex-fill">
+                                 <div class="card-body">
+                                 @if(isset($users->userAcc->userAccount))
+                                    <h3 class="card-title">Bank information</h3>
+                                 @endif
+                                   
+                                 @if(isset($users->userAsset->assetName))
+                                    <h3 class="card-title">Capabilities</h3>
+                                 @endif
 
-                     <div class="pro-edit bankedit-box"><a data-target="#bankModal" data-toggle="modal" class="edit-icon" href="#"><i class="fa fa-pencil"></i></a></div>
-                     <ul class="personal-info">
-                     @if(isset($users->bankDetail->acc_title))
-                        <li>
-                           <div class="title">Account Holder.</div>
-                           @if(isset($users->bankDetail->acc_title))
-                           <div class="text">{{$users->bankDetail->acc_title}}</div>
-                           @endif
-                        </li>
-                        <li>
-                           <div class="title">Bank account No.</div>
-                           @if(isset($users->bankDetail->acc_no))
-                           <div class="text">{{$users->bankDetail->acc_no}}</div>
-                           @endif
-                        </li>
-                        <li>
-                           <div class="title">Bank Name.</div>
-                           @if(isset($users->bankDetail->bank_name))
-                           <div class="text">{{$users->bankDetail->bank_name}}</div>
-                           @endif
-                        </li>
-                        <li>
-                           <div class="title">Branch Name.</div>
-                           @if(isset($users->bankDetail->branch_name))
-                           <div class="text">{{$users->bankDetail->branch_name}}</div>
-                           @endif
-                        </li>
-                        <li>
-                           <div class="title">Branch Code.</div>
-                           @if(isset($users->bankDetail->branch_code))
-                           <div class="text">{{$users->bankDetail->branch_code}}</div>
-                           @endif
-                        </li>
-                        @endif
-                        <li>
-                        @if(isset($users->userAcc->userAccount))
-                           <div class="title">User MilkMan Account.</div>                          
-                           <div class="text">{{$users->userAcc->userAccount}}</div>
-                           @endif
-                        </li>
-                        <li>
-                        @if(isset($users->userAcc->balance))
-                           <div class="title">User MilkMan Balance.</div>                          
-                           <div class="text">{{$users->userAcc->balance}}</div>
-                           @endif
-                        </li>
+                                    <div class="pro-edit bankedit-box"><a data-target="#bankModal" data-toggle="modal" class="edit-icon" href="#"><i class="fa fa-pencil"></i></a></div>
+                                    <ul class="personal-info">
+                                    @if(isset($users->bankDetail->acc_title))
+                                       <li>
+                                          <div class="title">Account Holder.</div>
+                                          @if(isset($users->bankDetail->acc_title))
+                                          <div class="text">{{$users->bankDetail->acc_title}}</div>
+                                          @endif
+                                       </li>
+                                       <li>
+                                          <div class="title">Bank account No.</div>
+                                          @if(isset($users->bankDetail->acc_no))
+                                          <div class="text">{{$users->bankDetail->acc_no}}</div>
+                                          @endif
+                                       </li>
+                                       <li>
+                                          <div class="title">Bank Name.</div>
+                                          @if(isset($users->bankDetail->bank_name))
+                                          <div class="text">{{$users->bankDetail->bank_name}}</div>
+                                          @endif
+                                       </li>
+                                       <li>
+                                          <div class="title">Branch Name.</div>
+                                          @if(isset($users->bankDetail->branch_name))
+                                          <div class="text">{{$users->bankDetail->branch_name}}</div>
+                                          @endif
+                                       </li>
+                                       <li>
+                                          <div class="title">Branch Code.</div>
+                                          @if(isset($users->bankDetail->branch_code))
+                                          <div class="text">{{$users->bankDetail->branch_code}}</div>
+                                          @endif
+                                       </li>
+                                       @endif
+                                       <li>
+                                       @if(isset($users->userAcc->userAccount))
+                                          <div class="title">User MilkMan Account.</div>                          
+                                          <div class="text">{{$users->userAcc->userAccount}}</div>
+                                          @endif
+                                       </li>
+                                       <li>
+                                       @if(isset($users->userAcc->balance))
+                                          <div class="title">User MilkMan Balance.</div>                          
+                                          <div class="text">{{$users->userAcc->balance}}</div>
+                                          @endif
+                                       </li>
 
-                     </ul>
+                                    </ul>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                        
+                     </div>
                   </div>
+                  @if(isset($location))
+                  <div class="map" id="ProfielMap"></div>
+                  <div class="row">
+                     <div class="col-md-12">
+                        <div class="form-group">                        
+                           <input type="text" class="form-control" id="addProfileMapData" name="vendors_location" value="{{$location}}" readonly>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="row">
+                     <div class="col-md-2">
+                        <div class="form-group">                        
+                           <input type="button" disabled  class="form-control btn btn-info"  value="Add Map" id="saveProfleMap">
+                        </div>
+                     </div>
+                     <div class="col-md-2">
+                        <div class="form-group">                        
+                           <input type="button" class="form-control btn btn-danger"  value="Clear Map" id="ProfileClearShapes">
+                        </div>
+                     </div>
+                     <div class="col-md-4">
+                        <div class="form-group">                        
+                           <input type="button" id="ProfileRestoreMap" class="form-control btn btn-primary"  value="Restore Map">
+                        </div>
+                     </div>     
+                  </div>
+                  @endif
                </div>
+               @if($users->roles[0]->name == 'Distributor')
+               <div class="tab-pane" id="orderHistory">
+                  Tab orderHistory 2
+               </div>
+               @endif
+               @if($users->roles[0]->name == 'Collector')
+               <div class="tab-pane" id="taskHistory">
+                  Tab taskHistory 2
+               </div>
+               @endif
+               @if($users->roles[0]->name == 'Vendor')
+               <div class="tab-pane" id="collectionHistory">
+                  Tab collectionHistory 2
+               </div>
+               @endif
+               <div class="tab-pane" id="paymentHistory">
+                  Tab paymentHistory 3
+               </div>
+               @if($users->roles[0]->name == 'Collector')              
+               <div class="tab-pane" id="inventory">
+                  Tab inventory 4
+               </div>
+               @endif
             </div>
          </div>
-         
       </div>
    </div>
-   @if(isset($location))
-   <div class="map" id="ProfielMap"></div>
-   <div class="row">
-      <div class="col-md-12">
-         <div class="form-group">                        
-            <input type="text" class="form-control" id="addProfileMapData" name="vendors_location" value="{{$location}}" readonly>
-         </div>
-      </div>
-   </div>
-   <div class="row">
-      <div class="col-md-2">
-         <div class="form-group">                        
-            <input type="button" disabled  class="form-control btn btn-info"  value="Add Map" id="saveProfleMap">
-         </div>
-      </div>
-      <div class="col-md-2">
-         <div class="form-group">                        
-            <input type="button" class="form-control btn btn-danger"  value="Clear Map" id="ProfileClearShapes">
-         </div>
-      </div>
-      <div class="col-md-4">
-         <div class="form-group">                        
-            <input type="button" id="ProfileRestoreMap" class="form-control btn btn-primary"  value="Restore Map">
-         </div>
-      </div>     
-   </div>
-   @endif
-   <!-- /Profile Info Tab -->
+</div>
+<!-- Page Wrapper -->
+<div class="page-header pt-3 mb-0"> 
    <!-- User Model-->
    <div id="userModal" class="modal fade" role="dialog">
       <div class="modal-dialog" >
@@ -602,14 +667,34 @@
    <!-- / password Change Model -->
    @endcan
 </div>
+<?php
+if($users->roles[0]->name == 'Vendor'){
+   $latitude = $users->vendorDetail->latitude;
+   $longitude = $users->vendorDetail->longitude;
+}else if($users->roles[0]->name == 'Distributor'){
+   $string = $users->distributorCompany->alotedArea;  
+
+   $newstr = explode('{"type":"MARKER","id":null,"geometry":[', $string );
+
+   $lat = explode(']}',$newstr[1]);
+
+   $location = explode(',', $lat[0]);
+       
+   $latitude = $location[0];
+   $longitude = $location[1];
+}
+?>
+
+<input type="hidden" value="<?php echo $latitude; ?>" id="latitude">
+<input type="hidden" value="<?php echo $longitude; ?>" id="longitude">
 
 <script type="text/javascript">
-var latitude = <?php echo (isset($users->vendorDetail->latitude)) ? $users->vendorDetail->latitude : ''; ?>;
-var longitude = <?php echo (isset($users->vendorDetail->longitude)) ? $users->vendorDetail->longitude : ''; ?>;
- $(document).ready(function() {  
-   initializeMap('ProfielMap','ProfileClearShapes','saveProfleMap','ProfileRestoreMap','addProfileMapData','',latitude,longitude);
+$(document).ready(function() {  
+var latitude = $("#latitude").val();
+var longitude = $("#longitude").val();
+initializeMap('ProfielMap','ProfileClearShapes','saveProfleMap','ProfileRestoreMap','addProfileMapData','',latitude,longitude);
    $( "#ProfileRestoreMap" ).trigger( "click" );      
-   });
+});
 </script>
 @endsection
 
