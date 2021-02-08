@@ -2,6 +2,7 @@
 
 @extends('layouts.master')
 @section('content')
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.23/datatables.min.css"/>
 <!-- Page Header -->
 <div class="crms-title row bg-white mb-4">
    <div class="col">
@@ -332,7 +333,127 @@
                </div>
                @if($users->roles[0]->name == 'Distributor')
                <div class="tab-pane" id="orderHistory">
-                  Tab orderHistory 2
+                                 <!-- <div class="page-header pt-3 mb-0 ">
+                                    <div class="row">                                       
+                                       <div class="col text-right">
+                                          <ul class="list-inline-item pl-0">
+                                                 
+                                                 <li class="list-inline-item">
+                                                     <button class="add btn btn-gradient-primary font-weight-bold text-white todo-list-add-btn btn-rounded" id="add-task" data-toggle="modal" data-target="#add_activity">Add Activity</button>
+                                                 </li>
+                                             </ul>
+                                       </div>
+                                    </div>
+                                 </div> -->                               
+                                 
+                                 
+                                 <!-- Content Starts -->
+                                 <div class="row">
+                                    <div class="col-md-12">
+                                       <div class="card mb-0">
+                                          <div class="card-body">
+                                             <div class="table-responsive activity-tables">
+                                                <table class="table table-striped table-nowrap custom-table mb-0 datatable" id="distributeOrderHistory">
+                                                   <thead>
+                                                      <tr>
+                                                         <th>Order Date</th>
+                                                         <th>Total Price</th>
+                                                         <th>Sold By</th>
+                                                         <th>Delivery Date</th>             
+                                                         <th>Order Status</th>
+                                                         <th class="text-left">Actions</th>
+                                                      </tr>
+                                                   </thead>
+                                                   <tbody>
+                                                      <tr> 
+                                                         <td>07/02/2021</td>
+                                                         <td>1200</td>
+                                                         <td>anson@gmail.com</td>
+                                                         <td>07/02/2021</td>
+                                                         <td>Canceled</td>
+                                                         <td>
+                                                            <a href="">Edit</a> | <a href="">Delete</a> | <a href="">Detail</a>
+                                                         </td> 
+                                                      </tr>
+                                                      <tr>
+                                                         
+                                                         
+                                                         <td>06/02/2021</td>
+                                                         <td>800</td>
+                                                         <td>800@gmail.com</td>
+                                                         <td>07/02/2021</td>
+                                                         <td>Delivered</td>
+                                                         <td>
+                                                            <a href="">Edit</a> | <a href="">Delete</a> | <a href="">Detail</a>
+                                                         </td>
+                                                      </tr>
+                                                      <tr>
+                                                         
+                                                         
+                                                         <td>05/02/2021</td>
+                                                         <td>13000</td>
+                                                         <td>johndoe@gmail.com</td>
+                                                         <td>07/02/2021</td>
+                                                         <td>Pending</td>
+                                                         <td>
+                                                            <a href="">Edit</a> | <a href="">Delete</a> | <a href="">Detail</a>
+                                                         </td>
+                                                      </tr>
+                                                      <tr>
+                                                         
+                                                         
+                                                         <td>04/02/2021</td>
+                                                         <td>1200</td>
+                                                         <td>anson@gmail.com</td>
+                                                         <td>07/02/2021</td>
+                                                         <td>Canceled</td>
+                                                         
+                                                         <td>
+                                                            <a href="">Edit</a> | <a href="">Delete</a> | <a href="">Detail</a>
+                                                         </td>
+                                                                
+                                                      </tr>
+                                                      <tr>                                                         
+                                                         
+                                                         <td>03/02/2021</td>
+                                                         <td>800</td>
+                                                         <td>800@gmail.com</td>
+                                                         <td>07/02/2021</td>
+                                                         <td>Delivered</td>
+                                                         <td>
+                                                            <a href="">Edit</a> | <a href="">Delete</a> | <a href="">Detail</a>
+                                                         </td>
+                                                      </tr>
+                                                      <tr>
+                                                         
+                                                         <td>01/02/2021</td>
+                                                         <td>800</td>
+                                                         <td>800@gmail.com</td>
+                                                         <td>07/02/2021</td>
+                                                         <td>Delivered</td>
+                                                         <td>
+                                                            <a href="">Edit</a> | <a href="">Delete</a> | <a href="">Detail</a>
+                                                         </td>
+                                                      </tr>
+                                                      <tr>
+                                                         
+                                                         <td>01/02/2021</td>
+                                                         <td>13000</td>
+                                                         <td>johndoe@gmail.com</td>
+                                                         <td>07/02/2021</td>
+                                                         <td>Pending</td>
+                                                         <td>
+                                                            <a href="">Edit</a> | <a href="">Delete</a> | <a href="">Detail</a>
+                                                         </td>
+                                                      </tr>
+                                                   </tbody>
+                                                </table>
+                                             </div>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>
+                                 <!-- /Content End -->
                </div>
                @endif
                @if($users->roles[0]->name == 'Collector')
@@ -690,9 +811,11 @@ if($users->roles[0]->name == 'Vendor'){
 
 <input type="hidden" value="<?php echo $latitude; ?>" id="latitude">
 <input type="hidden" value="<?php echo $longitude; ?>" id="longitude">
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
 <script type="text/javascript">
 $(document).ready(function() {  
+$("#distributeOrderHistory").DataTable();
 var latitude = $("#latitude").val();
 var longitude = $("#longitude").val();
 initializeMap('ProfielMap','ProfileClearShapes','saveProfleMap','ProfileRestoreMap','addProfileMapData','',latitude,longitude);
