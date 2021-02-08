@@ -111,16 +111,21 @@ class RegisterController extends Controller
 
   public function allUserList()
   {
-    $users = User::whereHas('roles', function($query) { $query->where('roles.id','!=', 1); })->with('roles')->get();
-    return view('user/userList', compact('users'));      
+    $users = User::whereHas('roles', function($query) { $query->where('roles.id','!=', 6)->where('roles.id','!=', 5)->where('roles.id','!=', 3); })->with('roles')->get();
+
+    $vendors = User::whereHas('roles', function($query) { $query->where('roles.id','=', 6); })->with('roles')->get();
+
+    $collectors = User::whereHas('roles', function($query) { $query->where('roles.id','=', 5); })->with('roles')->get();
+
+    $distributors = User::whereHas('roles', function($query) { $query->where('roles.id','=', 3); })->with('roles')->get();
+
+    return view('user/userList', compact('users','vendors','collectors','distributors'));      
   }
 
   public function profile($id)
   {
     $users = User::with('roles','vendorDetail','bankDetail','distributorCompany','userAcc','userAsset')->findOrFail($id);
-    $collectorAssets = $users->userAsset;
-
- 
+    $collectorAssets = $users->userAsset; 
 
     $user_roles= Role::select('name','id')->get();
     if($users->roles[0]['name'] == 'Vendor'){
