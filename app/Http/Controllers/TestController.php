@@ -22,6 +22,22 @@ class TestController extends Controller
     public function index()
     {
 
+       echo $string = '[{"type":"MARKER","id":null,"geometry":[32.42938237020661,74.04015225854492]}]';
+
+       echo "============</br>";
+       echo "</br>";
+
+       $newstr = explode('{"type":"MARKER","id":null,"geometry":[', $string );
+
+       $lat = explode(']}',$newstr[1]);
+
+       $location = explode(',', $lat[0]);
+
+       echo $latitude = $location[0];
+       echo "============</br>";
+       echo $longitude = $location[1];
+       
+
 
         //assignMorningTask();
         //assignEveningTask();
