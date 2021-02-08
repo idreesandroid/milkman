@@ -42,7 +42,7 @@
                         <th>CNIC</th>
                         <th>Contact</th>
                         <th>Details</th>
-
+                        <th>Action</th>
                      </tr>
                   </thead>
                   <tbody>
@@ -53,13 +53,13 @@
                         <td>{{$collectorDetail->email}}</td>
                         <td>{{$collectorDetail->user_cnic}}</td>
                         <td>{{$collectorDetail->user_phone}}</td> 
-                        <td> <a href="{{ route('profile.user', $collectorDetail->id)}}" class="btn btn-primary">Profile</a>
-                      </td> 
+                        <td> <a href="{{ route('profile.user', $collectorDetail->id)}}" class="btn btn-primary">Profile</a></td>
+                        <td> <a href="{{ route('assign.temporary.task', $collectorDetail->id)}}" class="btn btn-primary">In Active</a></td>
+                        <td> <a href="{{ route('activate.collector', $collectorDetail->id)}}" class="btn btn-primary">Activate</a></td> 
                      </tr>
                      @endforeach
                   </tbody>
                </table>
-
             </div>
          </div>
       </div>

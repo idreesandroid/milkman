@@ -41,7 +41,6 @@ function assignMorningTask()
        $Areas= TaskArea::where('shift', 'Evening')->get();
        foreach($Areas as $Area)
        {
-
         $vendorDetails = vendorDetail::where('evening_decided_milkQuantity','>', 0)->where('collection_id', $Area->area_id)->get();
         foreach($vendorDetails as $vendorDetail)
         {

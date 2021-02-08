@@ -205,6 +205,11 @@ Route::post('task/complete',                  [TasksController::class, 'complete
 Route::get('task/area',                       [TasksController::class, 'TaskArea'])->name('task.area')->middleware('can:See-Task-As-Area');
 Route::get('area/detail/{id}',                [TasksController::class, 'TaskAreaDetails'])->name('area.detail')->middleware('can:See-Collection-Against-Area');
 
+//Active or in active collector----------------------
+Route::get('assign/temporary/task/{id}',           [TasksController::class, 'assignTemporaryTask'])->name('assign.temporary.task');
+Route::post('assign/temporary/task',               [TasksController::class, 'StoreTemporaryTask'])->name('store.temporary.task');
+Route::get('activate/collector/{id}',               [TasksController::class, 'Activate'])->name('activate.collector');
+//End Active or in active collector----------------------
 
 Route::get('generate/morning/task',                       [TasksController::class, 'GenerateMorningTask'])->name('generate.morning.task');
 Route::get('generate/Evening/task',                       [TasksController::class, 'GenerateEveningTask'])->name('generate.evening.task');
