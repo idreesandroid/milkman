@@ -20,7 +20,7 @@ class ProductStockController extends Controller
     {  
         // assignMorningTask();
         // assignEveningTask();
-       $product_stocks = ProductStock::with('product','Manager')->get();
+       $product_stocks = ProductStock::where('deleted_at', null)->with('product','Manager')->get();
        return view('product-stock/index', compact('product_stocks'));
     }
 
@@ -84,6 +84,15 @@ class ProductStockController extends Controller
             'manufactured_quantity'=>'required'
        
         ]);
+
+        $productStocks = ProductStock::find($id);
+        $productStocks->product_id=$request->product_id;
+        $productStocks->manufactured_date=$request->manufactured_date;
+        $productStocks->expire_date=$request->expire_date;
+        $productStocks->manufactured_quantity=$request->manufactured_quantity;
+        $productStocks->stockInBatch=$request->manufactured_quantity;
+        $productStocks->save();
+        
         ProductStock::whereid($id)->update($updatedata);
         return redirect('product-stock/index');
     }
@@ -91,7 +100,17 @@ class ProductStockController extends Controller
     public function deleteProductStock($id)
     {
         $product_stocks = ProductStock::findOrFail($id);
+        $checkInBatches = ProductStock::where('id', $id)->first();
+        $checkInBatch = $checkInBatches->stockInBatch;
+        
+        if($checkInBatch == 0)
+        {
         $product_stocks->delete();
+        }
+        else
+        {
+            return "Still You Have Some Product In Stock for Sale";
+        }
         return redirect('product-stock/index');
     }
 }
