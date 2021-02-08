@@ -682,6 +682,9 @@ if($users->roles[0]->name == 'Vendor'){
        
    $latitude = $location[0];
    $longitude = $location[1];
+}else{
+   $latitude = '';
+   $longitude = '';
 }
 ?>
 
