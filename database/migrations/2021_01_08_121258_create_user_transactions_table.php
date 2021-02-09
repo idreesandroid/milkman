@@ -49,6 +49,7 @@ class CreateUserTransactionsTable extends Migration
             $table->enum('status',['verified','Not verified','verification failed'])->default("Not verified");
 
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

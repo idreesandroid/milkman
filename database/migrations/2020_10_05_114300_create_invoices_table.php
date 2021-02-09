@@ -28,6 +28,7 @@ class CreateInvoicesTable extends Migration
             $table->integer('Remains')->default(0);
             $table->enum('flag',['Reserve','Payment_Pending','Sold','On_Hold','In_Process','Partial Paid','Paid']);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

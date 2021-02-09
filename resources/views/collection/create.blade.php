@@ -180,7 +180,7 @@ foreach ($vendors as $key => $value) {
                }
              },
             error: function(){
-               swal.fire("Error Completion Task!", "Error in Create Collection Area error", "error").then((result) => {
+               swal.fire("Error Updating Collection!", "Error in Create Collection Area error", "error").then((result) => {
                   if(result.isConfirmed) {
                      location.reload(true);
                   }

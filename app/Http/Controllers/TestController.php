@@ -22,12 +22,16 @@ class TestController extends Controller
     public function index()
     {
 
-       echo $string = '[{"type":"MARKER","id":null,"geometry":[32.42938237020661,74.04015225854492]}]';
+       // [{"type":"MARKER","id":null,"geometry":[32.42938237020661,74.04015225854492]}]
+
+       echo $string = '[{"type":"POLYGON","id":null,"geometry":[[[33.61897961848084,73.06451655012359],[33.61897961848084,73.06991315466155],[33.61630821892519,73.06989169698943],[33.616448632267094,73.04759677774327],[33.619522069746246,73.04794010049717]]]}]';
 
        echo "============</br>";
        echo "</br>";
 
-       $newstr = explode('{"type":"MARKER","id":null,"geometry":[', $string );
+    if(strripos($string, '{"type":"MARKER","id":null,"geometry":[')){
+
+        $newstr = explode('{"type":"MARKER","id":null,"geometry":[', $string );
 
        $lat = explode(']}',$newstr[1]);
 
@@ -36,6 +40,19 @@ class TestController extends Controller
        echo $latitude = $location[0];
        echo "============</br>";
        echo $longitude = $location[1];
+    }else{
+
+        $newstr = explode('[{"type":"POLYGON","id":null,"geometry":[[[', $string );
+
+        $lat = explode('],[',$newstr[1]);
+
+        $location = explode(',', $lat[0]);
+
+        echo $latitude = $location[0];
+       echo "============</br>";
+       echo $longitude = $location[1];
+    }
+
        
 
 
