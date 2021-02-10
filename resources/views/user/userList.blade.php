@@ -132,8 +132,8 @@
                   </div>
                </div>
                <div class="tab-pane" id="distributor">
+                  <div class="row">                                                      
                   @can('Create-Distributor')
-                  <div class="row">                                   
                      <div class="col text-right">
                         <ul class="list-inline-item pl-0">
                            <li class="list-inline-item">
@@ -141,8 +141,8 @@
                            </li>
                         </ul>
                      </div>                  
-                  </div>
                   @endcan
+                  </div>
                   <div class="table-responsive">
                      <table class="datatable table table-stripped mb-0 datatables" id="distributorTable">
                         <thead>
@@ -174,8 +174,8 @@
                   </div>
                </div>
                <div class="tab-pane" id="collectors">
-                  @can('Create-Collector')
                   <div class="row">                                   
+                  @can('Create-Collector')
                      <div class="col text-right">
                         <ul class="list-inline-item pl-0">
                            <li class="list-inline-item">
@@ -183,8 +183,8 @@
                            </li>
                         </ul>
                      </div>                  
-                  </div>
                   @endcan
+                  </div>
                   <div class="table-responsive">
                      <table class="datatable table table-stripped mb-0 datatables" id="collectorsTable">
                         <thead>
