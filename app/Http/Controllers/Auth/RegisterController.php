@@ -256,8 +256,12 @@ class RegisterController extends Controller
     }
   }
 
-  public function deleteOrder(Request $request){
-    $invoice = Invoice::find($request->id);
+  public function searchOrder(Request $request){
+    $Invoice = Invoice::select('invoices.*','users.name as saler')
+                        ->whereBetween('invoices.created_at', array($request->fromDate, $request->toDate))
+                        ->leftJoin('users','users.id','=','invoices.seller_id')
+                        ->get();
+    return json_decode($Invoice);
   }
 
 

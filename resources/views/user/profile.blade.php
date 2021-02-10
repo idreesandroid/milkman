@@ -339,19 +339,33 @@
                </div>
                @if($users->roles[0]->name == 'Distributor')
                <div class="tab-pane" id="orderHistory">
-          <!-- <div class="page-header pt-3 mb-0 ">
-                  <div class="row">                                       
-                     <div class="col text-right">
-                        <ul class="list-inline-item pl-0">
-                               
-                               <li class="list-inline-item">
-                                   <button class="add btn btn-gradient-primary font-weight-bold text-white todo-list-add-btn btn-rounded" id="add-task" data-toggle="modal" data-target="#add_activity">Add Activity</button>
-                               </li>
+                  <div class="page-header pt-3 mb-0 ">
+                     <div class="row">                                       
+                        <div class="col text-left">
+                           <ul class="pl-0 form-group">
+                              <li class="list-inline-item" >
+                                 <span>From: </span>
+                                 <input type="date" id="fromDate" class="form-control" placeholder="From Date">
+                              </li>
+                              <li class="list-inline-item" >
+                                 <span>To: </span>
+                                 <input type="date" id="toDate" class="form-control" placeholder="From Date" >
+                              </li>
+                              <!-- <li class="list-inline-item">
+                                 <select class="form-control" id="searchByFixTime">
+                                    <option value="">Select Fix Time</option>
+                                    <option value="lastday">Last Day</option>
+                                    <option value="lastweek">Last Week</option>
+                                    <option value="lastmonth">Last Month</option>
+                                 </select>
+                              </li> -->
+                              <li class="list-inline-item" >
+                                 <input onclick="searchOrderHistory()" class="btn btn-info form-control" type="submit" value="Search">
+                              </li>
                            </ul>
+                        </div>
                      </div>
-                  </div>
-               </div> -->       
-                                 <!-- Content Starts -->
+                  </div>         <!-- Content Starts -->
                   <div class="row">
                      <div class="col-md-12">
                         <div class="card mb-0">
@@ -365,21 +379,21 @@
                                           <th>Sold By</th>
                                           <th>Delivery Date</th>             
                                           <th>Order Status</th>
-                                          <th class="text-left">Actions</th>
+                                         <!--  <th class="text-left">Actions</th> -->
                                        </tr>
                                     </thead>
-                                    <tbody>
+                                    <tbody id="orderHistorySearchData">
                                        @if(isset($orderHistory))
                                           @foreach($orderHistory as $item)
                                           <tr> 
-                                             <td>{{ timeFormat($item->created_at)['date'] }} {{timeFormat($item->created_at)['time'] }}</td>
+                                             <td>{{ timeFormat($item->created_at)['date'] }} {{strtoupper(timeFormat($item->created_at)['time']) }}</td>
                                              <td>{{$item->total_amount}}</td>
                                              <td>{{$item->name}}</td>
-                                             <td>{{ timeFormat($item->updated_at)['date'] }} {{timeFormat($item->updated_at)['time'] }}</td>
+                                             <td>{{ timeFormat($item->updated_at)['date'] }} {{strtoupper(timeFormat($item->updated_at)['time']) }}</td>
                                              <td>{{$item->flag}}</td>
-                                             <td>   
-                                                <button class="btn btn-outline-info"  onclick="orderDetail(<?php echo $item->id; ?>)">Detail</button>
-                                             </td>
+                                             <!-- <td>   
+                                                <button class="btn btn-outline-info"  onclick="orderDetail(<?php //echo $item->id; ?>)">Detail</button>
+                                             </td> -->
                                           </tr>
                                           @endforeach
                                        @endif
@@ -406,82 +420,12 @@
                                           <th>Total Milk</th>
                                           <th>Vendor</th>
                                           <th>Amount</th>             
+                                          <th>Shift</th>             
                                           <th>Status</th>
                                           <th class="text-left">Actions</th>
                                        </tr>
                                     </thead>
                                     <tbody>
-                                       <tr> 
-                                          <td>07/02/2021</td>
-                                          <td>1200</td>
-                                          <td>anson@gmail.com</td>
-                                          <td>07/02/2021</td>
-                                          <td>Canceled</td>
-                                          <td>
-                                              <a href="">Detail</a>
-                                          </td> 
-                                       </tr>
-                                       <tr>
-                                          <td>06/02/2021</td>
-                                          <td>800</td>
-                                          <td>800@gmail.com</td>
-                                          <td>07/02/2021</td>
-                                          <td>Delivered</td>
-                                          <td>
-                                              <a href="">Detail</a>
-                                          </td>
-                                       </tr>
-                                       <tr>
-                                          <td>05/02/2021</td>
-                                          <td>13000</td>
-                                          <td>johndoe@gmail.com</td>
-                                          <td>07/02/2021</td>
-                                          <td>Pending</td>
-                                          <td>
-                                              <a href="">Detail</a>
-                                          </td>
-                                       </tr>
-                                       <tr>
-                                          <td>04/02/2021</td>
-                                          <td>1200</td>
-                                          <td>anson@gmail.com</td>
-                                          <td>07/02/2021</td>
-                                          <td>Canceled</td>
-                                          
-                                          <td>
-                                              <a href="">Detail</a>
-                                          </td>                    
-                                       </tr>
-                                       <tr> 
-                                          <td>03/02/2021</td>
-                                          <td>800</td>
-                                          <td>800@gmail.com</td>
-                                          <td>07/02/2021</td>
-                                          <td>Delivered</td>
-                                          <td>
-                                              <a href="">Detail</a>
-                                          </td>
-                                       </tr>
-                                       <tr>
-                                          <td>01/02/2021</td>
-                                          <td>800</td>
-                                          <td>800@gmail.com</td>
-                                          <td>07/02/2021</td>
-                                          <td>Delivered</td>
-                                          <td>
-                                              <a href="">Detail</a>
-                                          </td>
-                                       </tr>
-                                       <tr>
-                                          <td>01/02/2021</td>
-                                          <td>13000</td>
-                                          <td>johndoe@gmail.com</td>
-                                          <td>07/02/2021</td>
-                                          <td>Pending</td>
-                                          <td>
-                                              <a href="">Detail</a>
-                                          </td>
-                                       </tr>
                                     </tbody>
                                  </table>
                               </div>
@@ -501,86 +445,20 @@
                                  <table class="table table-striped table-nowrap custom-table mb-0 datatable" id="VendorCollectionHistory">
                                     <thead>
                                        <tr>
-                                          <th>Order Date</th>
-                                          <th>Total Price</th>
-                                          <th>Sold By</th>
-                                          <th>Delivery Date</th>             
-                                          <th>Order Status</th>
+                                          <th>Date</th>
+                                          <th>Amount</th>
+                                          <th>Shift</th>
+                                          <th>Quality</th>
+                                          <th>Fat</th>
+                                          <th>Lactose</th>
+                                          <th>Ash</th>
+                                          <th>Taste</th>             
+                                          <th>Collected By</th>
                                           <th class="text-left">Actions</th>
                                        </tr>
                                     </thead>
                                     <tbody>
-                                       <tr> 
-                                          <td>07/02/2021</td>
-                                          <td>1200</td>
-                                          <td>anson@gmail.com</td>
-                                          <td>07/02/2021</td>
-                                          <td>Canceled</td>
-                                          <td>
-                                              <a href="">Detail</a>
-                                          </td> 
-                                       </tr>
-                                       <tr>
-                                          <td>06/02/2021</td>
-                                          <td>800</td>
-                                          <td>800@gmail.com</td>
-                                          <td>07/02/2021</td>
-                                          <td>Delivered</td>
-                                          <td>
-                                              <a href="">Detail</a>
-                                          </td>
-                                       </tr>
-                                       <tr>
-                                          <td>05/02/2021</td>
-                                          <td>13000</td>
-                                          <td>johndoe@gmail.com</td>
-                                          <td>07/02/2021</td>
-                                          <td>Pending</td>
-                                          <td>
-                                              <a href="">Detail</a>
-                                          </td>
-                                       </tr>
-                                       <tr>
-                                          <td>04/02/2021</td>
-                                          <td>1200</td>
-                                          <td>anson@gmail.com</td>
-                                          <td>07/02/2021</td>
-                                          <td>Canceled</td>
-                                          
-                                          <td>
-                                              <a href="">Detail</a>
-                                          </td>                    
-                                       </tr>
-                                       <tr> 
-                                          <td>03/02/2021</td>
-                                          <td>800</td>
-                                          <td>800@gmail.com</td>
-                                          <td>07/02/2021</td>
-                                          <td>Delivered</td>
-                                          <td>
-                                              <a href="">Detail</a>
-                                          </td>
-                                       </tr>
-                                       <tr>
-                                          <td>01/02/2021</td>
-                                          <td>800</td>
-                                          <td>800@gmail.com</td>
-                                          <td>07/02/2021</td>
-                                          <td>Delivered</td>
-                                          <td>
-                                              <a href="">Detail</a>
-                                          </td>
-                                       </tr>
-                                       <tr>
-                                          <td>01/02/2021</td>
-                                          <td>13000</td>
-                                          <td>johndoe@gmail.com</td>
-                                          <td>07/02/2021</td>
-                                          <td>Pending</td>
-                                          <td>
-                                              <a href="">Detail</a>
-                                          </td>
-                                       </tr>
+                                       
                                     </tbody>
                                  </table>
                               </div>
@@ -640,86 +518,16 @@
                                  <table class="table table-striped table-nowrap custom-table mb-0 datatable" id="CollectorInventoryHistory">
                                     <thead>
                                        <tr>
-                                          <th>Order Date</th>
-                                          <th>Total Price</th>
-                                          <th>Sold By</th>
-                                          <th>Delivery Date</th>             
-                                          <th>Order Status</th>
+                                          <th>Asset Name</th>             
+                                          <th>Asset Type</th>
+                                          <th>Capicity</th>
+                                          <th>Issued Date</th>
+                                          <th>Issued By</th>
+                                          <th>Status</th>
                                           <th class="text-left">Actions</th>
                                        </tr>
                                     </thead>
-                                    <tbody>
-                                       <tr> 
-                                          <td>07/02/2021</td>
-                                          <td>1200</td>
-                                          <td>anson@gmail.com</td>
-                                          <td>07/02/2021</td>
-                                          <td>Canceled</td>
-                                          <td>
-                                              <a href="">Detail</a>
-                                          </td> 
-                                       </tr>
-                                       <tr>
-                                          <td>06/02/2021</td>
-                                          <td>800</td>
-                                          <td>800@gmail.com</td>
-                                          <td>07/02/2021</td>
-                                          <td>Delivered</td>
-                                          <td>
-                                              <a href="">Detail</a>
-                                          </td>
-                                       </tr>
-                                       <tr>
-                                          <td>05/02/2021</td>
-                                          <td>13000</td>
-                                          <td>johndoe@gmail.com</td>
-                                          <td>07/02/2021</td>
-                                          <td>Pending</td>
-                                          <td>
-                                              <a href="">Detail</a>
-                                          </td>
-                                       </tr>
-                                       <tr>
-                                          <td>04/02/2021</td>
-                                          <td>1200</td>
-                                          <td>anson@gmail.com</td>
-                                          <td>07/02/2021</td>
-                                          <td>Canceled</td>
-                                          
-                                          <td>
-                                              <a href="">Detail</a>
-                                          </td>                    
-                                       </tr>
-                                       <tr> 
-                                          <td>03/02/2021</td>
-                                          <td>800</td>
-                                          <td>800@gmail.com</td>
-                                          <td>07/02/2021</td>
-                                          <td>Delivered</td>
-                                          <td>
-                                              <a href="">Detail</a>
-                                          </td>
-                                       </tr>
-                                       <tr>
-                                          <td>01/02/2021</td>
-                                          <td>800</td>
-                                          <td>800@gmail.com</td>
-                                          <td>07/02/2021</td>
-                                          <td>Delivered</td>
-                                          <td>
-                                              <a href="">Detail</a>
-                                          </td>
-                                       </tr>
-                                       <tr>
-                                          <td>01/02/2021</td>
-                                          <td>13000</td>
-                                          <td>johndoe@gmail.com</td>
-                                          <td>07/02/2021</td>
-                                          <td>Pending</td>
-                                          <td>
-                                              <a href="">Detail</a>
-                                          </td>
-                                       </tr>
+                                    <tbody>                                      
                                     </tbody>
                                  </table>
                               </div>
@@ -1042,6 +850,58 @@
    </div>
    <!-- / password Change Model -->
    @endcan
+
+   <div class="modal right fade" id="orderDetail" tabindex="-1" role="dialog" aria-modal="true">
+      <div class="modal-dialog" role="document">
+         <button type="button" class="close md-close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+         <div class="modal-content">
+            <div class="modal-header">
+               <button type="button" class="close xs-close" data-dismiss="modal">×</button>
+               <div class="row w-100">
+                  <div class="col-md-7 account d-flex">
+                     <div class="company_img">
+                        <img src="{{url('UserProfile/collector.jpg')}}" alt="User" id="collectorImage" class="user-image img-fluid"/>
+                     </div>
+                     <div>
+                        <p class="mb-0">Collector Name</p>
+                        <span class="modal-title" id="collectionName">Idrees</span>
+                        <span class="rating-star"><i class="fa fa-star" aria-hidden="true"></i></span>
+                        <span class="lock"><i class="fa fa-lock" aria-hidden="true"></i></span>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <div class="modal-body">
+               <div class="task-infos">
+                  <table class="table">
+                     <tbody>
+                        <tr>
+                           <td>Product Name</td>
+                           <td>Amount</td>
+                           <td>Price</td>
+                           <td>Sub Total</td>
+                        </tr>
+                        <tr>
+                           <td>Milk</td>
+                           <td>5</td>
+                           <td>50</td>
+                           <td>250</td>              
+                        </tr>                        
+                        <tr >
+                           <td></td>
+                           <td></td>
+                           <td style="text-align: right;">Total Amount:</td>
+                           <td>250</td>                           
+                        </tr>
+                     </tbody>
+                  </table>
+               </div>
+            </div>
+         </div>
+         <!-- modal-content -->
+      </div>
+      <!-- modal-dialog -->
+   </div>
 </div>
 <?php
 if($users->roles[0]->name == 'Vendor'){
@@ -1096,26 +956,86 @@ initializeMap('ProfielMap','ProfileClearShapes','saveProfleMap','ProfileRestoreM
    $( "#ProfileRestoreMap" ).trigger( "click" );      
 });
 
+function searchOrderHistory(){
+
+   //var searchByFixTime = $("#searchByFixTime").val();
+   var fromDate = $("#fromDate").val();
+   var toDate = $("#toDate").val();
+
+
+   jQuery.ajax({
+        url: "{{route('search.order')}}",
+        type: "POST",
+        data: {
+            //searchByFixTime: searchByFixTime,
+            fromDate: fromDate,
+            toDate: toDate,
+            '_token' : "{{ csrf_token() }}"
+        },
+        success: function (response, status) {
+
+        
+         $("#orderHistorySearchData").text('');
+           var items = '';
+           $.each( response, function( key, val ) {
+             items += '<tr>';
+             items+= '<td>'+ getDateFromJsonString(val.created_at).replace(/,/g,"") + '</td>';
+             items+= '<td>'+val.total_amount+'</td>';
+             items+= '<td>'+val.saler+'</td>';
+             items+= '<td>'+ getDateFromJsonString(val.updated_at).replace(/,/g,"") +'</td>';
+             items+= '<td>'+val.flag+'</td>';
+             items+='<tr>';
+           });
+
+           $("#orderHistorySearchData").append(items);
+
+
+           //console.log(items);
+
+         
+        },
+        error: function () {
+         // swal.fire("Error deleting!", "Please try again", "error").then((result) => {
+         //    if(result.isConfirmed) {
+         //       location.reload(true);
+         //    }
+         // });
+         console.log('we are in orderDetail error');
+      }
+   });
+}
+
+function getDateFromJsonString(dateString){
+   var dateObj = new Date(dateString).toLocaleString();
+   return dateObj;
+   //return datestring = dateObj.getDate()  + "/" + (dateObj.getMonth()) + "/" + dateObj.getFullYear() + " " + dateObj.getHours() + ":" + dateObj.getMinutes();  
+}
+
 function orderDetail(orderID){   
    jQuery.ajax({
-        url: "",
+        url: "#",
         type: "POST",
         data: {
             id: orderID,
             '_token' : "{{ csrf_token() }}"
         },
-        success: function () {
-            
+        success: function (response, status) {
+            console.log(response);
+         //$('#orderDetail').modal('show');
         },
         error: function () {
-         swal.fire("Error deleting!", "Please try again", "error").then((result) => {
-            if(result.isConfirmed) {
-               location.reload(true);
-            }
-         });
+         // swal.fire("Error deleting!", "Please try again", "error").then((result) => {
+         //    if(result.isConfirmed) {
+         //       location.reload(true);
+         //    }
+         // });
+         console.log('we are in orderDetail error'+orderID);
       }
    });
 }
+
+
+
 
 function transactionDetail(orderID){   
    jQuery.ajax({
@@ -1129,11 +1049,12 @@ function transactionDetail(orderID){
             
         },
         error: function () {
-         swal.fire("Error deleting!", "Please try again", "error").then((result) => {
-            if(result.isConfirmed) {
-               location.reload(true);
-            }
-         });
+
+         // swal.fire("Error deleting!", "Please try again", "error").then((result) => {
+         //    if(result.isConfirmed) {
+         //       location.reload(true);
+         //    }
+         // });
       }
    });
 }

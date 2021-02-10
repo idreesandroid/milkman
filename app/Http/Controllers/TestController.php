@@ -6,6 +6,7 @@ use App\Models\test;
 use App\Models\CollectionVendor;
 use App\Models\vendorDetail;
 use App\Models\Collection;
+use App\Models\Invoice;
 use Illuminate\Http\Request;
 
 use App\Http\Controllers\CollectionController as CollectionController;
@@ -22,38 +23,48 @@ class TestController extends Controller
     public function index()
     {
 
-       // [{"type":"MARKER","id":null,"geometry":[32.42938237020661,74.04015225854492]}]
+        ///echo date(strtotime("now"),'M/d/Y'), "</br>";
+        // date_default_timezone_set("Asia/Karachi");
+        // echo date("d-m-Y", strtotime("-1 week"))."\n"; 
+        // echo date("d-m-Y", strtotime("-1 month"))."\n"; 
+        // echo date("d-m-Y", strtotime("-1 day"))."\n"; 
+        // echo date("d-m-Y", strtotime("now"))."\n"; 
+        // echo strtotime("10 September 2000"), "</br>";
+        // echo strtotime("+1 day"), "</br>";
+        // echo strtotime("+1 week"), "</br>";
+        // echo strtotime("+1 week 2 days 4 hours 2 seconds"), "</br>";
+        // echo strtotime("next Thursday"), "</br>";
+        // echo strtotime("last Monday"), "</br>";
+//2020-11-02
+//2021-02-10
+        //select * from `invoices` where `created_at` between '2021-02-08' and '2021-02-10' and `invoices`.`deleted_at` is null
 
-       echo $string = '[{"type":"POLYGON","id":null,"geometry":[[[33.61897961848084,73.06451655012359],[33.61897961848084,73.06991315466155],[33.61630821892519,73.06989169698943],[33.616448632267094,73.04759677774327],[33.619522069746246,73.04794010049717]]]}]';
+// $vendors = User::select('users.id','users.name','vendor_details.longitude','vendor_details.latitude')
+//                     ->join('role_user', 'role_user.user_id', '=', 'users.id')
+//                     ->join('vendor_details','vendor_details.user_id','=','users.id')
+//                     ->where('role_user.role_id', '=', 6)
+//                     ->get();
 
-       echo "============</br>";
-       echo "</br>";
+        // select `invoices`.*, `users`.`name` as `saler` from `invoices` inner join `users` on `users`.`id` = `invoices`.`seller_id` where `created_at` between '2020-11-02' and '2021-02-10' and `invoices`.`deleted_at` is null
 
-    if(strripos($string, '{"type":"MARKER","id":null,"geometry":[')){
+$Invoice = Invoice::select('invoices.*','users.name as saler')
+                        ->join('users','users.id','=','invoices.seller_id')
+                        ->whereBetween('invoices.created_at', array('2020-11-02', '2021-02-10'))
+                        ->get();
+    dd($Invoice);
 
-        $newstr = explode('{"type":"MARKER","id":null,"geometry":[', $string );
 
-       $lat = explode(']}',$newstr[1]);
 
-       $location = explode(',', $lat[0]);
 
-       echo $latitude = $location[0];
-       echo "============</br>";
-       echo $longitude = $location[1];
-    }else{
+    echo $fromDate = date("Y-m-d", strtotime("-3 day"));
+    echo "<br>";
+    echo $toDate = date("Y-m-d", strtotime("now"));
 
-        $newstr = explode('[{"type":"POLYGON","id":null,"geometry":[[[', $string );
 
-        $lat = explode('],[',$newstr[1]);
 
-        $location = explode(',', $lat[0]);
+    $Invoice = Invoice::whereBetween('created_at', array(date("Y-m-d", $fromDate), date("Y-m-d", $toDate)))->get();
 
-        echo $latitude = $location[0];
-       echo "============</br>";
-       echo $longitude = $location[1];
-    }
-
-       
+    dd($Invoice);      
 
 
         //assignMorningTask();
