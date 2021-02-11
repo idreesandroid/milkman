@@ -221,3 +221,6 @@ Route::get('generate/Evening/task',                       [TasksController::clas
 Route::get('expire/morning/task',                       [TasksController::class, 'ExpireMorningTask'])->name('expire.morning.task');
 Route::get('expire/Evening/task',                       [TasksController::class, 'ExpireEveningTask'])->name('expire.evening.task');
 
+//for download excell
+
+Route::any('download', [TestController::class, 'export'])->name('exportinexcel.order');
