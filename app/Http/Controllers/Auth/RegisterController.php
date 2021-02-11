@@ -17,7 +17,12 @@ use App\Models\State;
 use App\Models\City;
 use App\Models\vendorDetail;
 use App\Models\User;
+
 use App\Models\collectionPointManager;
+
+use App\Models\Invoice;
+use App\Models\UserTransaction;
+
 
 class RegisterController extends Controller
 {
@@ -121,10 +126,13 @@ class RegisterController extends Controller
   public function profile($id)
   {
     $users = User::with('roles','vendorDetail','bankDetail','distributorCompany','userAcc','userAsset')->findOrFail($id);
+
     $collectorAssets = $users->userAsset; 
 
     $user_roles= Role::select('name','id')->get();
+
     if($users->roles[0]['name'] == 'Vendor'){
+
       $vendors = User::select('users.id','users.name','vendor_details.longitude','vendor_details.latitude')
                   ->join('role_user', 'role_user.user_id', '=', 'users.id')
                   ->join('vendor_details','vendor_details.user_id','=','users.id')
@@ -141,8 +149,15 @@ class RegisterController extends Controller
       return view('user/profile', compact('users','user_roles','location')); 
     }elseif($users->roles[0]['name'] == 'Distributor'){
       $alotedArea = Distributor::select('alotedArea')->where('user_id','=',$id)->first();
+
       $location = $alotedArea['alotedArea'];
-      return view('user/profile', compact('users','user_roles','location')); 
+      //echo $id;
+      $orderHistory = Invoice::select('invoices.*','users.name')
+                      ->join('users','users.id','=','invoices.seller_id')
+                      ->where('buyer_id',$id)->get();
+      $UserTransaction = UserTransaction::select('*')->where('user_id',$id)->get();
+
+      return view('user/profile', compact('users','user_roles','location','orderHistory','UserTransaction')); 
     }
 
     return view('user/profile', compact('users','user_roles','collectorAssets')); 
@@ -173,7 +188,18 @@ class RegisterController extends Controller
   {
     $uid = Auth::id();
     $users = User::with('roles','vendorDetail','bankDetail','distributorCompany')->findOrFail($uid);
-    return view('user/profile', compact('users')); 
+    //dd($users->roles[0]['name']);
+    if($users->roles[0]['name'] == 'Distributor'){
+
+      $orderHistory = Invoice::select('invoices.*','users.name')
+                      ->join('users','users.id','=','invoices.seller_id')
+                      ->where('buyer_id',$uid)->get();
+
+      $UserTransaction = UserTransaction::select('*')->where('user_id',$uid)->get();
+
+      return view('user/profile', compact('users','orderHistory','UserTransaction')); 
+    }
+      return view('user/profile', compact('users')); 
   }
   
   public function updatePersonalProfile(Request $request)
@@ -231,6 +257,14 @@ class RegisterController extends Controller
       Auth::logout();
       return redirect()->route('login');
     }
+  }
+
+  public function searchOrder(Request $request){
+    $Invoice = Invoice::select('invoices.*','users.name as saler')
+                        ->whereBetween('invoices.created_at', array($request->fromDate, $request->toDate))
+                        ->leftJoin('users','users.id','=','invoices.seller_id')
+                        ->get();
+    return json_decode($Invoice);
   }
 
 

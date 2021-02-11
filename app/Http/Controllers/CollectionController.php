@@ -95,7 +95,7 @@ class CollectionController extends Controller
             ]);
         vendorDetail::where('user_id',$vendor_id)->update(['collection_id'=>$collection_id]);
         }
-        return ($insLoc) ? true : false;
+        return ($collection_id) ? true : false;
     }
 
 

@@ -49,6 +49,10 @@ Route::get('user/userList',        [RegisterController::class, 'allUserList'])->
 Route::get('user/profile/{id}',    [RegisterController::class, 'profile'])->name('profile.user')->middleware('can:See-profile');
 Route::post('user/update/{id}',    [RegisterController::class,'update'])->name('update.userList')->middleware('can:Edit-User');
 
+Route::post('order/search/',    [RegisterController::class,'searchOrder'])->name('search.order');
+
+
+
 Route::get('user/personal/profile',    [RegisterController::class, 'personalProfile'])->name('personal.profile.user')->middleware('can:See-Personal-Profile');
 Route::post('user/updatePersonal',    [RegisterController::class,'updatePersonalProfile'])->name('update.personal.profile')->middleware('can:Edit-Personal-Profile');
 
@@ -234,7 +238,13 @@ Route::post('generate/evening/task',                      [TasksController::clas
 
 
 
+
 // Route::get('generate/Evening/task',                       [TasksController::class, 'GenerateEveningTask'])->name('generate.evening.task');
 // Route::get('expire/morning/task',                       [TasksController::class, 'ExpireMorningTask'])->name('expire.morning.task');
 // Route::get('expire/Evening/task',                       [TasksController::class, 'ExpireEveningTask'])->name('expire.evening.task');
 //end cron job controller collector----------------------
+
+//for download excell
+
+Route::any('download', [TestController::class, 'export'])->name('exportinexcel.order');
+

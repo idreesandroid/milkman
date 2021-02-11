@@ -1,5 +1,3 @@
-
-
 @extends('layouts.master')
 @section('content')
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.23/datatables.min.css"/>
@@ -9,7 +7,16 @@
       <h3 class="page-title">
          <span class="page-title-icon bg-gradient-primary text-white mr-2">
          <i class="la la-table"></i>
-         </span> <span>User Profile</span>
+         </span>
+         @if($users->roles[0]->name == 'Distributor')
+         <span>Distributor Profile</span>
+         @elseif($users->roles[0]->name == 'Collector')
+         <span>Collector Profile</span>
+         @elseif($users->roles[0]->name == 'Vendor')
+         <span>Vendor Profile</span>
+         @else
+         <span>System User Profile</span>
+         @endif
       </h3>
    </div>
    <div class="col text-right">
@@ -300,7 +307,6 @@
                               </div>
                            </div>
                         </div>
-                        
                      </div>
                   </div>
                   @if(isset($location))
@@ -333,145 +339,208 @@
                </div>
                @if($users->roles[0]->name == 'Distributor')
                <div class="tab-pane" id="orderHistory">
-                                 <!-- <div class="page-header pt-3 mb-0 ">
-                                    <div class="row">                                       
-                                       <div class="col text-right">
-                                          <ul class="list-inline-item pl-0">
-                                                 
-                                                 <li class="list-inline-item">
-                                                     <button class="add btn btn-gradient-primary font-weight-bold text-white todo-list-add-btn btn-rounded" id="add-task" data-toggle="modal" data-target="#add_activity">Add Activity</button>
-                                                 </li>
-                                             </ul>
-                                       </div>
-                                    </div>
-                                 </div> -->                               
-                                 
-                                 
-                                 <!-- Content Starts -->
-                                 <div class="row">
-                                    <div class="col-md-12">
-                                       <div class="card mb-0">
-                                          <div class="card-body">
-                                             <div class="table-responsive activity-tables">
-                                                <table class="table table-striped table-nowrap custom-table mb-0 datatable" id="distributeOrderHistory">
-                                                   <thead>
-                                                      <tr>
-                                                         <th>Order Date</th>
-                                                         <th>Total Price</th>
-                                                         <th>Sold By</th>
-                                                         <th>Delivery Date</th>             
-                                                         <th>Order Status</th>
-                                                         <th class="text-left">Actions</th>
-                                                      </tr>
-                                                   </thead>
-                                                   <tbody>
-                                                      <tr> 
-                                                         <td>07/02/2021</td>
-                                                         <td>1200</td>
-                                                         <td>anson@gmail.com</td>
-                                                         <td>07/02/2021</td>
-                                                         <td>Canceled</td>
-                                                         <td>
-                                                            <a href="">Edit</a> | <a href="">Delete</a> | <a href="">Detail</a>
-                                                         </td> 
-                                                      </tr>
-                                                      <tr>
-                                                         
-                                                         
-                                                         <td>06/02/2021</td>
-                                                         <td>800</td>
-                                                         <td>800@gmail.com</td>
-                                                         <td>07/02/2021</td>
-                                                         <td>Delivered</td>
-                                                         <td>
-                                                            <a href="">Edit</a> | <a href="">Delete</a> | <a href="">Detail</a>
-                                                         </td>
-                                                      </tr>
-                                                      <tr>
-                                                         
-                                                         
-                                                         <td>05/02/2021</td>
-                                                         <td>13000</td>
-                                                         <td>johndoe@gmail.com</td>
-                                                         <td>07/02/2021</td>
-                                                         <td>Pending</td>
-                                                         <td>
-                                                            <a href="">Edit</a> | <a href="">Delete</a> | <a href="">Detail</a>
-                                                         </td>
-                                                      </tr>
-                                                      <tr>
-                                                         
-                                                         
-                                                         <td>04/02/2021</td>
-                                                         <td>1200</td>
-                                                         <td>anson@gmail.com</td>
-                                                         <td>07/02/2021</td>
-                                                         <td>Canceled</td>
-                                                         
-                                                         <td>
-                                                            <a href="">Edit</a> | <a href="">Delete</a> | <a href="">Detail</a>
-                                                         </td>
-                                                                
-                                                      </tr>
-                                                      <tr>                                                         
-                                                         
-                                                         <td>03/02/2021</td>
-                                                         <td>800</td>
-                                                         <td>800@gmail.com</td>
-                                                         <td>07/02/2021</td>
-                                                         <td>Delivered</td>
-                                                         <td>
-                                                            <a href="">Edit</a> | <a href="">Delete</a> | <a href="">Detail</a>
-                                                         </td>
-                                                      </tr>
-                                                      <tr>
-                                                         
-                                                         <td>01/02/2021</td>
-                                                         <td>800</td>
-                                                         <td>800@gmail.com</td>
-                                                         <td>07/02/2021</td>
-                                                         <td>Delivered</td>
-                                                         <td>
-                                                            <a href="">Edit</a> | <a href="">Delete</a> | <a href="">Detail</a>
-                                                         </td>
-                                                      </tr>
-                                                      <tr>
-                                                         
-                                                         <td>01/02/2021</td>
-                                                         <td>13000</td>
-                                                         <td>johndoe@gmail.com</td>
-                                                         <td>07/02/2021</td>
-                                                         <td>Pending</td>
-                                                         <td>
-                                                            <a href="">Edit</a> | <a href="">Delete</a> | <a href="">Detail</a>
-                                                         </td>
-                                                      </tr>
-                                                   </tbody>
-                                                </table>
-                                             </div>
-                                          </div>
-                                       </div>
-                                    </div>
-                                 </div>
-                                 <!-- /Content End -->
+                  <div class="page-header pt-3 mb-0 ">
+                     <div class="row">                                       
+                        <div class="col text-left">
+                           <ul class="pl-0 form-group">
+                              <li class="list-inline-item" >
+                                 <span>From: </span>
+                                 <input type="date" id="fromDate" class="form-control" placeholder="From Date">
+                              </li>
+                              <li class="list-inline-item" >
+                                 <span>To: </span>
+                                 <input type="date" id="toDate" class="form-control" placeholder="From Date" >
+                              </li>
+                              <!-- <li class="list-inline-item">
+                                 <select class="form-control" id="searchByFixTime">
+                                    <option value="">Select Fix Time</option>
+                                    <option value="lastday">Last Day</option>
+                                    <option value="lastweek">Last Week</option>
+                                    <option value="lastmonth">Last Month</option>
+                                 </select>
+                              </li> -->
+                              <li class="list-inline-item" >
+                                 <input onclick="searchOrderHistory()" class="btn btn-info form-control" type="submit" value="Search">
+                              </li>
+                              <!-- <li class="list-inline-item" >
+                                 <button onclick="exportSearchedOrderHistory()" class="btn btn-info form-control" type="submit">Export In Excel</button>
+                              </li> -->
+                              <li class="list-inline-item" >
+                                 <a class="btn btn-info form-control" href="/download">Export In Excel</a>
+                              </li>
+                           </ul>
+                        </div>
+                     </div>
+                  </div>         <!-- Content Starts -->
+                  <div class="row">
+                     <div class="col-md-12">
+                        <div class="card mb-0">
+                           <div class="card-body">
+                              <div class="table-responsive activity-tables">
+                                 <table class="table table-striped table-nowrap custom-table mb-0 datatable" id="distributeOrderHistory">
+                                    <thead>
+                                       <tr>
+                                          <th>Order Date</th>
+                                          <th>Total Price</th>
+                                          <th>Sold By</th>
+                                          <th>Delivery Date</th>             
+                                          <th>Order Status</th>
+                                         <!--  <th class="text-left">Actions</th> -->
+                                       </tr>
+                                    </thead>
+                                    <tbody id="orderHistorySearchData">
+                                       @if(isset($orderHistory))
+                                          @foreach($orderHistory as $item)
+                                          <tr> 
+                                             <td>{{ timeFormat($item->created_at)['date'] }} {{strtoupper(timeFormat($item->created_at)['time']) }}</td>
+                                             <td>{{$item->total_amount}}</td>
+                                             <td>{{$item->name}}</td>
+                                             <td>{{ timeFormat($item->updated_at)['date'] }} {{strtoupper(timeFormat($item->updated_at)['time']) }}</td>
+                                             <td>{{$item->flag}}</td>
+                                             <!-- <td>   
+                                                <button class="btn btn-outline-info"  onclick="orderDetail(<?php //echo $item->id; ?>)">Detail</button>
+                                             </td> -->
+                                          </tr>
+                                          @endforeach
+                                       @endif
+                                    </tbody>
+                                 </table>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>                                 <!-- /Content End -->
                </div>
                @endif
                @if($users->roles[0]->name == 'Collector')
                <div class="tab-pane" id="taskHistory">
-                  Tab taskHistory 2
+                  <div class="row">
+                     <div class="col-md-12">
+                        <div class="card mb-0">
+                           <div class="card-body">
+                              <div class="table-responsive activity-tables">
+                                 <table class="table table-striped table-nowrap custom-table mb-0 datatable" id="collectorTaskHistory">
+                                    <thead>
+                                       <tr>
+                                          <th>Date</th>
+                                          <th>Total Milk</th>
+                                          <th>Vendor</th>
+                                          <th>Amount</th>             
+                                          <th>Shift</th>             
+                                          <th>Status</th>
+                                          <th class="text-left">Actions</th>
+                                       </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                 </table>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div> 
                </div>
                @endif
                @if($users->roles[0]->name == 'Vendor')
                <div class="tab-pane" id="collectionHistory">
-                  Tab collectionHistory 2
+                  <div class="row">
+                     <div class="col-md-12">
+                        <div class="card mb-0">
+                           <div class="card-body">
+                              <div class="table-responsive activity-tables">
+                                 <table class="table table-striped table-nowrap custom-table mb-0 datatable" id="VendorCollectionHistory">
+                                    <thead>
+                                       <tr>
+                                          <th>Date</th>
+                                          <th>Amount</th>
+                                          <th>Shift</th>
+                                          <th>Quality</th>
+                                          <th>Fat</th>
+                                          <th>Lactose</th>
+                                          <th>Ash</th>
+                                          <th>Taste</th>             
+                                          <th>Collected By</th>
+                                          <th class="text-left">Actions</th>
+                                       </tr>
+                                    </thead>
+                                    <tbody>
+                                       
+                                    </tbody>
+                                 </table>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div> 
                </div>
                @endif
                <div class="tab-pane" id="paymentHistory">
-                  Tab paymentHistory 3
+                  <div class="row">
+                     <div class="col-md-12">
+                        <div class="card mb-0">
+                           <div class="card-body">
+                              <div class="table-responsive activity-tables">
+                                 <table class="table table-striped table-nowrap custom-table mb-0 datatable" id="userPaymentHistory">
+                                    <thead>
+                                       <tr>
+                                          <th>Payment Method</th>
+                                          <th>Transection ID</th>
+                                          <th>Deposit Time</th>
+                                          <th>Amount Paid</th>             
+                                          <th>Status</th>
+                                          <th class="text-left">Actions</th>
+                                       </tr>
+                                    </thead>
+                                    <tbody>
+                                       @if(isset($UserTransaction))
+                                          @foreach($UserTransaction as $item)
+                                          <tr> 
+                                             <td>{{$item->paymentMethod}}</td>
+                                             <td>{{$item->transactionId}}</td>
+                                             <td>{{ timeFormat($item->timeOfDeposit)['date'] }} {{timeFormat($item->timeOfDeposit)['time'] }}</td>
+                                             <td>{{$item->amountPaid}}</td>
+                                             <td>{{ucfirst($item->status)}}</td>
+                                             <td>
+                                                <button onclick="transactionDetail(<?php echo $item->id; ?>)" class="btn btn-outline-info"  href="" >Detail</button>
+                                             </td>
+                                          </tr>
+                                          @endforeach
+                                       @endif 
+                                    </tbody>
+                                 </table>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div> 
                </div>
                @if($users->roles[0]->name == 'Collector')              
                <div class="tab-pane" id="inventory">
-                  Tab inventory 4
+                  <div class="row">
+                     <div class="col-md-12">
+                        <div class="card mb-0">
+                           <div class="card-body">
+                              <div class="table-responsive activity-tables">
+                                 <table class="table table-striped table-nowrap custom-table mb-0 datatable" id="CollectorInventoryHistory">
+                                    <thead>
+                                       <tr>
+                                          <th>Asset Name</th>             
+                                          <th>Asset Type</th>
+                                          <th>Capicity</th>
+                                          <th>Issued Date</th>
+                                          <th>Issued By</th>
+                                          <th>Status</th>
+                                          <th class="text-left">Actions</th>
+                                       </tr>
+                                    </thead>
+                                    <tbody>                                      
+                                    </tbody>
+                                 </table>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div> 
                </div>
                @endif
             </div>
@@ -787,22 +856,89 @@
    </div>
    <!-- / password Change Model -->
    @endcan
+
+   <div class="modal right fade" id="orderDetail" tabindex="-1" role="dialog" aria-modal="true">
+      <div class="modal-dialog" role="document">
+         <button type="button" class="close md-close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+         <div class="modal-content">
+            <div class="modal-header">
+               <button type="button" class="close xs-close" data-dismiss="modal">×</button>
+               <div class="row w-100">
+                  <div class="col-md-7 account d-flex">
+                     <div class="company_img">
+                        <img src="{{url('UserProfile/collector.jpg')}}" alt="User" id="collectorImage" class="user-image img-fluid"/>
+                     </div>
+                     <div>
+                        <p class="mb-0">Collector Name</p>
+                        <span class="modal-title" id="collectionName">Idrees</span>
+                        <span class="rating-star"><i class="fa fa-star" aria-hidden="true"></i></span>
+                        <span class="lock"><i class="fa fa-lock" aria-hidden="true"></i></span>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <div class="modal-body">
+               <div class="task-infos">
+                  <table class="table">
+                     <tbody>
+                        <tr>
+                           <td>Product Name</td>
+                           <td>Amount</td>
+                           <td>Price</td>
+                           <td>Sub Total</td>
+                        </tr>
+                        <tr>
+                           <td>Milk</td>
+                           <td>5</td>
+                           <td>50</td>
+                           <td>250</td>              
+                        </tr>                        
+                        <tr >
+                           <td></td>
+                           <td></td>
+                           <td style="text-align: right;">Total Amount:</td>
+                           <td>250</td>                           
+                        </tr>
+                     </tbody>
+                  </table>
+               </div>
+            </div>
+         </div>
+         <!-- modal-content -->
+      </div>
+      <!-- modal-dialog -->
+   </div>
 </div>
 <?php
 if($users->roles[0]->name == 'Vendor'){
    $latitude = $users->vendorDetail->latitude;
    $longitude = $users->vendorDetail->longitude;
 }else if($users->roles[0]->name == 'Distributor'){
-   $string = $users->distributorCompany->alotedArea;  
+   $string = $users->distributorCompany->alotedArea;
 
-   $newstr = explode('{"type":"MARKER","id":null,"geometry":[', $string );
+   if(strripos($string, '{"type":"MARKER","id":null,"geometry":[')){
 
-   $lat = explode(']}',$newstr[1]);
+      $newstr = explode('{"type":"MARKER","id":null,"geometry":[', $string );
 
-   $location = explode(',', $lat[0]);
-       
-   $latitude = $location[0];
-   $longitude = $location[1];
+      $lat = explode(']}',$newstr[1]);
+
+      $location = explode(',', $lat[0]);
+          
+      $latitude = $location[0];
+      $longitude = $location[1];
+
+   }else{
+
+      $newstr = explode('[{"type":"POLYGON","id":null,"geometry":[[[', $string );
+
+      $lat = explode('],[',$newstr[1]);
+
+      $location = explode(',', $lat[0]);
+
+      $latitude = $location[0];
+      
+      $longitude = $location[1];
+   }
 }else{
    $latitude = '';
    $longitude = '';
@@ -816,11 +952,139 @@ if($users->roles[0]->name == 'Vendor'){
 <script type="text/javascript">
 $(document).ready(function() {  
 $("#distributeOrderHistory").DataTable();
+$("#CollectorInventoryHistory").DataTable();
+$("#userPaymentHistory").DataTable();
+$("#VendorCollectionHistory").DataTable();
+$("#collectorTaskHistory").DataTable();
 var latitude = $("#latitude").val();
 var longitude = $("#longitude").val();
 initializeMap('ProfielMap','ProfileClearShapes','saveProfleMap','ProfileRestoreMap','addProfileMapData','',latitude,longitude);
    $( "#ProfileRestoreMap" ).trigger( "click" );      
 });
+
+function searchOrderHistory(){
+
+   var fromDate = $("#fromDate").val();
+   var toDate = $("#toDate").val();
+
+   jQuery.ajax({
+        url: "{{route('search.order')}}",
+        type: "POST",
+        data: {
+            fromDate: fromDate,
+            toDate: toDate,
+            '_token' : "{{ csrf_token() }}"
+        },
+        success: function (response, status) {
+
+        
+         $("#orderHistorySearchData").text('');
+           var items = '';
+           $.each( response, function( key, val ) {
+             items += '<tr>';
+             items+= '<td>'+ getDateFromJsonString(val.created_at).replace(/,/g,"") + '</td>';
+             items+= '<td>'+val.total_amount+'</td>';
+             items+= '<td>'+val.saler+'</td>';
+             items+= '<td>'+ getDateFromJsonString(val.updated_at).replace(/,/g,"") +'</td>';
+             items+= '<td>'+val.flag+'</td>';
+             items+='<tr>';
+           });
+           $("#orderHistorySearchData").append(items);
+        },
+        error: function () {
+         swal.fire("Error Searching!", "Please try again", "error").then((result) => {
+            if(result.isConfirmed) {
+               location.reload(true);
+            }
+         });
+        
+      }
+   });
+}
+
+function exportSearchedOrderHistory(){
+   var fromDate = $("#fromDate").val();
+   var toDate = $("#toDate").val();
+
+   jQuery.ajax({
+        url: "{{route('exportinexcel.order')}}",
+        type: "POST",
+        data: {
+            fromDate: fromDate,
+            toDate: toDate,
+            '_token' : "{{ csrf_token() }}"
+        },
+        success: function (response, status) {  
+
+        console.log('it is store in you file');      
+        },
+        error: function () {
+         swal.fire("Error in Exporting Data!", "Please try again", "error").then((result) => {
+            if(result.isConfirmed) {
+               location.reload(true);
+            }
+         });
+      }
+   });
+}
+
+
+function getDateFromJsonString(dateString){
+   var dateObj = new Date(dateString).toLocaleString();
+   return dateObj;
+   //return datestring = dateObj.getDate()  + "/" + (dateObj.getMonth()) + "/" + dateObj.getFullYear() + " " + dateObj.getHours() + ":" + dateObj.getMinutes();  
+}
+
+function orderDetail(orderID){   
+   jQuery.ajax({
+        url: "#",
+        type: "POST",
+        data: {
+            id: orderID,
+            '_token' : "{{ csrf_token() }}"
+        },
+        success: function (response, status) {
+            console.log(response);
+         //$('#orderDetail').modal('show');
+        },
+        error: function () {
+         // swal.fire("Error deleting!", "Please try again", "error").then((result) => {
+         //    if(result.isConfirmed) {
+         //       location.reload(true);
+         //    }
+         // });
+         console.log('we are in orderDetail error'+orderID);
+      }
+   });
+}
+
+
+
+
+function transactionDetail(orderID){   
+   jQuery.ajax({
+        url: "",
+        type: "POST",
+        data: {
+            id: orderID,
+            '_token' : "{{ csrf_token() }}"
+        },
+        success: function () {
+            
+        },
+        error: function () {
+
+         // swal.fire("Error deleting!", "Please try again", "error").then((result) => {
+         //    if(result.isConfirmed) {
+         //       location.reload(true);
+         //    }
+         // });
+      }
+   });
+}
+
+
+
 </script>
 @endsection
 

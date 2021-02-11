@@ -67,8 +67,3 @@ function isInPolygon($points_polygon, $vertices_x, $vertices_y, $longitude_x, $l
   }
   return $c;
 }
-
-
-
-
-
