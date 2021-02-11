@@ -362,6 +362,12 @@
                               <li class="list-inline-item" >
                                  <input onclick="searchOrderHistory()" class="btn btn-info form-control" type="submit" value="Search">
                               </li>
+                              <!-- <li class="list-inline-item" >
+                                 <button onclick="exportSearchedOrderHistory()" class="btn btn-info form-control" type="submit">Export In Excel</button>
+                              </li> -->
+                              <li class="list-inline-item" >
+                                 <a class="btn btn-info form-control" href="/download">Export In Excel</a>
+                              </li>
                            </ul>
                         </div>
                      </div>
@@ -958,16 +964,13 @@ initializeMap('ProfielMap','ProfileClearShapes','saveProfleMap','ProfileRestoreM
 
 function searchOrderHistory(){
 
-   //var searchByFixTime = $("#searchByFixTime").val();
    var fromDate = $("#fromDate").val();
    var toDate = $("#toDate").val();
-
 
    jQuery.ajax({
         url: "{{route('search.order')}}",
         type: "POST",
         data: {
-            //searchByFixTime: searchByFixTime,
             fromDate: fromDate,
             toDate: toDate,
             '_token' : "{{ csrf_token() }}"
@@ -986,24 +989,45 @@ function searchOrderHistory(){
              items+= '<td>'+val.flag+'</td>';
              items+='<tr>';
            });
-
            $("#orderHistorySearchData").append(items);
-
-
-           //console.log(items);
-
-         
         },
         error: function () {
-         // swal.fire("Error deleting!", "Please try again", "error").then((result) => {
-         //    if(result.isConfirmed) {
-         //       location.reload(true);
-         //    }
-         // });
-         console.log('we are in orderDetail error');
+         swal.fire("Error Searching!", "Please try again", "error").then((result) => {
+            if(result.isConfirmed) {
+               location.reload(true);
+            }
+         });
+        
       }
    });
 }
+
+function exportSearchedOrderHistory(){
+   var fromDate = $("#fromDate").val();
+   var toDate = $("#toDate").val();
+
+   jQuery.ajax({
+        url: "{{route('exportinexcel.order')}}",
+        type: "POST",
+        data: {
+            fromDate: fromDate,
+            toDate: toDate,
+            '_token' : "{{ csrf_token() }}"
+        },
+        success: function (response, status) {  
+
+        console.log('it is store in you file');      
+        },
+        error: function () {
+         swal.fire("Error in Exporting Data!", "Please try again", "error").then((result) => {
+            if(result.isConfirmed) {
+               location.reload(true);
+            }
+         });
+      }
+   });
+}
+
 
 function getDateFromJsonString(dateString){
    var dateObj = new Date(dateString).toLocaleString();

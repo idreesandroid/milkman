@@ -13,6 +13,9 @@ use App\Http\Controllers\CollectionController as CollectionController;
 
 use App\Http\Controllers\TasksController as Task;
 
+use App\Exports\OrderExport;
+use Maatwebsite\Excel\Facades\Excel;
+
 class TestController extends Controller
 {
     /**
@@ -136,6 +139,18 @@ $Invoice = Invoice::select('invoices.*','users.name as saler')
     {
         //
     }
+
+
+    public function export()
+    {
+       // return Excel::download(new OrderExport, 'allOrders.xlsx');
+        //return (new OrderExport)->download('allOrders.xlsx');
+        $filename = 'search-orders-at-'.date("d-m-Y").'.xlsx';
+       return Excel::download(new OrderExport(), $filename);
+         
+    }
+
+    
 
     public function getAllVendorInsideCollectionArea($collectionArea,$allVendorsLatLng){      
 
