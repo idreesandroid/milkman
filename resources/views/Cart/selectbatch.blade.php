@@ -189,7 +189,6 @@
                 var tr_str = "<tr>" +
                     "<td align='center' colspan='4'>No record found.</td>" +
                 "</tr>";
-   
                 $("#batch_fetch tbody").append(tr_str);
              }
                       }

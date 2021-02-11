@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use App\Models\CollectionArea;
+//use App\Models\CollectionArea;
 class StateTableSeeder extends Seeder
 {
     /**

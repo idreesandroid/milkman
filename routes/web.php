@@ -19,6 +19,8 @@ use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\TasksController;
 use App\Http\Controllers\CollectorController;
+use App\Http\Controllers\milkCollectionController;
+
 use App\Http\Controllers\TestController;
 
 
@@ -114,12 +116,26 @@ Route::get('order/myList',                       [DistributorController::class, 
 Route::get('collector-detail/index',                [CollectorController::class, 'index'])->name('index.collector-detail')->middleware('can:See-Distributor');
 Route::get('collector-detail/create',               [CollectorController::class, 'create'])->name('create.collector-detail')->middleware('can:Create-Distributor');
 Route::post('collector-detail/create',              [CollectorController::class, 'store'])->name('store.collector-detail')->middleware('can:Create-Distributor');
+
 Route::get('collector-detail/tasks',                [CollectorController::class, 'MyTask'])->name('my.tasks')->middleware('can:See-My-Task');
 
 // Route::get('distributor-detail/edit/{id}',       [DistributorController::class, 'edit'])->name('edit.distributor-detail')->middleware('can:Edit-Distributor');
 // Route::post('distributor-detail/update/{id}',    [DistributorController::class, 'update'])->name('update.distributor-detail')->middleware('can:Edit-Distributor');
 // Route::post('companyDetail/update/{id}',         [DistributorController::class,'companyDetailUpdate'])->name('companyDetail.distributor')->middleware('can:Edit-Company-Detail');
 // Route::get('order/myList',                       [DistributorController::class, 'myOrders'])->name('order.myList')->middleware('can:See-My-Orders');
+
+
+//collection Point Detail routes--------------------------------
+Route::get('collectionPoint/index',           [milkCollectionController::class, 'index'])->name('index.collectionPoint');
+Route::get('collectionPoint/create',          [milkCollectionController::class, 'create'])->name('create.collectionPoint');
+Route::post('collectionPoint/create',         [milkCollectionController::class, 'store'])->name('store.collectionPoint');
+Route::get('collectionPoint/edit/{id}',       [milkCollectionController::class, 'edit'])->name('edit.collectionPoint');
+Route::post('collectionPoint/update/{id}',    [milkCollectionController::class, 'update'])->name('update.collectionPoint');
+Route::Delete('collectionPoint/delete/{id}',  [milkCollectionController::class, 'deleteCollectionPoint'])->name('delete.collectionPoint');
+
+Route::get('get/collection-managers',         [milkCollectionController::class, 'getCollectionManager'])->name('getCollectionManager');
+Route::post('assign/collection-point',        [milkCollectionController::class, 'assignCollectionManager'])->name('assignManager.Point');
+
 
 //Cart routes----------------------------------------
 Route::get('cart/create',                   [SaleController::class, 'generateInvoice'])->name('create.invoice')->middleware('can:Generate-Invoice');
@@ -211,9 +227,14 @@ Route::post('assign/temporary/task',               [TasksController::class, 'Sto
 Route::get('activate/collector/{id}',               [TasksController::class, 'Activate'])->name('activate.collector');
 //End Active or in active collector----------------------
 
-Route::get('generate/morning/task',                       [TasksController::class, 'GenerateMorningTask'])->name('generate.morning.task');
-Route::get('generate/Evening/task',                       [TasksController::class, 'GenerateEveningTask'])->name('generate.evening.task');
+//cron job controller collector----------------------
+Route::get('generate/task',                               [TasksController::class, 'GenerateMorningTask'])->name('generate.morning.task');
+Route::post('generate/morning/task',                      [TasksController::class, 'StoreMorningTask'])->name('store.morning.task');
+Route::post('generate/evening/task',                      [TasksController::class, 'StoreEveningTask'])->name('store.evening.task');
 
-Route::get('expire/morning/task',                       [TasksController::class, 'ExpireMorningTask'])->name('expire.morning.task');
-Route::get('expire/Evening/task',                       [TasksController::class, 'ExpireEveningTask'])->name('expire.evening.task');
 
+
+// Route::get('generate/Evening/task',                       [TasksController::class, 'GenerateEveningTask'])->name('generate.evening.task');
+// Route::get('expire/morning/task',                       [TasksController::class, 'ExpireMorningTask'])->name('expire.morning.task');
+// Route::get('expire/Evening/task',                       [TasksController::class, 'ExpireEveningTask'])->name('expire.evening.task');
+//end cron job controller collector----------------------

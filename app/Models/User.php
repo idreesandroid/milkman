@@ -113,6 +113,11 @@ class User extends Authenticatable
       return $this->hasOne(UserAccount::class);
     }
 
+    public function collectionManager()
+    {
+      return $this->hasOne(collectionPointManager::class);
+    }
+
     public function transactionFrom()
     {
       return $this->hasMany(UserTransaction::class);
@@ -128,7 +133,9 @@ class User extends Authenticatable
         return $this->hasMany(TaskArea::class);
     }
 
-
-
+    public function collectionPointReceiver()
+    {
+        return $this->hasMany(collectionAtCollectionPoint::class);
+    }
 
 }

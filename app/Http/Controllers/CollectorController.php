@@ -16,39 +16,22 @@ use App\Models\assetsType;
 use App\Models\TaskArea;
 use App\Models\SubTask;
 use App\Models\collectorDetail;
+use App\Models\milkCollectionPoint;
 
 class CollectorController extends Controller
 {
    
     public function index()
     {
-       
-
         $collectorDetails = User::whereHas('roles', function($query) {$query->where('roles.id', 5);})->get();   
         return view('collector-detail/index', compact('collectorDetails'));
     }
 
- 
     public function create()
     {
-        // $assetTypes = assetsType::get();
-        // foreach($assetTypes as $assetType)
-        // {
-        // $typeId=$assetType->id;
-            
-        // $assets = milkmanAsset::where('type_id',$typeId)->where('collector_id', NULL)->get();
-        // foreach($assets as $index => $asset)
-        // {  
-        // $assetCode [] = $assets[$index]->assetCode;
-        // $assetCount[] = $typeId;
-        // }
-        // }
-        //     echo "<pre>";
-        //     print_r($assetCode);
-        //     exit;
-
+        $collectionPoints = milkCollectionPoint::all();
         $assets = milkmanAsset::where('user_id', NULL)->get();
-        return view('collector-detail/create', compact('assets'));
+        return view('collector-detail/create', compact('assets','collectionPoints'));
     }
 
     public function store(Request $request)
@@ -64,6 +47,7 @@ class CollectorController extends Controller
             'city'  => 'required',
             'user_address'  => 'required|min:1',
             
+            'pointName' => 'required',
             'filenames' => 'required',
             'filenames.*' => 'mimes:jpg,png,jpeg,gif',   
             'userAsset'=>'required',
@@ -104,14 +88,13 @@ class CollectorController extends Controller
             // echo "<pre>";
             // print_r($assetCode);
             // exit;
-
         $collector_detail = new collectorDetail();
         $collector_detail->user_id = $collector_register->id;        
         $collector_detail->collectorCapacity = $collectorcap1;
         $collector_detail->collectorMorStatus = 'Free';
         $collector_detail->collectorEveStatus = 'Free';
+        $collector_detail->collectionPoint_id = $request->pointName;
         $collector_detail->save();
-
 
         return redirect()->route('index.collector-detail');
     }
@@ -119,10 +102,10 @@ class CollectorController extends Controller
 
     public function collectorDashboard()
     {
-        $Cid = Auth::id();
+    $Cid = Auth::id();
      
-     $totalTask = SubTask::where('AssignTo' , $Cid)->count();
-     $taskCompleted = SubTask::where('AssignTo' , $Cid)->where('status','Complete')->count();
+    $totalTask = SubTask::where('AssignTo' , $Cid)->count();
+    $taskCompleted = SubTask::where('AssignTo' , $Cid)->where('status','Complete')->count();
     
     $today=date('Y-m-d');
     $newTasks = DB::table('sub_tasks')

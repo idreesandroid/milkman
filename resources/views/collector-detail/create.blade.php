@@ -85,6 +85,15 @@
                         <label for="title">City:</label>
                         <input type="text" name="city" id="locality" class="form-control">
                      </div>
+                     <div class="form-group">
+                     <label>Collection Point:</label>
+                     <select class="form-control" name="pointName" required="" autocomplete="off">
+                        <option value="">--Point Name--</option>
+                        @foreach ($collectionPoints as $collectionPoint)
+                        <option value="{{$collectionPoint->id}}" >{{$collectionPoint->pointName}}</option>
+                        @endforeach                            
+                     </select>
+                  </div>
                   </div>
                   <div class="col-md-6">
                      <div class="form-group">
@@ -96,6 +105,8 @@
                         <label>collector Image:</label>
                         <input type="file" class="form-control" name="filenames" required=""   autocomplete="off" >
                   </div>
+                  </div>
+               </div>                     
                   </div>
                </div>
 

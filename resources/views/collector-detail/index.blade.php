@@ -22,7 +22,7 @@
    <div class="col-sm-12">
       <div class="card mb-0">
          <div class="card-body">
-            @can('Create-Distributor')
+           
             <div class="form-group mb-0 row">
                <div class="col-md-4">
                   <div class="input-group-append">
@@ -30,7 +30,7 @@
                   </div>
                </div>
             </div>
-            @endcan
+           
             <div class="table-responsive">
                <table class="datatable table table-stripped mb-0 datatables">
                   <thead>
