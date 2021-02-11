@@ -3,17 +3,20 @@ use App\Models\vendorDetail;
 use App\Models\SubTask;
 use App\Models\Collection;
 use App\Models\TaskArea;
+use App\Models\collectionPointManager;
 use App\Models\collectorDetail;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 
+
+use Illuminate\Support\Facades\Auth;
+
 function assignMorningTask()
     {       
-       $Areas= TaskArea::where('shift','Morning')->get();
+       $Areas= TaskArea::where('shift','Morning')->where('taskAreaStatus','Active')->get();
        foreach($Areas as $Area)
-       {
-        
+       {   
         $vendorDetails = vendorDetail::where('morning_decided_milkQuantity', '>', 0)->where('collection_id', $Area->area_id)->get();
         foreach($vendorDetails as $vendorDetail)
         {
@@ -26,7 +29,6 @@ function assignMorningTask()
             $morningTask->collection_date = date('Y-m-d');
             $morningTask->save();
         }
-
        }
     // $time = Carbon::now();
     //    echo "<pre>";
@@ -38,7 +40,7 @@ function assignMorningTask()
 
     function assignEveningTask()
     {       
-       $Areas= TaskArea::where('shift', 'Evening')->get();
+       $Areas= TaskArea::where('shift', 'Evening')->where('taskAreaStatus','Active')->get();
        foreach($Areas as $Area)
        {
         $vendorDetails = vendorDetail::where('evening_decided_milkQuantity','>', 0)->where('collection_id', $Area->area_id)->get();
@@ -53,11 +55,9 @@ function assignMorningTask()
             $eveningTask->collection_date = date('Y-m-d h:s');
             $eveningTask->save();
         }
-
        }
        return ("Evening Task Initialized");
     }
-
 
     function calculateAreaMCapacity($id)
     {       
@@ -82,12 +82,13 @@ function assignMorningTask()
     }
 
 
-   //  function morningCollectorInfo($id)
-   //  {       
-   //     $findCollectors = TaskArea::where('area_id',$id)->get();
-   //     foreach($findCollectors as $findCollector)
-   //     {
-   //       $collector[]=$findCollector->collector_id;
-   //     }
-   //    // return $collector;
-   //  }
+    function checkpoint()
+    {       
+            // $Cid = Auth::id();
+            // $CPM = collectionPointManager::where('user_id',36)->first();
+            // $CPID = Collection::where('collectionPoint_id',$CPM->collectionPointId)->get();
+
+            // echo "<pre>";
+            // print_r($CPID);
+            // exit;
+    }

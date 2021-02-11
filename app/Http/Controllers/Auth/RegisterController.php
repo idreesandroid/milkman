@@ -17,8 +17,12 @@ use App\Models\State;
 use App\Models\City;
 use App\Models\vendorDetail;
 use App\Models\User;
+
+use App\Models\collectionPointManager;
+
 use App\Models\Invoice;
 use App\Models\UserTransaction;
+
 
 class RegisterController extends Controller
 {
@@ -93,22 +97,17 @@ class RegisterController extends Controller
   
     $role=$request->role_id;
     $user->assignRole(Role::where('id', $role)->first());
+    if($role == 2)
+    {
+      $collectionManager = new collectionPointManager();
+      $collectionManager->user_id = $user->id;
+      $collectionManager->managerStatus = 'inActive';
+      $collectionManager->save();
+    }
+
+
     return redirect('/DashBoard');
   }
-
-  /**
-   * Get a validator for an incoming registration request.
-   *
-   * @param  array  $data
-   * @return \Illuminate\Contracts\Validation\Validator
-   */
-
-  /**
-   * Create a new user instance after a valid registration.
-   *
-   * @param  array  $data
-   * @return \App\Models\User
-   */
 
 
   public function allUserList()
@@ -248,6 +247,10 @@ class RegisterController extends Controller
     elseif(in_array(6, $roleArray))
     {
       return redirect()->route('vendor.DashBoard');
+    }
+    elseif(in_array(2, $roleArray))
+    {
+      return redirect()->route('generate.morning.task');
     }
     else
     {

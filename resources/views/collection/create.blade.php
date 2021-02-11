@@ -66,6 +66,17 @@ foreach ($vendors as $key => $value) {
                            <option value="inactive">Inactive</option>
                         </select> 
                   </div>
+
+                  <div class="col-md-4">
+                     <label class="col-form-label">Collection Point<span class="text-danger">*</span></label>
+                     <select class="form-control" id="collectionPoint" name="collectionPoint">
+                           <option value="active">Select Collection Point</option>
+                           @foreach ($collectionPoints as $collectionPoint)
+                           <option value="{{$collectionPoint->id}}" >{{$collectionPoint->pointName}}</option>
+                           @endforeach  
+                     </select> 
+                  </div>
+
                   <div class="col-md-4">
                      <label class="col-form-label">Marker and Label Color <span class="text-danger">*</span></label>
                      <select class="form-control" id="label_marker_color">

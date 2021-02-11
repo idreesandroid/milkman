@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateCollectionAreasTable extends Migration
+class CreateMilkCollectionPointsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,10 @@ class CreateCollectionAreasTable extends Migration
      */
     public function up()
     {
-        Schema::create('collection_areas', function (Blueprint $table) {
+        Schema::create('milk_collection_points', function (Blueprint $table) {
             $table->increments('id')->unsigned();
-            $table->string('areaTitle');
-            $table->string('areaDimension');
-            $table->enum('areaStatus',['Active','inActive','Block']);
-
+            $table->string('pointName');
+            $table->string('pointAddress');
             $table->timestamps();
         });
     }
@@ -30,6 +28,6 @@ class CreateCollectionAreasTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('collection_areas');
+        Schema::dropIfExists('milk_collection_points');
     }
 }

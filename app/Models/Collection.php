@@ -30,9 +30,18 @@ class Collection extends Model
     	return $this->hasMany(vendorDetail::class);
     }
 
-
     public function collectionAsTask()
     {
     	return $this->hasMany(TaskArea::class);
+    }
+
+    public function relativeCollectionPoint()
+    {
+      return  $this->belongsTo(milkCollectionPoint::class);
+    }
+
+    public function milkSubmission()
+    {
+        return $this->hasMany(collectionAtCollectionPoint::class);
     }
 }

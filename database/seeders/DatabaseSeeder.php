@@ -16,11 +16,11 @@ class DatabaseSeeder extends Seeder
         // \App\Models\User::factory(10)->create();
 
         // $this->call(UsersTableSeeder::class);
-       $this->call(RoleTableSeeder::class);
+        $this->call(RoleTableSeeder::class);
         $this->call(assetTypeSeeder::class);
         $this->call(PermissionSeeder::class);
         $this->call(bankSeeder::class);
-       $this->call(StateTableSeeder::class);
+      // $this->call(StateTableSeeder::class);
         //$this->call(RouteTableSeeder::class);
     }
 }

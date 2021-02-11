@@ -19,8 +19,8 @@ class RoleTableSeeder extends Seeder
         $role_ad->save();
 
         $role_r_d = new Role();
-        $role_r_d->slug = 'regional-director';
-        $role_r_d->name = 'Regional Director';
+        $role_r_d->slug = 'collection-manager';
+        $role_r_d->name = 'Collection Manager';
         $role_r_d->save();
 
         $role_c_ad = new Role();

@@ -7,16 +7,13 @@ use App\Models\User;
 use App\Models\Tasks;
 use App\Models\vendorDetail;
 use App\Models\CollectionVendor;
+use App\Models\milkCollectionPoint;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
 class CollectionController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
         $vendors = User::select('users.id','users.name','vendor_details.longitude','vendor_details.latitude')
@@ -36,11 +33,9 @@ class CollectionController extends Controller
                     ->leftjoin('users','users.id','=','collections.collector_id')
                     ->get();
 
+                // Asim work on Task as---------------------------------------------------------------     
+        
                 // Asim work on Task as---------------------------------------------------------------
-            
-
-                // Asim work on Task as---------------------------------------------------------------
-
         $collectors = User::select('users.*')
                     ->join('role_user', 'role_user.user_id', '=', 'users.id')
                     ->where('role_user.role_id', '=', 5)
@@ -48,11 +43,6 @@ class CollectionController extends Controller
         return view('collection/index', compact('vendors','collections','location','collectors'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         $vendors = User::select('users.id','users.name','vendor_details.longitude','vendor_details.latitude','collection_vendor.label_marker_color')
@@ -68,28 +58,27 @@ class CollectionController extends Controller
         $location .= ']';
         
         $location = str_replace("},]","}]",$location);
-        return view('collection/create', compact('vendors','location'));
+
+        $collectionPoints= milkCollectionPoint::all();
+        return view('collection/create', compact('vendors','location','collectionPoints','collectionPoints'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {        
         $this->validate($request,[        
             'title'      => 'required|min:3',          
             'vendors_location'  => 'required',
-            'status' => 'required'
+            'status' => 'required',
+            'collectionPoint' => 'required'
         ]);
 
         $collection_id = Collection::insertGetId([
             'title' => $request->title,
             'vendors_location' => str_replace("\\", '', $request->vendors_location),
             'status'   => $request->status,
-            'collector_id' => 0
+            'collector_id' => 0,
+            'collectionPoint_id' => $request->collectionPoint,
+
         ]);
 
         $vendorLocation = Collection::select('vendors_location')->where('id','=',$collection_id)->first();
@@ -109,23 +98,12 @@ class CollectionController extends Controller
         return ($collection_id) ? true : false;
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Collection  $collection
-     * @return \Illuminate\Http\Response
-     */
+
     public function show(Collection $collection)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Collection  $collection
-     * @return \Illuminate\Http\Response
-     */
     public function edit(Request $request)
     {
         $collection = Collection::select('collections.*','collection_vendor.vendor_id','collection_vendor.label_marker_color')

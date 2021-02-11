@@ -16,10 +16,13 @@ class CreateCollectorDetailsTable extends Migration
         Schema::create('collector_details', function (Blueprint $table) {
             $table->increments('id')->unsigned();
             $table->integer('user_id')->unsigned();
-            $table->foreign('user_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users');
            
             $table->enum('collectorStatus',['Free','HMT','HET']);
             $table->integer('collectorCapacity')->nullable()->default(0);
+
+            $table->integer('collectionPoint_id')->unsigned();
+            $table->foreign('collectionPoint_id')->references('id')->on('milk_collection_points');
             $table->timestamps();
         });
     }

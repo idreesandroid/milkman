@@ -20,6 +20,8 @@ class ProductStockController extends Controller
     {  
         // assignMorningTask();
         // assignEveningTask();
+        //checkpoint();
+
        $product_stocks = ProductStock::where('deleted_at', null)->with('product','Manager')->get();
        return view('product-stock/index', compact('product_stocks'));
     }
