@@ -27,4 +27,9 @@ class AdminController extends Controller
     return view('dashBoards.admin', compact('roles','userCount'));
 
     }
+
+    public function collectionManagerDashboard()
+    {
+    return view('dashBoards.collection-manager');
+    }
 }

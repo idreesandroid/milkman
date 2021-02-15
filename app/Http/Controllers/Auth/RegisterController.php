@@ -250,7 +250,7 @@ class RegisterController extends Controller
     }
     elseif(in_array(2, $roleArray))
     {
-      return redirect()->route('generate.morning.task');
+      return redirect()->route('collection-manager.DashBoard');
     }
     else
     {

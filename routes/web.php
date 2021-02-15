@@ -62,7 +62,7 @@ Route::get('Dashboard/admin',             [AdminController::class, 'adminDashboa
 Route::get('Dashboard/distributor',       [DistributorController::class, 'distributorDashboard'])->name('distributor.DashBoard')->middleware('can:Login');
 Route::get('Dashboard/collector',         [CollectorController::class, 'collectorDashboard'])->name('collector.DashBoard')->middleware('can:Login');
 Route::get('Dashboard/vendor',            [VendorDetailController::class, 'vendorDashboard'])->name('vendor.DashBoard')->middleware('can:Login');
-
+Route::get('Dashboard/collection-manager',  [AdminController::class, 'collectionManagerDashboard'])->name('collection-manager.DashBoard')->middleware('can:Login');
 
 //Role routes--------------------------------
 
@@ -232,7 +232,7 @@ Route::get('activate/collector/{id}',               [TasksController::class, 'Ac
 //End Active or in active collector----------------------
 
 //cron job controller collector----------------------
-Route::get('generate/task',                       [TasksController::class, 'GenerateMorningTask'])->name('generate.morning.task');
+Route::get('generate/task',                       [TasksController::class, 'GenerateMorningTask'])->name('generate.morning.task')->middleware('can:Generate-Task');
 Route::post('generate/morning/task',              [TasksController::class, 'StoreMorningTask'])->name('store.morning.task');
 Route::post('generate/evening/task',              [TasksController::class, 'StoreEveningTask'])->name('store.evening.task');
 
