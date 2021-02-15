@@ -25,7 +25,9 @@ use App\Models\UserTransaction;
 use App\Models\TaskArea;
 use App\Models\milkmanAsset;
 use App\Models\SubTask;
+
 use App\Exports\OrderExport;
+use App\Exports\TaskExport;
 use Maatwebsite\Excel\Facades\Excel;
 
 class RegisterController extends Controller
@@ -345,5 +347,11 @@ class RegisterController extends Controller
   {
     $filename = 'search-orders-at-'.date("d-m-Y").'.xlsx';
     return Excel::download(new OrderExport($request->fromDate,$request->toDate), $filename);        
+  }
+
+  public function exportTask(Request $request)
+  {
+    $filename = 'search-tasks-at-'.date("d-m-Y").'.xlsx';
+    return Excel::download(new TaskExport($request->fromDate,$request->toDate), $filename);        
   }
 }

@@ -18,7 +18,7 @@ class OrderExport implements FromQuery, WithHeadings, WithMapping, WithColumnFor
     * @return \Illuminate\Support\Query
     */
     use Exportable;
-	protected $request;
+
     protected $fromDate;
     protected $toDate;
 	public function __construct($fromDate, $toDate)

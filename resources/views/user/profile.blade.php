@@ -341,7 +341,7 @@
                                  <input onclick="searchDistributorOrderHistory()" class="btn btn-info form-control" type="submit" value="Search">
                               </li>
                               <li class="list-inline-item">
-                                 <a class="btn btn-info form-control" href="/download" id="DistributorOrderHistoryExportExcel">Export In Excel</a>
+                                 <a class="btn btn-info form-control" href="{{route('exportinexcel.order')}}" id="ExportInExcel">Export In Excel</a>
                               </li>
                            </ul>
                         </div>
@@ -395,28 +395,17 @@
                            <ul class="pl-0 form-group" id="tab-button-group">
                               <li class="list-inline-item" >
                                  <span>From: </span>
-                                 <input type="date" id="fromAssignTaskDate" class="form-control" placeholder="From Date">
+                                 <input onchange="setCollectorTaskFromDate()" type="date" id="fromAssignTaskDate" class="form-control" placeholder="From Date">
                               </li>
                               <li class="list-inline-item" >
                                  <span>To: </span>
-                                 <input type="date" id="toAssignTaskDate" class="form-control" placeholder="From Date" >
-                              </li>
-                              <!-- <li class="list-inline-item">
-                                 <select class="form-control" id="searchByFixTime">
-                                    <option value="">Select Fix Time</option>
-                                    <option value="lastday">Last Day</option>
-                                    <option value="lastweek">Last Week</option>
-                                    <option value="lastmonth">Last Month</option>
-                                 </select>
-                              </li> -->
+                                 <input onchange="setCollectorTaskToDate()" type="date" id="toAssignTaskDate" class="form-control" placeholder="From Date" >
+                              </li>                              
                               <li class="list-inline-item" >
                                  <input onclick="searchCollectorTaskHistory()" class="btn btn-info form-control" type="submit" value="Search">
-                              </li>
-                              <!-- <li class="list-inline-item" >
-                                 <button onclick="exportSearchedOrderHistory()" class="btn btn-info form-control" type="submit">Export In Excel</button>
-                              </li> -->
+                              </li>                             
                               <li class="list-inline-item" >
-                                 <a class="btn btn-info form-control" href="/download">Export In Excel</a>
+                                 <a class="btn btn-info form-control" href="{{route('exportinexcel.task')}}" id="CollectorTaskExportInExcel">Export In Excel</a>
                               </li>
                            </ul>
                         </div>
@@ -473,21 +462,10 @@
                               <li class="list-inline-item" >
                                  <span>To: </span>
                                  <input type="date" id="toVendorCollectionDate" class="form-control" placeholder="From Date" >
-                              </li>
-                              <!-- <li class="list-inline-item">
-                                 <select class="form-control" id="searchByFixTime">
-                                    <option value="">Select Fix Time</option>
-                                    <option value="lastday">Last Day</option>
-                                    <option value="lastweek">Last Week</option>
-                                    <option value="lastmonth">Last Month</option>
-                                 </select>
-                              </li> -->
+                              </li>                              
                               <li class="list-inline-item" >
                                  <input onclick="searchVendorCollectionHistory()" class="btn btn-info form-control" type="submit" value="Search">
-                              </li>
-                              <!-- <li class="list-inline-item" >
-                                 <button onclick="exportSearchedOrderHistory()" class="btn btn-info form-control" type="submit">Export In Excel</button>
-                              </li> -->
+                              </li>                              
                               <li class="list-inline-item" >
                                  <a class="btn btn-info form-control" href="/download">Export In Excel</a>
                               </li>
@@ -550,20 +528,9 @@
                                  <span>To: </span>
                                  <input type="date" id="toPaymentDate" class="form-control" placeholder="From Date" >
                               </li>
-                              <!-- <li class="list-inline-item">
-                                 <select class="form-control" id="searchByFixTime">
-                                    <option value="">Select Fix Time</option>
-                                    <option value="lastday">Last Day</option>
-                                    <option value="lastweek">Last Week</option>
-                                    <option value="lastmonth">Last Month</option>
-                                 </select>
-                              </li> -->
                               <li class="list-inline-item" >
                                  <input onclick="searchDistributorPaymentHistory()" class="btn btn-info form-control" type="submit" value="Search">
-                              </li>
-                              <!-- <li class="list-inline-item" >
-                                 <button onclick="exportSearchedOrderHistory()" class="btn btn-info form-control" type="submit">Export In Excel</button>
-                              </li> -->
+                              </li>                              
                               <li class="list-inline-item" >
                                  <a class="btn btn-info form-control" href="/download">Export In Excel</a>
                               </li>
@@ -620,20 +587,9 @@
                                  <span>To: </span>
                                  <input type="date" id="toInventoryAssignDate" class="form-control" placeholder="From Date" >
                               </li>
-                              <!-- <li class="list-inline-item">
-                                 <select class="form-control" id="searchByFixTime">
-                                    <option value="">Select Fix Time</option>
-                                    <option value="lastday">Last Day</option>
-                                    <option value="lastweek">Last Week</option>
-                                    <option value="lastmonth">Last Month</option>
-                                 </select>
-                              </li> -->
                               <li class="list-inline-item" >
                                  <input onclick="searchCollectorInventoryAssignHistory()" class="btn btn-info form-control" type="submit" value="Search">
-                              </li>
-                              <!-- <li class="list-inline-item" >
-                                 <button onclick="exportSearchedOrderHistory()" class="btn btn-info form-control" type="submit">Export In Excel</button>
-                              </li> -->
+                              </li>                             
                               <li class="list-inline-item" >
                                  <a class="btn btn-info form-control" href="/download">Export In Excel</a>
                               </li>
@@ -1096,6 +1052,54 @@ initializeMap('ProfielMap','ProfileClearShapes','saveProfleMap','ProfileRestoreM
    $( "#ProfileRestoreMap" ).trigger( "click" );      
 });
 
+function setCollectorTaskFromDate(){
+   var fromDate = $("#fromAssignTaskDate").val();
+   var toDate = $("#toAssignTaskDate").val();
+   if(!fromDate.length)
+   {
+      var d = new Date();
+      var old_day = d.getDate();
+      var old_month = d.getMonth();
+      var old_year = d.getFullYear()-1;
+      fromDate = old_year + "-" + old_month + "-" + old_day;     
+   }
+   if(!toDate.length)
+   {
+      var d = new Date();
+      var curr_day = d.getDate();
+      var curr_month = d.getMonth() + 1;
+      var curr_year = d.getFullYear();
+      toDate = curr_year + "-" + curr_month + "-" + curr_day;
+   }
+   var href = '/downloadtask?fromDate='+fromDate+'&toDate='+toDate;
+   $("#CollectorTaskExportInExcel").attr("href",href);
+}
+
+
+function setCollectorTaskToDate(){
+   var fromDate = $("#fromAssignTaskDate").val();
+   var toDate = $("#toAssignTaskDate").val();
+   if(!fromDate.length)
+   {
+      var d = new Date();
+      var old_day = d.getDate();
+      var old_month = d.getMonth();
+      var old_year = d.getFullYear()-1;
+      fromDate = old_year + "-" + old_month + "-" + old_day;      
+   }
+   if(!toDate.length)
+   {
+      var d = new Date();
+      var curr_day = d.getDate();
+      var curr_month = d.getMonth() + 1;
+      var curr_year = d.getFullYear();
+      toDate = curr_year + "-" + curr_month + "-" + curr_day;
+   }
+   var href = '/downloadtask?fromDate='+fromDate+'&toDate='+toDate;
+   $("#CollectorTaskExportInExcel").attr("href",href);
+}
+
+
 function setFromDate(){
    var fromDate = $("#fromDate").val();
    var toDate = $("#toDate").val();
@@ -1116,7 +1120,7 @@ function setFromDate(){
       toDate = curr_year + "-" + curr_month + "-" + curr_day;
    }
    var href = '/download?fromDate='+fromDate+'&toDate='+toDate;
-   $("#DistributorOrderHistoryExportExcel").attr("href",href);
+   $("#ExportInExcel").attr("href",href);
 }
 
 
@@ -1140,8 +1144,10 @@ function setToDate(){
       toDate = curr_year + "-" + curr_month + "-" + curr_day;
    }
    var href = '/download?fromDate='+fromDate+'&toDate='+toDate;
-   $("#DistributorOrderHistoryExportExcel").attr("href",href);
+   $("#ExportInExcel").attr("href",href);
 }
+
+
 
 function searchCollectorInventoryAssignHistory(){
    var fromDate = $("#fromInventoryAssignDate").val();
@@ -1406,32 +1412,6 @@ function searchDistributorOrderHistory(){
       }
    });
 }
-
-function exportSearchedOrderHistory(){
-   var fromDate = $("#fromDate").val();
-   var toDate = $("#toDate").val();
-
-   jQuery.ajax({
-        url: "{{route('exportinexcel.order')}}",
-        type: "POST",
-        data: {
-            fromDate: fromDate,
-            toDate: toDate,
-            '_token' : "{{ csrf_token() }}"
-        },
-        success: function (response, status) {
-         console.log('it is store in you file');      
-        },
-        error: function () {
-         swal.fire("Error in Exporting Data!", "Please try again", "error").then((result) => {
-            if(result.isConfirmed) {
-               location.reload(true);
-            }
-         });
-      }
-   });
-}
-
 
 function getDateFromJsonString(dateString){
    var dateObj = new Date(dateString).toLocaleString();
