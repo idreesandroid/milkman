@@ -110,19 +110,6 @@
                                                 <div ></div>
                                                 <div class="text"></div>
                                              </li>
-                                             <!-- <li>
-                                                <div class="title">Reports to:</div>
-                                                <div class="text">
-                                                   <div class="avatar-box">
-                                                     <div class="avatar avatar-xs">
-                                                       <img src="assets/img/profiles/avatar-16.jpg" alt="">
-                                                     </div>
-                                                   </div>
-                                                  
-                                                      here will be the area manager may be
-                                                   
-                                                </div>
-                                                </li> -->
                                           </ul>
                                        </div>                        
                                     </div>
@@ -297,11 +284,10 @@
                                        </li>
                                        <li>
                                        @if(isset($users->userAcc->balance))
-                                          <div class="title">User MilkMan Balance.</div>                          
+                                          <div class="title">User MilkMan Balance.</div>
                                           <div class="text">{{$users->userAcc->balance}}</div>
                                           @endif
                                        </li>
-
                                     </ul>
                                  </div>
                               </div>
@@ -345,28 +331,17 @@
                            <ul class="pl-0 form-group" id="tab-button-group">
                               <li class="list-inline-item" >
                                  <span>From: </span>
-                                 <input type="date" id="fromDate" class="form-control" placeholder="From Date">
+                                 <input onchange="setFromDate()" type="date" id="fromDate" class="form-control" placeholder="From Date">
                               </li>
                               <li class="list-inline-item" >
                                  <span>To: </span>
-                                 <input type="date" id="toDate" class="form-control" placeholder="From Date" >
-                              </li>
-                              <!-- <li class="list-inline-item">
-                                 <select class="form-control" id="searchByFixTime">
-                                    <option value="">Select Fix Time</option>
-                                    <option value="lastday">Last Day</option>
-                                    <option value="lastweek">Last Week</option>
-                                    <option value="lastmonth">Last Month</option>
-                                 </select>
-                              </li> -->
+                                 <input onchange="setToDate()" type="date" id="toDate" class="form-control" placeholder="From Date" >
+                              </li>                              
                               <li class="list-inline-item" >
                                  <input onclick="searchDistributorOrderHistory()" class="btn btn-info form-control" type="submit" value="Search">
                               </li>
-                              <!-- <li class="list-inline-item" >
-                                 <button onclick="exportSearchedOrderHistory()" class="btn btn-info form-control" type="submit">Export In Excel</button>
-                              </li> -->
-                              <li class="list-inline-item" >
-                                 <a class="btn btn-info form-control" href="/download">Export In Excel</a>
+                              <li class="list-inline-item">
+                                 <a class="btn btn-info form-control" href="/download" id="DistributorOrderHistoryExportExcel">Export In Excel</a>
                               </li>
                            </ul>
                         </div>
@@ -1120,6 +1095,53 @@ var longitude = $("#longitude").val();
 initializeMap('ProfielMap','ProfileClearShapes','saveProfleMap','ProfileRestoreMap','addProfileMapData','',latitude,longitude);
    $( "#ProfileRestoreMap" ).trigger( "click" );      
 });
+
+function setFromDate(){
+   var fromDate = $("#fromDate").val();
+   var toDate = $("#toDate").val();
+   if(!fromDate.length)
+   {
+      var d = new Date();
+      var old_day = d.getDate();
+      var old_month = d.getMonth();
+      var old_year = d.getFullYear()-1;
+      fromDate = old_year + "-" + old_month + "-" + old_day;     
+   }
+   if(!toDate.length)
+   {
+      var d = new Date();
+      var curr_day = d.getDate();
+      var curr_month = d.getMonth() + 1;
+      var curr_year = d.getFullYear();
+      toDate = curr_year + "-" + curr_month + "-" + curr_day;
+   }
+   var href = '/download?fromDate='+fromDate+'&toDate='+toDate;
+   $("#DistributorOrderHistoryExportExcel").attr("href",href);
+}
+
+
+function setToDate(){
+   var fromDate = $("#fromDate").val();
+   var toDate = $("#toDate").val();
+   if(!fromDate.length)
+   {
+      var d = new Date();
+      var old_day = d.getDate();
+      var old_month = d.getMonth();
+      var old_year = d.getFullYear()-1;
+      fromDate = old_year + "-" + old_month + "-" + old_day;      
+   }
+   if(!toDate.length)
+   {
+      var d = new Date();
+      var curr_day = d.getDate();
+      var curr_month = d.getMonth() + 1;
+      var curr_year = d.getFullYear();
+      toDate = curr_year + "-" + curr_month + "-" + curr_day;
+   }
+   var href = '/download?fromDate='+fromDate+'&toDate='+toDate;
+   $("#DistributorOrderHistoryExportExcel").attr("href",href);
+}
 
 function searchCollectorInventoryAssignHistory(){
    var fromDate = $("#fromInventoryAssignDate").val();

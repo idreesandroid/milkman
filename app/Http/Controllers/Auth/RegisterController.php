@@ -25,7 +25,8 @@ use App\Models\UserTransaction;
 use App\Models\TaskArea;
 use App\Models\milkmanAsset;
 use App\Models\SubTask;
-
+use App\Exports\OrderExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class RegisterController extends Controller
 {
@@ -137,10 +138,10 @@ class RegisterController extends Controller
     if($users->roles[0]['name'] == 'Vendor'){
 
       $vendors = User::select('users.id','users.name','vendor_details.longitude','vendor_details.latitude')
-                  ->join('role_user', 'role_user.user_id', '=', 'users.id')
-                  ->join('vendor_details','vendor_details.user_id','=','users.id')
-                  ->where('users.id', '=', $id)
-                  ->get();
+                      ->join('role_user', 'role_user.user_id', '=', 'users.id')
+                      ->join('vendor_details','vendor_details.user_id','=','users.id')
+                      ->where('users.id', '=', $id)
+                      ->get();
       $location = '[';
       foreach ($vendors as $value) {
           $location .='{"type":"MARKER","id":null,"geometry":['.trim($value->latitude).','.trim($value->longitude).']},';
@@ -149,33 +150,47 @@ class RegisterController extends Controller
       
       $location = str_replace("},]","}]",$location);
 
-      $UserTransaction = UserTransaction::select('*')->where('user_id',$id)->get();
+      $UserTransaction = UserTransaction::select('*')
+                                          ->where('user_id',$id)
+                                          ->get();
 
       $milkCollection = SubTask::select('sub_tasks.*','users.name')
-                      ->leftJoin('users','users.id','=','sub_tasks.AssignTo')
-                      ->where('sub_tasks.vendor_id',$id)
-                      ->get();
+                                ->leftJoin('users','users.id','=','sub_tasks.AssignTo')
+                                ->where('sub_tasks.vendor_id',$id)
+                                ->get();
 
       return view('user/profile', compact('users','user_roles','location','UserTransaction','milkCollection')); 
 
     }elseif($users->roles[0]['name'] == 'Distributor'){
-      $alotedArea = Distributor::select('alotedArea')->where('user_id','=',$id)->first();
+
+      $alotedArea = Distributor::select('alotedArea')
+                                ->where('user_id','=',$id)
+                                ->first();
 
       $location = $alotedArea['alotedArea'];
-      //echo $id;
-      $orderHistory = Invoice::select('invoices.*','users.name')
-                      ->join('users','users.id','=','invoices.seller_id')
-                      ->where('buyer_id',$id)->get();
-      $UserTransaction = UserTransaction::select('*')->where('user_id',$id)->get();
 
-      return view('user/profile', compact('users','user_roles','location','orderHistory','UserTransaction')); 
+      $orderHistory = Invoice::select('invoices.*','users.name')
+                              ->join('users','users.id','=','invoices.seller_id')
+                              ->where('buyer_id',$id)
+                              ->get();
+
+      $UserTransaction = UserTransaction::select('*')
+                                          ->where('user_id',$id)
+                                          ->get();
+
+      return view('user/profile', compact('users','user_roles','location','orderHistory','UserTransaction'));
+
     }elseif($users->roles[0]['name'] == 'Collector'){
+
       $TaskArea = TaskArea::select('task_areas.*','collections.title')
-                      ->join('collections','collections.id','=','task_areas.area_id')
-                      ->where('task_areas.collector_id',$id)->get();
+                            ->join('collections','collections.id','=','task_areas.area_id')
+                            ->where('task_areas.collector_id',$id)
+                            ->get();
+
       $assets = milkmanAsset::select('milkman_assets.*','assets_types.typeName')
-                      ->join('assets_types','assets_types.id','=','milkman_assets.type_id')
-                      ->where('milkman_assets.user_id',$id)->get();
+                              ->join('assets_types','assets_types.id','=','milkman_assets.type_id')
+                              ->where('milkman_assets.user_id',$id)
+                              ->get();
 
       return view('user/profile', compact('users','user_roles','collectorAssets','TaskArea','assets')); 
     }
@@ -213,9 +228,12 @@ class RegisterController extends Controller
 
       $orderHistory = Invoice::select('invoices.*','users.name')
                       ->join('users','users.id','=','invoices.seller_id')
-                      ->where('buyer_id',$uid)->get();
+                      ->where('buyer_id',$uid)
+                      ->get();
 
-      $UserTransaction = UserTransaction::select('*')->where('user_id',$uid)->get();
+      $UserTransaction = UserTransaction::select('*')
+                                          ->where('user_id',$uid)
+                                          ->get();
 
       return view('user/profile', compact('users','orderHistory','UserTransaction')); 
     }
@@ -321,5 +339,11 @@ class RegisterController extends Controller
                       ->Where('milkman_assets.user_id','=',$request->collectorID)
                       ->get();
     return json_decode($assets);
+  }
+
+  public function export(Request $request)
+  {
+    $filename = 'search-orders-at-'.date("d-m-Y").'.xlsx';
+    return Excel::download(new OrderExport($request->fromDate,$request->toDate), $filename);        
   }
 }
