@@ -597,7 +597,5 @@ public function AssignArea($shift , $id)
         }
         return redirect()->route('user.dashBoard');
     }
-
-
     
 }
