@@ -144,7 +144,6 @@
    
     $(document).ready(function() {  
         $(":input").inputmask();        
-        initializeMap('mapIn','clear_shapes','save_raw_map','restore','MapData');
         initAutocomplete();  
    });
    
