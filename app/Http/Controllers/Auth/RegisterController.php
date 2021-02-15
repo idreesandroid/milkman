@@ -22,6 +22,9 @@ use App\Models\collectionPointManager;
 
 use App\Models\Invoice;
 use App\Models\UserTransaction;
+use App\Models\TaskArea;
+use App\Models\milkmanAsset;
+use App\Models\SubTask;
 
 
 class RegisterController extends Controller
@@ -146,7 +149,15 @@ class RegisterController extends Controller
       
       $location = str_replace("},]","}]",$location);
 
-      return view('user/profile', compact('users','user_roles','location')); 
+      $UserTransaction = UserTransaction::select('*')->where('user_id',$id)->get();
+
+      $milkCollection = SubTask::select('sub_tasks.*','users.name')
+                      ->leftJoin('users','users.id','=','sub_tasks.AssignTo')
+                      ->where('sub_tasks.vendor_id',$id)
+                      ->get();
+
+      return view('user/profile', compact('users','user_roles','location','UserTransaction','milkCollection')); 
+
     }elseif($users->roles[0]['name'] == 'Distributor'){
       $alotedArea = Distributor::select('alotedArea')->where('user_id','=',$id)->first();
 
@@ -158,6 +169,15 @@ class RegisterController extends Controller
       $UserTransaction = UserTransaction::select('*')->where('user_id',$id)->get();
 
       return view('user/profile', compact('users','user_roles','location','orderHistory','UserTransaction')); 
+    }elseif($users->roles[0]['name'] == 'Collector'){
+      $TaskArea = TaskArea::select('task_areas.*','collections.title')
+                      ->join('collections','collections.id','=','task_areas.area_id')
+                      ->where('task_areas.collector_id',$id)->get();
+      $assets = milkmanAsset::select('milkman_assets.*','assets_types.typeName')
+                      ->join('assets_types','assets_types.id','=','milkman_assets.type_id')
+                      ->where('milkman_assets.user_id',$id)->get();
+
+      return view('user/profile', compact('users','user_roles','collectorAssets','TaskArea','assets')); 
     }
 
     return view('user/profile', compact('users','user_roles','collectorAssets')); 
@@ -267,6 +287,39 @@ class RegisterController extends Controller
     return json_decode($Invoice);
   }
 
+  public function searchPayment(Request $request){
+    $UserTransaction = UserTransaction::select('user_transactions.*','users.name as verifiedBy')
+                        ->whereBetween('user_transactions.created_at', array($request->fromDate, $request->toDate))
+                        ->leftJoin('users','users.id','=','user_transactions.verifiedBy')
+                        ->where('user_transactions.user_id','=',$request->userID)
+                        ->get();
+    return json_decode($UserTransaction);
+  }
 
-  
+
+  public function searchVendorCollection(Request $request){
+    $vendorCollection = SubTask::select('sub_tasks.*','users.name as collectorName')
+                        ->whereBetween('sub_tasks.updated_at', array($request->fromDate, $request->toDate))
+                        ->leftJoin('users','users.id','=','sub_tasks.AssignTo')
+                        ->where('sub_tasks.vendor_id','=',$request->vendorID)
+                        ->get();
+    return json_decode($vendorCollection);
+  }
+
+  public function searchCollectorTask(Request $request){
+    $collectorTask = TaskArea::select('task_areas.*','collections.title')
+                      ->whereBetween('task_areas.created_at', array($request->fromDate, $request->toDate))
+                      ->leftJoin('collections','collections.id','=','task_areas.area_id')
+                      ->get();
+    return json_decode($collectorTask);
+  }
+
+  public function searchCollectorInventoryAssign(Request $request){  
+    $assets = milkmanAsset::select('milkman_assets.*','assets_types.typeName')
+                      ->join('assets_types','assets_types.id','=','milkman_assets.type_id')
+                      ->whereBetween('milkman_assets.updated_at', array($request->fromDate, $request->toDate))
+                      ->Where('milkman_assets.user_id','=',$request->collectorID)
+                      ->get();
+    return json_decode($assets);
+  }
 }

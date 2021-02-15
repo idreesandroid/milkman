@@ -44,6 +44,8 @@ Version      : 1.0
 34. Kanban Board
 35. Responsive
 
+
+
 ========================================*/
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400&display=swap');
@@ -112,6 +114,8 @@ Version      : 1.0
 	font-weight: 800;
 	src: local('Circular Std Black Italic'), url('../fonts/CircularStd-BlackItalic.woff') format('woff');
 }
+
+
 
 
 /*-----------------
@@ -9600,4 +9604,23 @@ div#kanban-single-col .collector_detial {
 }
 .label.pink{
 	background-color: #FFC0CB;         
+}
+
+@-moz-document url-prefix(){
+
+	#tab-button-group li {
+    	float: left;
+	}
+
+	#tab-button-group li:nth-child(3),
+	#tab-button-group li:nth-child(4) {
+    	margin-top: 21px;
+	}
+
+	#tab-button-group li{
+		margin-bottom: 16px;		
+	}
+}
+ul#tab-button-group li a {
+    padding-top: 10px;
 }
