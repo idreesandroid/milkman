@@ -37,7 +37,7 @@
       <div class="card">
          <div class="card-body">
             <!-- <h6 class="card-title">Bottom line justified</h6> -->
-            <ul class="nav nav-tabs nav-tabs-bottom nav-justified">
+            <ul class="nav nav-tabs nav-tabs-bottom nav-justified" >
                <li class="nav-item">
                   <a class="nav-link active" href="#profile" data-toggle="tab">Profile</a>
                </li>
@@ -342,7 +342,7 @@
                   <div class="page-header pt-3 mb-0 ">
                      <div class="row">                                       
                         <div class="col text-left">
-                           <ul class="pl-0 form-group">
+                           <ul class="pl-0 form-group" id="tab-button-group">
                               <li class="list-inline-item" >
                                  <span>From: </span>
                                  <input type="date" id="fromDate" class="form-control" placeholder="From Date">
@@ -360,7 +360,7 @@
                                  </select>
                               </li> -->
                               <li class="list-inline-item" >
-                                 <input onclick="searchOrderHistory()" class="btn btn-info form-control" type="submit" value="Search">
+                                 <input onclick="searchDistributorOrderHistory()" class="btn btn-info form-control" type="submit" value="Search">
                               </li>
                               <!-- <li class="list-inline-item" >
                                  <button onclick="exportSearchedOrderHistory()" class="btn btn-info form-control" type="submit">Export In Excel</button>
@@ -414,6 +414,39 @@
                @endif
                @if($users->roles[0]->name == 'Collector')
                <div class="tab-pane" id="taskHistory">
+                  <div class="page-header pt-3 mb-0 ">
+                     <div class="row">                                       
+                        <div class="col text-left">
+                           <ul class="pl-0 form-group" id="tab-button-group">
+                              <li class="list-inline-item" >
+                                 <span>From: </span>
+                                 <input type="date" id="fromAssignTaskDate" class="form-control" placeholder="From Date">
+                              </li>
+                              <li class="list-inline-item" >
+                                 <span>To: </span>
+                                 <input type="date" id="toAssignTaskDate" class="form-control" placeholder="From Date" >
+                              </li>
+                              <!-- <li class="list-inline-item">
+                                 <select class="form-control" id="searchByFixTime">
+                                    <option value="">Select Fix Time</option>
+                                    <option value="lastday">Last Day</option>
+                                    <option value="lastweek">Last Week</option>
+                                    <option value="lastmonth">Last Month</option>
+                                 </select>
+                              </li> -->
+                              <li class="list-inline-item" >
+                                 <input onclick="searchCollectorTaskHistory()" class="btn btn-info form-control" type="submit" value="Search">
+                              </li>
+                              <!-- <li class="list-inline-item" >
+                                 <button onclick="exportSearchedOrderHistory()" class="btn btn-info form-control" type="submit">Export In Excel</button>
+                              </li> -->
+                              <li class="list-inline-item" >
+                                 <a class="btn btn-info form-control" href="/download">Export In Excel</a>
+                              </li>
+                           </ul>
+                        </div>
+                     </div>
+                  </div> 
                   <div class="row">
                      <div class="col-md-12">
                         <div class="card mb-0">
@@ -422,16 +455,27 @@
                                  <table class="table table-striped table-nowrap custom-table mb-0 datatable" id="collectorTaskHistory">
                                     <thead>
                                        <tr>
-                                          <th>Date</th>
-                                          <th>Total Milk</th>
-                                          <th>Vendor</th>
-                                          <th>Amount</th>             
-                                          <th>Shift</th>             
-                                          <th>Status</th>
-                                          <th class="text-left">Actions</th>
+                                          <th>Assign At</th>
+                                          <th>Collectoin Area</th>
+                                          <th>Morning/Evening Shift</th>
+                                          <th>Assign From</th>
+                                          <th>Assign To</th>             
+                                          <th>Status</th>                                          
                                        </tr>
                                     </thead>
-                                    <tbody>
+                                    <tbody id="CollectorAssignTask">
+                                       @if(isset($TaskArea))
+                                          @foreach($TaskArea as $task)
+                                          <tr>
+                                             <td>{{$task->created_at}}</td>
+                                             <td>{{$task->title}}</td>
+                                             <td>{{$task->shift}}</td>
+                                             <td>{{$task->assignFrom}}</td>
+                                             <td>{{$task->assignTill}}</td>
+                                             <td>{{$task->taskAreaStatus}}</td>
+                                          </tr>
+                                          @endforeach
+                                       @endif
                                     </tbody>
                                  </table>
                               </div>
@@ -443,6 +487,39 @@
                @endif
                @if($users->roles[0]->name == 'Vendor')
                <div class="tab-pane" id="collectionHistory">
+                  <div class="page-header pt-3 mb-0 ">
+                     <div class="row">                                       
+                        <div class="col text-left">
+                           <ul class="pl-0 form-group" id="tab-button-group">
+                              <li class="list-inline-item" >
+                                 <span>From: </span>
+                                 <input type="date" id="fromVendorCollectionDate" class="form-control" placeholder="From Date">
+                              </li>
+                              <li class="list-inline-item" >
+                                 <span>To: </span>
+                                 <input type="date" id="toVendorCollectionDate" class="form-control" placeholder="From Date" >
+                              </li>
+                              <!-- <li class="list-inline-item">
+                                 <select class="form-control" id="searchByFixTime">
+                                    <option value="">Select Fix Time</option>
+                                    <option value="lastday">Last Day</option>
+                                    <option value="lastweek">Last Week</option>
+                                    <option value="lastmonth">Last Month</option>
+                                 </select>
+                              </li> -->
+                              <li class="list-inline-item" >
+                                 <input onclick="searchVendorCollectionHistory()" class="btn btn-info form-control" type="submit" value="Search">
+                              </li>
+                              <!-- <li class="list-inline-item" >
+                                 <button onclick="exportSearchedOrderHistory()" class="btn btn-info form-control" type="submit">Export In Excel</button>
+                              </li> -->
+                              <li class="list-inline-item" >
+                                 <a class="btn btn-info form-control" href="/download">Export In Excel</a>
+                              </li>
+                           </ul>
+                        </div>
+                     </div>
+                  </div>
                   <div class="row">
                      <div class="col-md-12">
                         <div class="card mb-0">
@@ -454,17 +531,28 @@
                                           <th>Date</th>
                                           <th>Amount</th>
                                           <th>Shift</th>
-                                          <th>Quality</th>
                                           <th>Fat</th>
                                           <th>Lactose</th>
                                           <th>Ash</th>
-                                          <th>Taste</th>             
-                                          <th>Collected By</th>
-                                          <th class="text-left">Actions</th>
+                                          <th>Assign To</th>               
+                                          <th>Status</th>               
                                        </tr>
                                     </thead>
-                                    <tbody>
-                                       
+                                    <tbody id="VendorCollection">
+                                       @if(isset($milkCollection))
+                                          @foreach($milkCollection as $collection)
+                                             <tr>
+                                                <td>{{$collection->updated_at}}<input type="hidden" id="vendorID" value="{{$collection->vendor_id}}"></td>
+                                                <td><?php echo (isset($collection->milkCollected)) ? $collection->milkCollected.' ltr' : ''; ?></td>
+                                                <td>{{$collection->taskShift}}</td>
+                                                <td>{{$collection->fat}}</td>
+                                                <td>{{$collection->Lactose}}</td>
+                                                <td>{{$collection->Ash}}</td>
+                                                <td>{{$collection->name}}</td>
+                                                <td>{{$collection->status}}</td>
+                                             </tr>
+                                          @endforeach
+                                       @endif                                       
                                     </tbody>
                                  </table>
                               </div>
@@ -475,6 +563,39 @@
                </div>
                @endif
                <div class="tab-pane" id="paymentHistory">
+                  <div class="page-header pt-3 mb-0 ">
+                     <div class="row">                                       
+                        <div class="col text-left">
+                           <ul class="pl-0 form-group" id="tab-button-group">
+                              <li class="list-inline-item" >
+                                 <span>From: </span>
+                                 <input type="date" id="fromPaymentDate" class="form-control" placeholder="From Date">
+                              </li>
+                              <li class="list-inline-item" >
+                                 <span>To: </span>
+                                 <input type="date" id="toPaymentDate" class="form-control" placeholder="From Date" >
+                              </li>
+                              <!-- <li class="list-inline-item">
+                                 <select class="form-control" id="searchByFixTime">
+                                    <option value="">Select Fix Time</option>
+                                    <option value="lastday">Last Day</option>
+                                    <option value="lastweek">Last Week</option>
+                                    <option value="lastmonth">Last Month</option>
+                                 </select>
+                              </li> -->
+                              <li class="list-inline-item" >
+                                 <input onclick="searchDistributorPaymentHistory()" class="btn btn-info form-control" type="submit" value="Search">
+                              </li>
+                              <!-- <li class="list-inline-item" >
+                                 <button onclick="exportSearchedOrderHistory()" class="btn btn-info form-control" type="submit">Export In Excel</button>
+                              </li> -->
+                              <li class="list-inline-item" >
+                                 <a class="btn btn-info form-control" href="/download">Export In Excel</a>
+                              </li>
+                           </ul>
+                        </div>
+                     </div>
+                  </div>
                   <div class="row">
                      <div class="col-md-12">
                         <div class="card mb-0">
@@ -487,22 +608,18 @@
                                           <th>Transection ID</th>
                                           <th>Deposit Time</th>
                                           <th>Amount Paid</th>             
-                                          <th>Status</th>
-                                          <th class="text-left">Actions</th>
+                                          <th>Status</th>                                          
                                        </tr>
                                     </thead>
-                                    <tbody>
+                                    <tbody id="paymentHistorySearchData">
                                        @if(isset($UserTransaction))
                                           @foreach($UserTransaction as $item)
                                           <tr> 
-                                             <td>{{$item->paymentMethod}}</td>
+                                             <td>{{$item->paymentMethod}}<input type="hidden" id="userID" value="{{$item->user_id}}"></td>
                                              <td>{{$item->transactionId}}</td>
                                              <td>{{ timeFormat($item->timeOfDeposit)['date'] }} {{timeFormat($item->timeOfDeposit)['time'] }}</td>
                                              <td>{{$item->amountPaid}}</td>
                                              <td>{{ucfirst($item->status)}}</td>
-                                             <td>
-                                                <button onclick="transactionDetail(<?php echo $item->id; ?>)" class="btn btn-outline-info"  href="" >Detail</button>
-                                             </td>
                                           </tr>
                                           @endforeach
                                        @endif 
@@ -516,6 +633,39 @@
                </div>
                @if($users->roles[0]->name == 'Collector')              
                <div class="tab-pane" id="inventory">
+                  <div class="page-header pt-3 mb-0 ">
+                     <div class="row">                                       
+                        <div class="col text-left">
+                           <ul class="pl-0 form-group" id="tab-button-group">
+                              <li class="list-inline-item" >
+                                 <span>From: </span>
+                                 <input type="date" id="fromInventoryAssignDate" class="form-control" placeholder="From Date">
+                              </li>
+                              <li class="list-inline-item" >
+                                 <span>To: </span>
+                                 <input type="date" id="toInventoryAssignDate" class="form-control" placeholder="From Date" >
+                              </li>
+                              <!-- <li class="list-inline-item">
+                                 <select class="form-control" id="searchByFixTime">
+                                    <option value="">Select Fix Time</option>
+                                    <option value="lastday">Last Day</option>
+                                    <option value="lastweek">Last Week</option>
+                                    <option value="lastmonth">Last Month</option>
+                                 </select>
+                              </li> -->
+                              <li class="list-inline-item" >
+                                 <input onclick="searchCollectorInventoryAssignHistory()" class="btn btn-info form-control" type="submit" value="Search">
+                              </li>
+                              <!-- <li class="list-inline-item" >
+                                 <button onclick="exportSearchedOrderHistory()" class="btn btn-info form-control" type="submit">Export In Excel</button>
+                              </li> -->
+                              <li class="list-inline-item" >
+                                 <a class="btn btn-info form-control" href="/download">Export In Excel</a>
+                              </li>
+                           </ul>
+                        </div>
+                     </div>
+                  </div>
                   <div class="row">
                      <div class="col-md-12">
                         <div class="card mb-0">
@@ -524,16 +674,25 @@
                                  <table class="table table-striped table-nowrap custom-table mb-0 datatable" id="CollectorInventoryHistory">
                                     <thead>
                                        <tr>
+                                          <th>Assign At</th>             
                                           <th>Asset Name</th>             
                                           <th>Asset Type</th>
                                           <th>Capicity</th>
-                                          <th>Issued Date</th>
-                                          <th>Issued By</th>
-                                          <th>Status</th>
-                                          <th class="text-left">Actions</th>
+                                          <th>Asset Code</th>                        
                                        </tr>
                                     </thead>
-                                    <tbody>                                      
+                                    <tbody id="CollectorInventoryAssign">
+                                       @if(isset($assets))
+                                          @foreach($assets as $asset)
+                                             <tr>                                                
+                                                <td>{{$asset->updated_at}}<input type="hidden" id="collectorID" value="{{$asset->user_id}}"></td>
+                                                <td>{{$asset->assetName}}</td>
+                                                <td>{{$asset->typeName}}</td>
+                                                <td>{{$asset->assetCapacity}}</td>
+                                                <td>{{$asset->assetCode}}</td>
+                                             </tr>
+                                          @endforeach
+                                       @endif
                                     </tbody>
                                  </table>
                               </div>
@@ -962,10 +1121,235 @@ initializeMap('ProfielMap','ProfileClearShapes','saveProfleMap','ProfileRestoreM
    $( "#ProfileRestoreMap" ).trigger( "click" );      
 });
 
-function searchOrderHistory(){
+function searchCollectorInventoryAssignHistory(){
+   var fromDate = $("#fromInventoryAssignDate").val();
+   var toDate = $("#toInventoryAssignDate").val();
+   var collectorID = $("#collectorID").val();
+
+   if(!fromDate.length){
+      $("#fromInventoryAssignDate").focus();
+      alert('Please insert the from Date');            
+      return false;
+   }
+
+   if(!toDate.length){
+      $("#toInventoryAssignDate").focus();
+      alert('Please insert the to Date');            
+      return false;
+   } 
+
+   jQuery.ajax({
+        url: "{{route('search.searchCollectorInventoryAssign')}}",
+        type: "POST",
+        data: {
+            fromDate: fromDate,
+            toDate: toDate,
+            collectorID: collectorID,
+            '_token' : "{{ csrf_token() }}"
+        },
+        success: function (response, status) {        
+         $("#CollectorInventoryAssign").text('');
+           var items = '';
+           $.each( response, function( key, val ) {
+             items += '<tr>';
+             items+= '<td>'+getDateFromJsonString(val.updated_at).replace(/,/g,"") +'</td>';
+             items+= '<td>'+val.assetName+'</td>';
+             items+= '<td>'+val.typeName+'</td>';
+             items+= '<td>'+val.assetCapacity+'</td>';
+             items+= '<td>'+val.assetCode+'</td>';
+             items+='<tr>';
+           });
+           $("#CollectorInventoryAssign").append(items);
+        },
+        error: function () {
+         swal.fire("Error Searching!", "Please try again", "error").then((result) => {
+            if(result.isConfirmed) {
+               location.reload(true);
+            }
+         });
+        
+      }
+   });
+}
+
+
+
+
+function searchCollectorTaskHistory(){
+   var fromDate = $("#fromAssignTaskDate").val();
+   var toDate = $("#toAssignTaskDate").val();
+
+   if(!fromDate.length){
+      $("#fromAssignTaskDate").focus();
+      alert('Please insert the from Date');            
+      return false;
+   }
+
+   if(!toDate.length){
+      $("#toAssignTaskDate").focus();
+      alert('Please insert the to Date');            
+      return false;
+   } 
+
+   jQuery.ajax({
+        url: "{{route('search.searchCollectorTask')}}",
+        type: "POST",
+        data: {
+            fromDate: fromDate,
+            toDate: toDate,
+            '_token' : "{{ csrf_token() }}"
+        },
+        success: function (response, status) {        
+         $("#CollectorAssignTask").text('');
+           var items = '';
+           $.each( response, function( key, val ) {
+             items += '<tr>';
+             items+= '<td>'+getDateFromJsonString(val.created_at).replace(/,/g,"") +'</td>';
+             items+= '<td>'+val.title+'</td>';
+             items+= '<td>'+val.shift+'</td>';
+             items+= '<td>'+val.assignFrom+'</td>';
+             items+= '<td>'+val.assignTill+'</td>';
+             items+= '<td>'+val.taskAreaStatus+'</td>';
+             items+='<tr>';
+           });
+           $("#CollectorAssignTask").append(items);
+        },
+        error: function () {
+         swal.fire("Error Searching!", "Please try again", "error").then((result) => {
+            if(result.isConfirmed) {
+               location.reload(true);
+            }
+         });
+        
+      }
+   });
+}
+
+
+
+function searchVendorCollectionHistory(){
+   var fromDate = $("#fromVendorCollectionDate").val();
+   var toDate = $("#toVendorCollectionDate").val();
+   var vendorID = $("#vendorID").val();
+
+   if(!fromDate.length){
+      $("#fromVendorCollectionDate").focus();
+      alert('Please insert the from Date');            
+      return false;
+   }
+
+   if(!toDate.length){
+      $("#toVendorCollectionDate").focus();
+      alert('Please insert the to Date');            
+      return false;
+   } 
+
+   jQuery.ajax({
+        url: "{{route('search.searchVendorCollection')}}",
+        type: "POST",
+        data: {
+            fromDate: fromDate,
+            toDate: toDate,
+            vendorID: vendorID,
+            '_token' : "{{ csrf_token() }}"
+        },
+        success: function (response, status) {        
+         $("#VendorCollection").text('');
+           var items = '';
+           $.each( response, function( key, val ) {
+             items += '<tr>';
+             items+= '<td>'+getDateFromJsonString(val.updated_at).replace(/,/g,"") +'</td>';
+             items+= '<td>'+val.milkCollected+'</td>';
+             items+= '<td>'+val.taskShift+'</td>';
+             items+= '<td>'+val.fat+'</td>';
+             items+= '<td>'+val.Lactose+'</td>';
+             items+= '<td>'+val.Ash+'</td>';
+             items+= '<td>'+val.collectorName+'</td>';
+             items+= '<td>'+val.status+'</td>';
+             items+='<tr>';
+           });
+           $("#VendorCollection").append(items);
+        },
+        error: function () {
+         swal.fire("Error Searching!", "Please try again", "error").then((result) => {
+            if(result.isConfirmed) {
+               location.reload(true);
+            }
+         });
+        
+      }
+   });
+}
+
+function searchDistributorPaymentHistory(){
+   var fromDate = $("#fromPaymentDate").val();
+   var toDate = $("#toPaymentDate").val();
+   var userID = $("#userID").val();
+
+   if(!fromDate.length){
+      $("#fromPaymentDate").focus();
+      alert('Please insert the from Date');            
+      return false;
+   }
+
+   if(!toDate.length){
+      $("#toPaymentDate").focus();
+      alert('Please insert the to Date');            
+      return false;
+   } 
+
+   jQuery.ajax({
+        url: "{{route('search.payment')}}",
+        type: "POST",
+        data: {
+            fromDate: fromDate,
+            toDate: toDate,
+            userID: userID,
+            '_token' : "{{ csrf_token() }}"
+        },
+        success: function (response, status) {
+        
+         $("#paymentHistorySearchData").text('');
+           var items = '';
+           $.each( response, function( key, val ) {
+             items += '<tr>';
+             items+= '<td>'+val.paymentMethod+'</td>';
+             items+= '<td>'+val.transactionId+'</td>';
+             items+= '<td>'+ getDateFromJsonString(val.timeOfDeposit).replace(/,/g,"") + '</td>';
+             items+= '<td>'+val.amountPaid+'</td>';
+             items+= '<td>'+val.status+'</td>';
+             items+='<tr>';
+           });
+           $("#paymentHistorySearchData").append(items);
+        },
+        error: function () {
+         swal.fire("Error Searching!", "Please try again", "error").then((result) => {
+            if(result.isConfirmed) {
+               location.reload(true);
+            }
+         });
+        
+      }
+   });
+}
+
+
+function searchDistributorOrderHistory(){
 
    var fromDate = $("#fromDate").val();
    var toDate = $("#toDate").val();
+
+   if(!fromDate.length){
+      $("#fromDate").focus();
+      alert('Please insert the from Date');            
+      return false;
+   }
+
+   if(!toDate.length){
+      $("#toDate").focus();
+      alert('Please insert the to Date');            
+      return false;
+   } 
 
    jQuery.ajax({
         url: "{{route('search.order')}}",
@@ -977,7 +1361,6 @@ function searchOrderHistory(){
         },
         success: function (response, status) {
 
-        
          $("#orderHistorySearchData").text('');
            var items = '';
            $.each( response, function( key, val ) {
@@ -1014,9 +1397,8 @@ function exportSearchedOrderHistory(){
             toDate: toDate,
             '_token' : "{{ csrf_token() }}"
         },
-        success: function (response, status) {  
-
-        console.log('it is store in you file');      
+        success: function (response, status) {
+         console.log('it is store in you file');      
         },
         error: function () {
          swal.fire("Error in Exporting Data!", "Please try again", "error").then((result) => {
@@ -1032,58 +1414,7 @@ function exportSearchedOrderHistory(){
 function getDateFromJsonString(dateString){
    var dateObj = new Date(dateString).toLocaleString();
    return dateObj;
-   //return datestring = dateObj.getDate()  + "/" + (dateObj.getMonth()) + "/" + dateObj.getFullYear() + " " + dateObj.getHours() + ":" + dateObj.getMinutes();  
 }
-
-function orderDetail(orderID){   
-   jQuery.ajax({
-        url: "#",
-        type: "POST",
-        data: {
-            id: orderID,
-            '_token' : "{{ csrf_token() }}"
-        },
-        success: function (response, status) {
-            console.log(response);
-         //$('#orderDetail').modal('show');
-        },
-        error: function () {
-         // swal.fire("Error deleting!", "Please try again", "error").then((result) => {
-         //    if(result.isConfirmed) {
-         //       location.reload(true);
-         //    }
-         // });
-         console.log('we are in orderDetail error'+orderID);
-      }
-   });
-}
-
-
-
-
-function transactionDetail(orderID){   
-   jQuery.ajax({
-        url: "",
-        type: "POST",
-        data: {
-            id: orderID,
-            '_token' : "{{ csrf_token() }}"
-        },
-        success: function () {
-            
-        },
-        error: function () {
-
-         // swal.fire("Error deleting!", "Please try again", "error").then((result) => {
-         //    if(result.isConfirmed) {
-         //       location.reload(true);
-         //    }
-         // });
-      }
-   });
-}
-
-
 
 </script>
 @endsection

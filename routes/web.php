@@ -49,7 +49,11 @@ Route::get('user/userList',        [RegisterController::class, 'allUserList'])->
 Route::get('user/profile/{id}',    [RegisterController::class, 'profile'])->name('profile.user')->middleware('can:See-profile');
 Route::post('user/update/{id}',    [RegisterController::class,'update'])->name('update.userList')->middleware('can:Edit-User');
 
-Route::post('order/search/',    [RegisterController::class,'searchOrder'])->name('search.order');
+Route::post('distributor/order/search/',    [RegisterController::class,'searchOrder'])->name('search.order');
+Route::post('distributor/payment/search/',    [RegisterController::class,'searchPayment'])->name('search.payment');
+Route::post('vendor/collection/search/',    [RegisterController::class,'searchVendorCollection'])->name('search.searchVendorCollection');
+Route::post('collector/task/search/',    [RegisterController::class,'searchCollectorTask'])->name('search.searchCollectorTask');
+Route::post('collector/inventory/search/',    [RegisterController::class,'searchCollectorInventoryAssign'])->name('search.searchCollectorInventoryAssign');
 
 
 
