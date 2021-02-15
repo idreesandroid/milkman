@@ -28,7 +28,7 @@
    <div class="col-lg-12">
       <div class="card">
          <div class="card-header">
-            <h4 class="card-title mb-0">Register Distributor</h4>
+            <h4 class="card-title mb-0">Register Collector</h4>
          </div>
          <div class="card-body">
             @if ($errors->any())

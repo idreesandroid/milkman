@@ -147,6 +147,14 @@ foreach ($vendors as $key => $value) {
             return false;
          }
 
+         var selectPoint = $("#collectionPoint").val();
+         if(!selectPoint.length){
+            $("#collectionPoint").focus();
+            alert('Please select the Collection Point');
+            return false;
+         }
+
+
          var label_marker_color = $("#label_marker_color").val();
          if(!label_marker_color.length){
             $("#label_marker_color").focus();
@@ -170,6 +178,7 @@ foreach ($vendors as $key => $value) {
          var json_data = {
                'title' : title,
                'status' : addStatus,
+               'collectionPoint':selectPoint,
                'label_marker_color' : label_marker_color,
                'vendors_location' : MapData,
                '_token' : "{{ csrf_token() }}"
@@ -183,6 +192,7 @@ foreach ($vendors as $key => $value) {
                   $("#title").val("");
                   $("#add_MapData").val("");
                   $("#addStatus").val("");
+                  $("#collectionPoint").val("");
                   Swal.fire('Collection Area created', 'You clicked the button!','success').then((result) => {
                      if(result.isConfirmed) {
                         location.reload(true);
