@@ -90,7 +90,7 @@ public function getCollectionManager()
    ->get();
 
     //  echo "<pre>";
-    //  print_r($var);
+    //  print_r($collectionManagers);
     //  exit;
    return $collectionManagers;
 }

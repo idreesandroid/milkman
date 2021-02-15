@@ -64,7 +64,8 @@ class CollectionController extends Controller
     }
 
     public function store(Request $request)
-    {        
+    {       
+
         $this->validate($request,[        
             'title'      => 'required|min:3',          
             'vendors_location'  => 'required',
