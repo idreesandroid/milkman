@@ -379,8 +379,8 @@ public function AssignArea($shift , $id)
         {
             $evening_tasks= array();
             $morning_tasks= array();
-        $Cid = Auth::id();
-        $CPM = collectionPointManager::where('user_id',$Cid)->where('managerStatus','Active')->first();
+        $CMid = Auth::id();
+        $CPM = collectionPointManager::where('user_id',$CMid)->where('managerStatus','Active')->first();
        
         // echo "<pre>";
         // print_r($CPM->collectionPointId);
@@ -514,6 +514,9 @@ public function AssignArea($shift , $id)
         }
     }
 
+
+
+
     public function assignTemporaryTask($id)
     { 
         $findTasks = TaskArea::select('collections.id','collections.title','task_areas.id','task_areas.shift','task_areas.collector_id','users.name','users.id','area_id')
@@ -527,9 +530,14 @@ public function AssignArea($shift , $id)
         //    print_r($findTasks);
         //    exit;
         
+        $CMid = Auth::id();
+        $CPM = collectionPointManager::where('user_id',$CMid)->where('managerStatus','Active')->first();
+        $CP  = $CPM->collectionPointId;
+
+
         $morningCollectors = collectorDetail::select('collectorMorStatus','collectorEveStatus','collectorCapacity','users.name','users.id')
         ->join('users','collector_details.user_id', '=', 'users.id')
-        ->where('collector_details.collectorMorStatus', 'Free')
+        ->where('collector_details.collectorMorStatus', 'Free')       
         ->get();
 
         $eveningCollectors = collectorDetail::select('collectorMorStatus','collectorEveStatus','collectorCapacity','users.name','users.id')
