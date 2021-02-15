@@ -77,7 +77,7 @@
                         <td>{{$morningTask->name}}</td>
                         <td>{{$morningTask->assignType}}</td> 
                         <td> <a href="{{ route('assign.temporary.task', $morningTask->collector_id)}}" class="btn btn-primary">Assign Temporary</a></td>  
-                        <td><a href="{{ route('assign.temporary.task', $morningTask->collector_id)}}" class="btn btn-primary">ReActive Collector</a></td>
+                        <td><a href="{{ route('activate.collector', $morningTask->collector_id)}}" class="btn btn-primary">ReActive Collector</a></td>
                      </tr>
                      @endforeach
                         </tbody>
@@ -122,7 +122,7 @@
                         <td>{{$eveningTask->name}}</td>
                         <td>{{$eveningTask->assignType}}</td>
                         <td><a href="{{ route('assign.temporary.task', $eveningTask->collector_id)}}" class="btn btn-primary">Assign Temporary</a></td>   
-                        <td><a href="{{ route('assign.temporary.task', $eveningTask->collector_id)}}" class="btn btn-primary">ReActive Collector</a></td>          
+                        <td><a href="{{ route('activate.collector', $eveningTask->collector_id)}}" class="btn btn-primary">ReActive Collector</a></td>          
                      </tr>
                      @endforeach
                      

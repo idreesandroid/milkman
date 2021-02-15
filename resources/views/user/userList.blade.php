@@ -179,7 +179,7 @@
                      <div class="col text-right">
                         <ul class="list-inline-item pl-0">
                            <li class="list-inline-item">
-                              <a  href="/vendor-detail/create"class="add btn btn-gradient-primary font-weight-bold text-white todo-list-add-btn btn-rounded">Registor Collector</a>
+                              <a  href="/collector-detail/create"class="add btn btn-gradient-primary font-weight-bold text-white todo-list-add-btn btn-rounded">Registor Collector</a>
                            </li>
                         </ul>
                      </div>                  

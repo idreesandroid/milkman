@@ -134,15 +134,15 @@ Route::get('collector-detail/tasks',                [CollectorController::class,
 
 
 //collection Point Detail routes--------------------------------
-Route::get('collectionPoint/index',           [milkCollectionController::class, 'index'])->name('index.collectionPoint');
-Route::get('collectionPoint/create',          [milkCollectionController::class, 'create'])->name('create.collectionPoint');
-Route::post('collectionPoint/create',         [milkCollectionController::class, 'store'])->name('store.collectionPoint');
-Route::get('collectionPoint/edit/{id}',       [milkCollectionController::class, 'edit'])->name('edit.collectionPoint');
-Route::post('collectionPoint/update/{id}',    [milkCollectionController::class, 'update'])->name('update.collectionPoint');
-Route::Delete('collectionPoint/delete/{id}',  [milkCollectionController::class, 'deleteCollectionPoint'])->name('delete.collectionPoint');
+Route::get('collectionPoint/index',           [milkCollectionController::class, 'index'])->name('index.collectionPoint')->middleware('can:See-Collection-Point');
+Route::get('collectionPoint/create',          [milkCollectionController::class, 'create'])->name('create.collectionPoint')->middleware('can:Create-Collection-Point');
+Route::post('collectionPoint/create',         [milkCollectionController::class, 'store'])->name('store.collectionPoint')->middleware('can:Create-Collection-Point');
+Route::get('collectionPoint/edit/{id}',       [milkCollectionController::class, 'edit'])->name('edit.collectionPoint')->middleware('can:Edit-Collection-Point');
+Route::post('collectionPoint/update/{id}',    [milkCollectionController::class, 'update'])->name('update.collectionPoint')->middleware('can:Edit-Collection-Point');
+Route::Delete('collectionPoint/delete/{id}',  [milkCollectionController::class, 'deleteCollectionPoint'])->name('delete.collectionPoint')->middleware('can:Delete-Collection-Point');
 
-Route::get('get/collection-managers',         [milkCollectionController::class, 'getCollectionManager'])->name('getCollectionManager');
-Route::post('assign/collection-point',        [milkCollectionController::class, 'assignCollectionManager'])->name('assignManager.Point');
+Route::get('get/collection-managers',         [milkCollectionController::class, 'getCollectionManager'])->name('getCollectionManager')->middleware('can:Assign-Collection-Point');
+Route::post('assign/collection-point',        [milkCollectionController::class, 'assignCollectionManager'])->name('assignManager.Point')->middleware('can:Assign-Collection-Point');
 
 
 //Cart routes----------------------------------------
@@ -236,9 +236,9 @@ Route::get('activate/collector/{id}',               [TasksController::class, 'Ac
 //End Active or in active collector----------------------
 
 //cron job controller collector----------------------
-Route::get('generate/task',                               [TasksController::class, 'GenerateMorningTask'])->name('generate.morning.task');
-Route::post('generate/morning/task',                      [TasksController::class, 'StoreMorningTask'])->name('store.morning.task');
-Route::post('generate/evening/task',                      [TasksController::class, 'StoreEveningTask'])->name('store.evening.task');
+Route::get('generate/task',                       [TasksController::class, 'GenerateMorningTask'])->name('generate.morning.task');
+Route::post('generate/morning/task',              [TasksController::class, 'StoreMorningTask'])->name('store.morning.task');
+Route::post('generate/evening/task',              [TasksController::class, 'StoreEveningTask'])->name('store.evening.task');
 
 
 

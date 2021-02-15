@@ -44,6 +44,15 @@
             </li>  
             @endcan  
 
+            @can('See-Collection-Point')
+            <li>
+               <a href="/collectionPoint/index" class="{{ (request()->segment(1) == 'collectionPoint' && request()->segment(2) == 'index') ? 'active' : '' }}">
+               <i class="fa fa-check-square-o" aria-hidden="true"></i>
+               <span>Collection Points</span>
+               </a>
+            </li>  
+            @endcan
+
             @can('See-My-Task')
             <li>
                <a href="/collector-detail/tasks" class="{{ (request()->segment(1) == 'collector-detail' && request()->segment(2) == 'tasks') ? 'active' : '' }}">

@@ -8,13 +8,13 @@
                <h3 class="page-title">
                   <span class="page-title-icon bg-gradient-primary text-white mr-2">
                   <i class="la la-table"></i>
-                  </span> <span>Product Stock</span>
+                  </span> <span>Task</span>
                </h3>
             </div>
             <div class="col text-right">
                <ul class="breadcrumb bg-white float-right m-0 pl-0 pr-0">
                   <li class="breadcrumb-item"><a href="/DashBoard">Dashboard</a></li>
-                  <li class="breadcrumb-item active">Add Stock</li>
+                  <li class="breadcrumb-item active"Task List></li>
                </ul>
             </div>
          </div>
@@ -25,7 +25,7 @@
    <div class="col-lg-12">
       <div class="card">
          <div class="card-header">
-            <h4 class="card-title mb-0">New Stock</h4>
+            <h4 class="card-title mb-0">Task List</h4>
          </div>
          <div class="card-body">
          @if ($errors->any())

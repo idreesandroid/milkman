@@ -340,6 +340,22 @@ class PermissionSeeder extends Seeder
         $permission_35->slug = 'See-My-Task';
         $permission_35->name = 'See-My-Task';
         $permission_35->save(); 
+
+
+        $permission_14 = new Permission();
+        $permission_14->slug = 'See-Collection-Point';
+        $permission_14->name = 'See-Collection-Point';
+        $permission_14->save();
+
+        $permission_15 = new Permission();
+        $permission_15->slug = 'Create-Collection-Point';
+        $permission_15->name = 'Create-Collection-Point';
+        $permission_15->save();
+
+        $permission_16 = new Permission();
+        $permission_16->slug = 'Edit-Collection-Point';
+        $permission_16->name = 'Edit-Collection-Point';
+        $permission_16->save();
         
     }
 }
