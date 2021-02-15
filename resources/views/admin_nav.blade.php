@@ -53,6 +53,15 @@
             </li>  
             @endcan
 
+            @can('Generate-Task')
+            <li>
+               <a href="/generate/task" class="{{ (request()->segment(1) == 'generate' && request()->segment(2) == 'task') ? 'active' : '' }}">
+               <i class="fa fa-check-square-o" aria-hidden="true"></i>
+               <span>Generate Task</span>
+               </a>
+            </li>  
+            @endcan
+
             @can('See-My-Task')
             <li>
                <a href="/collector-detail/tasks" class="{{ (request()->segment(1) == 'collector-detail' && request()->segment(2) == 'tasks') ? 'active' : '' }}">
