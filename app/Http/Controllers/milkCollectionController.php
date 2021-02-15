@@ -95,8 +95,6 @@ public function getCollectionManager()
    return $collectionManagers;
 }
 
-
-
 public function assignCollectionManager(Request $request)
     {   
         $this->validate($request,[      
@@ -107,11 +105,10 @@ public function assignCollectionManager(Request $request)
     //  echo "<pre>";
     //  print_r($request->all());
     //  exit;
-
     $var2= $request->pId;
     $var1= $request->manager_id;
 
-    DB::update("UPDATE collection_point_managers SET collectionPointId = $var2  WHERE user_id = $var1");
+    DB::update("UPDATE collection_point_managers SET collectionPointId = $var2 , managerStatus = 'Active' WHERE user_id = $var1");
     return redirect()->route('index.collectionPoint');
     }
 
