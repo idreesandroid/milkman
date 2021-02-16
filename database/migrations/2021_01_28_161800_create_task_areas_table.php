@@ -28,6 +28,7 @@ class CreateTaskAreasTable extends Migration
             $table->date('assignFrom')->nullable();
             $table->date('assignTill')->nullable();
             $table->string('reason')->nullable();
+            $table->string('oldTaskId')->nullable()->unsigned();
 
 
             $table->timestamps();

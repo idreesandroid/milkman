@@ -35,6 +35,7 @@
          @endif
             <form method="post" action="{{ route('store.temporary.task') }}" >
                @csrf 
+         <input type="hidden" name="oldCollector" value="{{$collectorId}}">
 
                <div class="table-responsive">
                <table class="datatable table table-stripped mb-0 datatables">

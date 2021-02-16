@@ -283,12 +283,10 @@ public function AssignArea($shift , $id)
             'qualityPic' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
-      
         $id=$request->req_id;
         
         $currentTime = date('Y-m-d h:m');
         $select_collector = SubTask::find($id);
-
         $select_collector->milkCollected = $request->milkCollected;        
         $select_collector->fat = $request->fat;
         $select_collector->Lactose = $request->Lactose;        
@@ -358,7 +356,7 @@ public function AssignArea($shift , $id)
      
     //echo "<pre>";
     // print_r($arrangedArray);
-     //exit;
+    //exit;
 
     return view('task/AreaTask', compact('arrangedArray'));
     }
@@ -377,8 +375,8 @@ public function AssignArea($shift , $id)
         $roleArray= auth()->user()->roles()->pluck('roles.id')->toArray();
         if(in_array(2, $roleArray))
         {
-            $evening_tasks= array();
-            $morning_tasks= array();
+        $evening_tasks= array();
+        $morning_tasks= array();
         $CMid = Auth::id();
         $CPM = collectionPointManager::where('user_id',$CMid)->where('managerStatus','Active')->first();
        
@@ -386,7 +384,7 @@ public function AssignArea($shift , $id)
         // print_r($CPM->collectionPointId);
         // exit;
             if(!empty($CPM))
-            {
+          {
         $CPIDs = Collection::where('collectionPoint_id', $CPM->collectionPointId)->get();
         
         foreach($CPIDs as $CPID)
@@ -456,7 +454,6 @@ public function AssignArea($shift , $id)
     }
 
 
-
     public function StoreEveningTask(Request $request)
     { 
         if($request->input('eveTask'))
@@ -486,8 +483,7 @@ public function AssignArea($shift , $id)
                 //exit;
 
                 //return ("ok");
-     }
-    
+     }    
      return redirect()->route('user.dashBoard');
     }
 
@@ -514,9 +510,6 @@ public function AssignArea($shift , $id)
         }
     }
 
-
-
-
     public function assignTemporaryTask($id)
     { 
         $findTasks = TaskArea::select('collections.id','collections.title','task_areas.id','task_areas.shift','task_areas.collector_id','users.name','users.id','area_id')
@@ -525,15 +518,14 @@ public function AssignArea($shift , $id)
         ->where('task_areas.collector_id', $id)
         ->where('assignType', 'Permanent')
         ->get();
-
         //    echo "<pre>";
         //    print_r($findTasks);
-        //    exit;
-        
+        //    exit; 
+        $collectorId = $id;
+
         $CMid = Auth::id();
         $CPM = collectionPointManager::where('user_id',$CMid)->where('managerStatus','Active')->first();
         $CP  = $CPM->collectionPointId;
-
 
         $morningCollectors = collectorDetail::select('collectorMorStatus','collectorEveStatus','collectorCapacity','users.name','users.id')
         ->join('users','collector_details.user_id', '=', 'users.id')
@@ -545,7 +537,7 @@ public function AssignArea($shift , $id)
         ->where('collector_details.collectorEveStatus', 'Free')
         ->get();
         
-        return view('task/assignTemporaryTask', compact('findTasks','morningCollectors','eveningCollectors'));
+        return view('task/assignTemporaryTask', compact('findTasks','morningCollectors','eveningCollectors','collectorId'));
     }
 
     public function StoreTemporaryTask(Request $request)
@@ -559,8 +551,8 @@ public function AssignArea($shift , $id)
             'fromDate'           => 'required',         
             'endDate'            => 'required',
             'new_collector_id'   => 'required', 
+            'oldCollector'       => 'required', 
         ]);
-
 
         $task_area_ids = $request['area_id'];
         $task_collector_ids = $request['collector'];
@@ -571,8 +563,19 @@ public function AssignArea($shift , $id)
 
         foreach($task_area_ids as $index => $task_area_id)
         {
-            DB::update("UPDATE task_areas SET `taskAreaStatus` = 'InActive'  WHERE area_id = $task_area_id AND collector_id = $task_collector_ids[$index] AND assignType = 'Permanent'");  
-       
+            $tempId = TaskArea::select('id')
+            ->where('area_id', $task_area_id)
+            ->where('collector_id', $task_collector_ids[$index])
+            ->where('assignType', 'Permanent') 
+            ->where('taskAreaStatus', 'Active')   
+            ->first();
+
+            // echo "<pre>";
+            // print_r($tempId->id);
+            // exit;
+  
+            DB::update("UPDATE task_areas SET `taskAreaStatus` = 'InActive'  WHERE id = $tempId->id");  
+
             $taskArea = new TaskArea();
             $taskArea->area_id = $task_area_ids[$index];
             $taskArea->collector_id = $task_new_collectorId[$index];
@@ -581,19 +584,36 @@ public function AssignArea($shift , $id)
             $taskArea->assignFrom = $task_from_date[$index];
             $taskArea->assignTill = $task_end_date[$index];
             $taskArea->shift = $task_shifts[$index];
-            $taskArea->reasonForAssignTemporary = 'no Reason';  
+            $taskArea->reasonForAssignTemporary = 'no Reason';
+            $taskArea->oldTaskId = $tempId->id;  
             $taskArea->save();
         }
+        DB::update("UPDATE collector_details SET `collectorMorStatus` = 'Leave' , `collectorEveStatus` = 'Leave'  WHERE user_id = $request->oldCollector");
+
         return redirect()->route('user.dashBoard');
     }
 
     public function Activate($id)
-    { 
+    {
+            // echo "<pre>";
+            // print_r($id);
+            // exit;
         $findTasks = TaskArea::where('collector_id', $id)->where('assignType','permanent')->get();
         foreach($findTasks as $findTask)
         {
-            DB::update("UPDATE task_areas SET `taskAreaStatus` = 'Active'  WHERE area_id = $findTask->area_id AND collector_id = $id AND assignType = 'Permanent'"); 
-            DB::update("UPDATE task_areas SET `taskAreaStatus` = 'Blocked' WHERE area_id = $findTask->area_id AND assignType = 'Temporary'"); 
+            DB::update("UPDATE task_areas SET `taskAreaStatus` = 'Active'  WHERE area_id = $findTask->area_id AND collector_id = $id AND assignType = 'Permanent'");
+
+            $tempIds = TaskArea::select('id')
+            ->where('area_id', $findTask->area_id)
+            ->where('collector_id', $id)
+            ->where('assignType', 'Permanent')  
+            ->get();
+
+            foreach($tempIds as $tempId)
+            {
+            DB::update("UPDATE task_areas SET `taskAreaStatus` = 'Blocked' WHERE oldTaskId = $tempId->id AND assignType = 'Temporary'"); 
+            }
+            
         }
         return redirect()->route('user.dashBoard');
     }

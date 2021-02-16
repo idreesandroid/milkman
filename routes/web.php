@@ -144,6 +144,7 @@ Route::Delete('collectionPoint/delete/{id}',  [milkCollectionController::class, 
 Route::get('get/collection-managers',         [milkCollectionController::class, 'getCollectionManager'])->name('getCollectionManager')->middleware('can:Assign-Collection-Point');
 Route::post('assign/collection-point',        [milkCollectionController::class, 'assignCollectionManager'])->name('assignManager.Point')->middleware('can:Assign-Collection-Point');
 
+Route::get('collectionPoint/collectors',      [milkCollectionController::class, 'myCollectors'])->name('my.collectors');
 
 //Cart routes----------------------------------------
 Route::get('cart/create',                   [SaleController::class, 'generateInvoice'])->name('create.invoice')->middleware('can:Generate-Invoice');
