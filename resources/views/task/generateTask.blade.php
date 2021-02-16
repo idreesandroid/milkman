@@ -66,7 +66,6 @@
                         <th>Collector Name</th>
                         <th>Assign Type</th>
                         <th>Action</th>
-                        <th>Activate</th>
                      </tr>
                   </thead>
                         <tbody> 
@@ -76,8 +75,7 @@
                         <td>{{$morningTask->title}}</td>
                         <td>{{$morningTask->name}}</td>
                         <td>{{$morningTask->assignType}}</td> 
-                        <td> <a href="{{ route('assign.temporary.task', $morningTask->collector_id)}}" class="btn btn-primary">Assign Temporary</a></td>  
-                        <td><a href="{{ route('activate.collector', $morningTask->collector_id)}}" class="btn btn-primary">ReActive Collector</a></td>
+                        <td> @if($morningTask->assignType == 'Permanent')<a href="{{ route('assign.temporary.task', $morningTask->collector_id)}}" class="btn btn-primary">Assign Temporary</a>@endif</td>      
                      </tr>
                      @endforeach
                         </tbody>
@@ -110,7 +108,6 @@
                         <th>Collector Name</th>
                         <th>Assign Type</th>
                         <th>Action</th>
-                        <th>Activate</th>
                      </tr>
                   </thead>
                         <tbody>
@@ -121,8 +118,7 @@
                         <td>{{$eveningTask->title}}</td>
                         <td>{{$eveningTask->name}}</td>
                         <td>{{$eveningTask->assignType}}</td>
-                        <td><a href="{{ route('assign.temporary.task', $eveningTask->collector_id)}}" class="btn btn-primary">Assign Temporary</a></td>   
-                        <td><a href="{{ route('activate.collector', $eveningTask->collector_id)}}" class="btn btn-primary">ReActive Collector</a></td>          
+                        <td> @if($eveningTask->assignType == 'Permanent')<a href="{{ route('assign.temporary.task', $eveningTask->collector_id)}}" class="btn btn-primary">Assign Temporary</a>@endif</td>   
                      </tr>
                      @endforeach
                      

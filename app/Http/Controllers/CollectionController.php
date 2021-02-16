@@ -271,4 +271,5 @@ class CollectionController extends Controller
             return $allInsideVendors;
         }
     }    
+
 }

@@ -12,6 +12,7 @@ use App\Models\milkCollectionPoint;
 use App\Models\Collection;
 use App\Models\User;
 use App\Models\TaskArea;
+use App\Models\collectorDetail;
 use App\Models\collectionPointManager;
 class milkCollectionController extends Controller
 {
@@ -110,6 +111,25 @@ public function assignCollectionManager(Request $request)
 
     DB::update("UPDATE collection_point_managers SET collectionPointId = $var2 , managerStatus = 'Active' WHERE user_id = $var1");
     return redirect()->route('index.collectionPoint');
+    }
+
+
+    public function myCollectors()
+    {
+    $CMid = Auth::id();
+    $CPM = collectionPointManager::where('user_id',$CMid)->where('managerStatus','Active')->first();
+    $CPIDs = $CPM->collectionPointId;
+
+     $collectorDetails = DB::table('collector_details')
+     ->select('user_id','collectionPoint_id','collectorMorStatus','collectorEveStatus','collectorCapacity','users.id','name','user_phone','filenames')
+     ->where('collectionPoint_id', $CPIDs)
+     ->join('users','user_id','=','users.id')
+     ->get();
+
+    //  echo "<pre>";
+    //  print_r($collectorDetails);
+    //  exit;   
+     return view('collectionPoint/collectors', compact('collectorDetails'));
     }
 
 }
