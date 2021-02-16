@@ -26,52 +26,10 @@ class TestController extends Controller
     public function index()
     {
 
-        ///echo date(strtotime("now"),'M/d/Y'), "</br>";
-        // date_default_timezone_set("Asia/Karachi");
-        // echo date("d-m-Y", strtotime("-1 week"))."\n"; 
-        // echo date("d-m-Y", strtotime("-1 month"))."\n"; 
-        // echo date("d-m-Y", strtotime("-1 day"))."\n"; 
-        // echo date("d-m-Y", strtotime("now"))."\n"; 
-        // echo strtotime("10 September 2000"), "</br>";
-        // echo strtotime("+1 day"), "</br>";
-        // echo strtotime("+1 week"), "</br>";
-        // echo strtotime("+1 week 2 days 4 hours 2 seconds"), "</br>";
-        // echo strtotime("next Thursday"), "</br>";
-        // echo strtotime("last Monday"), "</br>";
-//2020-11-02
-//2021-02-10
-        //select * from `invoices` where `created_at` between '2021-02-08' and '2021-02-10' and `invoices`.`deleted_at` is null
+      
 
-// $vendors = User::select('users.id','users.name','vendor_details.longitude','vendor_details.latitude')
-//                     ->join('role_user', 'role_user.user_id', '=', 'users.id')
-//                     ->join('vendor_details','vendor_details.user_id','=','users.id')
-//                     ->where('role_user.role_id', '=', 6)
-//                     ->get();
-
-        // select `invoices`.*, `users`.`name` as `saler` from `invoices` inner join `users` on `users`.`id` = `invoices`.`seller_id` where `created_at` between '2020-11-02' and '2021-02-10' and `invoices`.`deleted_at` is null
-
-$Invoice = Invoice::select('invoices.*','users.name as saler')
-                        ->join('users','users.id','=','invoices.seller_id')
-                        ->whereBetween('invoices.created_at', array('2020-11-02', '2021-02-10'))
-                        ->get();
-    dd($Invoice);
-
-
-
-
-    echo $fromDate = date("Y-m-d", strtotime("-3 day"));
-    echo "<br>";
-    echo $toDate = date("Y-m-d", strtotime("now"));
-
-
-
-    $Invoice = Invoice::whereBetween('created_at', array(date("Y-m-d", $fromDate), date("Y-m-d", $toDate)))->get();
-
-    dd($Invoice);      
-
-
-        //assignMorningTask();
-        //assignEveningTask();
+        assignMorningTask();
+        assignEveningTask();
     }
 
     /**
