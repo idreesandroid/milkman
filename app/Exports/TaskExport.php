@@ -20,10 +20,11 @@ class TaskExport implements FromQuery, WithHeadings, WithMapping, WithColumnForm
     use Exportable;
     protected $fromDate;
     protected $toDate;
-	public function __construct($fromDate, $toDate)
+	public function __construct($fromDate, $toDate, $collectorID)
 	{
         $this->fromDate = $fromDate;
         $this->toDate = $toDate;
+        $this->collectorID = $collectorID;
 	}
     public function query()
     {
@@ -36,7 +37,8 @@ class TaskExport implements FromQuery, WithHeadings, WithMapping, WithColumnForm
                                     'task_areas.taskAreaStatus'
                                 )
                           ->whereBetween('task_areas.created_at', array($this->fromDate, $this->toDate))
-                          ->leftJoin('collections','collections.id','=','task_areas.area_id');
+                          ->leftJoin('collections','collections.id','=','task_areas.area_id')
+                          ->Where('task_areas.collector_id','=',$this->collectorID);
         return $collectorTask;
     }
 
