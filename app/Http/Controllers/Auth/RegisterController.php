@@ -28,6 +28,9 @@ use App\Models\SubTask;
 
 use App\Exports\OrderExport;
 use App\Exports\TaskExport;
+use App\Exports\PaymentExport;
+use App\Exports\VendorCollectionExport;
+use App\Exports\CollectorInventoryExport;
 use Maatwebsite\Excel\Facades\Excel;
 
 class RegisterController extends Controller
@@ -176,8 +179,9 @@ class RegisterController extends Controller
                               ->where('buyer_id',$id)
                               ->get();
 
-      $UserTransaction = UserTransaction::select('*')
+      $UserTransaction = UserTransaction::select('user_transactions.*','users.name')
                                           ->where('user_id',$id)
+                                          ->leftJoin('users','users.id','=','user_transactions.verifiedBy')
                                           ->get();
 
       return view('user/profile', compact('users','user_roles','location','orderHistory','UserTransaction'));
@@ -303,12 +307,13 @@ class RegisterController extends Controller
     $Invoice = Invoice::select('invoices.*','users.name as saler')
                         ->whereBetween('invoices.created_at', array($request->fromDate, $request->toDate))
                         ->leftJoin('users','users.id','=','invoices.seller_id')
+                        ->where('invoices.buyer_id','=',$request->buyerID)
                         ->get();
     return json_decode($Invoice);
   }
 
   public function searchPayment(Request $request){
-    $UserTransaction = UserTransaction::select('user_transactions.*','users.name as verifiedBy')
+    $UserTransaction = UserTransaction::select('user_transactions.*','users.name as name')
                         ->whereBetween('user_transactions.created_at', array($request->fromDate, $request->toDate))
                         ->leftJoin('users','users.id','=','user_transactions.verifiedBy')
                         ->where('user_transactions.user_id','=',$request->userID)
@@ -330,6 +335,7 @@ class RegisterController extends Controller
     $collectorTask = TaskArea::select('task_areas.*','collections.title')
                       ->whereBetween('task_areas.created_at', array($request->fromDate, $request->toDate))
                       ->leftJoin('collections','collections.id','=','task_areas.area_id')
+                      ->Where('task_areas.collector_id','=',$request->collectorID)
                       ->get();
     return json_decode($collectorTask);
   }
@@ -346,12 +352,29 @@ class RegisterController extends Controller
   public function export(Request $request)
   {
     $filename = 'search-orders-at-'.date("d-m-Y").'.xlsx';
-    return Excel::download(new OrderExport($request->fromDate,$request->toDate), $filename);        
+    return Excel::download(new OrderExport($request->fromDate,$request->toDate,$request->buyerID), $filename);        
   }
 
   public function exportTask(Request $request)
   {
     $filename = 'search-tasks-at-'.date("d-m-Y").'.xlsx';
-    return Excel::download(new TaskExport($request->fromDate,$request->toDate), $filename);        
+    return Excel::download(new TaskExport($request->fromDate,$request->toDate,$request->collectorID), $filename);        
+  }
+  public function exportPayment(Request $request)
+  {
+    $filename = 'search-payment-at-'.date("d-m-Y").'.xlsx';
+    return Excel::download(new PaymentExport($request->fromDate,$request->toDate, $request->userID), $filename);        
+  }
+
+  public function exportVendorCollection(Request $request)
+  {
+    $filename = 'search-vendor-collection-at-'.date("d-m-Y").'.xlsx';
+    return Excel::download(new VendorCollectionExport($request->fromDate,$request->toDate, $request->vendorID), $filename);        
+  }
+
+  public function exportCollectorInventory(Request $request)
+  {
+    $filename = 'search-collector-inventory-at-'.date("d-m-Y").'.xlsx';
+    return Excel::download(new CollectorInventoryExport($request->fromDate,$request->toDate, $request->collectorID), $filename);        
   }
 }

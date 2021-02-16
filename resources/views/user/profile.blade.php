@@ -367,7 +367,7 @@
                                        @if(isset($orderHistory))
                                           @foreach($orderHistory as $item)
                                           <tr> 
-                                             <td>{{ timeFormat($item->created_at)['date'] }} {{strtoupper(timeFormat($item->created_at)['time']) }}</td>
+                                             <td>{{ timeFormat($item->created_at)['date'] }} {{strtoupper(timeFormat($item->created_at)['time']) }}<input type="hidden" id="buyerID" value="{{$item->buyer_id}}"></td>
                                              <td>{{$item->total_amount}}</td>
                                              <td>{{$item->name}}</td>
                                              <td>{{ timeFormat($item->updated_at)['date'] }} {{strtoupper(timeFormat($item->updated_at)['time']) }}</td>
@@ -431,7 +431,7 @@
                                        @if(isset($TaskArea))
                                           @foreach($TaskArea as $task)
                                           <tr>
-                                             <td>{{$task->created_at}}</td>
+                                             <td>{{$task->created_at}}<input type="hidden" id="collectorID" value="{{$task->collector_id}}"></td>
                                              <td>{{$task->title}}</td>
                                              <td>{{$task->shift}}</td>
                                              <td>{{$task->assignFrom}}</td>
@@ -457,17 +457,17 @@
                            <ul class="pl-0 form-group" id="tab-button-group">
                               <li class="list-inline-item" >
                                  <span>From: </span>
-                                 <input type="date" id="fromVendorCollectionDate" class="form-control" placeholder="From Date">
+                                 <input onchange="setVendorCollectionFromDate()" type="date" id="fromVendorCollectionDate" class="form-control" placeholder="From Date">
                               </li>
                               <li class="list-inline-item" >
                                  <span>To: </span>
-                                 <input type="date" id="toVendorCollectionDate" class="form-control" placeholder="From Date" >
+                                 <input onchange="setVendorCollectionToDate()" type="date" id="toVendorCollectionDate" class="form-control" placeholder="From Date" >
                               </li>                              
                               <li class="list-inline-item" >
                                  <input onclick="searchVendorCollectionHistory()" class="btn btn-info form-control" type="submit" value="Search">
                               </li>                              
                               <li class="list-inline-item" >
-                                 <a class="btn btn-info form-control" href="/download">Export In Excel</a>
+                                 <a id="vendorCollectionExportInExcel" class="btn btn-info form-control" href="/downloadvendorcollection">Export In Excel</a>
                               </li>
                            </ul>
                         </div>
@@ -522,17 +522,17 @@
                            <ul class="pl-0 form-group" id="tab-button-group">
                               <li class="list-inline-item" >
                                  <span>From: </span>
-                                 <input type="date" id="fromPaymentDate" class="form-control" placeholder="From Date">
+                                 <input onchange="setPaymentFromDate()" type="date" id="fromPaymentDate" class="form-control" placeholder="From Date">
                               </li>
                               <li class="list-inline-item" >
                                  <span>To: </span>
-                                 <input type="date" id="toPaymentDate" class="form-control" placeholder="From Date" >
+                                 <input onchange="setPaymentToDate()" type="date" id="toPaymentDate" class="form-control" placeholder="From Date" >
                               </li>
                               <li class="list-inline-item" >
                                  <input onclick="searchDistributorPaymentHistory()" class="btn btn-info form-control" type="submit" value="Search">
                               </li>                              
                               <li class="list-inline-item" >
-                                 <a class="btn btn-info form-control" href="/download">Export In Excel</a>
+                                 <a class="btn btn-info form-control" id="paymentExportInExcel" href="/downloadpayment">Export In Excel</a>
                               </li>
                            </ul>
                         </div>
@@ -550,6 +550,7 @@
                                           <th>Transection ID</th>
                                           <th>Deposit Time</th>
                                           <th>Amount Paid</th>             
+                                          <th>Varified By</th>             
                                           <th>Status</th>                                          
                                        </tr>
                                     </thead>
@@ -561,6 +562,7 @@
                                              <td>{{$item->transactionId}}</td>
                                              <td>{{ timeFormat($item->timeOfDeposit)['date'] }} {{timeFormat($item->timeOfDeposit)['time'] }}</td>
                                              <td>{{$item->amountPaid}}</td>
+                                             <td>{{ucfirst($item->name)}}</td>
                                              <td>{{ucfirst($item->status)}}</td>
                                           </tr>
                                           @endforeach
@@ -581,17 +583,17 @@
                            <ul class="pl-0 form-group" id="tab-button-group">
                               <li class="list-inline-item" >
                                  <span>From: </span>
-                                 <input type="date" id="fromInventoryAssignDate" class="form-control" placeholder="From Date">
+                                 <input onchange="setCollectorInventoryFromDate()" onchange="" type="date" id="fromInventoryAssignDate" class="form-control" placeholder="From Date">
                               </li>
                               <li class="list-inline-item" >
                                  <span>To: </span>
-                                 <input type="date" id="toInventoryAssignDate" class="form-control" placeholder="From Date" >
+                                 <input onchange="setCollectorInventoryToDate()" type="date" id="toInventoryAssignDate" class="form-control" placeholder="From Date" >
                               </li>
                               <li class="list-inline-item" >
                                  <input onclick="searchCollectorInventoryAssignHistory()" class="btn btn-info form-control" type="submit" value="Search">
                               </li>                             
                               <li class="list-inline-item" >
-                                 <a class="btn btn-info form-control" href="/download">Export In Excel</a>
+                                 <a id="collectorInventoryExportInExcel" class="btn btn-info form-control" href="/downloadcollectorinventory">Export In Excel</a>
                               </li>
                            </ul>
                         </div>
@@ -1052,9 +1054,11 @@ initializeMap('ProfielMap','ProfileClearShapes','saveProfleMap','ProfileRestoreM
    $( "#ProfileRestoreMap" ).trigger( "click" );      
 });
 
-function setCollectorTaskFromDate(){
-   var fromDate = $("#fromAssignTaskDate").val();
-   var toDate = $("#toAssignTaskDate").val();
+
+function setCollectorInventoryFromDate(){
+   var fromDate = $("#fromInventoryAssignDate").val();
+   var toDate = $("#toInventoryAssignDate").val();
+   var collectorID = $("#collectorID").val();
    if(!fromDate.length)
    {
       var d = new Date();
@@ -1071,7 +1075,157 @@ function setCollectorTaskFromDate(){
       var curr_year = d.getFullYear();
       toDate = curr_year + "-" + curr_month + "-" + curr_day;
    }
-   var href = '/downloadtask?fromDate='+fromDate+'&toDate='+toDate;
+   var href = '/downloadcollectorinventory?fromDate='+fromDate+'&toDate='+toDate+'&collectorID='+collectorID;
+   $("#collectorInventoryExportInExcel").attr("href",href);
+}
+
+
+function setCollectorInventoryToDate(){
+   var fromDate = $("#fromInventoryAssignDate").val();
+   var toDate = $("#toInventoryAssignDate").val();
+   var collectorID = $("#collectorID").val();
+   if(!fromDate.length)
+   {
+      var d = new Date();
+      var old_day = d.getDate();
+      var old_month = d.getMonth();
+      var old_year = d.getFullYear()-1;
+      fromDate = old_year + "-" + old_month + "-" + old_day;      
+   }
+   if(!toDate.length)
+   {
+      var d = new Date();
+      var curr_day = d.getDate();
+      var curr_month = d.getMonth() + 1;
+      var curr_year = d.getFullYear();
+      toDate = curr_year + "-" + curr_month + "-" + curr_day;
+   }
+   var href = '/downloadcollectorinventory?fromDate='+fromDate+'&toDate='+toDate+'&collectorID='+collectorID;
+   $("#collectorInventoryExportInExcel").attr("href",href);
+}
+
+
+
+function setVendorCollectionFromDate(){
+   var fromDate = $("#fromVendorCollectionDate").val();
+   var toDate = $("#toVendorCollectionDate").val();
+   var vendorID = $("#vendorID").val();
+   if(!fromDate.length)
+   {
+      var d = new Date();
+      var old_day = d.getDate();
+      var old_month = d.getMonth();
+      var old_year = d.getFullYear()-1;
+      fromDate = old_year + "-" + old_month + "-" + old_day;     
+   }
+   if(!toDate.length)
+   {
+      var d = new Date();
+      var curr_day = d.getDate();
+      var curr_month = d.getMonth() + 1;
+      var curr_year = d.getFullYear();
+      toDate = curr_year + "-" + curr_month + "-" + curr_day;
+   }
+   var href = '/downloadvendorcollection?fromDate='+fromDate+'&toDate='+toDate+'&vendorID='+vendorID;
+   $("#vendorCollectionExportInExcel").attr("href",href);
+}
+
+
+function setVendorCollectionToDate(){
+   var fromDate = $("#fromVendorCollectionDate").val();
+   var toDate = $("#toVendorCollectionDate").val();
+   var vendorID = $("#vendorID").val();
+   if(!fromDate.length)
+   {
+      var d = new Date();
+      var old_day = d.getDate();
+      var old_month = d.getMonth();
+      var old_year = d.getFullYear()-1;
+      fromDate = old_year + "-" + old_month + "-" + old_day;      
+   }
+   if(!toDate.length)
+   {
+      var d = new Date();
+      var curr_day = d.getDate();
+      var curr_month = d.getMonth() + 1;
+      var curr_year = d.getFullYear();
+      toDate = curr_year + "-" + curr_month + "-" + curr_day;
+   }
+   var href = '/downloadvendorcollection?fromDate='+fromDate+'&toDate='+toDate+'&vendorID='+vendorID;
+   $("#vendorCollectionExportInExcel").attr("href",href);
+}
+
+
+function setPaymentFromDate(){
+   var fromDate = $("#fromPaymentDate").val();
+   var toDate = $("#toPaymentDate").val();
+   var userID = $("#userID").val();
+   if(!fromDate.length)
+   {
+      var d = new Date();
+      var old_day = d.getDate();
+      var old_month = d.getMonth();
+      var old_year = d.getFullYear()-1;
+      fromDate = old_year + "-" + old_month + "-" + old_day;     
+   }
+   if(!toDate.length)
+   {
+      var d = new Date();
+      var curr_day = d.getDate();
+      var curr_month = d.getMonth() + 1;
+      var curr_year = d.getFullYear();
+      toDate = curr_year + "-" + curr_month + "-" + curr_day;
+   }
+   var href = '/downloadpayment?fromDate='+fromDate+'&toDate='+toDate+'&userID='+userID;
+   $("#paymentExportInExcel").attr("href",href);
+}
+
+
+function setPaymentToDate(){
+   var fromDate = $("#fromPaymentDate").val();
+   var toDate = $("#toPaymentDate").val();
+   var userID = $("#userID").val();
+   if(!fromDate.length)
+   {
+      var d = new Date();
+      var old_day = d.getDate();
+      var old_month = d.getMonth();
+      var old_year = d.getFullYear()-1;
+      fromDate = old_year + "-" + old_month + "-" + old_day;      
+   }
+   if(!toDate.length)
+   {
+      var d = new Date();
+      var curr_day = d.getDate();
+      var curr_month = d.getMonth() + 1;
+      var curr_year = d.getFullYear();
+      toDate = curr_year + "-" + curr_month + "-" + curr_day;
+   }
+   var href = '/downloadpayment?fromDate='+fromDate+'&toDate='+toDate+'&userID='+userID;
+   $("#paymentExportInExcel").attr("href",href);
+}
+
+function setCollectorTaskFromDate(){
+   var fromDate = $("#fromAssignTaskDate").val();
+   var toDate = $("#toAssignTaskDate").val();
+   var collectorID = $("#collectorID").val();
+   if(!fromDate.length)
+   {
+      var d = new Date();
+      var old_day = d.getDate();
+      var old_month = d.getMonth();
+      var old_year = d.getFullYear()-1;
+      fromDate = old_year + "-" + old_month + "-" + old_day;     
+   }
+   if(!toDate.length)
+   {
+      var d = new Date();
+      var curr_day = d.getDate();
+      var curr_month = d.getMonth() + 1;
+      var curr_year = d.getFullYear();
+      toDate = curr_year + "-" + curr_month + "-" + curr_day;
+   }
+   var href = '/downloadtask?fromDate='+fromDate+'&toDate='+toDate+'&collectorID='+collectorID;
    $("#CollectorTaskExportInExcel").attr("href",href);
 }
 
@@ -1079,6 +1233,7 @@ function setCollectorTaskFromDate(){
 function setCollectorTaskToDate(){
    var fromDate = $("#fromAssignTaskDate").val();
    var toDate = $("#toAssignTaskDate").val();
+   var collectorID = $("#collectorID").val();
    if(!fromDate.length)
    {
       var d = new Date();
@@ -1095,7 +1250,7 @@ function setCollectorTaskToDate(){
       var curr_year = d.getFullYear();
       toDate = curr_year + "-" + curr_month + "-" + curr_day;
    }
-   var href = '/downloadtask?fromDate='+fromDate+'&toDate='+toDate;
+   var href = '/downloadtask?fromDate='+fromDate+'&toDate='+toDate+'&collectorID='+collectorID;
    $("#CollectorTaskExportInExcel").attr("href",href);
 }
 
@@ -1103,6 +1258,7 @@ function setCollectorTaskToDate(){
 function setFromDate(){
    var fromDate = $("#fromDate").val();
    var toDate = $("#toDate").val();
+   var buyerID = $("#buyerID").val();
    if(!fromDate.length)
    {
       var d = new Date();
@@ -1119,7 +1275,7 @@ function setFromDate(){
       var curr_year = d.getFullYear();
       toDate = curr_year + "-" + curr_month + "-" + curr_day;
    }
-   var href = '/download?fromDate='+fromDate+'&toDate='+toDate;
+   var href = '/download?fromDate='+fromDate+'&toDate='+toDate+'&buyerID='+buyerID;
    $("#ExportInExcel").attr("href",href);
 }
 
@@ -1127,6 +1283,7 @@ function setFromDate(){
 function setToDate(){
    var fromDate = $("#fromDate").val();
    var toDate = $("#toDate").val();
+   var buyerID = $("#buyerID").val();
    if(!fromDate.length)
    {
       var d = new Date();
@@ -1143,7 +1300,7 @@ function setToDate(){
       var curr_year = d.getFullYear();
       toDate = curr_year + "-" + curr_month + "-" + curr_day;
    }
-   var href = '/download?fromDate='+fromDate+'&toDate='+toDate;
+   var href = '/download?fromDate='+fromDate+'&toDate='+toDate+'&buyerID='+buyerID;
    $("#ExportInExcel").attr("href",href);
 }
 
@@ -1206,6 +1363,7 @@ function searchCollectorInventoryAssignHistory(){
 function searchCollectorTaskHistory(){
    var fromDate = $("#fromAssignTaskDate").val();
    var toDate = $("#toAssignTaskDate").val();
+   var collectorID = $("#collectorID").val();
 
    if(!fromDate.length){
       $("#fromAssignTaskDate").focus();
@@ -1223,8 +1381,9 @@ function searchCollectorTaskHistory(){
         url: "{{route('search.searchCollectorTask')}}",
         type: "POST",
         data: {
-            fromDate: fromDate,
-            toDate: toDate,
+            fromDate : fromDate,
+            toDate : toDate,
+            collectorID : collectorID,
             '_token' : "{{ csrf_token() }}"
         },
         success: function (response, status) {        
@@ -1345,6 +1504,7 @@ function searchDistributorPaymentHistory(){
              items+= '<td>'+val.transactionId+'</td>';
              items+= '<td>'+ getDateFromJsonString(val.timeOfDeposit).replace(/,/g,"") + '</td>';
              items+= '<td>'+val.amountPaid+'</td>';
+             items+= '<td>'+val.name+'</td>';
              items+= '<td>'+val.status+'</td>';
              items+='<tr>';
            });
@@ -1366,6 +1526,7 @@ function searchDistributorOrderHistory(){
 
    var fromDate = $("#fromDate").val();
    var toDate = $("#toDate").val();
+   var buyerID = $("#buyerID").val();
 
    if(!fromDate.length){
       $("#fromDate").focus();
@@ -1385,6 +1546,7 @@ function searchDistributorOrderHistory(){
         data: {
             fromDate: fromDate,
             toDate: toDate,
+            buyerID: buyerID,
             '_token' : "{{ csrf_token() }}"
         },
         success: function (response, status) {
