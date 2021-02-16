@@ -341,7 +341,7 @@
                                  <input onclick="searchDistributorOrderHistory()" class="btn btn-info form-control" type="submit" value="Search">
                               </li>
                               <li class="list-inline-item">
-                                 <a class="btn btn-info form-control" href="{{route('exportinexcel.order')}}" id="ExportInExcel">Export In Excel</a>
+                                 <a onclick="return checkDatesSet();" class="btn btn-info form-control" href="{{route('exportinexcel.order')}}" id="ExportInExcel">Export In Excel</a>
                               </li>
                            </ul>
                         </div>
@@ -405,7 +405,7 @@
                                  <input onclick="searchCollectorTaskHistory()" class="btn btn-info form-control" type="submit" value="Search">
                               </li>                             
                               <li class="list-inline-item" >
-                                 <a class="btn btn-info form-control" href="{{route('exportinexcel.task')}}" id="CollectorTaskExportInExcel">Export In Excel</a>
+                                 <a onclick="return checkCollectorTaskDatesSet();" class="btn btn-info form-control" href="{{route('exportinexcel.task')}}" id="CollectorTaskExportInExcel">Export In Excel</a>
                               </li>
                            </ul>
                         </div>
@@ -431,7 +431,9 @@
                                        @if(isset($TaskArea))
                                           @foreach($TaskArea as $task)
                                           <tr>
-                                             <td>{{$task->created_at}}<input type="hidden" id="collectorID" value="{{$task->collector_id}}"></td>
+                                             <td>                                                
+                                                {{ timeFormat($task->created_at)['date'] }} {{timeFormat($task->created_at)['time'] }}
+                                                <input type="hidden" id="collectorID" value="{{$task->collector_id}}"></td>
                                              <td>{{$task->title}}</td>
                                              <td>{{$task->shift}}</td>
                                              <td>{{$task->assignFrom}}</td>
@@ -467,7 +469,7 @@
                                  <input onclick="searchVendorCollectionHistory()" class="btn btn-info form-control" type="submit" value="Search">
                               </li>                              
                               <li class="list-inline-item" >
-                                 <a id="vendorCollectionExportInExcel" class="btn btn-info form-control" href="/downloadvendorcollection">Export In Excel</a>
+                                 <a onclick="return checkVendorCollectionDatesSet();" id="vendorCollectionExportInExcel" class="btn btn-info form-control" href="/downloadvendorcollection">Export In Excel</a>
                               </li>
                            </ul>
                         </div>
@@ -532,7 +534,7 @@
                                  <input onclick="searchDistributorPaymentHistory()" class="btn btn-info form-control" type="submit" value="Search">
                               </li>                              
                               <li class="list-inline-item" >
-                                 <a class="btn btn-info form-control" id="paymentExportInExcel" href="/downloadpayment">Export In Excel</a>
+                                 <a onclick="return checkPaymentDatesSet();" class="btn btn-info form-control" id="paymentExportInExcel" href="/downloadpayment">Export In Excel</a>
                               </li>
                            </ul>
                         </div>
@@ -618,7 +620,9 @@
                                        @if(isset($assets))
                                           @foreach($assets as $asset)
                                              <tr>                                                
-                                                <td>{{$asset->updated_at}}<input type="hidden" id="collectorID" value="{{$asset->user_id}}"></td>
+                                                <td>                                                   
+                                                   {{ timeFormat($asset->updated_at)['date'] }} {{timeFormat($asset->updated_at)['time'] }}
+                                                   <input type="hidden" id="collectorID" value="{{$asset->user_id}}"></td>
                                                 <td>{{$asset->assetName}}</td>
                                                 <td>{{$asset->typeName}}</td>
                                                 <td>{{$asset->assetCapacity}}</td>
@@ -1104,7 +1108,15 @@ function setCollectorInventoryToDate(){
    $("#collectorInventoryExportInExcel").attr("href",href);
 }
 
-
+function checkVendorCollectionDatesSet(){
+   var fromDate = $("#fromVendorCollectionDate").val();
+   var toDate = $("#toVendorCollectionDate").val();
+   if(!fromDate.length || !toDate.length)
+   {
+      alert('Please select From and To Date');
+      return false;
+   }
+}
 
 function setVendorCollectionFromDate(){
    var fromDate = $("#fromVendorCollectionDate").val();
@@ -1155,6 +1167,15 @@ function setVendorCollectionToDate(){
    $("#vendorCollectionExportInExcel").attr("href",href);
 }
 
+function checkPaymentDatesSet(){
+   var fromDate = $("#fromPaymentDate").val();
+   var toDate = $("#toPaymentDate").val();
+   if(!fromDate.length || !toDate.length)
+   {
+      alert('Please select From and To Date');
+      return false;
+   }
+}
 
 function setPaymentFromDate(){
    var fromDate = $("#fromPaymentDate").val();
@@ -1203,6 +1224,17 @@ function setPaymentToDate(){
    }
    var href = '/downloadpayment?fromDate='+fromDate+'&toDate='+toDate+'&userID='+userID;
    $("#paymentExportInExcel").attr("href",href);
+}
+
+
+function checkCollectorTaskDatesSet(){
+   var fromDate = $("#fromAssignTaskDate").val();
+   var toDate = $("#toAssignTaskDate").val();  
+   if(!fromDate.length || !toDate.length)
+   {
+      alert('Please select From and To Date');
+      return false;
+   }
 }
 
 function setCollectorTaskFromDate(){
@@ -1254,6 +1286,15 @@ function setCollectorTaskToDate(){
    $("#CollectorTaskExportInExcel").attr("href",href);
 }
 
+function checkDatesSet(){
+   var fromDate = $("#fromDate").val();
+   var toDate = $("#toDate").val();   
+   if(!fromDate.length || !toDate.length)
+   {
+      alert('Please select From and To Date');
+      return false;
+   }
+}
 
 function setFromDate(){
    var fromDate = $("#fromDate").val();
