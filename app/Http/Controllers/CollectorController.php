@@ -48,9 +48,9 @@ class CollectorController extends Controller
             'user_address'  => 'required|min:1',
             
             'pointName' => 'required',
+            
             'filenames' => 'required',
             'filenames.*' => 'mimes:jpg,png,jpeg,gif',   
-            'userAsset'=>'required',
         ]);
 
         $collector_register = new User();
@@ -72,25 +72,12 @@ class CollectorController extends Controller
         $collector_register->save();
         $collector_register->roles()->attach(Role::where('id',5)->first());
 
-        $userAssets = $request['userAsset'];
-        
-        foreach($userAssets as $userAsset)
-        {
-            DB::update("UPDATE milkman_assets SET user_id = $collector_register->id  WHERE id	 = $userAsset");            
-        } 
-        $collectorCaps = milkmanAsset::where('user_id' , $collector_register->id)->where('type_id' , 2)->get();
-        foreach($collectorCaps as $collectorCap)
-        {
-        $collectorcap[]=$collectorCap->assetCapacity;
-        }
-        $collectorcap1=array_sum($collectorcap);
-
             // echo "<pre>";
             // print_r($assetCode);
             // exit;
         $collector_detail = new collectorDetail();
         $collector_detail->user_id = $collector_register->id;        
-        $collector_detail->collectorCapacity = $collectorcap1;
+        $collector_detail->collectorCapacity = 0;
         $collector_detail->collectorMorStatus = 'Free';
         $collector_detail->collectorEveStatus = 'Free';
         $collector_detail->collectionPoint_id = $request->pointName;
