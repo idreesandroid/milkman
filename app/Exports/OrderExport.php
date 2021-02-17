@@ -18,22 +18,26 @@ class OrderExport implements FromQuery, WithHeadings, WithMapping, WithColumnFor
     * @return \Illuminate\Support\Query
     */
     use Exportable;
-	protected $request;
+
     protected $fromDate;
     protected $toDate;
-	public function __construct($fromDate, $toDate)
+	public function __construct($fromDate, $toDate, $buyerID)
 	{
         $this->fromDate = $fromDate;
         $this->toDate = $toDate;
+        $this->buyerID = $buyerID;
 	}
     public function query()
     {
         $invoice = Invoice::select(
-            'invoices.created_at',
-             'invoices.total_amount', 'users.name as saler',
-                            	'invoices.updated_at', 'invoices.flag')
+                                'invoices.created_at',
+                                'invoices.total_amount',
+                                'users.name as saler',
+                                'invoices.updated_at',
+                                'invoices.flag')
                             ->leftJoin('users','users.id','=','invoices.seller_id')
-                            ->whereBetween('invoices.created_at', array($this->fromDate, $this->toDate));
+                            ->whereBetween('invoices.created_at', array($this->fromDate, $this->toDate))
+                            ->where('invoices.buyer_id','=',$this->buyerID);
         return $invoice;
     }
 
