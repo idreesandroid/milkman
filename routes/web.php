@@ -145,6 +145,14 @@ Route::get('get/collection-managers',         [milkCollectionController::class, 
 Route::post('assign/collection-point',        [milkCollectionController::class, 'assignCollectionManager'])->name('assignManager.Point')->middleware('can:Assign-Collection-Point');
 
 Route::get('collectionPoint/collectors',      [milkCollectionController::class, 'myCollectors'])->name('my.collectors');
+Route::get('milk/submission',                 [milkCollectionController::class, 'milkSubmission'])->name('milk.submission');
+
+Route::get('get/asset-list',                   [milkCollectionController::class, 'getAssetList'])->name('getAssetList');
+Route::post('set/asset-list',                  [milkCollectionController::class, 'setAssetList'])->name('setAssetList');
+
+
+//ajax route
+Route::get('collectors/collections/{id}',            [milkCollectionController::class, 'collectorCollections'])->name('collector.Collections');
 
 //Cart routes----------------------------------------
 Route::get('cart/create',                   [SaleController::class, 'generateInvoice'])->name('create.invoice')->middleware('can:Generate-Invoice');
@@ -240,6 +248,7 @@ Route::get('activate/collector/{id}',               [TasksController::class, 'Ac
 Route::get('generate/task',                       [TasksController::class, 'GenerateMorningTask'])->name('generate.morning.task')->middleware('can:Generate-Task');
 Route::post('generate/morning/task',              [TasksController::class, 'StoreMorningTask'])->name('store.morning.task');
 Route::post('generate/evening/task',              [TasksController::class, 'StoreEveningTask'])->name('store.evening.task');
+
 
 
 

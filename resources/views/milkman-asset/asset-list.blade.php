@@ -40,6 +40,7 @@
                         <th>Name</th>
                         <th>Code</th>
                         <th>Capacity</th>
+                        <th>Collection Point</th>
                         <th>Assign To</th>
                         <th>Action</th>
                      </tr>
@@ -47,11 +48,11 @@
                   <tbody>
                      @foreach($Assets as $Asset)
                      <tr>
-                        
                         <td>{{$Asset->typeName}}</td>
                         <td>{{$Asset->assetName}}</td>
                         <td>{{$Asset->assetCode}}</td>
                         <td>{{number_format($Asset->assetCapacity)}} {{$Asset->assetUnit}}</td>
+                        <td>{{$Asset->pointName}}</td>
                         <td>{{$Asset->name}}</td>
                         <td>
                            <a href="{{ route('edit.asset', $Asset->id)}}" class="btn btn-primary">Edit</a>

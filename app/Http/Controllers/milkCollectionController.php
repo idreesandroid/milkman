@@ -29,8 +29,6 @@ class milkCollectionController extends Controller
     //  echo "<pre>";
     //  print_r($collectionPoints);
     //  exit;
-
-
        return view('collectionPoint/index', compact('collectionPoints'));
     }
 
@@ -82,8 +80,6 @@ class milkCollectionController extends Controller
 public function getCollectionManager()
 {  
    //$collectionManagers = collectionPointManager::where('managerStatus','inActive')->get();
-   
-
    $collectionManagers = DB::table('collection_point_managers')
    ->select('user_id','collectionPointId','managerStatus','name','users.id')
    ->where('managerStatus','inActive')
@@ -114,6 +110,47 @@ public function assignCollectionManager(Request $request)
     }
 
 
+    public function getAssetList()
+    {  
+       //$collectionManagers = collectionPointManager::where('managerStatus','inActive')->get();
+       $assets = DB::table('milkman_assets')
+       ->select('milkman_assets.id','assetCapacity','assetName','assetUnit','typeName')
+       ->where('assignedPoint',null)
+       ->where('user_id',null)
+       ->join('assets_types','type_id','=','assets_types.id')
+       ->get();
+    
+        //  echo "<pre>";
+        //  print_r($assets);
+        //  exit;
+       return $assets;
+    }
+
+    public function setAssetList(Request $request)
+    {     
+        //    echo "<pre>";
+        //    print_r($request->all());
+        //    exit;
+        $this->validate($request,[ 
+            'pointId'       => 'required',        
+            'select_asset'  => 'required', 
+        ]);
+
+        $asset_ids = $request['select_asset'];
+
+        foreach($asset_ids as $index => $asset_id)
+        {  
+            DB::update("UPDATE milkman_assets SET `assignedPoint` =  $request->pointId WHERE id = $asset_id");  
+        }
+        return redirect()->route('index.collectionPoint');
+    }
+
+
+
+
+
+
+
     public function myCollectors()
     {
     $CMid = Auth::id();
@@ -125,11 +162,72 @@ public function assignCollectionManager(Request $request)
      ->where('collectionPoint_id', $CPIDs)
      ->join('users','user_id','=','users.id')
      ->get();
-
     //  echo "<pre>";
     //  print_r($collectorDetails);
     //  exit;   
      return view('collectionPoint/collectors', compact('collectorDetails'));
     }
+
+
+    public function milkSubmission()
+{  
+   //$collectionManagers = collectionPointManager::where('managerStatus','inActive')->get();
+
+   $CMid = Auth::id();
+   $CPM = collectionPointManager::where('user_id',$CMid)->where('managerStatus','Active')->first();
+   $CPIDs = $CPM->collectionPointId;
+
+   $collectors = DB::table('collector_details')
+   ->select('user_id','name')
+   ->where('collectionPoint_id',$CPIDs)
+   ->join('users','user_id','=','users.id')
+   ->get();
+
+//    $collections = DB::table('collections')
+//    ->select('id','title')
+//    ->where('collectionPoint_id',$CPIDs)
+//    ->get();
+
+    //  echo "<pre>";
+    //  print_r($collectionManagers);
+    //  exit;
+
+    return view('collectionPoint/milkSubmission', compact('collectors'));
+}
+
+
+public function collectorCollections($id)
+{  
+
+    // echo "<pre>";
+    // print_r($id);
+    // exit;
+
+   //$collectionManagers = collectionPointManager::where('managerStatus','inActive')->get();
+
+//    $CMid = Auth::id();
+//    $CPM = collectionPointManager::where('user_id',$CMid)->where('managerStatus','Active')->first();
+//    $CPIDs = $CPM->collectionPointId;
+
+//    $collectors = DB::table('collector_details')
+//    ->select('user_id','name')
+//    ->where('collectionPoint_id',$CPIDs)
+//    ->join('users','user_id','=','users.id')
+//    ->get();
+
+   $today=date('Y-m-d'); 
+   $collections = DB::table('sub_tasks')
+   ->select('id','task_id','milkCollected','fat','lactose','Ash','totalProteins','totalSolid','status')
+   ->where('assignTo',$id)
+   ->where('status','<>','Submitted')
+   ->where('collection_date', $today)
+   ->get();
+
+    //  echo "<pre>";
+    //  print_r($collections);
+    //  exit;
+
+     return json_encode($collections);
+}
 
 }
