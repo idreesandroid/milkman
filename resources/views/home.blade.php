@@ -27,7 +27,7 @@
                     </ul>
                     <!-- Tab panes -->
                     <div class="tab-content">
-                        <div role="tabpanel" class="tab-pane active" id="uploadTab">hello</div>
+                        <div role="tabpanel" class="tab-pane active" id="uploadTab"></div>
                         <div role="tabpanel" class="tab-pane" id="browseTab">browseTab</div>
                     </div>
                 </div>
