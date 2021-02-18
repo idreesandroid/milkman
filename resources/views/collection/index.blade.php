@@ -35,20 +35,20 @@ foreach ($vendors as $key => $value) {
       <h3 class="page-title">
          <span class="page-title-icon bg-gradient-primary text-white mr-2">
          <i class="la la-table"></i>
-         </span>Collection Management
+         </span>Collection Areas
       </h3>
    </div>
    <div class="col p-0 text-right">
       <ul class="breadcrumb bg-white float-right m-0 pl-0 pr-0">
-         <li class="breadcrumb-item"><a href="index.php">Dashboard</a></li>
-         <li class="breadcrumb-item active">Collection Management</li>
+         <li class="breadcrumb-item"><a href="/DashBoard">Dashboard</a></li>
+         <li class="breadcrumb-item active">Area List</li>
       </ul>
    </div>
 </div>
 <div class="page-header  mb-0 ">
    <div class="row">
       <div class="col">
-         <h3>Collection Management</h3>
+         <h3>Collection Areas</h3>
       </div>
       @can('Create-Collection-Area')
       <div class="col text-right">
@@ -101,7 +101,9 @@ foreach ($vendors as $key => $value) {
                              @endcan
 
                              <!-- Asim work on Task as--------------------------------------------------------------- -->
-                             <br>
+
+                             <a href="#" id="collectionPoint_{{$item->id}}" class='btn btn-outline-primary' data-toggle="modal" data-target="#find_point" onclick="findPoint({{$item->id}})">ReAssign Collection Point</a>
+                             <!-- <br>
                              @if($item->AFM == 0)
                               <a href="#" id="assignCollectorM_{{$item->id}}" class='btn btn-outline-primary' data-toggle="modal" data-target="#collectorSelection" onclick="findCollectors({{$item->id}},'Morning')">Assign Collector For Morning</a>
                              @endif
@@ -118,7 +120,7 @@ foreach ($vendors as $key => $value) {
                              @if($item->AFE == 1)
                               <a href="#" id="ReassignCollectorE_{{$item->id}}" class='btn btn-outline-primary' data-toggle="modal" data-target="#collectorReSelection" onclick="ReAssignCollectors({{$item->id}},'Evening')">ReAssign Collector For Evening</a>
                              @endif
-                              <br>
+                              <br> -->
 
                             
                             <!-- Asim work on Task as--------------------------------------------------------------- -->
@@ -139,7 +141,7 @@ foreach ($vendors as $key => $value) {
          </div>
       </div>
    </div>
-</div>                     
+</div>    
 
 
 <!--Collector Assiging-->
@@ -244,9 +246,42 @@ foreach ($vendors as $key => $value) {
                   </div>
                </div>
             </div>
-
 <!--End Asim Make model for AssignTask Selection---->
-
+<!-- Asim work on ReAssign Collection Point as------------------------------------------------------------->
+<div id="find_point" class="modal fade" role="dialog">
+               <div class="modal-dialog" id="batch-info">
+                  <!-- Modal content-->
+                  <div class="modal-content">
+                     <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                     </div>
+                     <div class="modal-body">
+                        <div class="table-responsive">
+                           <form method="post" action="{{route('reset.collectionPoint')}}">
+                           <input type="hidden" id="pointId" name="pointId" value="">
+                              @csrf 
+                              <table class="datatable table table-stripped mb-0 fetch_collection_point" id="fetch_collection_point">
+                                 <thead>
+                                    <tr>
+                                       <th>Select One</th>
+                                       <th>Point Name</th>
+                                       <th>Point Address</th>
+                                    </tr>
+                                 </thead>
+                                 <tbody>
+                                 </tbody>
+                              </table>
+                              <button type="submit" class=" form-control btn btn-lg btn-info" >Reset</button>
+                           </form>
+                        </div>
+                     </div>
+                     <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                     </div>
+                  </div>
+               </div>
+            </div>
+<!-- End Asim work on ReAssign Collection Point as------------------------------------------------------------->
 
 <!--Asim Make model for ReAssign Collector For Task Selection---->
 
@@ -288,8 +323,68 @@ foreach ($vendors as $key => $value) {
             </div>
 
 <!--End Asim Make model for ReAssignTask Selection---->
+<!-- Asim work on ReAssign Collection Point as------------------------------------------------------------->
 
-<!-- Asim work on Task as--------------------------------------------------------------- -->
+<script type="text/javascript">
+   function findPoint(id)
+   {
+         $("#pointId").val(id);
+         if(id != null)
+         {
+
+            $.ajax({
+            url: '/get/collectionPoint/'+id,
+               type: "GET",
+               dataType: "json",
+               success:function(response)
+                {
+                    //console.log(response);
+                  //  console.log(response.selectedPoint);
+                  var len = 0;
+                  $('#fetch_collection_point tbody').empty();     
+                  if(response.allPoint.length > 0)
+                  {
+                     
+                     len = response.allPoint.length;
+                     // console.log(len);
+                     for(var i=0; i<len; i++)
+                     {  
+                   var pid = response.allPoint[i].id;                
+                   var point_name = response.allPoint[i].pointName;
+                   var point_address = response.allPoint[i].pointAddress;
+                   var pre_point = response.selectedPoint;
+                   //console.log(pre_point);    
+
+                   var tr_str = "<tr>" +
+                   "<td >" + "<input type='radio' value='"+pid+"'  name='select_point' id='select_point"+pid+"'/>" + "</td>" +
+                     "<td >" + point_name + "</td>" +   
+                     "<td >" + point_address + "</td>" +       
+                   "</tr>";
+                   $("#fetch_collection_point tbody").append(tr_str);
+
+                   if(pid == pre_point)
+                        {
+                          $("#select_point"+pid).attr("checked", true);
+                        }
+                     }   
+                  }
+                  else
+                  {
+                     alert("There is no collection Point Available");
+                  }
+                }                              
+               });
+         }
+         
+   }
+</script>
+
+
+
+
+
+
+<!-- Asim work on Task as----------------------------------------------------------------->
 
 
 <script type="text/javascript">

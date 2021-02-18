@@ -272,4 +272,38 @@ class CollectionController extends Controller
         }
     }    
 
+
+
+    // asim work-----------------
+
+    public function findCollectionPoint($id)
+    {   
+        $collectionPoints = milkCollectionPoint::all();
+        $previousPoint = Collection::findOrFail($id);
+        $prePoint = $previousPoint->collectionPoint_id;
+
+        $points= array();
+        $points['allPoint']=$collectionPoints;
+        $points['selectedPoint']=$prePoint;
+    // echo "<pre>";
+    // print_r($points);
+    // exit;
+        return $points;
+    }
+
+    public function resetCollectionPoint(Request $request)
+    {     
+        //    echo "<pre>";
+        //    print_r($request->all());
+        //    exit;
+        $this->validate($request,[ 
+            'pointId'       => 'required', 
+            'select_point'       => 'required'  
+        ]);
+        DB::update("UPDATE collections SET `collectionPoint_id` =  $request->select_point WHERE `id` = $request->pointId");  
+       return "OK";
+        // return redirect()->route('index.collectionPoint');
+    }
+
+       
 }

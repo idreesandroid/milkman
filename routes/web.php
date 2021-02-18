@@ -198,6 +198,11 @@ Route::post('collection/update', [CollectionController::class, 'update'])->name(
 
 Route::post('collection/getvendorlatlng', [CollectionController::class, 'getvendorlatlng'])->name('getvendorlatlng.collection');
 
+
+
+Route::get('get/collectionPoint/{id}',              [CollectionController::class, 'findCollectionPoint'])->name('get.collectionPoint');
+Route::post('set/collectionPoint',                   [CollectionController::class, 'resetCollectionPoint'])->name('reset.collectionPoint');
+
 //Tasks routes-------------------------------
 Route::get('tasks', [TasksController::class, 'index'])->name('task_listing')->middleware('can:See-Task-List');
 Route::post('update-tasks', [TasksController::class, 'update'])->name('update.task')->middleware('can:Update-Task');
