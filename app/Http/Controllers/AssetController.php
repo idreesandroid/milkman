@@ -71,16 +71,14 @@ class AssetController extends Controller
        //$Assets = milkmanAsset::with('assetType','assetAssignTo')->get();
       
        $Assets=DB::table('milkman_assets')
-       ->select('milkman_assets.id','assetCode','assetName','assetCapacity','assets_types.typeName','assets_types.assetUnit','users.name')
+       ->select('milkman_assets.id','assetCode','assetName','assetCapacity','assets_types.typeName','assets_types.assetUnit','users.name','pointName')
        ->join('assets_types','milkman_assets.type_id','=','assets_types.id')
        ->leftjoin('users','milkman_assets.user_id','=','users.id')
+       ->leftjoin('milk_collection_points','milkman_assets.assignedPoint','=','milk_collection_points.id')
        ->get();
-
     //    echo "<pre>"; 
     //    print_r($Assets);
     //    exit;
-             
-
        return view('milkman-asset/asset-list', compact('Assets'));
     }
 

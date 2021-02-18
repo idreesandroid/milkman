@@ -196,7 +196,6 @@ class SaleController extends Controller
     
     public function invoiceDetail($id)
     {   
-
         $roleArray= auth()->user()->roles()->pluck('roles.id')->toArray();
              if(in_array(1, $roleArray))
              {
@@ -209,6 +208,7 @@ class SaleController extends Controller
              }
 
          $carts = Cart::where('invoice_id', $id)->get();
+      
          return view('cart/invoiceDetail', compact('invoice','carts'));       
     }
 

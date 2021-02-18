@@ -357,7 +357,6 @@ public function AssignArea($shift , $id)
     //echo "<pre>";
     // print_r($arrangedArray);
     //exit;
-
     return view('task/AreaTask', compact('arrangedArray'));
     }
 

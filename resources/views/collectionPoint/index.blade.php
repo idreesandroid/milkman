@@ -40,6 +40,7 @@
                         <th>Name</th>
                         <th>Address</th>
                         <th>Collection Manager</th>
+                        <th>Assets</th>
                         <th>Action</th>
                      </tr>
                   </thead>
@@ -49,10 +50,9 @@
                         
                         <td>{{$collectionPoint->pointName}}</td>
                         <td>{{$collectionPoint->pointAddress}}</td>
-                        <td >
-                        @if(!isset($collectionPoint->collectionPointId))<button type="button" id="point_{{$collectionPoint->id}}" onclick="getCId({{$collectionPoint->id}})" class="btn btn-primary" data-toggle="modal" data-target="#findManager">Assign</button> @endif
-                        </td>
-
+                        <td>@if(!isset($collectionPoint->collectionPointId))<button type="button" id="point_{{$collectionPoint->id}}" onclick="getCId({{$collectionPoint->id}})" class="btn btn-primary" data-toggle="modal" data-target="#findManager">Assign</button>@endif</td>
+                        <td><button type="button" id="asset_{{$collectionPoint->id}}" onclick="getAssetId({{$collectionPoint->id}})" class="btn btn-primary" data-toggle="modal" data-target="#findAsset">Allot Asset</button></td>
+                       
                         <td>
                            <a href="{{ route('edit.collectionPoint', $collectionPoint->id)}}" class="btn btn-primary">Edit</a>
                            <form action="{{ route('delete.collectionPoint', $collectionPoint->id)}}" method="post" style="display: inline-block">
@@ -104,6 +104,47 @@
                </div>
             </div>
 <!-- model -->
+
+
+<!-- model -->
+<div id="findAsset" class="modal fade" role="dialog">
+               <div class="modal-dialog" id="find-asset">
+                  <!-- Modal content-->
+                  <div class="modal-content">
+                     <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                     </div>
+                     <div class="modal-body">
+                        <div class="table-responsive">
+                           <form method="post" action="{{ route('setAssetList') }}">
+                              @csrf 
+                              <input type="hidden" id="pointId" name="pointId" value="">
+                              <table class="datatable table table-stripped mb-0 asset_fetch" id="asset_fetch">
+                                 <thead>
+                                    <tr>
+                                       <th><input type="checkBox" ></th>
+                                       <th>Asset Type</th>
+                                       <th >Asset Name</th>
+                                       <th>Asset Capacity</th>
+                                    </tr>
+                                 </thead>
+                                 <tbody>
+                                 </tbody>
+                              </table>
+                              <button type="submit" class=" form-control btn btn-sm- btn-info" >Add</button>
+                           </form>
+                        </div>
+                     </div>
+                     <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                     </div>
+                  </div>
+               </div>
+            </div>
+
+
+
+<!-- model -->
 <!-- /Page Wrapper -->
 @endsection
 
@@ -123,6 +164,60 @@ var pointId ='';
                               $("#manager_id").append("<option value='"+value.user_id +"'>"+value.name+"</option>");
                                                                }                              
                                     )
+                                 }                                           
+            });   
+      }
+
+      
+</script>
+
+
+<script type="text/javascript">
+   function getAssetId(id)
+      {
+      pointId =id;
+      
+      $("#pointId").val(id);
+      $.ajax({
+         url: '/get/asset-list/'+id,
+         type: "GET",
+         success:function(response) { 
+
+            console.log(response);
+
+                                    var len = 0;
+                                    $('#asset_fetch tbody').empty();     
+                                    if(response.length > 0){
+                                    len = response.length;
+                                    for(var i=0; i<len; i++){
+                                                          var asset_Id = response[i].id;
+                                                          var asset_Type = response[i].typeName;                
+                                                          var asset_Name = response[i].assetName;
+                                                          var asset_Cap = response[i].assetCapacity;  
+                                                          var asset_Unit = response[i].assetUnit;
+                                                          var asset_point = response[i].assignedPoint;
+   
+                                                          var tr_str = "<tr>" +
+                                                          "<td >"+"<input type='checkbox' class='form-control' value='"+asset_Id+"' name='select_asset[]' id='select_asset_"+asset_Id+"'/>"+" </td>"+
+                                                         "<td>" + asset_Type + "</td>" +
+                                                         "<td >" + asset_Name + "</td>" +    
+                                                         "<td >" + asset_Cap +" "+ asset_Unit + "</td>" +                                                                         
+                                                         "</tr>";
+                                                         $("#asset_fetch tbody").append(tr_str);
+                                                       
+                                                         if(asset_point != null)
+                                                         {
+                                                            $("#select_asset_"+asset_Id).attr("checked", true);
+                                                         }
+                                                            }
+                                                          }
+                                                          else
+                                                             {
+                                                                var tr_str = "<tr>" +
+                                                                "<td align='center' colspan='4'>No record found.</td>" +
+                                                                "</tr>";
+                                                                $("#asset_fetch tbody").append(tr_str);
+                                                            }
                                  }                                           
             });   
       }
