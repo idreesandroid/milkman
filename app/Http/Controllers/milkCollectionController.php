@@ -14,6 +14,7 @@ use App\Models\User;
 use App\Models\TaskArea;
 use App\Models\collectorDetail;
 use App\Models\collectionPointManager;
+use App\Models\milkmanAsset;
 class milkCollectionController extends Controller
 {
     public function index()
@@ -110,16 +111,16 @@ public function assignCollectionManager(Request $request)
     }
 
 
-    public function getAssetList()
+    public function getAssetList($id)
     {  
        //$collectionManagers = collectionPointManager::where('managerStatus','inActive')->get();
        $assets = DB::table('milkman_assets')
-       ->select('milkman_assets.id','assetCapacity','assetName','assetUnit','typeName')
-       ->where('assignedPoint',null)
+       ->select('milkman_assets.id','assetCapacity','assetName','assetUnit','typeName','assignedPoint')
+       ->where('assignedPoint',null)    
        ->where('user_id',null)
+       ->orWhere('assignedPoint',$id)
        ->join('assets_types','type_id','=','assets_types.id')
        ->get();
-    
         //  echo "<pre>";
         //  print_r($assets);
         //  exit;
@@ -132,21 +133,95 @@ public function assignCollectionManager(Request $request)
         //    print_r($request->all());
         //    exit;
         $this->validate($request,[ 
-            'pointId'       => 'required',        
-            'select_asset'  => 'required', 
+            'pointId'       => 'required',   
         ]);
 
+        $point=$request->pointId;
+
+        $assetsList = milkmanAsset::where('assignedPoint', $point)->get();
+
+    
+
+        foreach($assetsList as $assetList)
+        {
+            DB::update("UPDATE milkman_assets SET `assignedPoint` = null WHERE `id` = $assetList->id");
+        }
+
+        if($request->input('select_asset'))
+        {
         $asset_ids = $request['select_asset'];
 
         foreach($asset_ids as $index => $asset_id)
         {  
-            DB::update("UPDATE milkman_assets SET `assignedPoint` =  $request->pointId WHERE id = $asset_id");  
+            DB::update("UPDATE milkman_assets SET `assignedPoint` =  $request->pointId WHERE `id` = $asset_id");  
+        }
         }
         return redirect()->route('index.collectionPoint');
     }
 
 
+    public function getPointAsset($id)
+    {  
+       $point = checkpoint();
+       $assets = DB::table('milkman_assets')
+       ->select('milkman_assets.id','assetCapacity','assetName','assetUnit','typeName','user_id')
+       ->where('assignedPoint', $point)
+       ->where('user_id',null)
+       ->orWhere('user_id',$id)
+       ->join('assets_types','type_id','=','assets_types.id')
+       ->get();
+        //  echo "<pre>";
+        //  print_r($assets);
+        //  exit;
+       return $assets;
+    }
 
+    public function setCollectorAsset(Request $request)
+    {     
+   
+        $this->validate($request,[ 
+            'collectorId'       => 'required', 
+        ]);
+
+            $TempCid=$request->collectorId;
+
+        $assetsList = milkmanAsset::where('user_id', $TempCid)->get();
+
+        foreach($assetsList as $assetList)
+        {
+            DB::update("UPDATE milkman_assets SET `user_id` = null WHERE `id` = $assetList->id");
+        }
+            DB::update("UPDATE collector_details SET `collectorCapacity` =  null WHERE `user_id` = $TempCid");
+
+
+
+       // $assets1= milkmanAsset::where('user_id', $TempCid)->get();
+
+        // echo "<pre>";
+        // print_r($assets1);
+        // exit;
+        if($request->input('select_asset'))
+        {
+        $asset_ids = $request['select_asset'];
+
+        foreach($asset_ids as $index => $asset_id)
+        {  
+            DB::update("UPDATE milkman_assets SET `user_id` =  $request->collectorId WHERE id = $asset_id");  
+        }
+        }
+        $collectorCaps = milkmanAsset::where('user_id' , $request->collectorId)->where('type_id' , 2)->get();
+        
+        $collectorcap = array();
+        foreach($collectorCaps as $collectorCap)
+        {
+        $collectorcap[]=$collectorCap->assetCapacity;
+        }
+        $collectorcap1=array_sum($collectorcap);
+
+        DB::update("UPDATE collector_details SET `collectorCapacity` =  $collectorcap1 WHERE user_id = $request->collectorId");
+
+        return redirect()->route('my.collectors');
+    }
 
 
 

@@ -147,8 +147,11 @@ Route::post('assign/collection-point',        [milkCollectionController::class, 
 Route::get('collectionPoint/collectors',      [milkCollectionController::class, 'myCollectors'])->name('my.collectors');
 Route::get('milk/submission',                 [milkCollectionController::class, 'milkSubmission'])->name('milk.submission');
 
-Route::get('get/asset-list',                   [milkCollectionController::class, 'getAssetList'])->name('getAssetList');
+Route::get('get/asset-list/{id}',              [milkCollectionController::class, 'getAssetList'])->name('getAssetList');
 Route::post('set/asset-list',                  [milkCollectionController::class, 'setAssetList'])->name('setAssetList');
+
+Route::get('collection-point-get/asset-list/{id}',              [milkCollectionController::class, 'getPointAsset'])->name('get.PointAsset');
+Route::post('collection-point-set/asset-list',                  [milkCollectionController::class, 'setCollectorAsset'])->name('set.CollectorAsset');
 
 
 //ajax route
