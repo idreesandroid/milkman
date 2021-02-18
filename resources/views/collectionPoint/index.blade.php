@@ -50,7 +50,6 @@
                         
                         <td>{{$collectionPoint->pointName}}</td>
                         <td>{{$collectionPoint->pointAddress}}</td>
-                         
                         <td>@if(!isset($collectionPoint->collectionPointId))<button type="button" id="point_{{$collectionPoint->id}}" onclick="getCId({{$collectionPoint->id}})" class="btn btn-primary" data-toggle="modal" data-target="#findManager">Assign</button>@endif</td>
                         <td><button type="button" id="asset_{{$collectionPoint->id}}" onclick="getAssetId({{$collectionPoint->id}})" class="btn btn-primary" data-toggle="modal" data-target="#findAsset">Allot Asset</button></td>
                        
@@ -177,13 +176,15 @@ var pointId ='';
    function getAssetId(id)
       {
       pointId =id;
+      
       $("#pointId").val(id);
       $.ajax({
-         url: '/get/asset-list',
+         url: '/get/asset-list/'+id,
          type: "GET",
          success:function(response) { 
 
             console.log(response);
+
                                     var len = 0;
                                     $('#asset_fetch tbody').empty();     
                                     if(response.length > 0){
@@ -194,6 +195,7 @@ var pointId ='';
                                                           var asset_Name = response[i].assetName;
                                                           var asset_Cap = response[i].assetCapacity;  
                                                           var asset_Unit = response[i].assetUnit;
+                                                          var asset_point = response[i].assignedPoint;
    
                                                           var tr_str = "<tr>" +
                                                           "<td >"+"<input type='checkbox' class='form-control' value='"+asset_Id+"' name='select_asset[]' id='select_asset_"+asset_Id+"'/>"+" </td>"+
@@ -202,6 +204,11 @@ var pointId ='';
                                                          "<td >" + asset_Cap +" "+ asset_Unit + "</td>" +                                                                         
                                                          "</tr>";
                                                          $("#asset_fetch tbody").append(tr_str);
+                                                       
+                                                         if(asset_point != null)
+                                                         {
+                                                            $("#select_asset_"+asset_Id).attr("checked", true);
+                                                         }
                                                             }
                                                           }
                                                           else

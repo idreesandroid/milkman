@@ -83,12 +83,10 @@ function assignMorningTask()
 
 
     function checkpoint()
-    {       
-            // $Cid = Auth::id();
-            // $CPM = collectionPointManager::where('user_id',36)->first();
-            // $CPID = Collection::where('collectionPoint_id',$CPM->collectionPointId)->get();
-
-            // echo "<pre>";
-            // print_r($CPID);
-            // exit;
+    {
+            $CMid = Auth::id();
+            $CPM = collectionPointManager::where('user_id',$CMid)->where('managerStatus','Active')->first();
+            $CPIDs = $CPM->collectionPointId;
+            
+            return $CPIDs;
     }
