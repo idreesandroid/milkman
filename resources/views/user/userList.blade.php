@@ -1,15 +1,6 @@
 @extends('layouts.master')
 @section('content')
  <!-- Page Header -->
- <style type="text/css">
- a .badge {
-    background: rgb(40, 195, 212);
-    color: #fff;
-}
-
- </style>
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.23/datatables.min.css"/>
- 
 <div class="crms-title row bg-white mb-4">
    <div class="col">
       <h3 class="page-title">

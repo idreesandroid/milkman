@@ -13,7 +13,9 @@ class Invoice extends Model
 
     protected $dates = ['deleted_at'];
 
-    protected $fillable = ['buyer_id','invoice_number','total_amount','flag'];    
+    public $timestamps = true;
+
+    protected $fillable = ['invoice_number','total_amount','flag'];    
 
     public function invoice_bill()
     {

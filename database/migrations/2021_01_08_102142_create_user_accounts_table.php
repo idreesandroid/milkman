@@ -22,7 +22,7 @@ class CreateUserAccountsTable extends Migration
             $table->foreign('role_id')->references('id')->on('roles')->onUpdate('cascade')->onDelete('cascade');
 
             $table->string('userAccount')->unique();
-            $table->integer('balance');
+            $table->string('balance');
 
             $table->timestamps();
         });

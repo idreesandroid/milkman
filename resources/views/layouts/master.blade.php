@@ -31,6 +31,7 @@
       <!-- Select 2 CSS -->
       <link rel="stylesheet" href="{{asset('assets/css/select2.min.css')}}">
       <!-- jQuery -->
+      <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.23/datatables.min.css"/>
       <script src="{{asset('assets/js/jquery-3.5.0.min.js')}}"></script>
       <script
          src="https://maps.googleapis.com/maps/api/js?libraries=geometry,places,drawing&key={{env('GOOGLE_MAP_KEY')}}&v=3"      
@@ -193,7 +194,8 @@
       <!-- <script src="{{asset('assets/js/jquery.js')}}"></script> -->
       <script src="{{asset('assets/js/inputmask.js')}}"></script>      
       <script src="{{asset('assets/js/sweetalert.js')}}"></script>      
-      <script src="{{asset('assets/js/moment.min.js')}}"></script>      
+      <script src="{{asset('assets/js/moment.min.js')}}"></script>
+      <script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>    
    </body>
 </html>
 
