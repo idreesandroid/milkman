@@ -264,4 +264,8 @@ Route::post('generate/evening/task',              [TasksController::class, 'Stor
 //for download excell
 
 Route::any('download', [RegisterController::class, 'export'])->name('exportinexcel.order');
+Route::any('downloadtask', [RegisterController::class, 'exportTask'])->name('exportinexcel.task');
+Route::any('downloadpayment', [RegisterController::class, 'exportPayment'])->name('exportinexcel.payment');
+Route::any('downloadvendorcollection', [RegisterController::class, 'exportVendorCollection'])->name('exportinexcel.VendorCollection');
+Route::any('downloadcollectorinventory', [RegisterController::class, 'exportCollectorInventory'])->name('exportinexcel.collectorInventory');
 

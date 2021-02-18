@@ -489,11 +489,7 @@ foreach ($vendors as $key => $value) {
 
 
 <script type="text/javascript">
-var locations = <?php echo json_encode($locations) ?>
-
-$(document).ready(function() {
-      
-});
+var locations = <?php echo json_encode($locations) ?>;
 
 function setCollectionId(collectionId,collector_id){
    $("#collectionId").val(collectionId);
@@ -538,8 +534,7 @@ function AssignCollectorToACollectionArea(collectorID){
                }
             });
         }
-   });
-   
+   });   
 }
 
 
@@ -581,8 +576,6 @@ function deleteCollection(collectionId){
 }
  
 
-
-   $(document).ready(function() { 
       $("#updateColectionArea").on('click',function(){
 
          var title = $("#edit_title").val();        
@@ -651,7 +644,6 @@ function deleteCollection(collectionId){
 
       }); 
 
-      initializeMap('updateCollectionMap','edit_clear_shapes','update_raw_map','edit_restore','update_MapData',locations,'30.437318444167968','69.24038656005861');
 
       $('#assignCollectorModel').on('hidden.bs.modal', function () {
         $("#assignCollectorModel input[type=radio]").prop("checked", false);
@@ -661,7 +653,7 @@ function deleteCollection(collectionId){
 $(document).ready(function() { 
    $('#assignCollectorModel').on('hidden.bs.modal', function () {
       $("#assignCollectorModel input[type=radio]").prop("checked", false);
-   });      
+   });
 }); 
 </script> 
 
