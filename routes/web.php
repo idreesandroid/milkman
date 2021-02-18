@@ -118,6 +118,7 @@ Route::get('distributor-detail/edit/{id}',       [DistributorController::class, 
 Route::post('distributor-detail/update/{id}',    [DistributorController::class, 'update'])->name('update.distributor-detail')->middleware('can:Edit-Distributor');
 Route::post('companyDetail/update/{id}',         [DistributorController::class,'companyDetailUpdate'])->name('companyDetail.distributor')->middleware('can:Edit-Company-Detail');
 Route::get('order/myList',                       [DistributorController::class, 'myOrders'])->name('order.myList')->middleware('can:See-My-Orders');
+Route::post('order/delete',                       [DistributorController::class, 'destroy'])->name('destroy.order');
 
 //collector Detail routes--------------------------------
  

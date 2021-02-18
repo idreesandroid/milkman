@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-
+use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Role;
 use App\Models\State;
@@ -14,6 +14,7 @@ use App\Models\Distributor;
 use App\Models\UserAccount;
 use App\Models\UserTransaction;
 use App\Models\Invoice;
+use App\Models\Cart;
 
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
@@ -154,6 +155,33 @@ class DistributorController extends Controller
     //  exit;
     return view('dashBoards.distributor', compact('distributorBalance','transaction'));
 
+    }
+
+    public function destroy(Request $request){
+        $Did = Auth::id();
+        
+        $UserAccount = UserAccount::select('balance')
+                                    ->where('user_id','=',$Did)
+                                    ->get();
+
+        $totAmount = Invoice::select('total_amount')
+                                    ->where('buyer_id','=',$Did)
+                                    ->get();            
+
+        $newAmount = $UserAccount[0]->balance + $totAmount[0]->total_amount;
+
+        UserAccount::where('user_id',$Did)
+                    ->update([
+                        'balance' => $newAmount,
+                        'updated_at' => Carbon::now()
+                    ]);
+
+        $deleteOrder = Invoice::where('id', $request->id)
+                                ->where('buyer_id',$Did)
+                                ->delete();
+        $delteItems = Cart::where('invoice_id',$request->id)->delete();
+
+        return ($delteItems) ? true : false;
     }
     
 }

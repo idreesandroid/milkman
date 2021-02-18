@@ -40,7 +40,7 @@
                      <tr>                     
                         <td>{{$invoice->invoice_number}}</td>
                         <td>{{$invoice->flag}}</td>
-                        <td>{{$invoice->total_amount}}</td>
+                        <td>{{number_format($invoice->total_amount,2)}}</td>
                         <td>{{timeFormat($invoice->created_at)['date']}}</td>
                         <td>
                            <a href="{{ route('invoice.Detail', $invoice->id)}}" class="btn btn-outline-success">Edit</a>
@@ -58,6 +58,42 @@
 </div>
 <!-- /Page Wrapper -->
 <script type="text/javascript">
+   function deleteOrder(invoiceID){
+      swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this Order!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                jQuery.ajax({
+                    url: "{{ route('destroy.order') }}",
+                    type: "POST",
+                    data: {
+                        id: invoiceID,
+                        '_token' : "{{ csrf_token() }}"
+                    },
+                    success: function () {
+                        swal.fire("Done!", "It was succesfully deleted!", "success").then((result) => {
+                           if(result.isConfirmed) {
+                              location.reload(true);
+                           }
+                        });
+                    },
+                    error: function () {
+                        swal.fire("Error deleting!", "Please try again", "error").then((result) => {
+                           if(result.isConfirmed) {
+                              location.reload(true);
+                           }
+                        });
+                    }
+                });
+            }
+        });
+   }
    $(document).ready(function() {  
       $("#distributorInvoices").DataTable({
   "columns": [
