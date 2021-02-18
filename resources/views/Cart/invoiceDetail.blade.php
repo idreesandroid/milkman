@@ -56,9 +56,9 @@
                               <tr>
                                  <td>{{$index+1}}</td>
                                  <td>{{$cart->product->product_name}}</td>
-                                 <td>{{number_format($cart->product_rate)}} Rs</td>
+                                 <td>{{number_format($cart->product_rate,2)}} Rs</td>
                                  <td>{{$cart->product_quantity}}</td>
-                                 <td>{{number_format($cart->sub_total)}} Rs</td>
+                                 <td>{{number_format($cart->sub_total,2)}} Rs</td>
                                  <td>{{timeFormat($cart->delivery_due_date)['date']}}</td>
                                         
                               </tr>
@@ -69,7 +69,7 @@
                                  <td></td>
                                  <td></td>
                                  <td style="color:black;"><strong>Total</strong></td>
-                                 <td style="color:black;"><strong>{{$invoice->total_amount}}</strong></td>
+                                 <td style="color:black;"><strong>{{number_format($invoice->total_amount,2)}}</strong></td>
                               </tr>
                            </tbody>
                         </table>
