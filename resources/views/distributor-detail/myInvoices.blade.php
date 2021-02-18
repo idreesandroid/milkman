@@ -25,10 +25,9 @@
       <div class="card mb-0">
          <div class="card-body">
             <div class="table-responsive">
-               <table class="datatable table table-stripped mb-0 datatables">
+               <table class="datatable table table-stripped mb-0 datatables" id="distributorInvoices">
                   <thead>
-                     <tr>
-                     <th>Serial No</th>
+                     <tr>                     
                         <th>Invoice Number</th>
                         <th>status</th>
                         <th>Amount</th>
@@ -38,13 +37,16 @@
                   </thead>
                   <tbody>
                      @foreach($invoices as $index => $invoice)
-                     <tr>
-                     <td>{{$index+1}}</td>
+                     <tr>                     
                         <td>{{$invoice->invoice_number}}</td>
                         <td>{{$invoice->flag}}</td>
                         <td>{{$invoice->total_amount}}</td>
                         <td>{{timeFormat($invoice->created_at)['date']}}</td>
-                        <td><a href="{{ route('invoice.Detail', $invoice->id)}}" class="btn btn-primary">Detail</a></td>
+                        <td>
+                           <a href="{{ route('invoice.Detail', $invoice->id)}}" class="btn btn-outline-success">Edit</a>
+                           <a href="{{ route('invoice.Detail', $invoice->id)}}" class="btn btn-outline-info">Detail</a>
+                           <a href="#" onclick="deleteOrder(<?php echo $invoice->id; ?>);" class="btn btn-outline-danger">Delete</a>
+                        </td>
                      </tr>
                      @endforeach
                   </tbody>
@@ -55,5 +57,19 @@
    </div>
 </div>
 <!-- /Page Wrapper -->
+<script type="text/javascript">
+   $(document).ready(function() {  
+      $("#distributorInvoices").DataTable({
+  "columns": [
+    { "width": "20%" },
+    { "width": "20%" },
+    { "width": "15%" },
+    { "width": "20%" },
+    { "width": "25%" }
+  ]
+});
+   });
+</script>
+
 @endsection
 

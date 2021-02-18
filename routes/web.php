@@ -160,6 +160,7 @@ Route::get('invoice/detail/{id}',           [SaleController::class, 'invoiceDeta
 Route::get('cart/onHoldInvoice',            [SaleController::class, 'onHoldInvoice'])->name('onHold.invoice')->middleware('can:See-Cart');
 Route::Delete('cart/deleteInvoice/{id}',    [SaleController::class, 'deleteInvoice'])->name('delete.invoice')->middleware('can:Delete-Invoice');
 
+Route::post('placeorder',[SaleController::class, 'placeOrder'])->name('placeorder');
 //Transaction routes-------------------------------------------------
 
 Route::get('transaction/slip',                [TransactionController::class, 'transactionSlip'])->name('transaction.slip')->middleware('can:Make-Transaction');

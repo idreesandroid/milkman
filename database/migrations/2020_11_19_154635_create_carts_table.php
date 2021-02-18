@@ -31,9 +31,9 @@ class CreateCartsTable extends Migration
             // $table->foreign('batch_id')->references('id')->on('product_stocks');
 
             $table->integer('product_quantity');
-            $table->integer('product_rate');
+            $table->string('product_rate');
             $table->enum('cart_flag',['In_Process','Delivered','Reserve']);
-            $table->integer('sub_total');
+            $table->string('sub_total');
             $table->date('delivery_due_date');
             
             

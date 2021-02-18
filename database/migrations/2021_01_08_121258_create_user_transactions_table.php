@@ -37,7 +37,7 @@ class CreateUserTransactionsTable extends Migration
             $table->string('senderCell')->nullable()->default("Nill");
             
             $table->dateTimeTz('timeOfDeposit');
-            $table->integer('amountPaid');
+            $table->string('amountPaid');
             $table->string('receiptPics');
             $table->integer('verifiedBy')->default(0);
 

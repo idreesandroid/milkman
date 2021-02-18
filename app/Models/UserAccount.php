@@ -9,6 +9,8 @@ class UserAccount extends Model
 {
     use HasFactory;
 
+    protected $table = 'user_accounts';
+
     protected $fillable = ['user_id','role_id','userAccount','balance'];
 
     public function User_acc()

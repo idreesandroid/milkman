@@ -19,13 +19,13 @@ use App\Models\vendorDetail;
 use App\Models\User;
 
 use App\Models\collectionPointManager;
-
+use App\Models\Cart;
 use App\Models\Invoice;
 use App\Models\UserTransaction;
 use App\Models\TaskArea;
 use App\Models\milkmanAsset;
 use App\Models\SubTask;
-
+use App\Models\Product;
 use App\Exports\OrderExport;
 use App\Exports\TaskExport;
 use App\Exports\PaymentExport;
@@ -174,17 +174,19 @@ class RegisterController extends Controller
 
       $location = $alotedArea['alotedArea'];
 
-      $orderHistory = Invoice::select('invoices.*','users.name')
+      $orderHistory = Invoice::select('invoices.*','users.name','carts.delivery_due_date')
+                              ->join('carts','carts.invoice_id','=','invoices.id')->distinct()
                               ->join('users','users.id','=','invoices.seller_id')
                               ->where('buyer_id',$id)
                               ->get();
+      $products = Product::all();
 
       $UserTransaction = UserTransaction::select('user_transactions.*','users.name')
                                           ->where('user_id',$id)
                                           ->leftJoin('users','users.id','=','user_transactions.verifiedBy')
                                           ->get();
 
-      return view('user/profile', compact('users','user_roles','location','orderHistory','UserTransaction'));
+      return view('user/profile', compact('users','user_roles','location','orderHistory','UserTransaction','products'));
 
     }elseif($users->roles[0]['name'] == 'Collector'){
 
@@ -241,7 +243,9 @@ class RegisterController extends Controller
                                           ->where('user_id',$uid)
                                           ->get();
 
-      return view('user/profile', compact('users','orderHistory','UserTransaction')); 
+      $products = Product::all();
+
+      return view('user/profile', compact('users','orderHistory','UserTransaction','products')); 
     }
       return view('user/profile', compact('users')); 
   }
@@ -304,9 +308,10 @@ class RegisterController extends Controller
   }
 
   public function searchOrder(Request $request){
-    $Invoice = Invoice::select('invoices.*','users.name as saler')
+    $Invoice = Invoice::select('invoices.*','users.name as saler','carts.delivery_due_date')
                         ->whereBetween('invoices.created_at', array($request->fromDate, $request->toDate))
                         ->leftJoin('users','users.id','=','invoices.seller_id')
+                        ->join('carts','carts.invoice_id','=','invoices.id')->distinct()
                         ->where('invoices.buyer_id','=',$request->buyerID)
                         ->get();
     return json_decode($Invoice);

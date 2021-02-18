@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 use Illuminate\Support\Facades\DB;
-
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -209,8 +209,60 @@ class SaleController extends Controller
              }
 
          $carts = Cart::where('invoice_id', $id)->get();
-         return view('cart/invoiceDetail', compact('invoice','carts'));
+         return view('cart/invoiceDetail', compact('invoice','carts'));       
+    }
 
-       
+    public function placeOrder(Request $request){
+        date_default_timezone_set("Asia/Karachi");
+        $Invoice_id = Invoice::insertGetId([
+            'invoice_number' => $this->getInvoiceNumber(),
+            'buyer_id' => $request->distributorID,
+            'total_amount'   => $request->totalPrice,
+            'Remains' => $request->totalPrice,
+            'flag' => 'Payment_Pending',
+            'seller_id' => '28',
+            'created_at' => Carbon::now()
+        ]);
+
+        $Date = date('Y-m-d');
+        foreach($request->orderDetail as $item){ 
+            if(!is_null($item[2]) || !empty($item[2]) || $item[2] != 0){                
+                $insCart = Cart::insertGetId([        
+                    'invoice_id' => $Invoice_id,          
+                    'product_id'  => $item[0],           
+                    'product_quantity'  => $item[2],
+                    'product_rate'  => $item[1],
+                    'sub_total'  => $item[3],
+                    'cart_flag'  => 'In_Process',
+                    'delivery_due_date' => date('Y-m-d', strtotime($Date. ' + 2 days')),
+                    'created_at' => Carbon::now()        
+                ]);
+            }
+        }
+
+        $UserAccount = UserAccount::select('balance')
+                                    ->where('user_id','=',$request->distributorID)
+                                    ->get();
+
+        $newAmount = $UserAccount[0]->balance - $request->totalPrice;
+        
+        UserAccount::where('user_id',$request->distributorID)
+                    ->update([
+                        'balance' => $newAmount,
+                        'updated_at' => Carbon::now()
+                    ]);
+
+        return (isset($insCart)) ? true : false;
+    }
+
+    function getInvoiceNumber(){
+        $latest = Invoice::select('invoice_number')->latest()->first();       
+        if (!$latest) {
+            $invoice_number = '000001';
+        }else{
+           $invoice_number = $latest->invoice_number + 1;
+        }
+        $inv = str_pad($invoice_number, 6, '0', STR_PAD_LEFT);
+        return "$inv";
     }
 }

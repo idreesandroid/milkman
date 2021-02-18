@@ -1,6 +1,5 @@
 @extends('layouts.master')
 @section('content')
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.23/datatables.min.css"/>
 <!-- Page Header -->
 <div class="crms-title row bg-white mb-4">
    <div class="col">
@@ -343,6 +342,9 @@
                               <li class="list-inline-item">
                                  <a onclick="return checkDatesSet();" class="btn btn-info form-control" href="{{route('exportinexcel.order')}}" id="ExportInExcel">Export In Excel</a>
                               </li>
+                              <li class="list-inline-item">
+                                 <button data-toggle="modal" data-target="#orderNow" class="btn btn-primary form-control">Order Now</button>
+                              </li>
                            </ul>
                         </div>
                      </div>
@@ -360,7 +362,6 @@
                                           <th>Sold By</th>
                                           <th>Delivery Date</th>             
                                           <th>Order Status</th>
-                                         <!--  <th class="text-left">Actions</th> -->
                                        </tr>
                                     </thead>
                                     <tbody id="orderHistorySearchData">
@@ -370,11 +371,8 @@
                                              <td>{{ timeFormat($item->created_at)['date'] }} {{strtoupper(timeFormat($item->created_at)['time']) }}<input type="hidden" id="buyerID" value="{{$item->buyer_id}}"></td>
                                              <td>{{$item->total_amount}}</td>
                                              <td>{{$item->name}}</td>
-                                             <td>{{ timeFormat($item->updated_at)['date'] }} {{strtoupper(timeFormat($item->updated_at)['time']) }}</td>
+                                             <td>{{ timeFormat($item->delivery_due_date)['date'] }}</td>
                                              <td>{{$item->flag}}</td>
-                                             <!-- <td>   
-                                                <button class="btn btn-outline-info"  onclick="orderDetail(<?php //echo $item->id; ?>)">Detail</button>
-                                             </td> -->
                                           </tr>
                                           @endforeach
                                        @endif
@@ -424,7 +422,7 @@
                                           <th>Morning/Evening Shift</th>
                                           <th>Assign From</th>
                                           <th>Assign To</th>             
-                                          <th>Status</th>                                          
+                                          <th>Status</th>                       
                                        </tr>
                                     </thead>
                                     <tbody id="CollectorAssignTask">
@@ -595,7 +593,7 @@
                                  <input onclick="searchCollectorInventoryAssignHistory()" class="btn btn-info form-control" type="submit" value="Search">
                               </li>                             
                               <li class="list-inline-item" >
-                                 <a id="collectorInventoryExportInExcel" class="btn btn-info form-control" href="/downloadcollectorinventory">Export In Excel</a>
+                                 <a onclick="return checkCollectorInventoryDatesSet();" id="collectorInventoryExportInExcel" class="btn btn-info form-control" href="/downloadcollectorinventory">Export In Excel</a>
                               </li>
                            </ul>
                         </div>
@@ -951,8 +949,7 @@
       </div>
    </div>
    <!-- / password Change Model -->
-   @endcan
-
+   @endcan   
    <div class="modal right fade" id="orderDetail" tabindex="-1" role="dialog" aria-modal="true">
       <div class="modal-dialog" role="document">
          <button type="button" class="close md-close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -1003,7 +1000,7 @@
          <!-- modal-content -->
       </div>
       <!-- modal-dialog -->
-   </div>
+   </div>  
 </div>
 <?php
 if($users->roles[0]->name == 'Vendor'){
@@ -1040,11 +1037,89 @@ if($users->roles[0]->name == 'Vendor'){
    $longitude = '';
 }
 ?>
-
+@if($users->roles[0]->name == 'Distributor')
+<!--Collector Assiging-->
+<div class="modal right fade" id="orderNow" role="dialog" aria-modal="true">
+   <div class="modal-dialog" role="document">
+      <button type="button" class="close md-close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <div class="modal-content">
+         <div class="modal-header">
+            <h4 class="modal-title text-center">Select Products</h4>
+            <button type="button" class="close xs-close" data-dismiss="modal">×</button>
+         </div>
+         <div class="modal-body">
+         <div class="row">
+                  <div class="col-md-12">
+                     <div class="card mb-0">
+                        <div class="card-body">
+                           <div class="table-responsive">
+                              <table class="table table-striped table-nowrap custom-table mb-0 datatable">
+                                 <thead>
+                                    <tr>                                  
+                                       <th></th>
+                                       <th class="text-center">Product Name</th>                                      
+                                       <th class="text-center">Unit</th>
+                                       <th class="text-center">Quentity/Carton</th>
+                                       <th class="text-center">Unit Price</th>
+                                       <th class="text-center">Unit Quentity</th>
+                                       <th class="text-center">Sub Total</th>
+                                       <th class="text-center">Actions</th>
+                                    </tr>
+                                 </thead>
+                                 <tbody>
+                                    @foreach($products as $product)
+                                    <tr class="product_row">
+                                       <td class="checkBox">
+                                          <label class="container-checkbox">
+                                             <input type="checkbox" name="selectedProduct" id="product_{{$product->id}}" value="{{$product->id}}">
+                                             <input type="hidden" class="productid" value="{{$product->id}}">
+                                             <span class="checkmark"></span>
+                                          </label>
+                                       </td>
+                                       <td class="text-center">{{$product->product_name}}</td>                                       
+                                       <td class="text-center">{{$product->product_size}} {{$product->unit}}</td>
+                                       <td class="text-center">{{$product->ctn_value}}</td>
+                                       <td class="text-center unitprice" id="unitPrice<?php echo $product->id; ?>">{{$product->product_price}}</td>
+                                       <td class="text-center">
+                                          <input type="submit" value="+" onclick="quentityIncrement(<?php echo $product->id; ?>)">
+                                          <input class="productquentity" onchange="quentityUpdate(<?php echo $product->id; ?>)" id="productQuentity{{$product->id}}" onkeypress="return (event.charCode !=8 && event.charCode ==0 || ( event.charCode == 46 || (event.charCode >= 48 && event.charCode <= 57)))" style="width: 40px">
+                                          <input type="submit" value="-" onclick="quentityDecrement(<?php echo $product->id; ?>)">
+                                       </td>
+                                       <td class="text-center sum_item" id="subTotal{{$product->id}}">00</td>
+                                       <td class="text-center">
+                                          <a href="" onclick="productDetail(<?php echo $product->id; ?>)" class="btn btn-outline-success">Detail</a>
+                                       </td>
+                                    </tr>
+                                    @endforeach                           
+                                 </tbody>
+                                 <tfoot>
+                                    <tr>
+                                       <td><input type="hidden" value="{{$users->id}}" id="distributorID"></td>
+                                       <td></td>
+                                       <td></td>
+                                       <td></td>
+                                       <td></td>
+                                       <td class="text-right">Total:</td>
+                                       <td class="text-center" id="totalPrice">00.00</td>
+                                       <td><a onclick="placeOrder()" class="btn btn-outline-info" href="#">Place Order</a></td>
+                                    </tr>
+                                 </tfoot>
+                              </table>
+                           </div>
+                        </div>
+                     </div>      
+                  </div>
+               </div>
+         </div>
+      </div>
+      <!-- modal-content -->
+   </div>
+   <!-- modal-dialog -->
+</div>
+@endif
 <input type="hidden" value="<?php echo $latitude; ?>" id="latitude">
 <input type="hidden" value="<?php echo $longitude; ?>" id="longitude">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-<script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
 <script type="text/javascript">
 $(document).ready(function() {  
 $("#distributeOrderHistory").DataTable();
@@ -1058,6 +1133,139 @@ initializeMap('ProfielMap','ProfileClearShapes','saveProfleMap','ProfileRestoreM
    $( "#ProfileRestoreMap" ).trigger( "click" );      
 });
 
+function placeOrder(){
+   var orderDetail = [];
+   var haveQuentity = [];
+   $(".product_row").each(function(){
+      var items = [];
+      var productid = $(this).find('.productid').val();
+      items.push(productid);
+      var unitprice = $(this).find('.unitprice').text();
+      items.push(unitprice);
+      var productquentity = $(this).find('.productquentity').val();
+      items.push(productquentity);
+      if(productquentity == 0){
+         haveQuentity.push('product not selected');
+      }
+      var sum_item = $(this).find('.sum_item').text();
+      items.push(sum_item);
+      orderDetail.push(items);
+   });
+
+   if(haveQuentity.length == orderDetail.length){
+      $("#orderNow").modal('hide');
+      swal.fire("Error Ordering!", "Please select any product to process", "error").then((result) => {
+         if(result.isConfirmed) {
+            location.reload(true);
+         }
+      });
+      return false;
+   }   
+   var totalPrice = $("#totalPrice").text();
+   var distributorID = $("#distributorID").val();
+   $.ajax({
+        url: "{{ route('placeorder') }}",
+        type: "POST",
+        data: {
+            'orderDetail': orderDetail,
+            'distributorID' : distributorID,
+            'totalPrice' : totalPrice,
+            '_token' : "{{ csrf_token() }}"
+        },
+        success: function (response, status) {
+            $('#orderNow').modal('hide');
+            if(response){
+               swal.fire("Done!", "Order Placed Succesfully!", "success").then((result) => {
+                  if(result.isConfirmed) {
+                     location.reload(true);
+                  }
+               });
+            }else{
+               $('#orderNow').modal('hide');
+               swal.fire("Error Order Placeing!", "Your order fails", "error").then((result) => {
+                  if(result.isConfirmed) {
+                     location.reload(true);
+                  }
+               });
+            }
+        },
+        error: function () {
+            $('#orderNow').modal('hide');
+            swal.fire("Error Order Placeing!", "Please try again", "error").then((result) => {
+               if(result.isConfirmed) {
+                  location.reload(true);
+               }
+            });
+        }
+   }); 
+}
+
+function quentityIncrement(productID){
+   var productQuentity = $("#productQuentity"+productID).val();
+   if(!productQuentity.length){
+      productQuentity = 0;
+   }
+   $("#productQuentity"+productID).val(parseInt(productQuentity)+1);
+   var unitPrice = $("#unitPrice"+productID).text();
+   var currentQuentity = $("#productQuentity"+productID).val();
+   $("#subTotal"+productID).text((parseInt(currentQuentity) * parseFloat(unitPrice)).toFixed(2));
+
+   var sum = 0;
+   $('.sum_item').each(function(){
+      var item_val = parseFloat($(this).text());
+      if(isNaN(item_val)){
+        item_val = 0;
+      }
+      sum += item_val;
+   });
+   $('#totalPrice').text(sum.toFixed(2));
+}
+
+function quentityDecrement(productID){
+   var productQuentity = $("#productQuentity"+productID).val();
+   if(!productQuentity.length || productQuentity <= 0){
+      productQuentity = 1;
+   }
+   $("#productQuentity"+productID).val(parseInt(productQuentity)-1);
+   var unitPrice = $("#unitPrice"+productID).text();
+   var currentQuentity = $("#productQuentity"+productID).val();
+   $("#subTotal"+productID).text((parseInt(currentQuentity) * parseFloat(unitPrice)).toFixed(2));  
+
+   var sum = 0;
+   $('.sum_item').each(function(){
+      var item_val = parseFloat($(this).text());
+      if(isNaN(item_val)){
+        item_val = 0;
+      }
+      sum += item_val;
+   });
+   $('#totalPrice').text(sum.toFixed(2));
+}
+
+function quentityUpdate(productID){
+   var unitPrice = $("#unitPrice"+productID).text();
+   var currentQuentity = $("#productQuentity"+productID).val();
+   $("#subTotal"+productID).text((parseInt(currentQuentity) * parseFloat(unitPrice)).toFixed(2));
+      var sum = 0;
+      $('.sum_item').each(function(){
+      var item_val = parseFloat($(this).text());
+      if(isNaN(item_val)){
+        item_val = 0;
+      }
+      sum += item_val;
+   });
+   $('#totalPrice').text(sum.toFixed(2));
+}
+
+function checkCollectorInventoryDatesSet(){
+   var fromDate = $("#fromInventoryAssignDate").val();
+   var toDate = $("#toInventoryAssignDate").val();
+   if(!fromDate.length || !toDate.length)
+   {
+      alert('Please select From and To Date');
+      return false;
+   }
+}
 
 function setCollectorInventoryFromDate(){
    var fromDate = $("#fromInventoryAssignDate").val();
@@ -1599,7 +1807,7 @@ function searchDistributorOrderHistory(){
              items+= '<td>'+ getDateFromJsonString(val.created_at).replace(/,/g,"") + '</td>';
              items+= '<td>'+val.total_amount+'</td>';
              items+= '<td>'+val.saler+'</td>';
-             items+= '<td>'+ getDateFromJsonString(val.updated_at).replace(/,/g,"") +'</td>';
+             items+= '<td>'+ val.delivery_due_date +'</td>';
              items+= '<td>'+val.flag+'</td>';
              items+='<tr>';
            });

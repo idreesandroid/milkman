@@ -20,7 +20,7 @@ class CreateProductsTable extends Migration
             $table->string('product_description');
             $table->string('product_size');
             $table->enum('unit',['ml','ltr','gm','kg']);
-            $table->integer('product_price');
+            $table->string('product_price');
             $table->integer('ctn_value');
             $table->string('filenames');
            
