@@ -32,7 +32,7 @@ class CreateSubTasksTable extends Migration
             $table->string('qualityPic')->nullable();
             $table->float('AssignTo')->nullable();
             $table->date('collection_date');
-            $table->enum('status',['initialize','inProcess','Complete']);
+            $table->enum('status',['initialize','inProcess','Complete','Expired','Submitted','Rejected']);
             $table->dateTime('collectedTime')->nullable();
 
             $table->timestamps();

@@ -74,6 +74,15 @@
             </li>  
             @endcan 
 
+            @can('Generate-Task')
+            <li>
+               <a href="/collectionPoint/area" class="{{ (request()->segment(1) == 'collectionPoint' && request()->segment(2) == 'area') ? 'active' : '' }}">
+               <i class="fa fa-check-square-o" aria-hidden="true"></i>
+               <span>Areas</span>
+               </a>
+            </li>  
+            @endcan 
+
             @can('See-My-Task')
             <li>
                <a href="/collector-detail/tasks" class="{{ (request()->segment(1) == 'collector-detail' && request()->segment(2) == 'tasks') ? 'active' : '' }}">

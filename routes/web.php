@@ -21,6 +21,8 @@ use App\Http\Controllers\TasksController;
 use App\Http\Controllers\CollectorController;
 use App\Http\Controllers\milkCollectionController;
 
+use App\Http\Controllers\CollectionManagerController;
+
 use App\Http\Controllers\TestController;
 
 
@@ -142,17 +144,18 @@ Route::get('collectionPoint/edit/{id}',       [milkCollectionController::class, 
 Route::post('collectionPoint/update/{id}',    [milkCollectionController::class, 'update'])->name('update.collectionPoint')->middleware('can:Edit-Collection-Point');
 Route::Delete('collectionPoint/delete/{id}',  [milkCollectionController::class, 'deleteCollectionPoint'])->name('delete.collectionPoint')->middleware('can:Delete-Collection-Point');
 
-Route::get('get/collection-managers',         [milkCollectionController::class, 'getCollectionManager'])->name('getCollectionManager')->middleware('can:Assign-Collection-Point');
-Route::post('assign/collection-point',        [milkCollectionController::class, 'assignCollectionManager'])->name('assignManager.Point')->middleware('can:Assign-Collection-Point');
-
-Route::get('collectionPoint/collectors',      [milkCollectionController::class, 'myCollectors'])->name('my.collectors');
 Route::get('milk/submission',                 [milkCollectionController::class, 'milkSubmission'])->name('milk.submission');
 
-Route::get('get/asset-list/{id}',              [milkCollectionController::class, 'getAssetList'])->name('getAssetList');
-Route::post('set/asset-list',                  [milkCollectionController::class, 'setAssetList'])->name('setAssetList');
+//collection Manager Controller routes--------------------------------
+Route::get('get/collection-managers',               [CollectionManagerController::class,  'getCollectionManager'])->name('getCollectionManager')->middleware('can:Assign-Collection-Point');
+Route::post('assign/collection-point',              [CollectionManagerController::class, 'assignCollectionManager'])->name('assignManager.Point')->middleware('can:Assign-Collection-Point');
+Route::get('collectionPoint/collectors',            [CollectionManagerController::class, 'myCollectors'])->name('my.collectors');
+Route::get('get/asset-list/{id}',                   [CollectionManagerController::class, 'getAssetList'])->name('getAssetList');
+Route::post('set/asset-list',                       [CollectionManagerController::class, 'setAssetList'])->name('setAssetList');
+Route::get('collection-point-get/asset-list/{id}',  [CollectionManagerController::class, 'getPointAsset'])->name('get.PointAsset');
+Route::post('collection-point-set/asset-list',      [CollectionManagerController::class, 'setCollectorAsset'])->name('set.CollectorAsset');
 
-Route::get('collection-point-get/asset-list/{id}',              [milkCollectionController::class, 'getPointAsset'])->name('get.PointAsset');
-Route::post('collection-point-set/asset-list',                  [milkCollectionController::class, 'setCollectorAsset'])->name('set.CollectorAsset');
+Route::get('collectionPoint/area',                  [CollectionManagerController::class, 'myAreas'])->name('my.Areas');
 
 
 //ajax route
