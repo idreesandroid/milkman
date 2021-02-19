@@ -26,20 +26,33 @@ class TestController extends Controller
      */
     public function index()
     {
+        $encoded = 'Muhammad Idrees';
+        $decoded = base64_encode($encoded); 
+        echo $decoded;
 
-    $distributorID = '18';
+                $cc = 'my secret text';
+                $key = 'my secret key';
+                $iv = '12345678';
+        echo "<br>";
+        $decoded = base64_decode($decoded); 
+        echo $decoded;
 
-    $UserAccount = UserAccount::select('user_id','balance')->where('user_id','=',$distributorID)->get();
 
-       print_r($UserAccount[0]->balance); die;
+                 die;
 
-        $newAmount = $UserAccount[0]->balance - $request->totalPrice;
-        
-        UserAccount::where('user_id',$request->distributorID)
-                    ->update([
-                        'balance' => $newAmount,
-                        'updated_at' => Carbon::now()
-                    ]);
+                // $cipher = mcrypt_module_open(MCRYPT_BLOWFISH,'','cbc','');
+
+                // mcrypt_generic_init($cipher, $key, $iv);
+                // $encrypted = mcrypt_generic($cipher,$cc);
+                // mcrypt_generic_deinit($cipher);
+
+                // mcrypt_generic_init($cipher, $key, $iv);
+                // $decrypted = mdecrypt_generic($cipher,$encrypted);
+                // mcrypt_generic_deinit($cipher);
+
+                echo "encrypted : ".$encrypted;
+                echo "<br>";
+                echo "decrypted : ".$decrypted;
         //assignMorningTask();
         //assignEveningTask();
     }

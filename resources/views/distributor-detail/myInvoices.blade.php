@@ -8,13 +8,13 @@
                <h3 class="page-title">
                   <span class="page-title-icon bg-gradient-primary text-white mr-2">
                   <i class="la la-table"></i>
-                  </span> <span>Invoices</span>
+                  </span> <span>Orders List</span>
                </h3>
             </div>
             <div class="col text-right">
                <ul class="breadcrumb bg-white float-right m-0 pl-0 pr-0">
                   <li class="breadcrumb-item"><a href="/DashBoard">Dashboard</a></li>
-                  <li class="breadcrumb-item active">Invoice List</li>
+                  <li class="breadcrumb-item active">Orders List</li>
                </ul>
             </div>
          </div>
@@ -43,7 +43,7 @@
                         <td>{{number_format($invoice->total_amount,2)}}</td>
                         <td>{{timeFormat($invoice->created_at)['date']}}</td>
                         <td>
-                           <a href="{{ route('invoice.Detail', $invoice->id)}}" class="btn btn-outline-success">Edit</a>
+                           <a href="{{ route('invoice.Edit', base64_encode($invoice->id))}}" class="btn btn-outline-success">Edit</a>
                            <a href="{{ route('invoice.Detail', $invoice->id)}}" class="btn btn-outline-info">Detail</a>
                            <a href="#" onclick="deleteOrder(<?php echo $invoice->id; ?>);" class="btn btn-outline-danger">Delete</a>
                         </td>

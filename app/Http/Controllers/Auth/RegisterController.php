@@ -68,7 +68,6 @@ class RegisterController extends Controller
 
   public function register(Request $request)
   {
-    //dd($request); die;
     $validator = $request->validate([
         'role_id' =>   'required',
         'name'      => 'required|min:3',
@@ -155,9 +154,7 @@ class RegisterController extends Controller
       
       $location = str_replace("},]","}]",$location);
 
-      $UserTransaction = UserTransaction::select('*')
-                                          ->where('user_id',$id)
-                                          ->get();
+      $UserTransaction = UserTransaction::select('*')->where('user_id',$id)->get();
 
       $milkCollection = SubTask::select('sub_tasks.*','users.name')
                                 ->leftJoin('users','users.id','=','sub_tasks.AssignTo')
@@ -168,9 +165,7 @@ class RegisterController extends Controller
 
     }elseif($users->roles[0]['name'] == 'Distributor'){
 
-      $alotedArea = Distributor::select('alotedArea')
-                                ->where('user_id','=',$id)
-                                ->first();
+      $alotedArea = Distributor::select('alotedArea')->where('user_id','=',$id)->first();
 
       $location = $alotedArea['alotedArea'];
 
@@ -182,8 +177,8 @@ class RegisterController extends Controller
       $products = Product::all();
 
       $UserTransaction = UserTransaction::select('user_transactions.*','users.name')
-                                          ->where('user_id',$id)
                                           ->leftJoin('users','users.id','=','user_transactions.verifiedBy')
+                                          ->where('user_id',$id)
                                           ->get();
 
       return view('user/profile', compact('users','user_roles','location','orderHistory','UserTransaction','products'));
@@ -239,10 +234,7 @@ class RegisterController extends Controller
                       ->where('buyer_id',$uid)
                       ->get();
 
-      $UserTransaction = UserTransaction::select('*')
-                                          ->where('user_id',$uid)
-                                          ->get();
-
+      $UserTransaction = UserTransaction::select('*')->where('user_id',$uid)->get();
       $products = Product::all();
 
       return view('user/profile', compact('users','orderHistory','UserTransaction','products')); 
