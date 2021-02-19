@@ -38,6 +38,7 @@
 <div class="col-md-4 grid-margin">
 <div class="card" style="width: 18rem;">
   <div class="card-body">
+
 <a href="#"> <h5 class="card-title">New Tasks</h5></a>
   <ul>
   <li><h2 class="card-title">Morning Task: </h2></li>
@@ -94,6 +95,8 @@
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                      </div>
                      <div class="modal-body">
+                     <div class="row">
+                     <div class="col-md-6">
                         <div class="table-responsive">
                            <form method="post" action="{{ route('task.complete')}}"  enctype="multipart/form-data" >
                               @csrf 
@@ -101,45 +104,88 @@
                               <input type="hidden" name="req_id" id="req_id" value="">
                             
                               <div class="form-group row">
-                              <label for="milkCollected" class="col-form-label col-md-2">Milk Quantity</label>
-                              <div class="col-md-6">
+                              <label for="milkCollected" class="col-form-label col-md-4">Milk Quantity</label>
+                              <div class="col-md-8">
                               <input type="numeric" class="form-control" name="milkCollected" required="" autocomplete="off">
                               </div></div>
 
                               <div class="form-group row">
-                              <label for="fat" class="col-form-label col-md-2">Fat</label>
-                              <div class="col-md-6">
+                              <label for="fat" class="col-form-label col-md-4">Fat</label>
+                              <div class="col-md-8">
                               <input type="numeric" class="form-control" name="fat" required="" autocomplete="off">
                               </div></div>
 
                               <div class="form-group row">
-                              <label for="Lactose" class="col-form-label col-md-2">Lactose</label>
-                              <div class="col-md-6">
+                              <label for="Lactose" class="col-form-label col-md-4">Lactose</label>
+                              <div class="col-md-8">
                               <input type="numeric" class="form-control" name="Lactose" required="" autocomplete="off">
                               </div></div>
 
                               <div class="form-group row">
-                              <label for="Ash" class="col-form-label col-md-2">Ash</label>
-                              <div class="col-md-6">
+                              <label for="Ash" class="col-form-label col-md-4">Ash</label>
+                              <div class="col-md-8">
                               <input type="numeric" class="form-control" name="Ash" required="" autocomplete="off">
                               </div></div>
 
                               <div class="form-group row">
-                              <label for="totalProteins" class="col-form-label col-md-2">totalProteins</label>
-                              <div class="col-md-6">
+                              <label for="totalProteins" class="col-form-label col-md-4">Total Proteins</label>
+                              <div class="col-md-8">
                               <input type="numeric" class="form-control" name="totalProteins" required="" autocomplete="off">
                               </div></div>
 
                               <div class="form-group row">
-                              <label for="qualityPic" class="col-form-label col-md-2">Test Result</label>
-                              <div class="col-md-6">
+                              <label for="qualityPic" class="col-form-label col-md-4">Test Result</label>
+                              <div class="col-md-8">
                               <input type="file" class="form-control" name="qualityPic"  required=""  autocomplete="off" >
                               </div></div>
                               
-                              @can('Complete-Task')
-                              <button type="submit" value="ad_bat"  class=" form-control btn btn-primary btn-info btn-lg " >Add</button>@endcan
+                              @can('Complete-Task') <button type="submit" value="ad_bat"  class=" form-control btn btn-primary btn-info btn-lg " >Submit Milk Report</button>@endcan
                            </form>
                         </div>
+                        </div>
+                        <div class="col-md-6">
+                       
+                        <div class="table-responsive">
+                           
+                              <table class="datatable table table-stripped mb-0">
+                                 <thead>
+                                    <tr>
+                                       <th>Standards</th>
+                                       <th>Fat</th>
+                                       <th >Lactose</th>
+                                       <th>Ash</th>
+                                       <th>Proteins</th>
+                                    </tr> 
+                                  
+                                 </thead>
+                                 <tbody>
+                                 <tr style="background-color:#60b760;">
+                                       <td>Good</td>
+                                       <td>&gt1.8</td>
+                                       <td >&gt1.5</td>
+                                       <td>&gt2.5</td>
+                                       <td>&gt2</td>
+                                       </tr>                                       
+                                       <tr style="background-color:yellow;">
+                                       <td>Average</td>
+                                       <td>1</td>
+                                       <td >1.5</td>
+                                       <td>2</td>
+                                       <td>1.5</td>
+                                       </tr>                                       
+                                       <tr style="background-color:#e25353;">
+                                       <td>Poor</td>
+                                       <td>&lt1</td>
+                                       <td >&lt0.9</td>
+                                       <td>&lt2</td>
+                                       <td>&lt1.5</td>
+                                       </tr>
+                                 </tbody>
+                              </table>
+                        </div>
+                        </div>
+
+
                      </div>
                      <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -151,6 +197,15 @@
       </div>
    </div>
 </div>
+
+<script>
+    var msg = '{{Session::get('alert')}}';
+    var exist = '{{Session::has('alert')}}';
+    if(exist){
+      alert(msg);
+    }
+  </script>
+
 
 <script type="text/javascript">
 function setId(id)

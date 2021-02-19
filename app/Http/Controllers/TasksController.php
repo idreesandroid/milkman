@@ -292,19 +292,27 @@ public function AssignArea($shift , $id)
         $select_collector->Lactose = $request->Lactose;        
         $select_collector->Ash = $request->Ash;        
         $select_collector->totalProteins = $request->totalProteins;
-        $select_collector->totalSolid = $request->totalProteins + $request->Ash + $request->Lactose + $request->fat;
+        $select_collector->totalSolid = ($request->totalProteins + $request->Ash + $request->Lactose + $request->fat)/4;
         $select_collector->collectedTime = $currentTime;
 
         $imageName = time().'.'.$request->qualityPic->extension();    
         $request->qualityPic->move(public_path('milkQuality_img'), $imageName);
-        $select_collector->qualityPic = $imageName;        
-        $select_collector->status = 'Complete';
+        $select_collector->qualityPic = $imageName; 
+        
+        if($request->fat < 1 || $request->Lactose < 0.9 || $request->Ash < 2 || $request->totalProteins < 1.5)
+        {
+        $select_collector->status = 'Rejected';
+        }
+        else{
+        $select_collector->status = 'Collected';
+        }
         $select_collector->save();
-
-        $findVendors = SubTask::where('id', $id)->where('status','Complete')->select('vendor_id')->first();
+        if($select_collector->status == 'Collected')
+        {
+        $findVendors = SubTask::where('id',$id)->where('status','Collected')->select('vendor_id')->first();
         $vendorIs= $findVendors['vendor_id'];
 
-        $findBalances = UserAccount::where('user_id', $vendorIs)->select('balance')->first();
+        $findBalances    = UserAccount::where('user_id', $vendorIs)->select('balance')->first();
         $findDecidedRate = vendorDetail::where('user_id', $vendorIs)->select('decided_rate')->first();
 
 
@@ -315,7 +323,13 @@ public function AssignArea($shift , $id)
         // print_r($newBalance);
         // exit;
         $addBalance = DB::update("UPDATE user_accounts SET `balance` = $newBalance  WHERE user_id = '$vendorIs'");
-        return redirect()->route('user.dashBoard');
+        return redirect()->back()->with('alert', "You Can Collect Milk");
+        }
+        else
+        {
+            return redirect()->back()->with('alert', "Don't Collect Milk");
+        }
+        
     } 
 
 

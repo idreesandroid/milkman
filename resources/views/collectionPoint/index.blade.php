@@ -47,12 +47,10 @@
                   <tbody>
                      @foreach($collectionPoints as $collectionPoint)
                      <tr>
-                        
                         <td>{{$collectionPoint->pointName}}</td>
                         <td>{{$collectionPoint->pointAddress}}</td>
-                        <td>@if(!isset($collectionPoint->collectionPointId))<button type="button" id="point_{{$collectionPoint->id}}" onclick="getCId({{$collectionPoint->id}})" class="btn btn-primary" data-toggle="modal" data-target="#findManager">Assign</button>@endif</td>
+                        <td>@if(!isset($collectionPoint->collectionPointId))<button type="button" id="point_{{$collectionPoint->id}}" onclick="getCId({{$collectionPoint->id}})" class="btn btn-primary" data-toggle="modal" data-target="#findManager">Assign    </button>@endif</td>
                         <td><button type="button" id="asset_{{$collectionPoint->id}}" onclick="getAssetId({{$collectionPoint->id}})" class="btn btn-primary" data-toggle="modal" data-target="#findAsset">Allot Asset</button></td>
-                       
                         <td>
                            <a href="{{ route('edit.collectionPoint', $collectionPoint->id)}}" class="btn btn-primary">Edit</a>
                            <form action="{{ route('delete.collectionPoint', $collectionPoint->id)}}" method="post" style="display: inline-block">
@@ -72,30 +70,35 @@
    </div>
 </div>
 
+
 <!-- model -->
 <div id="findManager" class="modal fade" role="dialog">
-               <div class="modal-dialog" id="batch-info">
+               <div class="modal-dialog" id="find-asset">
                   <!-- Modal content-->
                   <div class="modal-content">
                      <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                      </div>
                      <div class="modal-body">
+                        <div class="table-responsive">
                            <form method="post" action="{{ route('assignManager.Point') }}">
-                           @csrf
-                              <div class="form-group row">
-                                 <label for="manager_id" class="col-form-label col-md-2">Manager Name</label>
-                                    <div class="col-md-6">
-                                       <select class="form-control" name="manager_id"  id="manager_id">                           
-                                       </select>
-                                    </div>
-                              </div>
-
+                              @csrf 
                               <input type="hidden" id="pId" name="pId" value="">
-
-                              <button type="submit" name="action" class=" btn btn-lg btn-info " >Select</button>
+                              <table class="datatable table table-stripped mb-0 find_manager" id="find_manager">
+                                 <thead>
+                                    <tr>
+                                       <th>Select Any</th>
+                                       <th>Name</th>
+                                       <th >Collection Point</th>
+                                       <th>Manager Phone</th>
+                                    </tr>
+                                 </thead>
+                                 <tbody>
+                                 </tbody>
+                              </table>
+                              <button type="submit" class=" form-control btn btn-sm- btn-info" >Add</button>
                            </form>
-                        
+                        </div>
                      </div>
                      <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -157,13 +160,41 @@ var pointId ='';
       $.ajax({
          url: '/get/collection-managers',
          type: "GET",
-         success:function(data) { 
+         success:function(response) { 
             //console.log(data);
-                              $("#manager_id").empty();
-                              $.each(data, function(key, value){
-                              $("#manager_id").append("<option value='"+value.user_id +"'>"+value.name+"</option>");
-                                                               }                              
-                                    )
+                              console.log(response);
+
+                                    var len = 0;
+                                    $('#find_manager tbody').empty();     
+                                    if(response.length > 0){
+                                    len = response.length;
+                                    for(var i=0; i<len; i++){
+                                                          var manager_id = response[i].user_id;
+                                                          var manager_name = response[i].name;                
+                                                          var point_name = response[i].pointName;
+                                                          var user_phone = response[i].user_phone;  
+                                                         
+                                                          var tr_str = "<tr>" +
+                                                          "<td >"+"<input type='radio' value='"+manager_id+"' name='manager_id' id='manager_id"+manager_id+"'/>"+" </td>"+
+                                                         "<td>" + manager_name + "</td>" +
+                                                         "<td >" + point_name + "</td>" +    
+                                                         "<td >" + user_phone  + "</td>" +                                                                         
+                                                         "</tr>";
+                                                         $("#find_manager tbody").append(tr_str);
+                                                         if(point_name != null)
+                                                         {
+                                                            $("#manager_id"+manager_id).attr("checked", true);
+                                                         }
+
+                                                            }
+                                                          }
+                                                          else
+                                                             {
+                                                                var tr_str = "<tr>" +
+                                                                "<td align='center' colspan='4'>No record found.</td>" +
+                                                                "</tr>";
+                                                                $("#find_manager tbody").append(tr_str);
+                                                            }
                                  }                                           
             });   
       }
