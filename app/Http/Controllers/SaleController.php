@@ -226,7 +226,7 @@ class SaleController extends Controller
 
         $Date = date('Y-m-d');
         foreach($request->orderDetail as $item){ 
-            if(!is_null($item[2]) || !empty($item[2]) || $item[2] != 0){                
+            if(!is_null($item[2]) && !empty($item[2]) && $item[2] != '0'){                
                 $insCart = Cart::insertGetId([        
                     'invoice_id' => $Invoice_id,          
                     'product_id'  => $item[0],           
@@ -255,6 +255,53 @@ class SaleController extends Controller
         return (isset($insCart)) ? true : false;
     }
 
+    function updateOrder(Request $request){
+
+        $uid = Auth::id();
+        if($uid != $request->distributorID){
+            return false;
+        }
+        date_default_timezone_set("Asia/Karachi");
+        $oldTotalPrice = Invoice::select('total_amount')->where('id','=',$request->invoiceID)->first();
+
+        $oldBalance = UserAccount::select('balance')->where('user_id','=',$request->distributorID)->get();
+
+        $tempBalance = $oldBalance[0]->balance + $oldTotalPrice->total_amount;
+
+        $newBalance = $tempBalance - $request->totalPrice;
+
+        UserAccount::where('user_id',$request->distributorID)
+                    ->update([
+                        'balance' => $newBalance,
+                        'updated_at' => Carbon::now()
+                    ]);
+
+        $Invoice_id = Invoice::where('id',$request->invoiceID)->update([
+            'total_amount'   => $request->totalPrice,
+            'Remains' => $request->totalPrice,
+            'flag' => 'Payment_Pending',
+            'seller_id' => '28',
+            'updated_at' => Carbon::now()
+        ]);
+        $Date = date('Y-m-d');
+        Cart::where('invoice_id',$request->invoiceID)->delete();
+        foreach($request->orderDetail as $item){ 
+            if(!is_null($item[2]) && !empty($item[2]) && $item[2] != '0'){                
+                $insCart = Cart::insertGetId([ 
+                    'invoice_id'  => $request->invoiceID,           
+                    'product_id'  => $item[0],           
+                    'product_quantity'  => $item[2],
+                    'product_rate'  => $item[1],
+                    'sub_total'  => $item[3],
+                    'cart_flag'  => 'In_Process',
+                    'delivery_due_date' => date('Y-m-d', strtotime($Date. ' + 2 days')),
+                    'updated_at' => Carbon::now()        
+                ]);
+            }
+        }
+        return (isset($insCart)) ? true : false;
+    }
+
     function getInvoiceNumber(){
         $latest = Invoice::select('invoice_number')->latest()->first();       
         if (!$latest) {
@@ -264,5 +311,17 @@ class SaleController extends Controller
         }
         $inv = str_pad($invoice_number, 6, '0', STR_PAD_LEFT);
         return "$inv";
+    }
+
+    function invoiceEdit(Request $request){
+       $invoice_id = base64_decode($request->id);
+       $invoiceDetail = Invoice::where('id',$invoice_id)->first();
+       $cartDetail = Cart::select('carts.*','products.*')
+                        ->join('products','products.id','=','carts.product_id')
+                        ->where('invoice_id',$invoice_id)
+                        ->get();
+       $products = Cart::where('invoice_id',$invoice_id)->get();
+       $products = Product::all();
+       return view('distributor-detail/editorder', compact('invoiceDetail','cartDetail','products'));
     }
 }

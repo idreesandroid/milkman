@@ -169,10 +169,12 @@ Route::get('Invoice/status/{id}',           [SaleController::class, 'reserveStat
 Route::get('Invoice/PaymentPending/{id}',   [SaleController::class, 'PaymentStatus'])->name('update.pending_payment')->middleware('can:See-Cart');
 
 Route::get('invoice/detail/{id}',           [SaleController::class, 'invoiceDetail'])->name('invoice.Detail')->middleware('can:See-Invoice-Detail');
+Route::get('invoice/edit/{id}',           [SaleController::class, 'invoiceEdit'])->name('invoice.Edit');
 Route::get('cart/onHoldInvoice',            [SaleController::class, 'onHoldInvoice'])->name('onHold.invoice')->middleware('can:See-Cart');
 Route::Delete('cart/deleteInvoice/{id}',    [SaleController::class, 'deleteInvoice'])->name('delete.invoice')->middleware('can:Delete-Invoice');
 
 Route::post('placeorder',[SaleController::class, 'placeOrder'])->name('placeorder');
+Route::post('updateorder',[SaleController::class, 'updateOrder'])->name('updateorder');
 //Transaction routes-------------------------------------------------
 
 Route::get('transaction/slip',                [TransactionController::class, 'transactionSlip'])->name('transaction.slip')->middleware('can:Make-Transaction');
