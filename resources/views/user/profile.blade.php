@@ -1156,7 +1156,8 @@ initializeMap('ProfielMap','ProfileClearShapes','saveProfleMap','ProfileRestoreM
    $( "#ProfileRestoreMap" ).trigger( "click" );      
 });
 
-function productDetail(productID){   
+function productDetail(productID){  
+var APP_URL = {!! json_encode(url('/')) !!};  
     $.ajax({
         url: "{{ route('product.detial') }}",
         type: "POST",
@@ -1167,7 +1168,7 @@ function productDetail(productID){
         success: function (response, status) {
             if(response){
                $("#productDetail").css({'display' : 'block'});
-               $("#ProductImage").attr('src','http://127.0.0.1:8000/product_img/'+response.filenames);
+               $("#ProductImage").attr('src',APP_URL+'/product_img/'+response.filenames);
                $("#ProductName").text(response.product_name);
                $("#product_description").text(response.product_description);
             }else{
