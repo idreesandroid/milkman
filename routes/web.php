@@ -144,6 +144,8 @@ Route::post('collectionPoint/update/{id}',    [milkCollectionController::class, 
 Route::Delete('collectionPoint/delete/{id}',  [milkCollectionController::class, 'deleteCollectionPoint'])->name('delete.collectionPoint')->middleware('can:Delete-Collection-Point');
 
 Route::get('milk/submission',                 [milkCollectionController::class, 'milkSubmission'])->name('milk.submission');
+//ajax route
+Route::get('collectors/collections/{id}',            [milkCollectionController::class, 'collectorCollections'])->name('collector.Collections');
 
 //collection Manager Controller routes--------------------------------
 Route::get('get/collection-managers',               [CollectionManagerController::class,  'getCollectionManager'])->name('getCollectionManager')->middleware('can:Assign-Collection-Point');
@@ -157,8 +159,6 @@ Route::post('collection-point-set/asset-list',      [CollectionManagerController
 Route::get('collectionPoint/area',                  [CollectionManagerController::class, 'myAreas'])->name('my.Areas');
 
 
-//ajax route
-Route::get('collectors/collections/{id}',            [milkCollectionController::class, 'collectorCollections'])->name('collector.Collections');
 
 //Cart routes----------------------------------------
 Route::get('cart/create',                   [SaleController::class, 'generateInvoice'])->name('create.invoice')->middleware('can:Generate-Invoice');

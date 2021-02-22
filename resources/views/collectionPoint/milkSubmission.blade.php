@@ -57,27 +57,25 @@
                <div class="table-responsive">
                            <form method="post">
                               @csrf 
-                              <table class="datatable table table-stripped mb-0 batch_fetch" id="fetchCollection">
+                              <table class="datatable table table-stripped mb-0 fetchCollection" id="fetchCollection">
                                  <thead>
                                     <tr>
-                                       <th >Product Name</th>
-                                       <th id="Pname"></th>
-                                       <th >Quantity ToBe Selected</th>
-                                       <th id="Pquantity"></th>
-                                       <th></th>
-                                    </tr>
-                                    <tr>
-                                       <th>Batch ID</th>
-                                       <th>Manufacture Date</th>
-                                       <th>Expiry Date</th>
-                                       <th>Current Stock</th>
-                                       <th>Select Quantity</th>
+                                       <th>Vendor Name</th>
+                                       <th>Status</th>
+                                       <th>Shift</th>
+                                       <th>Collected Time</th>
+                                       <th>Milk Quantity</th>
+                                       <th>Fat</th>
+                                       <th>Ash</th>
+                                       <th>Total Proteins</th>
+                                       <th>Total Solids</th>
+                                       <th>Quality Pic</th>
                                     </tr>
                                  </thead>
                                  <tbody>
                                  </tbody>
                               </table>
-                              <button type="button" id="add_batch_id" disabled name="action" value="ad_bat" onclick="addbatch()" class=" form-control btn btn-sm btn-primary btn-info btn-lg " >Add</button>
+                              <button type="button"  name="action" class="btn btn-info btn-lg " >Add</button>
                            </form>
                         </div>             
                
@@ -95,21 +93,55 @@ $("#collector_id").on('change', function() {
     var selectCollector = $("#collector_id").val();
   
     if(selectCollector != null) {
- $.ajax({				
-            url: '/collectors/collections/'+selectCollector,
-            type: "GET",
-            dataType: "json",
-            success:function(responce) {
-                                          var len = 0;
-                                          $('#fetchCollection tbody').empty();     
-                                             if(response.length > 0){
-                                                len = response.length;
-                                                }
+                                 $.ajax({
+                                          url: '/collectors/collections/'+selectCollector,
+                                          type: "GET",
+                                          dataType: "json",
+                                          success:function(response){
+                                             console.log(response);
+                                                                     var len = 0;
+                                                                     $('#fetchCollection tbody').empty();     
+                                                                     if(response.length > 0){
+                                                                     len = response.length;
+                                                                     for(var i=0; i<len; i++){
+                                                                                                var task_id = response[i].id;                
+                                                                                                var vendor_name = response[i].vendor_id;
+                                                                                                var task_status = response[i].status;  
+                                                                                                var task_shift = response[i].taskShift;
+                                                                                                var task_collectionTime = response[i].collectedTime; 
+                                                                                                var task_milkQuantity = response[i].milkCollected;
+                                                                                                var task_Fat = response[i].fat;  
+                                                                                                var task_Ash = response[i].Ash;
+                                                                                                var task_Proteins = response[i].totalProteins; 
+                                                                                                var task_totalSolids = response[i].totalSolid;             
+   
+                                                                                                var tr_str = "<tr>" +
+                                                                                                "<td>" + vendor_name + "</td>" +
+                                                                                                "<td>" + task_status + "</td>" +    
+                                                                                                "<td>" + task_shift + "</td>" +
+                                                                                                "<td>" + task_collectionTime + "</td>" +
+                                                                                                "<td>" + task_milkQuantity + "</td>" +    
+                                                                                                "<td>" + task_Fat + "</td>" +
+                                                                                                "<td>" + task_Ash + "</td>" +
+                                                                                                "<td>" + task_Proteins + "</td>" +    
+                                                                                                "<td>" + task_totalSolids + "</td>" +
+                                                                                                            "</tr>";
+                                                                                                   $("#fetchCollection tbody").append(tr_str);
+                                                                                             }
 
-            }
-        });
-});
-});
+
+
+                                                                                             }
+                                                                     }
+                                 
+
+
+                                       });
+                                 }
+
+                           
+                                           });
+                           });
 
 </script>
 
