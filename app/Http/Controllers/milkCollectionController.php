@@ -120,7 +120,7 @@ public function collectorCollections($id)
 
    $today=date('Y-m-d'); 
    $collections = DB::table('sub_tasks')
-   ->select('id','task_id','milkCollected','fat','lactose','Ash','totalProteins','totalSolid','status')
+   ->select('id','task_id','milkCollected','fat','lactose','Ash','totalProteins','totalSolid','status','vendor_id','taskShift','collectedTime')
    ->where('assignTo',$id)
    ->where('status','<>','Submitted')
    ->where('collection_date', $today)
