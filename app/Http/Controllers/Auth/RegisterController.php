@@ -300,13 +300,13 @@ class RegisterController extends Controller
   }
 
   public function searchOrder(Request $request){
-    $Invoice = Invoice::select('invoices.*','users.name as saler','carts.delivery_due_date')
+    $orders = Invoice::select('invoices.*','users.name as saler','carts.delivery_due_date')
                         ->whereBetween('invoices.created_at', array($request->fromDate, $request->toDate))
                         ->leftJoin('users','users.id','=','invoices.seller_id')
                         ->join('carts','carts.invoice_id','=','invoices.id')->distinct()
                         ->where('invoices.buyer_id','=',$request->buyerID)
                         ->get();
-    return json_decode($Invoice);
+    return json_decode($orders);
   }
 
   public function searchPayment(Request $request){
