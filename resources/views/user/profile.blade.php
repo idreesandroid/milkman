@@ -365,10 +365,12 @@
                                        </tr>
                                     </thead>
                                     <tbody id="orderHistorySearchData">
+                                       <?php $buyer_id = ''; ?>
                                        @if(isset($orderHistory))
                                           @foreach($orderHistory as $item)
+                                          <?php $buyer_id = $item->buyer_id;  ?>
                                           <tr> 
-                                             <td>{{ timeFormat($item->created_at)['date'] }} {{strtoupper(timeFormat($item->created_at)['time']) }}<input type="hidden" id="buyerID" value="{{$item->buyer_id}}"></td>
+                                             <td>{{ timeFormat($item->created_at)['date'] }} {{strtoupper(timeFormat($item->created_at)['time']) }}</td>
                                              <td>{{$item->total_amount}}</td>
                                              <td>{{$item->name}}</td>
                                              <td>{{ timeFormat($item->delivery_due_date)['date'] }}</td>
@@ -377,6 +379,9 @@
                                           @endforeach
                                        @endif
                                     </tbody>
+                                    @if(isset($orderHistory))
+                                       <input type="hidden" id="buyerID" value="{{$buyer_id}}">
+                                    @endif
                                  </table>
                               </div>
                            </div>
@@ -426,12 +431,14 @@
                                        </tr>
                                     </thead>
                                     <tbody id="CollectorAssignTask">
+                                       <?php $collector_id = ''; ?>
                                        @if(isset($TaskArea))
                                           @foreach($TaskArea as $task)
+                                          <?php $collector_id = $task->collector_id; ?>
                                           <tr>
                                              <td>                                                
                                                 {{ timeFormat($task->created_at)['date'] }} {{timeFormat($task->created_at)['time'] }}
-                                                <input type="hidden" id="collectorID" value="{{$task->collector_id}}"></td>
+                                                </td>
                                              <td>{{$task->title}}</td>
                                              <td>{{$task->shift}}</td>
                                              <td>{{$task->assignFrom}}</td>
@@ -441,6 +448,9 @@
                                           @endforeach
                                        @endif
                                     </tbody>
+                                    @if(isset($TaskArea))
+                                       <input type="hidden" id="collectorID" value="{{$collector_id}}">
+                                    @endif
                                  </table>
                               </div>
                            </div>
@@ -492,10 +502,12 @@
                                        </tr>
                                     </thead>
                                     <tbody id="VendorCollection">
+                                       <?php $collection = ''; ?>
                                        @if(isset($milkCollection))
                                           @foreach($milkCollection as $collection)
+                                          <?php $collection = $collection->vendor_id; ?>
                                              <tr>
-                                                <td>{{$collection->updated_at}}<input type="hidden" id="vendorID" value="{{$collection->vendor_id}}"></td>
+                                                <td>{{$collection->updated_at}}</td>
                                                 <td><?php echo (isset($collection->milkCollected)) ? $collection->milkCollected.' ltr' : ''; ?></td>
                                                 <td>{{$collection->taskShift}}</td>
                                                 <td>{{$collection->fat}}</td>
@@ -507,6 +519,9 @@
                                           @endforeach
                                        @endif                                       
                                     </tbody>
+                                    @if(isset($milkCollection))
+                                       <input type="hidden" id="vendorID" value="{{$collection}}">
+                                    @endif 
                                  </table>
                               </div>
                            </div>
@@ -555,10 +570,12 @@
                                        </tr>
                                     </thead>
                                     <tbody id="paymentHistorySearchData">
+                                       <?php $user_id = ''; ?>
                                        @if(isset($UserTransaction))
                                           @foreach($UserTransaction as $item)
+                                          <?php $user_id = $item->user_id; ?>
                                           <tr> 
-                                             <td>{{$item->paymentMethod}}<input type="hidden" id="userID" value="{{$item->user_id}}"></td>
+                                             <td>{{$item->paymentMethod}}</td>
                                              <td>{{$item->transactionId}}</td>
                                              <td>{{ timeFormat($item->timeOfDeposit)['date'] }} {{timeFormat($item->timeOfDeposit)['time'] }}</td>
                                              <td>{{$item->amountPaid}}</td>
@@ -566,8 +583,11 @@
                                              <td>{{ucfirst($item->status)}}</td>
                                           </tr>
                                           @endforeach
-                                       @endif 
+                                       @endif                                        
                                     </tbody>
+                                    @if(isset($UserTransaction))
+                                       <input type="hidden" id="userID" value="{{$user_id}}">
+                                    @endif
                                  </table>
                               </div>
                            </div>
@@ -615,12 +635,14 @@
                                        </tr>
                                     </thead>
                                     <tbody id="CollectorInventoryAssign">
+                                       <?php $user_id = ''; ?>
                                        @if(isset($assets))
                                           @foreach($assets as $asset)
+                                          <?php $user_id = $asset->user_id; ?>
                                              <tr>                                                
                                                 <td>                                                   
                                                    {{ timeFormat($asset->updated_at)['date'] }} {{timeFormat($asset->updated_at)['time'] }}
-                                                   <input type="hidden" id="collectorID" value="{{$asset->user_id}}"></td>
+                                                   </td>
                                                 <td>{{$asset->assetName}}</td>
                                                 <td>{{$asset->typeName}}</td>
                                                 <td>{{$asset->assetCapacity}}</td>
@@ -629,6 +651,9 @@
                                           @endforeach
                                        @endif
                                     </tbody>
+                                    @if(isset($assets))
+                                       <input type="hidden" id="collectorID" value="{{$user_id}}">
+                                    @endif
                                  </table>
                               </div>
                            </div>
@@ -1053,7 +1078,7 @@ if($users->roles[0]->name == 'Vendor'){
                   <article  class="kanban-entry grab" id="productDetail" draggable="true" style="display: none">
                      <div class="kanban-entry-inner">
                         <div class="kanban-label card bg-gradient-success card-img-holder text-white h-100" data-toggle="modal" data-target="#leads-details">
-                           <img id="ProductImage" src="assets/img/circle.png" class="card-img-absolute" alt="circle-image">
+                           <img id="ProductImage" src="/product_img/circle.png" class="card-img-absolute" alt="circle-image">
                                 <h2 style="text-align: left;">Name: <span id="ProductName"></span></h2>
                                  <div class="row">
                                     <div class="col-md-6">
