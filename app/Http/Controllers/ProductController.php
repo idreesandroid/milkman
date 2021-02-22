@@ -124,4 +124,10 @@ class ProductController extends Controller
         $products->delete();
         return redirect('product/index');
     }
+
+
+    public function productDetail(Request $request){
+        $productDetail = Product::findOrFail($request->productID);
+        return $productDetail;
+    }
 }

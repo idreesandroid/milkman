@@ -92,6 +92,7 @@ Route::get('product/edit/{id}',       [ProductController::class, 'edit'])->name(
 Route::post('product/update/{id}',    [ProductController::class, 'update'])->name('update.product')->middleware('can:Edit-Product');
 Route::Delete('product/delete/{id}',  [ProductController::class, 'deleteProduct'])->name('delete.product')->middleware('can:Delete-Product');
 
+Route::post('product/detail',[ProductController::class, 'productDetail'])->name('product.detial');
 //ProductStock routes--------------------------------
 
 Route::get('product-stock/index',           [ProductStockController::class, 'index'])->name('index.productStock')->middleware('can:See-Product-Stock');

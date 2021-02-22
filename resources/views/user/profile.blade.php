@@ -1047,6 +1047,27 @@ if($users->roles[0]->name == 'Vendor'){
             <h4 class="modal-title text-center">Select Products</h4>
             <button type="button" class="close xs-close" data-dismiss="modal">×</button>
          </div>
+         <div class="panel panel-primary kanban-col-12 m-0">             
+            <div class="panel-body slimScrollDiv">
+               <div id="TODO" class="kanban-centered">
+                  <article  class="kanban-entry grab" id="productDetail" draggable="true" style="display: none">
+                     <div class="kanban-entry-inner">
+                        <div class="kanban-label card bg-gradient-success card-img-holder text-white h-100" data-toggle="modal" data-target="#leads-details">
+                           <img id="ProductImage" src="assets/img/circle.png" class="card-img-absolute" alt="circle-image">
+                                <h2 style="text-align: left;">Name: <span id="ProductName"></span></h2>
+                                 <div class="row">
+                                    <div class="col-md-6">
+                                       <ul class="list-unstyled">
+                                         <li><b>Description: </b><span id="product_description"></span></span></li>
+                                       </ul>
+                                    </div>                      
+                                 </div>                                 
+                           </div>
+                        </div>
+                  </article>
+               </div>
+            </div>
+         </div>        
          <div class="modal-body">
          <div class="row">
                   <div class="col-md-12">
@@ -1087,7 +1108,7 @@ if($users->roles[0]->name == 'Vendor'){
                                        </td>
                                        <td class="text-center sum_item" id="subTotal{{$product->id}}">00</td>
                                        <td class="text-center">
-                                          <a href="" onclick="productDetail(<?php echo $product->id; ?>)" class="btn btn-outline-success">Detail</a>
+                                          <button type="button" class="btn btn-outline-success" onclick="productDetail(<?php echo $product->id; ?>);">Detail</button>
                                        </td>
                                     </tr>
                                     @endforeach                           
@@ -1117,6 +1138,8 @@ if($users->roles[0]->name == 'Vendor'){
    <!-- modal-dialog -->
 </div>
 @endif
+
+
 <input type="hidden" value="<?php echo $latitude; ?>" id="latitude">
 <input type="hidden" value="<?php echo $longitude; ?>" id="longitude">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
@@ -1132,6 +1155,39 @@ var longitude = $("#longitude").val();
 initializeMap('ProfielMap','ProfileClearShapes','saveProfleMap','ProfileRestoreMap','addProfileMapData','',latitude,longitude);
    $( "#ProfileRestoreMap" ).trigger( "click" );      
 });
+
+function productDetail(productID){   
+    $.ajax({
+        url: "{{ route('product.detial') }}",
+        type: "POST",
+        data: {
+            'productID': productID,
+            '_token' : "{{ csrf_token() }}"
+        },
+        success: function (response, status) {
+            if(response){
+               $("#productDetail").css({'display' : 'block'});
+               $("#ProductImage").attr('src','http://127.0.0.1:8000/product_img/'+response.filenames);
+               $("#ProductName").text(response.product_name);
+               $("#product_description").text(response.product_description);
+            }else{
+               swal.fire("Error Product Detail Finding!", "Either Product Not exist or deleted", "error").then((result) => {
+                  if(result.isConfirmed) {
+                     location.reload(true);
+                  }
+               });
+            }
+        },
+        error: function () {
+            swal.fire("Error Product Detail Finding!", "Product Not Found", "error").then((result) => {
+               if(result.isConfirmed) {
+                  location.reload(true);
+               }
+            });
+        }
+   }); 
+
+}
 
 function placeOrder(){
    var orderDetail = [];
