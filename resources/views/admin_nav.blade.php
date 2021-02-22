@@ -104,6 +104,7 @@
                   @can('See-Product-Stock')
                   <li><a href="/product-stock/index" class="{{ (request()->segment(1) == 'product-stock') ? 'active' : '' }}">Product Stock</a></li>
                   @endcan
+                  <li><a href="/product/analysis" class="{{ (request()->segment(1) == 'analysis') ? 'active' : '' }}">Product Analysis</a></li>
                </ul>
             </li>
             @endcan            
