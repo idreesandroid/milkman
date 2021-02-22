@@ -41,7 +41,7 @@ foreach ($vendors as $key => $value) {
    <div class="col p-0 text-right">
       <ul class="breadcrumb bg-white float-right m-0 pl-0 pr-0">
          <li class="breadcrumb-item"><a href="/DashBoard">Dashboard</a></li>
-         <li class="breadcrumb-item active">Area List</li>
+         <li class="breadcrumb-item active">Collection Area List</li>
       </ul>
    </div>
 </div>
