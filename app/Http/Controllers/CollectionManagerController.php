@@ -178,20 +178,7 @@ public function assignCollectionManager(Request $request)
      return view('collectionPoint/collectionAreas', compact('collectionPoints'));
     }
 
-    // public function milkSubmission()
-    // {
-    //  $collectionPoints = DB::table('task_areas')
-    //  ->select('task_areas.id','collections.id','collectionPoint_id','title','areaStatus','name','task_areas.shift','taskAreaStatus','assignType')
-    //  ->where('collections.collectionPoint_id', checkpoint())
-    //  ->where('assignType','Permanent')              //function in helper function
-    //  ->Join('collections','area_id','=','collections.id')
-    //  ->Join('users','task_areas.collector_id','=','users.id')
-    //  ->get();
-    //  echo "<pre>";
-    //  print_r($collectionPoints);
-    //  exit;   
-    //  return view('collectionPoint/milkSubmission');
-    // }
+
 
 
 }

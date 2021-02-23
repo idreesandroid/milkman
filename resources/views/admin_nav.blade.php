@@ -83,6 +83,15 @@
             </li>  
             @endcan 
 
+            @can('Generate-Task')
+            <li>
+               <a href="/milk/submission" class="{{ (request()->segment(1) == 'milk' && request()->segment(2) == 'submission') ? 'active' : '' }}">
+               <i class="fa fa-check-square-o" aria-hidden="true"></i>
+               <span>Collect Milk</span>
+               </a>
+            </li>  
+            @endcan 
+
             @can('See-My-Task')
             <li>
                <a href="/collector-detail/tasks" class="{{ (request()->segment(1) == 'collector-detail' && request()->segment(2) == 'tasks') ? 'active' : '' }}">

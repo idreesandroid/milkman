@@ -31,7 +31,7 @@
                         <th>Assign To</th>
                         <th>Task Completed</th>
                         <th>Task Expired</th>
-                        @can('See-Collection-Against-Area')   <th>Action</th> @endcan
+                        <!-- @can('See-Collection-Against-Area')   <th>Action</th> @endcan -->
                      </tr>
                   </thead>
                   <tbody>
@@ -42,7 +42,7 @@
                         <td>{{$arrangedArrays['collectorName']}}</td>
                         <td>{{$arrangedArrays['taskCo']}}</td>
                         <td>{{$arrangedArrays['taskEx']}}</td>   
-                      @can('See-Collection-Against-Area')  <td><a href="{{ route('area.detail', $arrangedArrays['id'])}}" class="btn btn-primary">Detail</a></td>@endcan
+                      <!-- @can('See-Collection-Against-Area')  <td><a href="{{ route('area.detail', $arrangedArrays['id'])}}" class="btn btn-primary">Detail</a></td>@endcan -->
                      </tr>
                   @endforeach
                   </tbody>
