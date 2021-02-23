@@ -147,7 +147,8 @@ Route::Delete('collectionPoint/delete/{id}',  [milkCollectionController::class, 
 
 Route::get('milk/submission',                 [milkCollectionController::class, 'milkSubmission'])->name('milk.submission');
 //ajax route
-Route::get('collectors/collections/{id}',            [milkCollectionController::class, 'collectorCollections'])->name('collector.Collections');
+Route::get('collectors/collections/{id}',     [milkCollectionController::class, 'collectorCollections'])->name('collector.Collections');
+Route::any('collection/submission',          [milkCollectionController::class, 'collectionSubmission'])->name('collection.Submission');
 
 //collection Manager Controller routes--------------------------------
 Route::get('get/collection-managers',               [CollectionManagerController::class,  'getCollectionManager'])->name('getCollectionManager')->middleware('can:Assign-Collection-Point');

@@ -43,11 +43,6 @@ class TransactionController extends Controller
            'img_receipt' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',    
         ]);   
        
-    //    $DepDifference = $request->amount;
-    //    $Invno =  $request->invNo;
-    //    $findInv = Invoice::where('id' , $Invno)->first();
-    //    $totalPayable = $findInv->total_amount;
-    //    $pay=$totalPayable-$DepDifference;
     // echo "<pre>";
     // print_r($pay);
     // exit;
@@ -137,31 +132,6 @@ public function verifyTransaction(Request $request , $tr_no)
             DB::update("UPDATE user_accounts SET balance = $newBal  WHERE user_id	 = '$user'");
             DB::update("UPDATE user_transactions SET `status` = 'verified'  WHERE id = '$tr_no'");
 
-       
-    
-            
-    // $findInvoices= Invoice::where('buyer_id', $user)->where('Remains', '>', 0)->get();
-    
-    // $findBalance = UserAccount::where('user_id', $user)->first();
-    // $userNewBalance = $findBalance->balance; 
-    
-
-    // foreach($findInvoices as $invoices)
-    // {
-    //    $getremains=$invoices->Remains;
-
-    // while($userNewBalance > 0)
-    // {        
-    //     $remaining = $getremains-$userNewBalance; //$remaining hold remaing invoice balance after -ve from new
-    // if($remaining >= 0)
-    // {
-
-    // }
-
-    // }
-  
-    
-    // }
     // echo "<pre>";
     // print_r($getremains);
     // exit;

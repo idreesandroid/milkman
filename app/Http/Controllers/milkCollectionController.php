@@ -15,13 +15,11 @@ use App\Models\TaskArea;
 use App\Models\collectorDetail;
 use App\Models\collectionPointManager;
 use App\Models\milkmanAsset;
+use App\Models\collectionPointSubmission;
 class milkCollectionController extends Controller
 {
     public function index()
     {  
-        // $collectionPoints=DB::table('milk_collection_points')
-        // ->select('milk_collection_points.id','pointName','pointAddress')
-        // ->get();
      $collectionPoints = DB::table('milk_collection_points')
      ->select('milk_collection_points.id','pointName','pointAddress','collectionPointId')
      ->leftJoin('collection_point_managers','milk_collection_points.id','=','collection_point_managers.collectionPointId')
@@ -77,7 +75,6 @@ class milkCollectionController extends Controller
 
 //collectionsAtCollection point-----------------------------------------------------------
 
-
     public function milkSubmission()
 {  
    $collectors = DB::table('collector_details')
@@ -85,16 +82,9 @@ class milkCollectionController extends Controller
    ->where('collectionPoint_id', checkpoint())
    ->join('users','user_id','=','users.id')
    ->get();
-
-//    $collections = DB::table('collections')
-//    ->select('id','title')
-//    ->where('collectionPoint_id',$CPIDs)
-//    ->get();
-
     //  echo "<pre>";
     //  print_r($collectionManagers);
     //  exit;
-
     return view('collectionPoint/milkSubmission', compact('collectors'));
 }
 
@@ -102,35 +92,71 @@ class milkCollectionController extends Controller
 public function collectorCollections($id)
 {  
 
-    // echo "<pre>";
-    // print_r($id);
-    // exit;
-
-   //$collectionManagers = collectionPointManager::where('managerStatus','inActive')->get();
-
-//    $CMid = Auth::id();
-//    $CPM = collectionPointManager::where('user_id',$CMid)->where('managerStatus','Active')->first();
-//    $CPIDs = $CPM->collectionPointId;
-
-//    $collectors = DB::table('collector_details')
-//    ->select('user_id','name')
-//    ->where('collectionPoint_id',$CPIDs)
-//    ->join('users','user_id','=','users.id')
-//    ->get();
-
    $today=date('Y-m-d'); 
    $collections = DB::table('sub_tasks')
-   ->select('id','task_id','milkCollected','fat','lactose','Ash','totalProteins','totalSolid','status','vendor_id','taskShift','collectedTime')
+   ->select('sub_tasks.id','task_id','milkCollected','fat','lactose','Ash','totalProteins','totalSolid','status','vendor_id','taskShift','collectedTime','name')
    ->where('assignTo',$id)
-   ->where('status','<>','Submitted')
+   ->where('collectionStatus','Generated')
    ->where('collection_date', $today)
+   ->join('users','vendor_id','=','users.id')
    ->get();
-   
     //  echo "<pre>";
     //  print_r($collections);
     //  exit;
-
      return json_encode($collections);
+}
+
+public function collectionSubmission(Request $request)
+{
+
+    //  echo "<pre>";
+    //  print_r($request->all());
+    //  exit;
+
+    $this->validate($request,[
+        'collectionIds'=> 'required',
+        'collector_id'=> 'required',
+        'totalMilk'=>'required', 
+        'totalFat'=> 'required',
+        'D_Shot'=>'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048', 
+        'totalAsh'=> 'required',
+        'totalProteins'=>'required',
+        'totalLactose'=> 'required',
+        'subTask_id'=>'required',
+    ]);
+
+    $Area = TaskArea::where('id', $request->subTask_id)->select('area_id','shift')->first();
+
+    // echo "<pre>";
+    // print_r($Area->shift);
+    // exit;
+
+
+    $submission = new collectionPointSubmission();
+    $submission->area_Id = $Area->area_id;        
+    $submission->collectionPoint_id = checkpoint();
+    $submission->collector_id = $request->collector_id;        
+    $submission->collectionShift = $Area->shift;
+    $submission->milkCollected = $request->totalMilk;        
+    $submission->averageFat = $request->totalFat;
+    $submission->averageAsh = $request->totalAsh;        
+    $submission->averageProteins = $request->totalProteins;
+    $submission->averageLactose = $request->totalLactose;
+    $submission->averageSolids = ($request->totalFat+$request->totalAsh+$request->totalProteins+$request->totalLactose)/4;
+    
+
+    $imageName = time().'.'.$request->D_Shot->extension();    
+    $request->D_Shot->move(public_path('milkQuality_img'), $imageName);
+    $submission->averageQuality_SS = $imageName;
+    $submission->save();
+
+    //$submission->collectionStatus = 'Completed';
+    $task_ids = $request['collectionIds'];
+    foreach($task_ids as $index => $task_id)
+    {
+        DB::update("UPDATE sub_tasks SET `collectionStatus` = 'Completed' WHERE `id` = $task_id");
+    }
+    return redirect()->route('user.dashBoard');
 }
 
 }

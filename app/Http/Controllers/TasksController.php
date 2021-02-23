@@ -11,6 +11,7 @@ use App\Models\SubTask;
 use App\Models\collectorDetail;
 use App\Models\UserAccount;
 use App\Models\collectionPointManager;
+use App\Models\collectionPointSubmission;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -187,13 +188,10 @@ public function AssignArea($shift , $id)
             }     
         }
      }
-
-    
     // echo "<pre>";
     // print_r($recommendedCollector);
     // exit;
      return json_encode($recommendedCollector);
-     //return response()->json([$recommendedCollector]);
     }
 
 
@@ -338,6 +336,8 @@ public function AssignArea($shift , $id)
         $arrangedArray = array();
         $areaTasks=DB::table('task_areas')
            ->select('task_areas.id','name','title','shift')
+           ->where('assignType','Permanent')
+           ->orWhere('taskAreaStatus','Active')
            ->join('collections','area_id','=','collections.id')
            ->join('users','task_areas.collector_id','=','users.id')
            ->orderBy('id', 'DESC')
@@ -376,10 +376,13 @@ public function AssignArea($shift , $id)
 
     public function TaskAreaDetails($id)
     { 
-        $taskDetails = SubTask::select('sub_tasks.*','name')
-        ->join('users', 'sub_tasks.vendor_id', '=', 'users.id')
-        ->where('task_id', $id)
+        $taskDetails = collectionPointSubmission::select('collection_point_submissions.*')
+        ->where('area_Id', $id)
         ->get();
+
+     echo "<pre>";
+    print_r($taskDetails);
+    exit;
         return view('task/taskAreaDetails', compact('taskDetails'));
     }
 
@@ -454,6 +457,7 @@ public function AssignArea($shift , $id)
                     $morningTask->taskShift = 'Morning';
                     $morningTask->AssignTo = $Area->collector_id;
                     $morningTask->collection_date = date('Y-m-d');
+                    $morningTask->collectionStatus = 'Generated';
                     $morningTask->save();
                 }
 
@@ -480,14 +484,15 @@ public function AssignArea($shift , $id)
                 $vendorDetails = vendorDetail::where('evening_decided_milkQuantity','>', 0)->where('collection_id', $Area->area_id)->get();
                 foreach($vendorDetails as $vendorDetail)
                 {
-                    $morningTask = new SubTask();
-                    $morningTask->vendor_id = $vendorDetail->user_id;        
-                    $morningTask->task_id = $Area->id;
-                    $morningTask->status = 'initialize';
-                    $morningTask->taskShift = 'Evening';
-                    $morningTask->AssignTo = $Area->collector_id;
-                    $morningTask->collection_date = date('Y-m-d');
-                    $morningTask->save();
+                    $eveningTask = new SubTask();
+                    $eveningTask->vendor_id = $vendorDetail->user_id;        
+                    $eveningTask->task_id = $Area->id;
+                    $eveningTask->status = 'initialize';
+                    $eveningTask->taskShift = 'Evening';
+                    $eveningTask->AssignTo = $Area->collector_id;
+                    $eveningTask->collection_date = date('Y-m-d');                    
+                    $eveningTask->collectionStatus = 'Generated';
+                    $eveningTask->save();
                 }
 
                 // echo "<pre>";
