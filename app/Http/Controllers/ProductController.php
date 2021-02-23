@@ -130,4 +130,11 @@ class ProductController extends Controller
         $productDetail = Product::findOrFail($request->productID);
         return $productDetail;
     }
+
+    public function productAnalysis(){
+        $products = Product::select('products.id','products.product_name','products.product_price','carts.created_at as orderdate','carts.product_quantity as orderquentity')
+                            ->join('carts','carts.product_id','=','products.id')
+                            ->get();
+        return view('product/analysis',compact('products'));
+    }
 }
