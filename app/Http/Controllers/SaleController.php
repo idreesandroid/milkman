@@ -279,24 +279,19 @@ class SaleController extends Controller
         $Invoice_id = Invoice::where('id',$request->invoiceID)->update([
             'total_amount'   => $request->totalPrice,
             'Remains' => $request->totalPrice,
-            'flag' => 'Payment_Pending',
-            'seller_id' => '28',
             'updated_at' => Carbon::now()
         ]);
         $Date = date('Y-m-d');
-        Cart::where('invoice_id',$request->invoiceID)->delete();
         foreach($request->orderDetail as $item){ 
             if(!is_null($item[2]) && !empty($item[2]) && $item[2] != '0'){                
-                $insCart = Cart::insertGetId([ 
-                    'invoice_id'  => $request->invoiceID,           
-                    'product_id'  => $item[0],           
-                    'product_quantity'  => $item[2],
-                    'product_rate'  => $item[1],
-                    'sub_total'  => $item[3],
-                    'cart_flag'  => 'In_Process',
+                $insCart = Cart::where('invoice_id',$request->invoiceID)->update([                            
+                    'product_quantity'  => $item[2],                   
+                    'sub_total'  => $item[3],                   
                     'delivery_due_date' => date('Y-m-d', strtotime($Date. ' + 2 days')),
                     'updated_at' => Carbon::now()        
                 ]);
+            }else{
+                Cart::where('invoice_id',$request->invoiceID)->where('product_id',$item[0])->delete();
             }
         }
         return (isset($insCart)) ? true : false;

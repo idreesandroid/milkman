@@ -8,6 +8,7 @@ use App\Models\vendorDetail;
 use App\Models\Collection;
 use App\Models\Invoice;
 use App\Models\UserAccount;
+use App\Models\Cart;
 use Illuminate\Http\Request;
 
 use App\Http\Controllers\CollectionController as CollectionController;
@@ -26,17 +27,13 @@ class TestController extends Controller
      */
     public function index()
     {
-        $encoded = 'Muhammad Idrees';
-        $decoded = base64_encode($encoded); 
-        echo $decoded;
 
-                $cc = 'my secret text';
-                $key = 'my secret key';
-                $iv = '12345678';
-        echo "<br>";
-        $decoded = base64_decode($decoded); 
-        echo $decoded;
+        $orders = Cart::where('product_id',1)->sum('product_quantity');
 
+        //$orders = Cart::select('product_id','SUM(product_quantity)','created_at')
+                        
+
+                        print_r($orders);
 
                  die;
 

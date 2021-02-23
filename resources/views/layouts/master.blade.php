@@ -195,7 +195,12 @@
       <script src="{{asset('assets/js/inputmask.js')}}"></script>      
       <script src="{{asset('assets/js/sweetalert.js')}}"></script>      
       <script src="{{asset('assets/js/moment.min.js')}}"></script>
+      <script src="{{asset('assets/js/morris.js')}}"></script>
+      <script src="{{asset('assets/js/raphael.min.js')}}"></script>      
+      <script src="{{asset('assets/js/chart.js')}}"></script>
+      <script src="{{asset('assets/js/linebar.min.js')}}"></script>
+      <script src="{{asset('assets/js/piechart.js')}}"></script>
+    
       <script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>    
    </body>
 </html>
-

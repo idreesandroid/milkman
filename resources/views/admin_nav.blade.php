@@ -42,8 +42,8 @@
                <span>Assigned Areas</span>
                </a>
             </li>  
-            @endcan  
-
+            @endcan
+            
             @can('See-Collection-Point')
             <li>
                <a href="/collectionPoint/index" class="{{ (request()->segment(1) == 'collectionPoint' && request()->segment(2) == 'index') ? 'active' : '' }}">
@@ -51,12 +51,8 @@
                <span>Collection Points</span>
                </a>
             </li>  
-            @endcan 
-
-
- 
-
-             @can('Generate-Task')
+            @endcan
+            @can('Generate-Task')
             <li>
                <a href="/generate/task" class="{{ (request()->segment(1) == 'generate' && request()->segment(2) == 'task') ? 'active' : '' }}">
                <i class="fa fa-check-square-o" aria-hidden="true"></i>
