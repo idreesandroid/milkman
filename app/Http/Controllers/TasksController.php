@@ -547,12 +547,14 @@ public function AssignArea($shift , $id)
 
         $morningCollectors = collectorDetail::select('collectorMorStatus','collectorEveStatus','collectorCapacity','users.name','users.id')
         ->join('users','collector_details.user_id', '=', 'users.id')
-        ->where('collector_details.collectorMorStatus', 'Free')       
+        ->where('collector_details.collectorMorStatus', 'Free')
+        ->where('collector_details.collectionPoint_id', checkpoint())       
         ->get();
 
         $eveningCollectors = collectorDetail::select('collectorMorStatus','collectorEveStatus','collectorCapacity','users.name','users.id')
         ->join('users','collector_details.user_id', '=', 'users.id')
         ->where('collector_details.collectorEveStatus', 'Free')
+        ->where('collector_details.collectionPoint_id', checkpoint()) 
         ->get();
         
         return view('task/assignTemporaryTask', compact('findTasks','morningCollectors','eveningCollectors','collectorId'));
