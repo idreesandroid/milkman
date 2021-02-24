@@ -165,17 +165,16 @@ public function assignCollectionManager(Request $request)
 
     public function myAreas()
     {
-     $collectionPoints = DB::table('task_areas')
-     ->select('task_areas.id','collections.id','collectionPoint_id','title','areaStatus','name','task_areas.shift','taskAreaStatus','assignType')
-     ->where('collections.collectionPoint_id', checkpoint())
-     ->where('assignType','Permanent')              //function in helper function
-     ->Join('collections','area_id','=','collections.id')
-     ->Join('users','task_areas.collector_id','=','users.id')
+     $collectionAreas = DB::table('collections')
+     ->select('collections.id','title','AFM','AFE')
+     ->where('collectionPoint_id', checkpoint())  //function in helper function
      ->get();
+     
     //  echo "<pre>";
-    //  print_r($collectionPoints);
+    //  print_r($collectionAreas);
     //  exit;   
-     return view('collectionPoint/collectionAreas', compact('collectionPoints'));
+    //return view('task.generateTask', compact('eveningTasks'));
+    return view('collectionPoint/collectionAreas', compact('collectionAreas'));
     }
 
 

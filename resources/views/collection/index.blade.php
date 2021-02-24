@@ -209,7 +209,6 @@ foreach ($vendors as $key => $value) {
 <!-- modal -->
 
 <!--Asim Make model for Assign Collector For Task Selection---->
-
 <div id="collectorSelection" class="modal fade" role="dialog">
                <div class="modal-dialog" id="batch-info">
                   <!-- Modal content-->
@@ -323,6 +322,8 @@ foreach ($vendors as $key => $value) {
             </div>
 
 <!--End Asim Make model for ReAssignTask Selection---->
+
+
 <!-- Asim work on ReAssign Collection Point as------------------------------------------------------------->
 
 <script type="text/javascript">
@@ -384,9 +385,7 @@ foreach ($vendors as $key => $value) {
 
 
 
-<!-- Asim work on Task as----------------------------------------------------------------->
-
-
+<!-- Asim work on Assign Collector as----------------------------------------------------------------->
 <script type="text/javascript">
    function findCollectors(id , value)
    { 
@@ -483,8 +482,6 @@ foreach ($vendors as $key => $value) {
       }      
    }
 </script>
-
-
 <script type="text/javascript">
    function ReAssignCollectors(id , value)
       { 

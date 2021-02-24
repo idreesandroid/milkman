@@ -246,13 +246,12 @@ Route::Delete('asset/delete/{id}',  [AssetController::class, 'deleteAsset'])->na
 Route::get('assign/Area/{shift?}/{id}',       [TasksController::class, 'AssignArea'])->name('assign.Area')->middleware('can:Assign-Area');
 //Route::get('reassign/Area/{shift?}/{id}',       [TasksController::class, 'ReAssignArea'])->name('reassign.Area')->middleware('can:ReAssign-Area');
 Route::post('select/Collector',               [TasksController::class, 'selectCollector'])->name('select.Collector')->middleware('can:Assign-Area');
-
 Route::post('reselect/Collector',               [TasksController::class, 'ReselectCollector'])->name('reselect.Collector')->middleware('can:Assign-Area');
 
 Route::get('task/start/{id}',                 [TasksController::class, 'startTask'])->name('task.start')->middleware('can:Start-Task');
 Route::post('task/complete',                  [TasksController::class, 'completeTask'])->name('task.complete')->middleware('can:Complete-Task');
 Route::get('task/area',                       [TasksController::class, 'TaskArea'])->name('task.area')->middleware('can:See-Task-As-Area');
-Route::get('area/detail/{id}',                [TasksController::class, 'TaskAreaDetails'])->name('area.detail')->middleware('can:See-Collection-Against-Area');
+Route::get('area/detail/{id}',              [TasksController::class, 'TaskAreaDetails'])->name('area.detail')->middleware('can:See-Collection-Against-Area');
 
 //Active or in active collector----------------------
 Route::get('assign/temporary/task/{id}',           [TasksController::class, 'assignTemporaryTask'])->name('assign.temporary.task');

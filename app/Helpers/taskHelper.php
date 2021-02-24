@@ -82,11 +82,90 @@ function assignMorningTask()
     }
 
 
+    function morningCollector($id,$type)
+    {   
+      // echo "<pre>";
+      // print_r($id);
+      // exit; 
+      $tasks = DB::table('task_areas')
+      ->select('collector_id')
+      ->where('area_id', $id)
+      ->where('shift', 'Morning')
+      ->where('assignType', 'Permanent') 
+      ->first();
+
+      $collector = DB::table('collector_details')
+      ->select('user_id','collectorCapacity','name')
+      ->where('user_id', $tasks->collector_id)
+      ->join('users','user_id','=','users.id')
+      ->first();
+
+      $result =''; 
+
+      if($type == 'name')
+      {
+         $result = $collector->name;
+      }
+
+      elseif($type == 'capacity')
+      {
+         $result = $collector->collectorCapacity;
+      }
+
+      elseif($type == 'id')
+      {
+         $result = $collector->user_id;
+      }
+       return $result;
+    }
+
+    function eveningCollector($id,$type)
+    {   
+       
+      $tasks = DB::table('task_areas')
+      ->select('collector_id')
+      ->where('area_id', $id)
+      ->where('shift', 'Evening')
+      ->where('assignType', 'Permanent') 
+      ->first();
+      // echo "<pre>";
+      // print_r($tasks->collector_id);
+      // exit;
+
+      $collector = DB::table('collector_details')
+      ->select('user_id','collectorCapacity','name')
+      ->where('user_id', $tasks->collector_id)
+      ->join('users','user_id','=','users.id')
+      ->first();
+
+      $result =''; 
+
+      if($type == 'name')
+      {
+         $result = $collector->name;
+      }
+
+      elseif($type == 'capacity')
+      {
+         $result = $collector->collectorCapacity;
+      }
+
+      elseif($type == 'id')
+      {
+         $result = $collector->user_id;
+      }
+       return $result;
+    }
+
+
     function checkpoint()
     {
             $CMid = Auth::id();
+                
             $CPM = collectionPointManager::where('user_id',$CMid)->where('managerStatus','Active')->first();
             $CPIDs = $CPM->collectionPointId;
-            
+            // echo "<pre>";
+            // print_r($CPIDs);
+            //    exit;
             return $CPIDs;
     }

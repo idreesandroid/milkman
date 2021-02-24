@@ -274,7 +274,7 @@ class CollectionController extends Controller
 
 
 
-    // asim work-----------------
+    // asim work on reassign collection point of area-----------------
 
     public function findCollectionPoint($id)
     {   
