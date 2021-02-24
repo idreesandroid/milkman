@@ -152,7 +152,7 @@ public function AssignArea($shift , $id)
             }
             $areaCapacity= array_sum($vendorCap);
             // find Morning collector------------------------
-        $collectorCapacities = collectorDetail::where('collectorMorStatus','Free')->get();
+        $collectorCapacities = collectorDetail::where('collectorMorStatus','Free')->where('collectionPoint_id',checkpoint())->get();
         foreach($collectorCapacities as $collector)
         {
             $collectorCap = $collector->collectorCapacity;
@@ -174,7 +174,7 @@ public function AssignArea($shift , $id)
         }
         $areaCapacity= array_sum($vendorCap);
         // find Evening collector------------------------
-        $collectorCapacities = collectorDetail::where('collectorEveStatus','Free')->get();
+        $collectorCapacities = collectorDetail::where('collectorEveStatus','Free')->where('collectionPoint_id',checkpoint())->get();
         foreach($collectorCapacities as $collector)
         {
         $collectorCap = $collector->collectorCapacity;
