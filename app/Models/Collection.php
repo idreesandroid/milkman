@@ -39,9 +39,4 @@ class Collection extends Model
     {
       return  $this->belongsTo(milkCollectionPoint::class);
     }
-
-    public function milkSubmission()
-    {
-        return $this->hasMany(collectionAtCollectionPoint::class);
-    }
 }

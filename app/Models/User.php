@@ -133,9 +133,4 @@ class User extends Authenticatable
         return $this->hasMany(TaskArea::class);
     }
 
-    public function collectionPointReceiver()
-    {
-        return $this->hasMany(collectionAtCollectionPoint::class);
-    }
-
 }

@@ -540,7 +540,6 @@ public function AssignArea($shift , $id)
         //    print_r($findTasks);
         //    exit; 
         $collectorId = $id;
-
         $CMid = Auth::id();
         $CPM = collectionPointManager::where('user_id',$CMid)->where('managerStatus','Active')->first();
         $CP  = $CPM->collectionPointId;

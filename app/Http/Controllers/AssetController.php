@@ -94,19 +94,57 @@ class AssetController extends Controller
             // print_r($request->all());
             // exit;
         $this->validate($request,[      
-            'type_id'=> 'required',
-            'assetName'=> 'required',
-            'assetCapacity'=>'required',       
+            'type_id'=> 'required',   
+            'numberOfAsset'=> 'required',  
          ]);
+         $type=$request->type_id;
+         $number=$request->numberOfAsset;
+         
+         switch ($request->type_id) {
+            case 1:
+                $this->validate($request,[      
+                    'assetNumber'=> 'required', 
+                 ]);
 
-        $assetCod=generateAssetCode();
-        
-        $Asset = new milkmanAsset();
-        $Asset->type_id = $request->type_id;
-        $Asset->assetName = $request->assetName;        
-        $Asset->assetCode = $assetCod;
-        $Asset->assetCapacity = $request->assetCapacity;
-        $Asset->save();
+            for($i=0; $i<$number ; $i++ )
+            {
+                $Asset = new milkmanAsset();
+                $Asset->type_id = $request->type_id;
+                $Asset->assetName = $request->assetNumber;        
+                $Asset->assetCode = generateAssetCode();
+                $Asset->save();
+            }
+
+              break;
+            case 2:
+                $this->validate($request,[      
+                    'assetCapacity'=> 'required', 
+                 ]);
+
+                 for($i=0; $i<$number ; $i++ )
+                 {
+                     $Asset = new milkmanAsset();
+                     $Asset->type_id = $request->type_id;
+                     $Asset->assetCapacity = $request->assetCapacity;        
+                     $Asset->assetCode = generateAssetCode();
+                     $Asset->save();
+                 }
+
+              break;
+              break;
+            case 3:
+                for($i=0; $i<$number ; $i++ )
+                {
+                    $Asset = new milkmanAsset();
+                    $Asset->type_id = $request->type_id;       
+                    $Asset->assetCode = generateAssetCode();
+                    $Asset->save();
+                }
+              break;
+            default:
+            return redirect()->route('create.asset');
+          }
+        //$assetCod=generateAssetCode();
         return redirect()->route('list.asset');
     }
 
