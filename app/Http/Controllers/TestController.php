@@ -27,32 +27,53 @@ class TestController extends Controller
      */
     public function index()
     {
+        $first_day_this_month  = date('Y-m-01');
+        $current_day_this_month = date('Y-m-d');
 
-        $orders = Cart::where('product_id',1)->sum('product_quantity');
+        $periods = $this->createDateRangeArray($first_day_this_month,$current_day_this_month);
 
-        //$orders = Cart::select('product_id','SUM(product_quantity)','created_at')
-                        
+        $productids = [1,2,3,4];
+        $productNames = ['milk 250ml','cheeze 500gm','ice cream','milk shake 2ltr'];
 
-                        print_r($orders);
+        $productsDetail = '[';        
+        foreach($periods as $period){
+            $pro = '';
+            $pro .= '{date:'."'".$period."'".',';
+            
+            foreach($productids as $key => $productid){
 
-                 die;
+                $total = '';
 
-                // $cipher = mcrypt_module_open(MCRYPT_BLOWFISH,'','cbc','');
+                $products = Cart::select('carts.product_id','carts.created_at','products.product_name')
+                                    ->leftJoin('products','products.id','=','carts.product_id')
+                                    ->where('carts.product_id', $productid)
+                                    ->where('carts.created_at', 'like', '%' . $period . '%')
+                                    ->get();
 
-                // mcrypt_generic_init($cipher, $key, $iv);
-                // $encrypted = mcrypt_generic($cipher,$cc);
-                // mcrypt_generic_deinit($cipher);
+                $total = Cart::where('product_id', $productid)
+                                ->where('created_at', 'like', '%' . $period . '%')
+                                ->sum('product_quantity');
 
-                // mcrypt_generic_init($cipher, $key, $iv);
-                // $decrypted = mdecrypt_generic($cipher,$encrypted);
-                // mcrypt_generic_deinit($cipher);
+                if(empty($products->count())){
+                    $pro .= "'".$productNames[$key]."' : ". $total.",";
+                }else{
+                    $pro .= "'".$productNames[$key]."' : ". $total.",";
+                }
+            }
+            $newpro='';
+            $newpro .= rtrim($pro, ","); 
+            $newpro .= '},';
+            $productsDetail .= $newpro;
+        }
 
-                echo "encrypted : ".$encrypted;
-                echo "<br>";
-                echo "decrypted : ".$decrypted;
-        //assignMorningTask();
-        //assignEveningTask();
-    }
+    $productsDetail .= ']'; 
+
+    $productsDetail = str_replace("},]","}]",$productsDetail);
+
+
+    echo $productsDetail;
+            
+}
 
     /**
      * Show the form for creating a new resource.
@@ -61,7 +82,44 @@ class TestController extends Controller
      */
     public function create()
     {
-        //
+        echo $first_day_this_month  = date('Y-m-01');
+echo "<br>";
+echo $current_day_this_month = date('Y-m-d'); // hard-coded '01' for first day
+
+$periods = $this->createDateRangeArray($first_day_this_month,$current_day_this_month);
+
+$productids = [1,2,3,4];
+
+$productsDetail = [];
+
+    foreach($periods as $period){
+
+        $temp = [];
+        foreach($productids as $productid){
+                    $singleProduct = [];
+
+            $products = Cart::select('carts.product_id','carts.created_at','products.product_name')
+                                ->leftJoin('products','products.id','=','carts.product_id')
+                                ->where('carts.product_id', $productid)
+                                ->where('carts.created_at', 'like', '%' . $period . '%')
+                                ->get();
+            $total = Cart::where('product_id', $productid)
+                            ->where('created_at', 'like', '%' . $period . '%')
+                            ->sum('product_quantity');
+
+                foreach ($products as $product) {
+                    array_push($temp, $product->product_id);
+                    array_push($temp, $period);
+                    array_push($temp, $product->product_name);
+                    array_push($temp, $total);
+                }       
+            array_push($temp, $singleProduct);  
+        }    
+        array_push($productsDetail, $temp);  
+    }
+    echo "<pre>";
+
+    print_r($productsDetail);   
     }
 
     /**
@@ -213,4 +271,30 @@ class TestController extends Controller
             
         }
     }
+
+    public function createDateRangeArray($strDateFrom,$strDateTo)
+    {
+        // takes two dates formatted as YYYY-MM-DD and creates an
+        // inclusive array of the dates between the from and to dates.
+
+        // could test validity of dates here but I'm already doing
+        // that in the main script
+
+        $aryRange = [];
+
+        $iDateFrom = mktime(1, 0, 0, substr($strDateFrom, 5, 2), substr($strDateFrom, 8, 2), substr($strDateFrom, 0, 4));
+        $iDateTo = mktime(1, 0, 0, substr($strDateTo, 5, 2), substr($strDateTo, 8, 2), substr($strDateTo, 0, 4));
+
+        if ($iDateTo >= $iDateFrom) {
+            array_push($aryRange, date('Y-m-d', $iDateFrom)); // first entry
+            while ($iDateFrom<$iDateTo) {
+                $iDateFrom += 86400; // add 24 hours
+                array_push($aryRange, date('Y-m-d', $iDateFrom));
+            }
+        }
+        return $aryRange;
+    }
 }
+
+
+
