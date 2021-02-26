@@ -9,6 +9,7 @@ use App\Models\Collection;
 use App\Models\Invoice;
 use App\Models\UserAccount;
 use App\Models\Cart;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 use App\Http\Controllers\CollectionController as CollectionController;
@@ -27,51 +28,12 @@ class TestController extends Controller
      */
     public function index()
     {
-        $first_day_this_month  = date('Y-m-01');
-        $current_day_this_month = date('Y-m-d');
+        $admin_id = User::select('users.id')
+                      ->join('role_user','role_user.user_id','=','users.id')
+                      ->where('role_user.role_id','=',1)                    
+                      ->get();
 
-        $periods = $this->createDateRangeArray($first_day_this_month,$current_day_this_month);
-
-        $productids = [1,2,3,4];
-        $productNames = ['milk 250ml','cheeze 500gm','ice cream','milk shake 2ltr'];
-
-        $productsDetail = '[';        
-        foreach($periods as $period){
-            $pro = '';
-            $pro .= '{date:'."'".$period."'".',';
-            
-            foreach($productids as $key => $productid){
-
-                $total = '';
-
-                $products = Cart::select('carts.product_id','carts.created_at','products.product_name')
-                                    ->leftJoin('products','products.id','=','carts.product_id')
-                                    ->where('carts.product_id', $productid)
-                                    ->where('carts.created_at', 'like', '%' . $period . '%')
-                                    ->get();
-
-                $total = Cart::where('product_id', $productid)
-                                ->where('created_at', 'like', '%' . $period . '%')
-                                ->sum('product_quantity');
-
-                if(empty($products->count())){
-                    $pro .= "'".$productNames[$key]."' : ". $total.",";
-                }else{
-                    $pro .= "'".$productNames[$key]."' : ". $total.",";
-                }
-            }
-            $newpro='';
-            $newpro .= rtrim($pro, ","); 
-            $newpro .= '},';
-            $productsDetail .= $newpro;
-        }
-
-    $productsDetail .= ']'; 
-
-    $productsDetail = str_replace("},]","}]",$productsDetail);
-
-
-    echo $productsDetail;
+        var_dump($admin_id[0]->id);
             
 }
 
