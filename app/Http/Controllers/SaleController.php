@@ -213,6 +213,10 @@ class SaleController extends Controller
     }
 
     public function placeOrder(Request $request){
+        $admin_id = User::select('users.id')
+                      ->join('role_user','role_user.user_id','=','users.id')
+                      ->where('role_user.role_id','=',1)                    
+                      ->get();
         date_default_timezone_set("Asia/Karachi");
         $Invoice_id = Invoice::insertGetId([
             'invoice_number' => $this->getInvoiceNumber(),
@@ -220,7 +224,7 @@ class SaleController extends Controller
             'total_amount'   => $request->totalPrice,
             'Remains' => $request->totalPrice,
             'flag' => 'Payment_Pending',
-            'seller_id' => '28',
+            'seller_id' => $admin_id[0]->id,
             'created_at' => Carbon::now()
         ]);
 
