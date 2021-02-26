@@ -20,7 +20,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\TasksController;
 use App\Http\Controllers\CollectorController;
 use App\Http\Controllers\milkCollectionController;
-
+use App\Http\Controllers\MilkBankController;
 use App\Http\Controllers\CollectionManagerController;
 
 use App\Http\Controllers\TestController;
@@ -68,7 +68,8 @@ Route::get('Dashboard/admin',             [AdminController::class, 'adminDashboa
 Route::get('Dashboard/distributor',       [DistributorController::class, 'distributorDashboard'])->name('distributor.DashBoard')->middleware('can:Login');
 Route::get('Dashboard/collector',         [CollectorController::class, 'collectorDashboard'])->name('collector.DashBoard')->middleware('can:Login');
 Route::get('Dashboard/vendor',            [VendorDetailController::class, 'vendorDashboard'])->name('vendor.DashBoard')->middleware('can:Login');
-Route::get('Dashboard/collection-manager',  [AdminController::class, 'collectionManagerDashboard'])->name('collection-manager.DashBoard')->middleware('can:Login');
+Route::get('Dashboard/collection-manager',[CollectionManagerController::class, 'collectionManagerDashboard'])->name('collection-manager.DashBoard')->middleware('can:Login');
+Route::get('Dashboard/milkBank-manager',  [MilkBankController::class, 'milkBankManagerDashboard'])->name('milkBank-manager.DashBoard')->middleware('can:Login');
 
 //Role routes--------------------------------
 
@@ -148,6 +149,23 @@ Route::get('milk/submission',                 [milkCollectionController::class, 
 //ajax route
 Route::get('collectors/collections/{id}',     [milkCollectionController::class, 'collectorCollections'])->name('collector.Collections');
 Route::any('collection/submission',          [milkCollectionController::class, 'collectionSubmission'])->name('collection.Submission');
+
+
+//milkBank routes--------------------------------
+Route::get('milkBank/index',           [MilkBankController::class, 'milkBankIndex'])->name('index.milkBank');
+Route::get('milkBank/create',          [MilkBankController::class, 'milkBankCreate'])->name('create.milkBank');
+Route::post('milkBank/create',         [MilkBankController::class, 'milkBankStore'])->name('store.milkBank');
+Route::get('milkBank/edit/{id}',       [MilkBankController::class, 'milkBankEdit'])->name('edit.milkBank');
+Route::post('milkBank/update/{id}',    [MilkBankController::class, 'milkBankUpdate'])->name('update.milkBank');
+Route::Delete('milkBank/delete/{id}',  [MilkBankController::class, 'milkBankDelete'])->name('delete.milkBank');
+
+Route::get('get/milkBank-Head',        [MilkBankController::class,  'getCollectionManager'])->name('get.milkBankHeads');
+Route::post('assign/milkBank-Head',    [MilkBankController::class, 'assignCollectionManager'])->name('assignManager.milkBank');
+
+Route::get('milk-point/submission',          [MilkBankController::class, 'pointCollection'])->name('milk.submission');
+Route::get('milk-point/check-quantity/{id}', [MilkBankController::class, 'checkQuantity'])->name('check.quantity');
+Route::post('milkPoint/submission',          [MilkBankController::class, 'pointSubmission'])->name('point.submission');
+
 
 //collection Manager Controller routes--------------------------------
 Route::get('get/collection-managers',               [CollectionManagerController::class,  'getCollectionManager'])->name('getCollectionManager')->middleware('can:Assign-Collection-Point');

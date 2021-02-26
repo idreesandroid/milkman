@@ -52,6 +52,18 @@
                </a>
             </li>  
             @endcan
+
+         <!-- change permission -->
+            @can('See-Collection-Point')
+            <li>
+               <a href="/milkBank/index" class="{{ (request()->segment(1) == 'milkBank' && request()->segment(2) == 'index') ? 'active' : '' }}">
+               <i class="fa fa-check-square-o" aria-hidden="true"></i>
+               <span>Milk Bank</span>
+               </a>
+            </li>  
+            @endcan
+
+
             @can('Generate-Task')
             <li>
                <a href="/generate/task" class="{{ (request()->segment(1) == 'generate' && request()->segment(2) == 'task') ? 'active' : '' }}">
