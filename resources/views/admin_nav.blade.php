@@ -105,11 +105,11 @@
                <span class="menu-arrow"></span>
                </a>
                <ul class="sub-menus">
-                  <li><a href="/product/index" class="{{ (request()->segment(1) == 'product') ? 'active' : '' }}">Product Listing</a></li>
+                  <li><a href="/product/index" class="{{ (request()->segment(1) == 'product' && request()->segment(2) == 'index') ? 'active' : '' }}">Product Listing</a></li>
                   @can('See-Product-Stock')
-                  <li><a href="/product-stock/index" class="{{ (request()->segment(1) == 'product-stock') ? 'active' : '' }}">Product Stock</a></li>
+                  <li><a href="/product-stock/index" class="{{ (request()->segment(1) == 'product-stock' && request()->segment(2) == 'index') ? 'active' : '' }}">Product Stock</a></li>
                   @endcan
-                  <li><a href="/product/analysis" class="{{ (request()->segment(1) == 'analysis') ? 'active' : '' }}">Product Analysis</a></li>
+                  <li><a href="/product/analysis" class="{{ (request()->segment(1) == 'product' && request()->segment(2) == 'analysis') ? 'active' : '' }}">Product Analysis</a></li>
                </ul>
             </li>
             @endcan            

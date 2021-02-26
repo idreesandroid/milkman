@@ -132,9 +132,22 @@ class ProductController extends Controller
     }
 
     public function productAnalysis(){
-        $products = Product::select('products.id','products.product_name','products.product_price','carts.created_at as orderdate','carts.product_quantity as orderquentity')
+        $products = Product::select('products.id',
+                                    'products.product_name',
+                                    'products.product_price',
+                                    'carts.created_at as orderdate',
+                                    'carts.product_quantity as orderquentity')
                             ->join('carts','carts.product_id','=','products.id')
                             ->get();
-        return view('product/analysis',compact('products'));
+
+        $product_stocks = ProductStock::select('product_stocks.product_id',
+                                        'product_stocks.manufactured_quantity as mfquentity',
+                                        'product_stocks.created_at as stockDate',
+                                        'products.product_name',
+                                        'products.product_price')
+                                        ->join('products','products.id','=','product_stocks.product_id')
+                                        ->get();
+
+        return view('product/analysis',compact('products','product_stocks'));
     }
 }
