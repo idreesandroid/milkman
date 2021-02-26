@@ -6,11 +6,6 @@ use Illuminate\Database\Seeder;
 use App\Models\Role;
 class RoleTableSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     *
-     * @return void
-     */
     public function run()
     {
         $role_ad = new Role();
@@ -41,6 +36,11 @@ class RoleTableSeeder extends Seeder
         $role_ven = new Role();
         $role_ven->slug = 'vendor';
         $role_ven->name = 'Vendor';
+        $role_ven->save();
+
+        $role_ven = new Role();
+        $role_ven->slug = 'process-Manager';
+        $role_ven->name = 'Process Manager';
         $role_ven->save();
 
         $role_ven = new Role();
