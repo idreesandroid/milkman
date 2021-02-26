@@ -106,7 +106,7 @@ $(document).ready(function() {
 		element: 'line-charts',
 		data: allProNewData,
 		xkey: 'date',
-		ykeys: ['milk 250ml','cheeze 500gm','ice cream','milk shake 2ltr'],
+		ykeys: productNames,
 		labels: productNames,
 		lineColors: ["#6610f2","#e83e8c","#fd7e14","#20c997","#007bff","#28a745","#17a2b8","#ffc107","#dc3545","#f8f9fa","#343a40"],
 		lineWidth: '3px',
