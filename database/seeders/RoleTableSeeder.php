@@ -29,8 +29,8 @@ class RoleTableSeeder extends Seeder
         $role_c_ad->save();
 
         $role_a_ad = new Role();
-        $role_a_ad->slug = 'area-manager';
-        $role_a_ad->name = 'Area Manager';
+        $role_a_ad->slug = 'milk-bank-Manager';
+        $role_a_ad->name = 'Milk Bank Manager';
         $role_a_ad->save();
 
         $role_col = new Role();

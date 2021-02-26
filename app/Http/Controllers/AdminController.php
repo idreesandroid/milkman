@@ -36,8 +36,5 @@ class AdminController extends Controller
 
     }
 
-    public function collectionManagerDashboard()
-    {
-        return view('dashBoards.collection-manager');
-    }
+
 }

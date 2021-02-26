@@ -292,6 +292,10 @@ class RegisterController extends Controller
     {
       return redirect()->route('collection-manager.DashBoard');
     }
+    elseif(in_array(4, $roleArray))
+    {
+      return redirect()->route('milkBank-manager.DashBoard');
+    }
     else
     {
       Auth::logout();

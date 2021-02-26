@@ -18,6 +18,13 @@ use App\Models\milkmanAsset;
 
 class CollectionManagerController extends Controller
 {
+
+    public function collectionManagerDashboard()
+    {
+        return view('dashBoards.collection-manager');
+    }
+
+
     public function getCollectionManager()
 {  
    $collectionManagers = DB::table('collection_point_managers')

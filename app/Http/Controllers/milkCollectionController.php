@@ -16,6 +16,7 @@ use App\Models\collectorDetail;
 use App\Models\collectionPointManager;
 use App\Models\milkmanAsset;
 use App\Models\collectionPointSubmission;
+use App\Models\milkBank;
 class milkCollectionController extends Controller
 {
     public function index()
@@ -45,6 +46,7 @@ class milkCollectionController extends Controller
         $points = new milkCollectionPoint();
         $points->pointName = $request->point_name;        
         $points->pointAddress = $request->point_address;
+        $points->milkBank_Id = 1;
         $points->save();
         return redirect()->route('index.collectionPoint');
     }
@@ -73,7 +75,9 @@ class milkCollectionController extends Controller
         return redirect()->route('index.collectionPoint');
     }
 
+
 //collectionsAtCollection point-----------------------------------------------------------
+
 
     public function milkSubmission()
 {  
@@ -130,8 +134,8 @@ public function collectionSubmission(Request $request)
     // echo "<pre>";
     // print_r($Area->shift);
     // exit;
-
-
+    if($request->totalMilk > 0 )
+    {
     $submission = new collectionPointSubmission();
     $submission->area_Id = $Area->area_id;        
     $submission->collectionPoint_id = checkpoint();
@@ -143,12 +147,15 @@ public function collectionSubmission(Request $request)
     $submission->averageProteins = $request->totalProteins;
     $submission->averageLactose = $request->totalLactose;
     $submission->averageSolids = ($request->totalFat+$request->totalAsh+$request->totalProteins+$request->totalLactose)/4;
-    
 
     $imageName = time().'.'.$request->D_Shot->extension();    
     $request->D_Shot->move(public_path('milkQuality_img'), $imageName);
     $submission->averageQuality_SS = $imageName;
     $submission->save();
+    
+    $point=checkpoint();
+
+    DB::update("UPDATE milk_collection_points SET `totalMilk` = totalMilk+$request->totalMilk WHERE `id` = $point");
 
     //$submission->collectionStatus = 'Completed';
     $task_ids = $request['collectionIds'];
@@ -157,6 +164,11 @@ public function collectionSubmission(Request $request)
         DB::update("UPDATE sub_tasks SET `collectionStatus` = 'Completed' WHERE `id` = $task_id");
     }
     return redirect()->route('user.dashBoard');
+    }
+    else
+    {
+        return redirect()->back()->with('alert', "You are Entering Wrong Information");
+    }
 }
 
 }
