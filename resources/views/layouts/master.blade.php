@@ -37,6 +37,7 @@
          src="https://maps.googleapis.com/maps/api/js?libraries=geometry,places,drawing&key={{env('GOOGLE_MAP_KEY')}}&v=3"      
          ></script>
       <script src="https://cdn.sobekrepository.org/includes/gmaps-markerwithlabel/1.9.1/gmaps-markerwithlabel-1.9.1.min.js" type="text/javascript"></script>
+      <script src="{{asset('assets/js/apex.min.js')}}"></script>
       <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
       <!--[if lt IE 9]>
       <script src="assets/js/html5shiv.min.js"></script>
@@ -180,6 +181,7 @@
       </div>
       <!-- /Main Wrapper -->
       <!-- Bootstrap Core JS -->
+
       <script src="{{asset('assets/js/popper.min.js')}}"></script>
       <script src="{{asset('assets/js/bootstrap.min.js')}}"></script>
       <!-- Slimscroll JS -->
@@ -200,6 +202,7 @@
       <script src="{{asset('assets/js/chart.js')}}"></script>
       <script src="{{asset('assets/js/linebar.min.js')}}"></script>
       <script src="{{asset('assets/js/piechart.js')}}"></script>
+      <script src="{{asset('assets/js/apex.min.js')}}"></script>
     
       <script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>    
    </body>

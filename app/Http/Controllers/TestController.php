@@ -28,12 +28,15 @@ class TestController extends Controller
      */
     public function index()
     {
-        $admin_id = User::select('users.id')
-                      ->join('role_user','role_user.user_id','=','users.id')
-                      ->where('role_user.role_id','=',1)                    
-                      ->get();
+        echo $first_day_this_month  = date('Y-m-01');
+echo "<br>";
+echo $current_day_this_month = date('Y-m-d'); // hard-coded '01' for first day
 
-        var_dump($admin_id[0]->id);
+$periods = $this->createDateRangeArray($first_day_this_month,$current_day_this_month);
+
+    foreach($periods as $itme){
+        echo '</br>'."'". $itme . "'". '</br>';
+    }
             
 }
 
