@@ -2,6 +2,11 @@
 
 @section('content')
 
+<style type="text/css">
+	#totalSaleGraph{
+		padding-top: 25px;
+	}
+</style>
 <div class="row graphs">
 	<div class="col-md-6">
 		<div class="card h-100">
@@ -31,6 +36,23 @@
 		</div>
 	</div>	
 </div>
+<div class="row graphs" id="totalSaleGraph">
+	
+	<div class="col-md-12 mb-0">
+		
+		<div class="card h-100 mb-0">
+            <div class="card-body">
+            	<h3 class="card-title">Total Monthly Sales</h3>
+             <div id="chart"></div>
+            </div>
+        </div>
+	</div>
+	
+</div>
+					
+
+
+
 
 
 <?php 
@@ -47,6 +69,7 @@ foreach($roles as $index => $role){
 // 	array_push($productsName,$item['product_name']);
 // }
 
+//print_r($dateRange);
 
 ?>
 
@@ -55,6 +78,7 @@ var roles = [<?php echo '"'.implode('","', $roleName).'"' ?>];
 var users = [<?php echo '"'.implode('","', $allUserCount).'"' ?>];
 var productNames = [<?php echo '"'.implode('","', $productNames).'"' ?>];
 var totalOrders = [<?php echo '"'.implode('","', $totalOrders).'"' ?>];
+var dateRange = [<?php echo '"'.implode('","', $dateRange).'"' ?>];
 
 //var AllProData = <?php //echo $allProData; ?>;
 
@@ -114,6 +138,70 @@ $(document).ready(function() {
 		redraw: true
 	});
 });
+
+
+var options = {
+          series: [{
+            name: "Product",
+            data: [10, 95, 35, 51, 49, 62, 69, 91, 148, 56, 98, 125, 35, 78, 65, 125, 45, 68, 45,36, 78 ,45 ,86, 78, 25, 57]
+        }],
+          chart: {
+          height: 350,
+          type: 'line',
+          zoom: {
+            enabled: false
+          }
+        },
+        markers: {
+	    size: 6,
+	    colors: ['#F44336', '#E91E63', '#9C27B0']
+		},
+        dataLabels: {
+          enabled: false
+        },
+        stroke: {
+          curve: 'smooth'
+        },
+        title: {
+          text: 'Product Trends by Month',
+          align: 'left'
+        },
+        fill: {
+          type: 'gradient',
+          gradient: {
+            shade: 'dark',
+            type: "horizontal",
+            shadeIntensity: 0.5,
+            gradientToColors: undefined, // optional, if not defined - uses the shades of same color in series
+            inverseColors: true,
+            opacityFrom: 1,
+            opacityTo: 1,
+            stops: [0, 50, 100],
+            colorStops: []
+          }
+        },
+		theme: {
+		  monochrome: {
+		    enabled: true,
+		    color: '#255aee',
+		    shadeTo: 'light',
+		    shadeIntensity: 0.65
+			  }
+			},
+		  grid: {
+          row: {
+            colors: [ 'transparent'], // takes an array which will be repeated on columns
+            opacity: 0.5
+          },
+        },
+        xaxis: {
+          categories: dateRange,
+        }
+        };
+
+        var chart = new ApexCharts(document.querySelector("#chart"), options);
+        chart.render();
+
 
 
 

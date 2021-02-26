@@ -79,9 +79,16 @@ class AdminController extends Controller
 
     $productsDetail = str_replace("},]","}]",$productsDetail);
 
+    $dateRange = []; 
+    foreach($periods as $item){
+        $singleDate = $item;
+        array_push($dateRange, $singleDate);
+    }
 
 
-        return view('dashBoards.admin', compact('roles','userCount','products','totalOrders','productsDetail','productNames'));
+
+
+        return view('dashBoards.admin', compact('roles','userCount','products','totalOrders','productsDetail','productNames','dateRange'));
 
     }
 
