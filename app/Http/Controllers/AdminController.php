@@ -43,7 +43,7 @@ class AdminController extends Controller
         $first_day_this_month  = date('Y-m-01');
         $current_day_this_month = date('Y-m-d');
 
-        $periods = createDateRangeArray($first_day_this_month,$current_day_this_month);        
+        $periods = createDateRangeArray($first_day_this_month,$current_day_this_month);
 
         $productsDetail = '[';
 

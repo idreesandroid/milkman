@@ -17,7 +17,7 @@
       </ul>
    </div>
 </div>
-         <!-- /Page Header -->
+<!-- /Page Header -->
 <!-- Page Wrapper -->
 <div class="row">
    <div class="col-lg-12">

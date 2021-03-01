@@ -1,5 +1,3 @@
-
-
 @extends('layouts.master')
 @section('content')
 <!-- Page Header -->
@@ -86,7 +84,6 @@
       </div>
    </div>
 </div>
-
 <script type="text/javascript">
    $(document).ready(function() {  
       $("#invoiceDetial").DataTable();
