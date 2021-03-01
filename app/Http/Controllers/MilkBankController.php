@@ -87,13 +87,17 @@ public function milkBankDelete($id)
 public function getCollectionManager()
 {  
 
-    $collectionManagers = User::whereHas('roles', function($query) {$query->where('roles.id', 4);})->get();   
+    //$collectionManagers = User::whereHas('roles', function($query) {$query->where('roles.id', 4);})->get();   
    
-    // $collectionManagers = DB::table('collection_point_managers')
-    // ->select('user_id','managerStatus','name','users.id','user_phone')
-    // ->where('managerStatus','inActive')
-    // ->join('users','user_id','=','users.id')
-    // ->get();
+    $collectionManagers = DB::table('milkbank_managers')
+    ->select('milkbank_managers.id','user_id','name','manager_status','user_phone')
+    ->where('manager_status','inActive')
+    ->join('users','user_id','=','users.id')
+    ->get();
+//  echo "<pre>";
+//  print_r($collectionManagers);
+//  exit;
+
     return $collectionManagers;
 }
 
@@ -109,7 +113,10 @@ public function assignCollectionManager(Request $request)
 //  exit;
 $var1= $request->pId;
 $var2= $request->manager_id;
-DB::update("UPDATE milk_banks SET bankManager_id = $var2 WHERE id = $var1");
+
+DB::update("UPDATE milkbank_managers SET milkbank_id = $var1 , manager_status = 'Active' WHERE user_id = $var2");
+   
+//DB::update("UPDATE milk_banks SET bankManager_id = $var2 WHERE id = $var1");
 return redirect()->route('index.milkBank');
 }
 
