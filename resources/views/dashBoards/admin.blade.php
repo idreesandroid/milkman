@@ -50,11 +50,6 @@
 	
 </div>
 					
-
-
-
-
-
 <?php 
 
 $roleName = [];
@@ -63,13 +58,6 @@ foreach($roles as $index => $role){
 	array_push($roleName,$role->name);
 	array_push($allUserCount,$userCount[$index]);                  
 }
-
-// $productsName = [];
-// foreach ($products as $item) {
-// 	array_push($productsName,$item['product_name']);
-// }
-
-//print_r($perDaySale);
 
 ?>
 
@@ -203,9 +191,6 @@ var options = {
         var chart = new ApexCharts(document.querySelector("#chart"), options);
         chart.render();
 
-
-
-
 function malformedJSON2Array (tar) {
     var arr = [];
     tar = tar.replace(/^\{|\}$/g,'').split(',');
@@ -216,6 +201,5 @@ function malformedJSON2Array (tar) {
     }
     return arr;
 }
-
 </script>
 @endsection

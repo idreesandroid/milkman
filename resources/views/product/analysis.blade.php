@@ -31,7 +31,6 @@
                <div class="col-md-12">
                   <div class="card">
                      <div class="card-body">
-                        <!-- <h6 class="card-title">Bottom line justified</h6> -->            
                         <div class="tab-content">                           
                            <div class="tab-pane show active" id="systemUsers">                   
                               <div class="table-responsive">
@@ -70,8 +69,7 @@
             <div class="row">
                <div class="col-md-12">
                   <div class="card">
-                     <div class="card-body">
-                        <!-- <h6 class="card-title">Bottom line justified</h6> -->            
+                     <div class="card-body">            
                         <div class="tab-content">                           
                            <div class="tab-pane show active" id="systemUsers">                   
                               <div class="table-responsive">
@@ -87,9 +85,7 @@
                                     </thead>
                                     <tbody>
                                       @foreach($products as $product)
-                                      <tr> 
-                                        <!-- date("m-d-Y", strtotime($product->orderdate)); -->
-                                        <!-- date_format(strtotime($product->orderdate),"d-m-Y H:i:s")  -->                            
+                                      <tr>                      
                                           <td>{{$product->product_name}}</td>
                                           <td>{{ date("m-d-Y H:i:s", strtotime($product->orderdate)) }}</td>
                                           <td>{{$product->product_price}}</td>

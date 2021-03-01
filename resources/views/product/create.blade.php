@@ -99,37 +99,37 @@
 </div>
 <!-- /page Wrapper -->
 <script>
-    $(document).ready(function () {
-    $('#product').validate({ // initialize the plugin
-        rules: {
-            product_name: {
-                required: true
-            },
-            product_nick: {
-                required: true,
-            },
-            product_size: {
-                required: true,
-                digits: true,
-                minvalue : 1
-            },
-            unit: {
-                required: true,
-            },
-            product_price: {
-                required: true,
-                minvalue: 1
-            },
-            ctn_value: {
-                required: true,
-                minvalue: 1  
-            },
-            filename: {
-                required: true,
-                extension: "jpeg|png"
-            },
-        }
-    });
+$(document).ready(function () {
+  $('#product').validate({ // initialize the plugin
+    rules: {
+      product_name: {
+          required: true
+      },
+      product_nick: {
+          required: true,
+      },
+      product_size: {
+          required: true,
+          digits: true,
+          minvalue : 1
+      },
+      unit: {
+          required: true,
+      },
+      product_price: {
+          required: true,
+          minvalue: 1
+      },
+      ctn_value: {
+          required: true,
+          minvalue: 1  
+      },
+      filename: {
+          required: true,
+          extension: "jpeg|png"
+      }
+    }
+  });
 });
 </script>
 @endsection

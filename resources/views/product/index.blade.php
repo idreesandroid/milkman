@@ -19,8 +19,7 @@
 <div class="row">
    <div class="col-md-12">
       <div class="card">
-         <div class="card-body">
-            <!-- <h6 class="card-title">Bottom line justified</h6> -->            
+         <div class="card-body">                      
             <div class="tab-content">                           
                <div class="tab-pane show active" id="systemUsers">
                   <div class="row">
@@ -37,8 +36,7 @@
                   <div class="table-responsive">
                      <table class="datatable table table-stripped mb-0 datatables" id="productLising">
                         <thead>
-                           <tr>                              
-                              <!-- <th>Image</th> -->
+                           <tr>
                               <th>Name</th>                       
                               <th>Size</th>
                               <th>Price</th>
@@ -80,7 +78,6 @@
       </div>
    </div>
 </div>
- <?php //exit(); ?>
 <!-- /Page Wrapper -->
 <script>
    $(document).ready( function () {

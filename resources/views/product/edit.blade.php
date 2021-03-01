@@ -1,5 +1,3 @@
-
-
 @extends('layouts.master')
 @section('content')
  <!-- Page Header -->
@@ -18,7 +16,7 @@
        </ul>
     </div>
  </div>
-         <!-- /Page Header -->
+<!-- /Page Header -->
 <div class="row">
    <div class="col-lg-12">
       <div class="card">

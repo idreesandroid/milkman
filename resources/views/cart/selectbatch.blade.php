@@ -16,7 +16,7 @@
        </ul>
     </div>
  </div>
-         <!-- /Page Header -->
+<!-- /Page Header -->
 <!-- Page Wrapper -->
 <div class="row">
    <div class="col-lg-12">
@@ -143,7 +143,6 @@
 <script type="text/javascript">
    var BID="";
    var getPQuantity="";
-   // alert("show");
    function getBId(id)
    {     
      BID=id;
@@ -244,10 +243,6 @@
       
    var cart_no = $("#cid_"+BID).text();
    var collect_id=[];
-   //alert(cart_no);
-   
-   // var inv_no = $("#inv").text();
-   
    var select_qty=[];
    
       $('.batch_fetch').each(function(){
@@ -259,7 +254,6 @@
     });
    
     let sel_qty = select_qty;
-    //alert("ok");
       $.ajax({
    url: '/selectbatch/'+cart_no,
    type: "POST",
