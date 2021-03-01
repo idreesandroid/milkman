@@ -37,6 +37,7 @@
          src="https://maps.googleapis.com/maps/api/js?libraries=geometry,places,drawing&key={{env('GOOGLE_MAP_KEY')}}&v=3"      
          ></script>
       <script src="https://cdn.sobekrepository.org/includes/gmaps-markerwithlabel/1.9.1/gmaps-markerwithlabel-1.9.1.min.js" type="text/javascript"></script>
+      <script src="{{asset('assets/js/morris.js')}}"></script>
       <script src="{{asset('assets/js/apex.min.js')}}"></script>
       <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
       <!--[if lt IE 9]>

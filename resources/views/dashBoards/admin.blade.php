@@ -3,9 +3,9 @@
 @section('content')
 
 <style type="text/css">
-	#totalSaleGraph{
-		padding-top: 25px;
-	}
+#totalSaleGraph{
+	padding-top: 25px;
+}
 </style>
 <div class="row graphs">
 	<div class="col-md-6">
@@ -31,27 +31,25 @@
 		<div class="card h-100">
 			<div class="card-body">
             	<h3 class="card-title">Monthly Products Orders Analysis</h3>
-				<div id="line-charts"></div>
+				<div id="#monthlyProductsOrdersAnalysis"></div>
         	</div>
 		</div>
 	</div>	
 </div>
-<div class="row graphs" id="totalSaleGraph">
-	
-	<div class="col-md-12 mb-0">
-		
+<div class="row graphs" id="totalSaleGraph">	
+	<div class="col-md-12 mb-0">		
 		<div class="card h-100 mb-0">
             <div class="card-body">
             	<h3 class="card-title">Total Monthly Sales Analysis</h3>
-             <div id="chart"></div>
+             <div id="TotalMonthlySalesAnalysis"></div>
             </div>
         </div>
-	</div>
-	
+	</div>	
 </div>
 					
 <?php 
 
+$colors = ["#6610F2","#E83E8C","#FD7E14","#20C997","#007BFF","#28A745","#17A2B8","#FFC107","#DC3545","#F8F9FA","#343A40"];
 $roleName = [];
 $allUserCount = [];
 foreach($roles as $index => $role){
@@ -60,7 +58,6 @@ foreach($roles as $index => $role){
 }
 
 ?>
-<script src="{{asset('assets/js/morris.js')}}"></script>
 <script type="text/javascript">
 var roles = [<?php echo '"'.implode('","', $roleName).'"' ?>];
 var users = [<?php echo '"'.implode('","', $allUserCount).'"' ?>];
@@ -68,8 +65,7 @@ var productNames = [<?php echo '"'.implode('","', $productNames).'"' ?>];
 var totalOrders = [<?php echo '"'.implode('","', $totalOrders).'"' ?>];
 var dateRange = [<?php echo '"'.implode('","', $dateRange).'"' ?>];
 var perDaySale = [<?php echo '"'.implode('","', $perDaySale).'"' ?>];
-
-//var AllProData = <?php //echo $allProData; ?>;
+var colors = [<?php echo '"'.implode('","', $colors).'"' ?>];
 
 var allProNewData = <?php echo $productsDetail; ?>;
 
@@ -80,7 +76,7 @@ $(document).ready(function() {
 	      labels: roles,
 	      datasets: [{
 	        label: "Population (millions)",
-	        backgroundColor: [ "#6610f2","#e83e8c","#fd7e14","#20c997","#007bff","#28a745","#17a2b8","#ffc107","#dc3545","#f8f9fa","#343a40"],
+	        backgroundColor: colors,
 	        data: users
 	      }]
 	    },
@@ -99,7 +95,7 @@ $(document).ready(function() {
 	      datasets: [
 	        {
 	          label: "Products",
-	          backgroundColor: ["#6610f2","#e83e8c","#fd7e14","#20c997","#007bff","#28a745","#17a2b8","#ffc107","#dc3545","#f8f9fa","#343a40"],
+	          backgroundColor: colors,
 	          data: totalOrders
 	        }
 	      ]
@@ -116,12 +112,12 @@ $(document).ready(function() {
 // Line Chart
 	
 	new Morris.Line({
-		element: 'line-charts',
+		element: '#monthlyProductsOrdersAnalysis',
 		data: allProNewData,
 		xkey: 'date',
 		ykeys: productNames,
 		labels: productNames,
-		lineColors: ["#6610f2","#e83e8c","#fd7e14","#20c997","#007bff","#28a745","#17a2b8","#ffc107","#dc3545","#f8f9fa","#343a40"],
+		lineColors: colors,
 		lineWidth: '3px',
 		resize: true,
 		redraw: true
@@ -143,7 +139,7 @@ var options = {
         },
         markers: {
 	    size: 6,
-	    colors: ['#F44336', '#E91E63', '#9C27B0']
+	    colors
 		},
         dataLabels: {
           enabled: false
@@ -188,7 +184,7 @@ var options = {
         }
         };
 
-        var chart = new ApexCharts(document.querySelector("#chart"), options);
+        var chart = new ApexCharts(document.querySelector("#TotalMonthlySalesAnalysis"), options);
         chart.render();
 
 function malformedJSON2Array (tar) {

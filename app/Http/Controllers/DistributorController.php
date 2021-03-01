@@ -15,6 +15,7 @@ use App\Models\UserAccount;
 use App\Models\UserTransaction;
 use App\Models\Invoice;
 use App\Models\Cart;
+use App\Models\Product;
 
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
@@ -148,12 +149,72 @@ class DistributorController extends Controller
     {
         $Did = Auth::id();
 
+       $Did = Auth::id();
+
+
+         $products = Product::select('id','product_name')->get();
+         $totalOrders = [];
+         $productids = [];
+         $productNames = [];
+         foreach($products as $item){
+
+             array_push($productids, $item->id);
+             array_push($productNames, $item->product_name);
+
+             $orders = Cart::where('product_id',$item->id)
+                             ->where('created_at','>=',date('Y-m-d'))
+                             ->sum('product_quantity');
+             array_push($totalOrders, $orders);
+         }
+
+        $first_day_this_month  = date('Y-m-01');
+        $current_day_this_month = date('Y-m-d');
+
+        $periods = createDateRangeArray($first_day_this_month,$current_day_this_month);
+
+        $productsDetail = '[';        
+
+        foreach($periods as $period){
+            $pro = '';
+            $pro .= '{date:'."'".$period."'".',';
+            
+            foreach($productids as $key => $productid){
+
+                $total = '';
+
+                $products = Invoice::select('carts.product_id','carts.created_at','products.product_name','invoices.buyer_id')
+                                    ->join('carts','invoices.id','=','carts.invoice_id')
+                                    ->leftJoin('products','products.id','=','carts.product_id')
+                                    ->where('carts.product_id', $productid)
+                                    ->where('carts.created_at', 'like', '%' . $period . '%')
+                                    ->where('invoices.buyer_id', '=', $Did)
+                                    ->get();
+
+                $total = Cart::where('product_id', $productid)
+                                ->where('created_at', 'like', '%' . $period . '%')
+                                ->sum('product_quantity');
+
+                if(empty($products->count())){
+                    $pro .= "'".$productNames[$key]."' : ". $total.",";
+                }else{
+                    $pro .= "'".$productNames[$key]."' : ". $total.",";
+                }
+            }
+            $newpro='';
+            $newpro .= rtrim($pro, ","); 
+            $newpro .= '},';
+            $productsDetail .= $newpro;
+                      
+        }        
+
+        $productsDetail .= ']'; 
+
+        $productsDetail = str_replace("},]","}]",$productsDetail);
+
         $distributorBalance = UserAccount::where('user_id' , $Did)->select('balance')->first();
         $transaction = UserTransaction::where('user_id' , $Did)->count();
-    //  echo "<pre>";
-    //  print_r($transaction);
-    //  exit;
-    return view('dashBoards.distributor', compact('distributorBalance','transaction'));
+    
+        return view('dashBoards.distributor', compact('distributorBalance','transaction','productsDetail','productNames'));
 
     }
 
