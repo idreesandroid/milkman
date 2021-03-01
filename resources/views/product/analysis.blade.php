@@ -49,7 +49,7 @@
                                       @foreach($product_stocks as $product)
                                       <tr>                              
                                           <td>{{$product->product_name}}</td>
-                                          <td>{{$product->stockDate}}</td>
+                                          <td>{{ date("m-d-Y H:i:s", strtotime($product->stockDate)) }}</td>  
                                           <td>{{$product->product_price}}</td>
                                           <td>{{$product->mfquentity}}</td>
                                           <td>{{number_format($product->mfquentity * $product->product_price,2)}}</td>
@@ -87,9 +87,11 @@
                                     </thead>
                                     <tbody>
                                       @foreach($products as $product)
-                                      <tr>                              
+                                      <tr> 
+                                        <!-- date("m-d-Y", strtotime($product->orderdate)); -->
+                                        <!-- date_format(strtotime($product->orderdate),"d-m-Y H:i:s")  -->                            
                                           <td>{{$product->product_name}}</td>
-                                          <td>{{$product->orderdate}}</td>
+                                          <td>{{ date("m-d-Y H:i:s", strtotime($product->orderdate)) }}</td>
                                           <td>{{$product->product_price}}</td>
                                           <td>{{$product->orderquentity}}</td>
                                           <td>{{number_format($product->orderquentity * $product->product_price,2)}}</td>

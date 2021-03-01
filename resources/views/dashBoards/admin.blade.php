@@ -30,7 +30,7 @@
 	<div class="col-md-12">
 		<div class="card h-100">
 			<div class="card-body">
-            	<h3 class="card-title">Monthly Sales Overview</h3>
+            	<h3 class="card-title">Monthly Products Orders Analysis</h3>
 				<div id="line-charts"></div>
         	</div>
 		</div>
@@ -42,7 +42,7 @@
 		
 		<div class="card h-100 mb-0">
             <div class="card-body">
-            	<h3 class="card-title">Total Monthly Sales</h3>
+            	<h3 class="card-title">Total Monthly Sales Analysis</h3>
              <div id="chart"></div>
             </div>
         </div>
