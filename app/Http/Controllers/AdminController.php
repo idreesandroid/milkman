@@ -8,6 +8,7 @@ use App\Models\Role;
 use App\Models\User;
 use App\Models\Product;
 use App\Models\Cart;
+use App\Models\UserTransaction;
 
 class AdminController extends Controller
 {
@@ -44,7 +45,10 @@ class AdminController extends Controller
 
         $periods = createDateRangeArray($first_day_this_month,$current_day_this_month);        
 
-        $productsDetail = '[';        
+        $productsDetail = '[';
+
+        $perDaySale = []; 
+
         foreach($periods as $period){
             $pro = '';
             $pro .= '{date:'."'".$period."'".',';
@@ -73,24 +77,24 @@ class AdminController extends Controller
             $newpro .= rtrim($pro, ","); 
             $newpro .= '},';
             $productsDetail .= $newpro;
+
+            $amountPaid = UserTransaction::where('created_at', 'like', '%' . $period . '%')
+                                ->where('status','verified')
+                                ->sum('amountPaid');
+
+            array_push($perDaySale, $amountPaid);            
+        }        
+
+        $productsDetail .= ']'; 
+
+        $productsDetail = str_replace("},]","}]",$productsDetail);
+
+        $dateRange = []; 
+        foreach($periods as $item){
+            $singleDate = $item;
+            array_push($dateRange, $singleDate);
         }
 
-    $productsDetail .= ']'; 
-
-    $productsDetail = str_replace("},]","}]",$productsDetail);
-
-    $dateRange = []; 
-    foreach($periods as $item){
-        $singleDate = $item;
-        array_push($dateRange, $singleDate);
+        return view('dashBoards.admin', compact('roles','userCount','products','totalOrders','productsDetail','productNames','dateRange','perDaySale'));
     }
-
-
-
-
-        return view('dashBoards.admin', compact('roles','userCount','products','totalOrders','productsDetail','productNames','dateRange'));
-
-    }
-
-
 }

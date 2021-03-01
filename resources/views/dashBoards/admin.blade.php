@@ -69,7 +69,7 @@ foreach($roles as $index => $role){
 // 	array_push($productsName,$item['product_name']);
 // }
 
-//print_r($dateRange);
+//print_r($perDaySale);
 
 ?>
 
@@ -79,6 +79,7 @@ var users = [<?php echo '"'.implode('","', $allUserCount).'"' ?>];
 var productNames = [<?php echo '"'.implode('","', $productNames).'"' ?>];
 var totalOrders = [<?php echo '"'.implode('","', $totalOrders).'"' ?>];
 var dateRange = [<?php echo '"'.implode('","', $dateRange).'"' ?>];
+var perDaySale = [<?php echo '"'.implode('","', $perDaySale).'"' ?>];
 
 //var AllProData = <?php //echo $allProData; ?>;
 
@@ -142,8 +143,8 @@ $(document).ready(function() {
 
 var options = {
           series: [{
-            name: "Product",
-            data: [10, 95, 35, 51, 49, 62, 69, 91, 148, 56, 98, 125, 35, 78, 65, 125, 45, 68, 45,36, 78 ,45 ,86, 78, 25, 57]
+            name: "Total Today's Sale",
+            data: perDaySale
         }],
           chart: {
           height: 350,
