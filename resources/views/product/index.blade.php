@@ -82,15 +82,7 @@
 <script>
    $(document).ready( function () {
       $('#productLising').DataTable({
-        "columns": [
-          { "width": "20%" },
-          { "width": "10%" },
-          { "width": "10%" },
-          { "width": "10%" },
-          { "width": "10%" },
-          { "width": "25%" },
-          { "width": "15%" },
-        ]
+        
       });
 });
 </script>
