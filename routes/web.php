@@ -147,36 +147,38 @@ Route::get('collectionPoint/edit/{id}',       [milkCollectionController::class, 
 Route::post('collectionPoint/update/{id}',    [milkCollectionController::class, 'update'])->name('update.collectionPoint')->middleware('can:Edit-Collection-Point');
 Route::Delete('collectionPoint/delete/{id}',  [milkCollectionController::class, 'deleteCollectionPoint'])->name('delete.collectionPoint')->middleware('can:Delete-Collection-Point');
 
-Route::get('milk/submission',                 [milkCollectionController::class, 'milkSubmission'])->name('milk.submission');
+Route::get('milk/submission',                 [milkCollectionController::class, 'milkSubmission'])->name('milk.submission')->middleware('can:Collect-Milk-From-Collector');
 //ajax route
-Route::get('collectors/collections/{id}',     [milkCollectionController::class, 'collectorCollections'])->name('collector.Collections');
-Route::any('collection/submission',          [milkCollectionController::class, 'collectionSubmission'])->name('collection.Submission');
+Route::get('collectors/collections/{id}',     [milkCollectionController::class, 'collectorCollections'])->name('collector.Collections')->middleware('can:Collect-Milk-From-Collector');
+Route::any('collection/submission',          [milkCollectionController::class, 'collectionSubmission'])->name('collection.Submission')->middleware('can:Collect-Milk-From-Collector');
 
 
 //milkBank routes--------------------------------
-Route::get('milkBank/index',           [MilkBankController::class, 'milkBankIndex'])->name('index.milkBank');
-Route::get('milkBank/create',          [MilkBankController::class, 'milkBankCreate'])->name('create.milkBank');
-Route::post('milkBank/create',         [MilkBankController::class, 'milkBankStore'])->name('store.milkBank');
-Route::get('milkBank/edit/{id}',       [MilkBankController::class, 'milkBankEdit'])->name('edit.milkBank');
-Route::post('milkBank/update/{id}',    [MilkBankController::class, 'milkBankUpdate'])->name('update.milkBank');
-Route::Delete('milkBank/delete/{id}',  [MilkBankController::class, 'milkBankDelete'])->name('delete.milkBank');
+Route::get('milkBank/index',           [MilkBankController::class, 'milkBankIndex'])->name('index.milkBank')->middleware('can:See-Milk-Bank');
+Route::get('milkBank/create',          [MilkBankController::class, 'milkBankCreate'])->name('create.milkBank')->middleware('can:Create-Milk-Bank');
+Route::post('milkBank/create',         [MilkBankController::class, 'milkBankStore'])->name('store.milkBank')->middleware('can:Create-Milk-Bank');
+Route::get('milkBank/edit/{id}',       [MilkBankController::class, 'milkBankEdit'])->name('edit.milkBank')->middleware('can:Edit-Milk-Bank');
+Route::post('milkBank/update/{id}',    [MilkBankController::class, 'milkBankUpdate'])->name('update.milkBank')->middleware('can:Edit-Milk-Bank');
+Route::Delete('milkBank/delete/{id}',  [MilkBankController::class, 'milkBankDelete'])->name('delete.milkBank')->middleware('can:Delete-Milk-Bank');
 
-Route::get('get/milkBank-Head',        [MilkBankController::class,  'getCollectionManager'])->name('get.milkBankHeads');
-Route::post('assign/milkBank-Head',    [MilkBankController::class, 'assignCollectionManager'])->name('assignManager.milkBank');
+Route::get('get/milkBank-Head',        [MilkBankController::class,  'getCollectionManager'])->name('get.milkBankHeads')->middleware('can:Assign-Milk-Bank-Manager');
+Route::post('assign/milkBank-Head',    [MilkBankController::class, 'assignCollectionManager'])->name('assignManager.milkBank')->middleware('can:Assign-Milk-Bank-Manager');
 
-Route::get('milk-point/submission',          [MilkBankController::class, 'pointCollection'])->name('milk.submission');
-Route::get('milk-point/check-quantity/{id}', [MilkBankController::class, 'checkQuantity'])->name('check.quantity');
-Route::post('milkPoint/submission',          [MilkBankController::class, 'pointSubmission'])->name('point.submission');
+Route::get('milk-point/submission',          [MilkBankController::class, 'pointCollection'])->name('milk.submission')->middleware('can:Collect-Milk-From-Collection-Point');
+Route::get('milk-point/check-quantity/{id}', [MilkBankController::class, 'checkQuantity'])->name('check.quantity')->middleware('can:Collect-Milk-From-Collection-Point');
+Route::post('milkPoint/submission',          [MilkBankController::class, 'pointSubmission'])->name('point.submission')->middleware('can:Collect-Milk-From-Collection-Point');
 
 
 //collection Manager Controller routes--------------------------------
 Route::get('get/collection-managers',               [CollectionManagerController::class,  'getCollectionManager'])->name('getCollectionManager')->middleware('can:Assign-Collection-Point');
 Route::post('assign/collection-point',              [CollectionManagerController::class, 'assignCollectionManager'])->name('assignManager.Point')->middleware('can:Assign-Collection-Point');
-Route::get('collectionPoint/collectors',            [CollectionManagerController::class, 'myCollectors'])->name('my.collectors');
-Route::get('get/asset-list/{id}',                   [CollectionManagerController::class, 'getAssetList'])->name('getAssetList');
-Route::post('set/asset-list',                       [CollectionManagerController::class, 'setAssetList'])->name('setAssetList');
-Route::get('collection-point-get/asset-list/{id}',  [CollectionManagerController::class, 'getPointAsset'])->name('get.PointAsset');
-Route::post('collection-point-set/asset-list',      [CollectionManagerController::class, 'setCollectorAsset'])->name('set.CollectorAsset');
+Route::get('collectionPoint/collectors',            [CollectionManagerController::class, 'myCollectors'])->name('my.collectors')->middleware('can:See-Collector-Of-My-Collection-Point');
+
+Route::get('get/asset-list/{id}',                   [CollectionManagerController::class, 'getAssetList'])->name('getAssetList')->middleware('can:Assign-Asset-To-Collection-Point');
+Route::post('set/asset-list',                       [CollectionManagerController::class, 'setAssetList'])->name('setAssetList')->middleware('can:Assign-Asset-To-Collection-Point');
+
+Route::get('collection-point-get/asset-list/{id}',  [CollectionManagerController::class, 'getPointAsset'])->name('get.PointAsset')->middleware('can:Assign-Asset-To-Collector');
+Route::post('collection-point-set/asset-list',      [CollectionManagerController::class, 'setCollectorAsset'])->name('set.CollectorAsset')->middleware('can:Assign-Asset-To-Collector');
 
 Route::get('collectionPoint/area',                  [CollectionManagerController::class, 'myAreas'])->name('my.Areas');
 
@@ -227,8 +229,8 @@ Route::post('collection/getvendorlatlng', [CollectionController::class, 'getvend
 
 
 
-Route::get('get/collectionPoint/{id}',              [CollectionController::class, 'findCollectionPoint'])->name('get.collectionPoint');
-Route::post('set/collectionPoint',                   [CollectionController::class, 'resetCollectionPoint'])->name('reset.collectionPoint');
+Route::get('get/collectionPoint/{id}',         [CollectionController::class, 'findCollectionPoint'])->name('get.collectionPoint')->middleware('can:Assign-Collection-Point-To-Area');
+Route::post('set/collectionPoint',             [CollectionController::class, 'resetCollectionPoint'])->name('reset.collectionPoint')->middleware('can:Assign-Collection-Point-To-Area');
 
 //Tasks routes-------------------------------
 Route::get('tasks', [TasksController::class, 'index'])->name('task_listing')->middleware('can:See-Task-List');
@@ -237,9 +239,6 @@ Route::get('task/detail/{id}', [TasksController::class, 'show'])->name('show.tas
 Route::post('store-tasks', [TasksController::class, 'store'])->name('store.task')->middleware('can:Store-Task');
 Route::post('start-tasks', [TasksController::class, 'start'])->name('start.task')->middleware('can:Start-Task');
 Route::post('destroy-tasks', [TasksController::class, 'destroy'])->name('destroy.task')->middleware('can:Delete-Task');
-
-//Collector routes--------------------------
-Route::get('collector-detail/create', [CollectorController::class, 'create'])->name('create_collector');
 
 
 //TestController routes-----------------
@@ -275,19 +274,19 @@ Route::get('area/detail/{id}',              [TasksController::class, 'TaskAreaDe
 //Active or in active collector----------------------
 Route::get('assign/temporary/task/{id}',           [TasksController::class, 'assignTemporaryTask'])->name('assign.temporary.task');
 Route::post('assign/temporary/task',               [TasksController::class, 'StoreTemporaryTask'])->name('store.temporary.task');
-Route::get('activate/collector/{id}',               [TasksController::class, 'Activate'])->name('activate.collector');
+Route::get('activate/collector/{id}',              [TasksController::class, 'Activate'])->name('activate.collector');
 //End Active or in active collector----------------------
 Route::get('generate/task',                       [TasksController::class, 'GenerateMorningTask'])->name('generate.morning.task')->middleware('can:Generate-Task');
-Route::post('generate/morning/task',              [TasksController::class, 'StoreMorningTask'])->name('store.morning.task');
-Route::post('generate/evening/task',              [TasksController::class, 'StoreEveningTask'])->name('store.evening.task');
+Route::post('generate/morning/task',              [TasksController::class, 'StoreMorningTask'])->name('store.morning.task')->middleware('can:Generate-Task');
+Route::post('generate/evening/task',              [TasksController::class, 'StoreEveningTask'])->name('store.evening.task')->middleware('can:Generate-Task');
 
 //milk Process routes-------------------------------
-Route::get('milk-process/request-index',        [milkProcessController::class, 'requestedMilkList'])->name('index.milkRequest');
-Route::get('milk-process/request-create',       [milkProcessController::class, 'milkRequestCreate'])->name('create.milkRequest');
-Route::post('milk-process/request-store',       [milkProcessController::class, 'storeMilkRequest'])->name('store.milkRequest');
-Route::get('approve/request/{id}',              [milkProcessController::class, 'requestApproved'])->name('approve.request');
-Route::post('reject/request',                   [milkProcessController::class, 'requestReject'])->name('reject.request');
-Route::get('milk/request/list',                 [milkProcessController::class, 'milkRequestedList'])->name('request.list');
+Route::get('milk-process/request-index',        [milkProcessController::class, 'requestedMilkList'])->name('index.milkRequest')->middleware('can:See-Specific-Bank-Milk-Request');
+Route::get('milk-process/request-create',       [milkProcessController::class, 'milkRequestCreate'])->name('create.milkRequest')->middleware('can:Generate-Milk-Request');
+Route::post('milk-process/request-store',       [milkProcessController::class, 'storeMilkRequest'])->name('store.milkRequest')->middleware('can:Generate-Milk-Request');
+Route::get('approve/request/{id}',              [milkProcessController::class, 'requestApproved'])->name('approve.request')->middleware('can:Approve-Milk-Request');
+Route::post('reject/request',                   [milkProcessController::class, 'requestReject'])->name('reject.request')->middleware('can:Reject-Milk-Request');
+Route::get('milk/request/list',                 [milkProcessController::class, 'milkRequestedList'])->name('request.list')->middleware('can:See-All-Milk-Request');
 
 
 //for download excell
