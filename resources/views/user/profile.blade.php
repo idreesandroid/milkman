@@ -84,7 +84,7 @@
                                           <div class="profile-info-left">
                                              <h3 class="user-name m-t-0 mb-0">{{$users->name}}</h3>
                                              @foreach ($users->roles as $role)
-                                             <h6 class="text-muted">{{$role->name}}</h6>
+                                             <h6 class="text-muted" id="roleUser">{{$role->name}}</h6>
                                              @endforeach
                                              <div class="staff-id">CNIC : {{$users->user_cnic}}</div>
                                              <div class="small doj text-muted">Date of Join : {{timeFormat($users->created_at)['date']}}</div>
@@ -1177,7 +1177,10 @@ $("#VendorCollectionHistory").DataTable();
 $("#collectorTaskHistory").DataTable();
 var latitude = $("#latitude").val();
 var longitude = $("#longitude").val();
-initializeMap('ProfielMap','ProfileClearShapes','saveProfleMap','ProfileRestoreMap','addProfileMapData','',latitude,longitude);
+var roleUser = $("#roleUser").text();
+if(roleUser != 'Admin'){
+   initializeMap('ProfielMap','ProfileClearShapes','saveProfleMap','ProfileRestoreMap','addProfileMapData','',latitude,longitude);
+}
    $( "#ProfileRestoreMap" ).trigger( "click" );      
 });
 

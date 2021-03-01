@@ -60,7 +60,7 @@ foreach($roles as $index => $role){
 }
 
 ?>
-
+<script src="{{asset('assets/js/morris.js')}}"></script>
 <script type="text/javascript">
 var roles = [<?php echo '"'.implode('","', $roleName).'"' ?>];
 var users = [<?php echo '"'.implode('","', $allUserCount).'"' ?>];

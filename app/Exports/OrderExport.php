@@ -33,11 +33,12 @@ class OrderExport implements FromQuery, WithHeadings, WithMapping, WithColumnFor
                                 'invoices.created_at',
                                 'invoices.total_amount',
                                 'users.name as saler',
-                                'invoices.updated_at',
+                                'carts.delivery_due_date',
                                 'invoices.flag')
                             ->leftJoin('users','users.id','=','invoices.seller_id')
+                            ->leftJoin('carts','carts.invoice_id','=','invoices.id')
                             ->whereBetween('invoices.created_at', array($this->fromDate, $this->toDate))
-                            ->where('invoices.buyer_id','=',$this->buyerID);
+                            ->where('invoices.buyer_id','=',$this->buyerID);        
         return $invoice;
     }
 
@@ -52,7 +53,7 @@ class OrderExport implements FromQuery, WithHeadings, WithMapping, WithColumnFor
              Carbon::createFromFormat('Y-m-d H:i:s',$invoice->created_at),
              $invoice->total_amount,
              $invoice->saler,
-             Carbon::createFromFormat('Y-m-d H:i:s',$invoice->updated_at),
+             Carbon::createFromFormat('Y-m-d',$invoice->delivery_due_date),
              $invoice->flag,
          ];
     }

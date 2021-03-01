@@ -44,7 +44,7 @@
                      <div class="col text-right">
                         <ul class="list-inline-item pl-0">
                            <li class="list-inline-item">
-                              <a  href="/register"class="add btn btn-gradient-primary font-weight-bold text-white todo-list-add-btn btn-rounded">Registor System User</a>
+                              <a  href="/register"class="add btn btn-gradient-primary font-weight-bold text-white todo-list-add-btn btn-rounded">Register System User</a>
                            </li>
                         </ul>
                      </div>
@@ -86,7 +86,7 @@
                      <div class="col text-right">
                         <ul class="list-inline-item pl-0">
                            <li class="list-inline-item">
-                              <a  href="/vendor-detail/create"class="add btn btn-gradient-primary font-weight-bold text-white todo-list-add-btn btn-rounded">Registor Vendor</a>
+                              <a  href="/vendor-detail/create"class="add btn btn-gradient-primary font-weight-bold text-white todo-list-add-btn btn-rounded">Register Vendor</a>
                            </li>
                         </ul>
                      </div>
@@ -128,7 +128,7 @@
                      <div class="col text-right">
                         <ul class="list-inline-item pl-0">
                            <li class="list-inline-item">
-                              <a  href="{{url('distributor-detail/create')}}"class="add btn btn-gradient-primary font-weight-bold text-white todo-list-add-btn btn-rounded">Registor Distributor</a>
+                              <a  href="{{url('distributor-detail/create')}}"class="add btn btn-gradient-primary font-weight-bold text-white todo-list-add-btn btn-rounded">Register Distributor</a>
                            </li>
                         </ul>
                      </div>                  
@@ -170,7 +170,7 @@
                      <div class="col text-right">
                         <ul class="list-inline-item pl-0">
                            <li class="list-inline-item">
-                              <a  href="/collector-detail/create"class="add btn btn-gradient-primary font-weight-bold text-white todo-list-add-btn btn-rounded">Registor Collector</a>
+                              <a  href="/collector-detail/create"class="add btn btn-gradient-primary font-weight-bold text-white todo-list-add-btn btn-rounded">Register Collector</a>
                            </li>
                         </ul>
                      </div>                  
@@ -211,7 +211,6 @@
       </div>
    </div>
 </div>
- <?php //exit(); ?>
 <!-- /Page Wrapper -->
 <script>
    $(document).ready( function () {

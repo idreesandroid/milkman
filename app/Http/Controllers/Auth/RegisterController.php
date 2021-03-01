@@ -139,7 +139,8 @@ class RegisterController extends Controller
 
     $user_roles= Role::select('name','id')->get();
 
-    if($users->roles[0]['name'] == 'Vendor'){
+
+    if($users->roles[0]['name'] == 'Vendor'){    
 
       $vendors = User::select('users.id','users.name','vendor_details.longitude','vendor_details.latitude')
                       ->join('role_user', 'role_user.user_id', '=', 'users.id')
@@ -198,7 +199,13 @@ class RegisterController extends Controller
       return view('user/profile', compact('users','user_roles','collectorAssets','TaskArea','assets')); 
     }
 
-    return view('user/profile', compact('users','user_roles','collectorAssets')); 
+    $UserTransaction = UserTransaction::select('user_transactions.*','users.name')
+                                          ->leftJoin('users','users.id','=','user_transactions.verifiedBy')
+                                          ->where('user_id',$id)
+                                          ->get();
+    
+    return view('user/profile', compact('users','UserTransaction')); 
+   // return view('user/profile', compact('users','user_roles','collectorAssets')); 
   }
 
   public function update(Request $request, $id)
