@@ -2,6 +2,7 @@
 
 use App\Models\UserAccount;
 use App\Models\milkmanAsset;
+use App\Models\milkProcess;
 
 function generateAccNumber() {
     $number = mt_rand(1000000, 9999999); // better than rand()
@@ -19,6 +20,26 @@ function accNumberExists($number) {
     // query the database and return a boolean
     // for instance, it might look like this in Laravel
     return UserAccount::where('userAccount', '=' , $number)->exists();
+}
+
+// ---------------------------------------------------------------------------
+
+function milkRequestCode() {
+    $number = mt_rand(1000000, 9999999); // better than rand()
+
+    // call the same function if the barcode exists already
+    if (codeExist($number)) {
+        return milkRequestCode();
+    }
+
+    // otherwise, it's valid and can be used
+    return $number;
+}
+
+function codeExist($number) {
+    // query the database and return a boolean
+    // for instance, it might look like this in Laravel
+    return milkProcess::where('alotment_code', '=' , $number)->exists();
 }
 
 function timeFormat($date)

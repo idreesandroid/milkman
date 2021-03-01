@@ -121,7 +121,6 @@ function assignMorningTask()
 
     function eveningCollector($id,$type)
     {   
-       
       $tasks = DB::table('task_areas')
       ->select('collector_id')
       ->where('area_id', $id)
@@ -131,13 +130,11 @@ function assignMorningTask()
       // echo "<pre>";
       // print_r($tasks->collector_id);
       // exit;
-
       $collector = DB::table('collector_details')
       ->select('user_id','collectorCapacity','name')
       ->where('user_id', $tasks->collector_id)
       ->join('users','user_id','=','users.id')
       ->first();
-
       $result =''; 
 
       if($type == 'name')

@@ -128,7 +128,7 @@ var pointId ='';
                                     if(response.length > 0){
                                     len = response.length;
                                     for(var i=0; i<len; i++){
-                                                          var manager_id = response[i].id;
+                                                          var manager_id = response[i].user_id;
                                                           var manager_name = response[i].name;  
                                                           var user_phone = response[i].user_phone;  
                                                          
@@ -138,11 +138,6 @@ var pointId ='';
                                                          "<td >" + user_phone  + "</td>" +                                                                         
                                                          "</tr>";
                                                          $("#find_manager tbody").append(tr_str);
-                                                         if(point_name != null)
-                                                         {
-                                                            $("#manager_id"+manager_id).attr("checked", true);
-                                                         }
-
                                                             }
                                                           }
                                                           else

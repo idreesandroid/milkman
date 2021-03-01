@@ -26,6 +26,7 @@ use App\Models\TaskArea;
 use App\Models\milkmanAsset;
 use App\Models\SubTask;
 use App\Models\Product;
+use App\Models\milkbankManager;
 use App\Exports\OrderExport;
 use App\Exports\TaskExport;
 use App\Exports\PaymentExport;
@@ -111,6 +112,14 @@ class RegisterController extends Controller
       $collectionManager->user_id = $user->id;
       $collectionManager->managerStatus = 'inActive';
       $collectionManager->save();
+    }
+
+    if($role == 4)
+    {
+      $milkBankManager = new milkbankManager();
+      $milkBankManager->user_id = $user->id;
+      $milkBankManager->manager_status = 'inActive';
+      $milkBankManager->save();
     }
 
 
@@ -295,6 +304,10 @@ class RegisterController extends Controller
     elseif(in_array(4, $roleArray))
     {
       return redirect()->route('milkBank-manager.DashBoard');
+    }
+    elseif(in_array(7, $roleArray))
+    {
+      return redirect()->route('milkProcess-manager.DashBoard');
     }
     else
     {

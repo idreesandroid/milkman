@@ -22,6 +22,7 @@ use App\Http\Controllers\CollectorController;
 use App\Http\Controllers\milkCollectionController;
 use App\Http\Controllers\MilkBankController;
 use App\Http\Controllers\CollectionManagerController;
+use App\Http\Controllers\milkProcessController;
 
 use App\Http\Controllers\TestController;
 
@@ -70,6 +71,7 @@ Route::get('Dashboard/collector',         [CollectorController::class, 'collecto
 Route::get('Dashboard/vendor',            [VendorDetailController::class, 'vendorDashboard'])->name('vendor.DashBoard')->middleware('can:Login');
 Route::get('Dashboard/collection-manager',[CollectionManagerController::class, 'collectionManagerDashboard'])->name('collection-manager.DashBoard')->middleware('can:Login');
 Route::get('Dashboard/milkBank-manager',  [MilkBankController::class, 'milkBankManagerDashboard'])->name('milkBank-manager.DashBoard')->middleware('can:Login');
+Route::get('Dashboard/milkProcess-manager',  [milkProcessController::class, 'milkProcessManagerDashboard'])->name('milkProcess-manager.DashBoard')->middleware('can:Login');
 
 //Role routes--------------------------------
 
@@ -278,6 +280,15 @@ Route::get('activate/collector/{id}',               [TasksController::class, 'Ac
 Route::get('generate/task',                       [TasksController::class, 'GenerateMorningTask'])->name('generate.morning.task')->middleware('can:Generate-Task');
 Route::post('generate/morning/task',              [TasksController::class, 'StoreMorningTask'])->name('store.morning.task');
 Route::post('generate/evening/task',              [TasksController::class, 'StoreEveningTask'])->name('store.evening.task');
+
+//milk Process routes-------------------------------
+Route::get('milk-process/request-index',        [milkProcessController::class, 'requestedMilkList'])->name('index.milkRequest');
+Route::get('milk-process/request-create',       [milkProcessController::class, 'milkRequestCreate'])->name('create.milkRequest');
+Route::post('milk-process/request-store',       [milkProcessController::class, 'storeMilkRequest'])->name('store.milkRequest');
+Route::get('approve/request/{id}',              [milkProcessController::class, 'requestApproved'])->name('approve.request');
+Route::post('reject/request',                   [milkProcessController::class, 'requestReject'])->name('reject.request');
+Route::get('milk/request/list',                 [milkProcessController::class, 'milkRequestedList'])->name('request.list');
+
 
 //for download excell
 
