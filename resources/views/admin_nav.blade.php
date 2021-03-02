@@ -81,6 +81,24 @@
             </li> 
             @endcan 
 
+            @can('See-All-Milk-Request')
+            <li>
+               <a href="/milk/request-list" class="{{ (request()->segment(1) == 'milk' && request()->segment(2) == 'request-list') ? 'active' : '' }}">
+               <i class="fa fa-check-square-o" aria-hidden="true"></i>
+               <span>Milk Request List</span>
+               </a>
+            </li> 
+            @endcan 
+
+            @can('Generate-Milk-Request')
+            <li>
+               <a href="/milk-process/request-create" class="{{ (request()->segment(1) == 'milk-process' && request()->segment(2) == 'request-create') ? 'active' : '' }}">
+               <i class="fa fa-check-square-o" aria-hidden="true"></i>
+               <span>Request Milk</span>
+               </a>
+            </li> 
+            @endcan 
+
             @can('Generate-Task')
             <li>
                <a href="/generate/task" class="{{ (request()->segment(1) == 'generate' && request()->segment(2) == 'task') ? 'active' : '' }}">

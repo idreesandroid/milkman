@@ -286,7 +286,7 @@ Route::get('milk-process/request-create',       [milkProcessController::class, '
 Route::post('milk-process/request-store',       [milkProcessController::class, 'storeMilkRequest'])->name('store.milkRequest')->middleware('can:Generate-Milk-Request');
 Route::get('approve/request/{id}',              [milkProcessController::class, 'requestApproved'])->name('approve.request')->middleware('can:Approve-Milk-Request');
 Route::post('reject/request',                   [milkProcessController::class, 'requestReject'])->name('reject.request')->middleware('can:Reject-Milk-Request');
-Route::get('milk/request/list',                 [milkProcessController::class, 'milkRequestedList'])->name('request.list')->middleware('can:See-All-Milk-Request');
+Route::get('milk/request-list',                 [milkProcessController::class, 'milkRequestedList'])->name('request.list')->middleware('can:See-All-Milk-Request');
 
 //for download excell
 

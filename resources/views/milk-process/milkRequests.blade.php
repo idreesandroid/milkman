@@ -47,6 +47,9 @@
                         <td>{{$milkRequest->milkRequestStatus}}</td>
                         <td>{{$milkRequest->processManager}}</td>
                         <td>{{$milkRequest->bankMangerName}}</td>
+                        @can('Approve-Milk-Request')  <a href="{{ route('approve.request', $milkRequest->id)}}" class="btn btn-outline-success">Grant</a>@endcan
+                        @can('Reject-Milk-Request')  <button type="button" id="request_{{$milkRequest->id}}" onclick="getRid({{$milkRequest->id}})" class="btn btn-outline-danger" data-toggle="modal" data-target="#requestOperation"> Reject </button>  @endcan           
+                           @endif
                      </tr>
                      @endforeach
                   </tbody>
@@ -60,7 +63,58 @@
 
 <!-- /Page Wrapper -->
 
+
+
+<!-- model -->
+<div id="requestOperation" class="modal fade" role="dialog">
+               <div class="modal-dialog" id="find-asset">
+                  <!-- Modal content-->
+                  <div class="modal-content">
+                     <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                     </div>
+                     <div class="modal-body">
+                           <form method="post" action="{{ route('reject.request') }}">
+                              @csrf 
+                            <input type="hidden" id="pId" name="pId" value="">
+                            <div class="form-group row">
+                                 <label for="rejectionReason" class="col-form-label col-md-6">Reason Of Rejection</label>
+                                 <div class="col-md-12">
+                                    <input type="text" class="form-control" name="rejectionReason" required="" autocomplete="off"></input>
+                                 </div>
+                              </div>
+
+                              <button type="submit" class="btn btn-outline-danger" >Reject</button>
+                           </form>
+                     </div>
+                     <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                     </div>
+                  </div>
+               </div>
+            </div>
+<!-- model -->
+
+
+
+<!-- /Page Wrapper -->
+
+
+
+
 @endsection
+<script type="text/javascript">
+
+var pointId ='';
+   function getRid(id)
+      {
+     // alert("helo");
+      pointId =id;
+      $("#pId").val(id);
+      } 
+</script>
+
+
 
 
 
