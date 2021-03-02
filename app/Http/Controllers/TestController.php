@@ -30,69 +30,29 @@ class TestController extends Controller
      */
     public function index()
     {
-         echo $Did = Auth::id();
+         
+        $start=array(255,255,255); //White
+        $end=array(0,0,0); //Black
+        $steps=3;
 
+        $colors=array($start); //You want the start color to be part of the result array
+        $intervals=$steps-1; //You want 3 steps to mean 2 intervals
 
-         $products = Product::select('id','product_name')->get();
-         $totalOrders = [];
-         $productids = [];
-         $productNames = [];
-         foreach($products as $item){
+        $current=$start;
+        $delta=array(
+           ($end[0]-$start[0])/$intervals,
+           ($end[1]-$start[1])/$intervals,
+           ($end[2]-$start[2])/$intervals
+        );
 
-             array_push($productids, $item->id);
-             array_push($productNames, $item->product_name);
+        for ($i=1;$i<$intervals;$i++) {
+          $current=array($current[0]+$delta[0],$current[1]+$delta[1],$current[2]+$delta[2]);
+          $colors[]=array(round($current[0],$current[1],$current[2]));
+        }
 
-             $orders = Cart::where('product_id',$item->id)
-                             ->where('created_at','>=',date('Y-m-d'))
-                             ->sum('product_quantity');
-             array_push($totalOrders, $orders);
-         }
+        $colors[]=$end; //You want the end color to be part of the result array
 
-        $first_day_this_month  = date('Y-m-01');
-        $current_day_this_month = date('Y-m-d');
-
-        $periods = createDateRangeArray($first_day_this_month,$current_day_this_month);
-
-        $productsDetail = '[';        
-
-        foreach($periods as $period){
-            $pro = '';
-            $pro .= '{date:'."'".$period."'".',';
-            
-            foreach($productids as $key => $productid){
-
-                $total = '';
-
-                $products = Invoice::select('carts.product_id','carts.created_at','products.product_name','invoices.buyer_id')
-                                    ->join('carts','invoices.id','=','carts.invoice_id')
-                                    ->leftJoin('products','products.id','=','carts.product_id')
-                                    ->where('carts.product_id', $productid)
-                                    ->where('carts.created_at', 'like', '%' . $period . '%')
-                                    ->where('invoices.buyer_id', '=', $Did)
-                                    ->get();
-
-                $total = Cart::where('product_id', $productid)
-                                ->where('created_at', 'like', '%' . $period . '%')
-                                ->sum('product_quantity');
-
-                if(empty($products->count())){
-                    $pro .= "'".$productNames[$key]."' : ". $total.",";
-                }else{
-                    $pro .= "'".$productNames[$key]."' : ". $total.",";
-                }
-            }
-            $newpro='';
-            $newpro .= rtrim($pro, ","); 
-            $newpro .= '},';
-            $productsDetail .= $newpro;
-                      
-        }        
-
-        $productsDetail .= ']'; 
-
-        $productsDetail = str_replace("},]","}]",$productsDetail);
-
-        print_r($productsDetail);
+        print_r($colors);
             
 }
 
