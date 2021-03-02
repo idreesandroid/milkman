@@ -37,6 +37,20 @@ class milkProcessController extends Controller
         return view('milk-process.milkProcessRequest',compact('products','milkBanks'));
     }
 
+
+    public function checkQuantity($id)
+{  
+   $milk = DB::table('milk_banks')
+   ->where('id',$id)
+   ->first();
+   $totalMilk = $milk->milkAvailable;
+    //  echo "<pre>";
+    //  print_r($milkAvailable);
+    //  exit;
+    return $totalMilk;
+}
+
+
     public function storeMilkRequest(Request $request)
     {
         $this->validate($request,[      
@@ -121,7 +135,17 @@ class milkProcessController extends Controller
     {  
         $mid = Auth::id();
         DB::update("UPDATE milk_processes SET milkRequestStatus = 'Granted' , milkBankManager_id = $mid  WHERE id = $id");
-        return redirect()->route('user.dashBoard');
+        
+        // $CPM = milkbankManager::where('user_id',$Mid)->where('manager_status','Active')->where('milkbank_id','<>',  null)->first();
+        // $BID = $CPM->milkbank_id;
+        $PIDS = milkProcess::where('id',$id)->first();
+        $grantedQuantity = $PIDS->milkQuantity;
+        //  echo "<pre>";
+        //  print_r($grantedQuantity);
+        //  exit;
+        DB::update("UPDATE milk_banks SET `milkAvailable`= milkAvailable-$grantedQuantity WHERE `id` = 1 ");
+
+        return redirect('/DashBoard');
     }
 
     public function requestReject(Request $request)
@@ -141,9 +165,6 @@ class milkProcessController extends Controller
         DB::update("UPDATE milk_processes SET milkRequestStatus = 'Rejected' , rejectionReason = '$request->rejectionReason' , milkBankManager_id = $mid  WHERE id = $request->pId");
         return redirect()->route('user.dashBoard');
     }
-
-
-
 
 
     public function milkRequestedList()

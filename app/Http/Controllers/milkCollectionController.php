@@ -75,7 +75,6 @@ class milkCollectionController extends Controller
         return redirect()->route('index.collectionPoint');
     }
 
-
 //collectionsAtCollection point-----------------------------------------------------------
 
 
@@ -92,10 +91,8 @@ class milkCollectionController extends Controller
     return view('collectionPoint/milkSubmission', compact('collectors'));
 }
 
-
 public function collectorCollections($id)
 {  
-
    $today=date('Y-m-d'); 
    $collections = DB::table('sub_tasks')
    ->select('sub_tasks.id','task_id','milkCollected','fat','lactose','Ash','totalProteins','totalSolid','status','vendor_id','taskShift','collectedTime','name')
@@ -112,7 +109,6 @@ public function collectorCollections($id)
 
 public function collectionSubmission(Request $request)
 {
-
     //  echo "<pre>";
     //  print_r($request->all());
     //  exit;
@@ -151,8 +147,7 @@ public function collectionSubmission(Request $request)
     $imageName = time().'.'.$request->D_Shot->extension();    
     $request->D_Shot->move(public_path('milkQuality_img'), $imageName);
     $submission->averageQuality_SS = $imageName;
-    $submission->save();
-    
+    $submission->save();  
     $point=checkpoint();
 
     DB::update("UPDATE milk_collection_points SET `totalMilk` = totalMilk+$request->totalMilk WHERE `id` = $point");

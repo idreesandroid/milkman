@@ -176,7 +176,6 @@ public function assignCollectionManager(Request $request)
      ->select('collections.id','title','AFM','AFE')
      ->where('collectionPoint_id', checkpoint())  //function in helper function
      ->get();
-     
     //  echo "<pre>";
     //  print_r($collectionAreas);
     //  exit;   
