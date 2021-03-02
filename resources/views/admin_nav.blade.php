@@ -35,14 +35,14 @@
             </li> 
             @endcan 
 
-            @can('See-Task-List')
+            <!-- @can('See-Task-List')
             <li>
                <a href="/task/area" class="{{ (request()->segment(1) == 'task' && request()->segment(2) == 'area') ? 'active' : '' }}">
                <i class="fa fa-map-marker" aria-hidden="true"></i>
                <span>Assigned Areas</span>
                </a>
             </li>  
-            @endcan
+            @endcan -->
             
             @can('See-Collection-Point')
             <li>

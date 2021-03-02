@@ -22,7 +22,7 @@
    <div class="col-sm-12">
       <div class="card mb-0">
          <div class="card-body">
-            @can('Create-Product')
+            @can('Create-Collection-Point')
             <div class="form-group mb-0 row">
                <div class="col-md-4">
                   <div class="input-group-append">
@@ -39,8 +39,12 @@
  
                         <th>Name</th>
                         <th>Address</th>
+                        @can(' Assign-Collection-Point')
                         <th>Collection Manager</th>
+                        @endcan
+                        @can('Assign-Asset-To-Collection-Point')
                         <th>Assets</th>
+                        @endcan
                         <th>Action</th>
                      </tr>
                   </thead>
@@ -49,8 +53,8 @@
                      <tr>
                         <td>{{$collectionPoint->pointName}}</td>
                         <td>{{$collectionPoint->pointAddress}}</td>
-                        <td>@if(!isset($collectionPoint->collectionPointId))<button type="button" id="point_{{$collectionPoint->id}}" onclick="getCId({{$collectionPoint->id}})" class="btn btn-primary" data-toggle="modal" data-target="#findManager">Assign    </button>@endif</td>
-                        <td><button type="button" id="asset_{{$collectionPoint->id}}" onclick="getAssetId({{$collectionPoint->id}})" class="btn btn-primary" data-toggle="modal" data-target="#findAsset">Allot Asset</button></td>
+                        @can('Assign-Collection-Point') <td>@if(!isset($collectionPoint->collectionPointId))<button type="button" id="point_{{$collectionPoint->id}}" onclick="getCId({{$collectionPoint->id}})" class="btn btn-primary" data-toggle="modal" data-target="#findManager">Assign    </button>@endif</td>@endcan
+                        @can('Assign-Asset-To-Collection-Point') <td><button type="button" id="asset_{{$collectionPoint->id}}" onclick="getAssetId({{$collectionPoint->id}})" class="btn btn-primary" data-toggle="modal" data-target="#findAsset">Allot Asset</button></td>@endcan
                         <td>
                            <a href="{{ route('edit.collectionPoint', $collectionPoint->id)}}" class="btn btn-primary">Edit</a>
                            <form action="{{ route('delete.collectionPoint', $collectionPoint->id)}}" method="post" style="display: inline-block">
