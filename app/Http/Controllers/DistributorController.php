@@ -149,22 +149,18 @@ class DistributorController extends Controller
     {
         $Did = Auth::id();
 
-       $Did = Auth::id();
+        $products = Product::select('id','product_name')->get();
+        $totalOrders = [];
+        $productids = [];
+        $productNames = [];
+        foreach($products as $item){
+            array_push($productids, $item->id);
+            array_push($productNames, $item->product_name);
 
-
-         $products = Product::select('id','product_name')->get();
-         $totalOrders = [];
-         $productids = [];
-         $productNames = [];
-         foreach($products as $item){
-
-             array_push($productids, $item->id);
-             array_push($productNames, $item->product_name);
-
-             $orders = Cart::where('product_id',$item->id)
+            $orders = Cart::where('product_id',$item->id)
                              ->where('created_at','>=',date('Y-m-d'))
                              ->sum('product_quantity');
-             array_push($totalOrders, $orders);
+            array_push($totalOrders, $orders);
          }
 
         $first_day_this_month  = date('Y-m-01');
@@ -172,11 +168,15 @@ class DistributorController extends Controller
 
         $periods = createDateRangeArray($first_day_this_month,$current_day_this_month);
 
-        $productsDetail = '[';        
+        $productsDetail = '[';     
+        $transactionDetail = '[';     
 
         foreach($periods as $period){
             $pro = '';
             $pro .= '{date:'."'".$period."'".',';
+
+            $singleTran = '';
+            $singleTran .= '{date:'."'".$period."'".',';
             
             foreach($productids as $key => $productid){
 
@@ -204,6 +204,25 @@ class DistributorController extends Controller
             $newpro .= rtrim($pro, ","); 
             $newpro .= '},';
             $productsDetail .= $newpro;
+
+        $dailyTotalAmount = Invoice::where('created_at','like','%'.$period.'%')
+                                ->where('buyer_id', '=', $Did)
+                                ->sum('total_amount');
+        $verifiedTransaction = UserTransaction::where('user_id' , $Did)
+                                        ->where('created_at','like','%'.$period.'%')
+                                        ->where('status' , 'verified')
+                                        ->sum('amountPaid');
+        $NotVerifiedTransaction = UserTransaction::where('user_id' , $Did)
+                                        ->where('created_at','like','%'.$period.'%')
+                                        ->where('status' , 'Not verified')
+                                        ->sum('amountPaid');
+        $RemaingAmount = $dailyTotalAmount - $verifiedTransaction;
+        $singleTran .= "'".'Total Libility'."' :".$dailyTotalAmount.",'".'Total Paid'."' : ".$verifiedTransaction.",'".'Pending Amount'."' :".$NotVerifiedTransaction.",'".'Remaing Amount'."' :".abs($RemaingAmount);
+
+            $newTrans='';
+            $newTrans .= rtrim($singleTran, ","); 
+            $newTrans .= '},';
+            $transactionDetail .= $newTrans;
                       
         }        
 
@@ -211,10 +230,14 @@ class DistributorController extends Controller
 
         $productsDetail = str_replace("},]","}]",$productsDetail);
 
+        $transactionDetail .= ']'; 
+
+        $transactionDetail = str_replace("},]","}]",$transactionDetail);
+
         $distributorBalance = UserAccount::where('user_id' , $Did)->select('balance')->first();
         $transaction = UserTransaction::where('user_id' , $Did)->count();
     
-        return view('dashBoards.distributor', compact('distributorBalance','transaction','productsDetail','productNames'));
+        return view('dashBoards.distributor', compact('distributorBalance','transaction','productsDetail','productNames','transactionDetail'));
 
     }
 
