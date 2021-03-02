@@ -39,8 +39,8 @@
                <div class="form-group row">
                   <label for="milkBank_id" class="col-form-label col-md-2">Milk Bank Name</label>
                   <div class="col-md-6">
-                     <select class="form-control" name="milkBank_id" required="" autocomplete="off">
-                        <!-- <option value="">--Milk Bank Name--</option> -->
+                     <select class="form-control" name="milkBank_id" id="milkBank_id" required="" autocomplete="off">
+                        <option value="">--Milk Bank Name--</option>
                         @foreach ($milkBanks as $milkBank)
                         <option value="{{ $milkBank->id}}" >{{$milkBank->bankName}}</option>
                         @endforeach                            
@@ -86,4 +86,35 @@
    </div>
 </div>
 <!-- /page Wrapper -->
+
+
+<script type="text/javascript">	
+    $(document).ready(function() {	
+     // alert("hello");
+
+        $("#milkBank_id").on('change', function() {			
+            var pID = $("#milkBank_id").val();
+			 //alert(pID);
+            if(pID != null) {
+         $.ajax({				
+                    url: '/milk-process/check-quantity/'+pID,
+                    type: "GET",
+                    dataType: "json",
+                    success:function(response) { 
+                       // console.log('response');  
+
+                        $("#milkQuantity").empty();
+                        $("#milkQuantity").val(response);
+                        $("#milkQuantity").attr("max", response);
+                    }
+                });
+ 
+            }else{
+                $("#milkQuantity").empty();
+            }
+        });
+    });
+</script>
+
+
 @endsection
