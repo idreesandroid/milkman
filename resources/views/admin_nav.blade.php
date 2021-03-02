@@ -54,7 +54,7 @@
             @endcan
 
          <!-- change permission -->
-            @can('See-Collection-Point')
+            @can('See-Milk-Bank')
             <li>
                <a href="/milkBank/index" class="{{ (request()->segment(1) == 'milkBank' && request()->segment(2) == 'index') ? 'active' : '' }}">
                <i class="fa fa-check-square-o" aria-hidden="true"></i>
@@ -63,6 +63,23 @@
             </li>  
             @endcan
 
+            @can('Collect-Milk-From-Collection-Point')
+            <li>
+               <a href="/milk-point/submission" class="{{ (request()->segment(1) == 'milk-point' && request()->segment(2) == 'submission') ? 'active' : '' }}">
+               <i class="fa fa-check-square-o" aria-hidden="true"></i>
+               <span>Milk Bank Collection</span>
+               </a>
+            </li> 
+            @endcan 
+
+            @can('See-Specific-Bank-Milk-Request')
+            <li>
+               <a href="/milk-process/request-index" class="{{ (request()->segment(1) == 'milk-process' && request()->segment(2) == 'request-index') ? 'active' : '' }}">
+               <i class="fa fa-check-square-o" aria-hidden="true"></i>
+               <span>My Milk Request</span>
+               </a>
+            </li> 
+            @endcan 
 
             @can('Generate-Task')
             <li>
