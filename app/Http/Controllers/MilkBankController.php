@@ -92,7 +92,7 @@ public function getCollectionManager()
     $collectionManagers = DB::table('milkbank_managers')
     ->select('milkbank_managers.id','user_id','name','manager_status','user_phone')
     ->where('manager_status','inActive')
-    ->join('users','user_id','=','users.id')
+    ->leftJoin('users','user_id','=','users.id')
     ->get();
 //  echo "<pre>";
 //  print_r($collectionManagers);

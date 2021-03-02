@@ -39,7 +39,9 @@
  
                         <th>Milk Bank Name</th>
                         <th>Milk Bank Address</th>
+                        @can('Assign-Milk-Bank-Manager')   
                         <th>Milk Bank Head</th>
+                        @endcan 
                         <th>Action</th>
                      </tr>
                   </thead>
@@ -48,8 +50,9 @@
                      <tr>
                         <td>{{$milkBank->bankName}}</td>
                         <td>{{$milkBank->bankAddress}}</td>
+                        @can('Assign-Milk-Bank-Manager')
                         <td><button type="button" id="point_{{$milkBank->id}}" onclick="getCId({{$milkBank->id}})" class="btn btn-primary" data-toggle="modal" data-target="#findManager">Assign</button></td>
-                       
+                        @endcan 
                           <td>  <a href="{{ route('edit.milkBank', $milkBank->id)}}" class="btn btn-primary">Edit</a>
                            <form action="{{ route('delete.milkBank', $milkBank->id)}}" method="post" style="display: inline-block">
                               @csrf

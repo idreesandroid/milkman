@@ -48,8 +48,8 @@
                         <td>{{$milkRequest->processManager}}</td>
                         <td>{{$milkRequest->bankMangerName}}</td>
                         <td>@if($milkRequest->milkRequestStatus == 'Requested')
-                        <a href="{{ route('approve.request', $milkRequest->id)}}" class="btn btn-outline-success">Grant</a>
-                        <button type="button" id="request_{{$milkRequest->id}}" onclick="getRid({{$milkRequest->id}})" class="btn btn-outline-danger" data-toggle="modal" data-target="#requestOperation"> Reject </button>             
+                        @can('Approve-Milk-Request')  <a href="{{ route('approve.request', $milkRequest->id)}}" class="btn btn-outline-success">Grant</a>@endcan
+                        @can('Reject-Milk-Request')  <button type="button" id="request_{{$milkRequest->id}}" onclick="getRid({{$milkRequest->id}})" class="btn btn-outline-danger" data-toggle="modal" data-target="#requestOperation"> Reject </button>  @endcan           
                            @endif
                         </td>
                      </tr>
