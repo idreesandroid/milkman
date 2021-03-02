@@ -270,7 +270,7 @@ Route::post('reselect/Collector',               [TasksController::class, 'Resele
 Route::get('task/start/{id}',                 [TasksController::class, 'startTask'])->name('task.start')->middleware('can:Start-Task');
 Route::post('task/complete',                  [TasksController::class, 'completeTask'])->name('task.complete')->middleware('can:Complete-Task');
 Route::get('task/area',                       [TasksController::class, 'TaskArea'])->name('task.area')->middleware('can:See-Task-As-Area');
-Route::get('area/detail/{id}',              [TasksController::class, 'TaskAreaDetails'])->name('area.detail')->middleware('can:See-Collection-Against-Area');
+Route::get('area/detail/{id}',                      [TasksController::class, 'TaskAreaDetails'])->name('area.detail')->middleware('can:See-Collection-Against-Area');
 //Active or in active collector----------------------
 Route::get('assign/temporary/task/{id}',           [TasksController::class, 'assignTemporaryTask'])->name('assign.temporary.task');
 Route::post('assign/temporary/task',               [TasksController::class, 'StoreTemporaryTask'])->name('store.temporary.task');
