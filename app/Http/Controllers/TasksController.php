@@ -305,6 +305,7 @@ public function AssignArea($shift , $id)
         $select_collector->status = 'Collected';
         }
         $select_collector->save();
+
         if($select_collector->status == 'Collected')
         {
         $findVendors = SubTask::where('id',$id)->where('status','Collected')->select('vendor_id')->first();
@@ -321,11 +322,11 @@ public function AssignArea($shift , $id)
         // print_r($newBalance);
         // exit;
         $addBalance = DB::update("UPDATE user_accounts SET `balance` = $newBalance  WHERE user_id = '$vendorIs'");
-        return redirect()->back()->with('alert', "You Can Collect Milk");
+        return redirect()->back()->with('alert', 1);
         }
         else
         {
-            return redirect()->back()->with('alert', "Don't Collect Milk");
+            return redirect()->back()->with('alert', 0);
         }
         
     } 

@@ -206,7 +206,7 @@
 </div>
 </div>
 
-
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <script>
 $(document).ready(function() {  
   $('.count').each(function () {
@@ -222,11 +222,28 @@ $(document).ready(function() {
   });
 });
 
-    var msg = '{{Session::get('alert')}}';
+
+
+    var msg = '{{Session::get('alert')}}';  
     var exist = '{{Session::has('alert')}}';
-    if(exist){
-      alert(msg);
-    }
+    if(exist)
+            {
+      if(msg == 1){     
+      Swal.fire(
+               'Milk Quality is Fine',
+               'You Can Collect Milk!',
+               'success'
+               );
+                  }
+    else if (msg == 0){
+      Swal.fire(
+               'Milk Quality is Low',
+               'Do Not Collect Milk!',
+               'error'
+               );
+                  }
+            }
+
 
 function setId(id)
 {

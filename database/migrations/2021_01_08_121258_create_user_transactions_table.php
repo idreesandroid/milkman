@@ -17,37 +17,26 @@ class CreateUserTransactionsTable extends Migration
             $table->increments('id')->unsigned();
 
             $table->integer('userAcc_id')->unsigned();
-            $table->foreign('userAcc_id')->references('id')->on('user_accounts')->onUpdate('cascade')->onDelete('cascade');
-
+            $table->foreign('userAcc_id')->references('id')->on('user_accounts');
             $table->integer('user_id')->unsigned();
-            $table->foreign('user_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
-            
-            
-            
+            $table->foreign('user_id')->references('id')->on('users');
             $table->enum('paymentMethod',['atmTransfer','cardForCheckout','cashAtOffice','directDeposit','internetBanking','easyPaisaTransfer','jazzCashTransfer','uPaisa']);
            
-            $table->string('bank_name')->nullable()->default("null");
+            $table->string('bank_name')->nullable()->default("Nill");
             $table->string('branchName')->nullable()->default("Nill");
             $table->string('depositorName')->nullable()->default("Nill");
             $table->string('acc_No')->nullable()->default("Nill");
             $table->string('cardLastDigits')->nullable()->default("Nill");
-            
-
             $table->string('transactionId')->nullable()->default("Nill");
             $table->string('senderCell')->nullable()->default("Nill");
-            
             $table->dateTimeTz('timeOfDeposit');
             $table->string('amountPaid');
             $table->string('receiptPics');
             $table->integer('verifiedBy')->default(0);
-
             $table->string('depositorCNIC')->nullable()->default("Nill");
             $table->string('receiverName')->nullable()->default("Nill");
             $table->string('receiverCNIC')->nullable()->default("Nill");
-            
-
             $table->enum('status',['verified','Not verified','verification failed'])->default("Not verified");
-
             $table->timestamps();
             $table->softDeletes();
         });

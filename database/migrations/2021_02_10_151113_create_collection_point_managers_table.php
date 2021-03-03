@@ -17,11 +17,9 @@ class CreateCollectionPointManagersTable extends Migration
             $table->increments('id')->unsigned();
 
             $table->integer('user_id')->unsigned()->nullable();
-            $table->foreign('user_id')->references('id')->on('users');
-       
+            $table->foreign('user_id')->references('id')->on('users');       
             $table->integer('collectionPointId')->unsigned()->nullable();
             $table->foreign('collectionPointId')->references('id')->on('milk_collection_points');
-
             $table->enum('managerStatus',['Active','inActive']);
             $table->timestamps();
         });

@@ -69,6 +69,10 @@ function generateAssetCode() {
 function assetNumberExists($number) {
     // query the database and return a boolean
     // for instance, it might look like this in Laravel
+
+    //  echo "<pre>";
+    //  print_r($number);
+    //  exit;
     return milkmanAsset::where('assetCode', '=' , $number)->exists();
 }
 
@@ -110,4 +114,11 @@ function createDateRangeArray($strDateFrom,$strDateTo)
         }
     }
     return $aryRange;
+}
+
+function allotmentNoExist($number)
+{
+    // query the database and return a boolean
+    // for instance, it might look like this in Laravel
+    return milkProcess::where('alotment_code', '=' , $number)->exists();
 }

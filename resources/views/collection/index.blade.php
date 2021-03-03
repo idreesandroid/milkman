@@ -380,11 +380,6 @@ foreach ($vendors as $key => $value) {
    }
 </script>
 
-
-
-
-
-
 <!-- Asim work on Assign Collector as----------------------------------------------------------------->
 <script type="text/javascript">
    function findCollectors(id , value)

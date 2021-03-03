@@ -17,24 +17,23 @@ class CreateSubTasksTable extends Migration
             $table->increments('id')->unsigned();
 
             $table->integer('vendor_id')->unsigned();
-            $table->foreign('vendor_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('vendor_id')->references('id')->on('users');
 
             $table->integer('task_id')->unsigned();
-            $table->foreign('task_id')->references('id')->on('task_areas')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('task_id')->references('id')->on('task_areas');
+            $table->integer('milkCollected')->unsigned()->nullable();
 
-            $table->integer('milkCollected')->nullable();
-
-            $table->float('fat')->nullable();
-            $table->float('Lactose')->nullable();
-            $table->float('Ash')->nullable();
-            $table->float('totalProteins')->nullable();
-            $table->float('totalSolid')->nullable();
+            $table->double('fat', 8, 2)->nullable();
+            $table->double('Lactose', 8, 2)->nullable();
+            $table->double('Ash', 8, 2)->nullable();
+            $table->double('totalProteins', 8, 2)->nullable();
+            $table->double('totalSolid', 8, 2)->nullable();
             $table->string('qualityPic')->nullable();
-            $table->float('AssignTo')->nullable();
-            $table->date('collection_date');
-            $table->enum('status',['initialize','inProcess','Complete','Expired','Submitted','Rejected']);
-            $table->dateTime('collectedTime')->nullable();
 
+            $table->integer('AssignTo')->nullable();
+            $table->date('collection_date');
+            $table->enum('status',['initialize','inProcess','Expired','Submitted','Rejected','Collected']);
+            $table->dateTime('collectedTime')->nullable();
             $table->timestamps();
         });
     }

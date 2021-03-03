@@ -27,6 +27,7 @@ class CreateUsersTable extends Migration
             $table->string('filenames');
             $table->softDeletes();         
             $table->rememberToken();
+            
             $table->timestamps();
         });
     }

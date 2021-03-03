@@ -23,10 +23,8 @@
 <div class="row">
 <div class="col-md-12">
    <div class="card"></div>
-      <div class="card-header">
-         <h4 class="card-title mb-0">Registration Form</h4>
-      </div>
-      <div class="card-body">
+
+      <div class="card-body"></div>
          @if ($errors->any())
          <div class="alert alert-danger">
             <ul>
