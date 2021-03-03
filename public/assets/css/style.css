@@ -8560,6 +8560,300 @@ form .btn-gradient-primary {
   64. Responsive
 -----------------------*/
 
+
+/*Custom CSS*/
+.hide-it-now{display:none!important;}
+
+.info-box {
+    background-color: #28c3d4;
+    float: left;
+    color: #ffffff;
+    margin-bottom: 25px;
+    border-radius: 5px;
+    width: 100%;
+}
+span.info-box-icon i {
+    font-size: 30px;
+    text-align: center;
+    width: 100%;
+    margin-top: 15px;
+    margin-bottom: 5px; 
+    color: #fff;
+}
+.info-box-content span {
+    text-align: center;
+    width: 100%!important;
+    float: left;
+}
+.content-editor .ck-editor .ck.ck-editor__main .ck.ck-content {
+    min-height: 230px;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px; border-color: #e3e3e3;
+}
+.add-block-page a {
+    color: #ffffff;
+    background-color: #211b3c;
+    padding: 10px 15px;
+    float: left;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+}
+
+/*
+.datatables tr td a:nth-child(1) {
+    background-color: #f05d09;
+    margin-right: 4px;
+}
+.datatables tr td a {
+    background-color: #211b3c;
+    color: #ffffff;
+    border: none;
+    padding: 8px 15px;
+    min-width: 70px;
+    margin-bottom: 2px;
+    margin-top: 2px;
+    float: left; text-align: center;
+}
+*/
+.datatables tr td i.fa.fa-check {
+    color: #0ad00a;
+}
+.datatables tr td i.fa.fa-times {
+    color: red;
+}
+
+.datatables tr td:nth-child(2) a:nth-child(1), .datatables tr td:nth-child(1) a:nth-child(1) {
+    background-color: #ffffff;
+    color: #1bade4; text-align: left;
+}
+.select-field-form select, .record-filter select, div#inline-field select, .half-width-field select
+{
+border-color: #e3e3e3;
+    box-shadow: none;
+    font-size: 15px;
+    height: 44px;
+    width: 100%;
+    border-radius: 4px;
+    padding-left: 10px;
+}
+.caption-white {
+    color: #ffffff;
+    font-size: 12px;
+    padding-left: 15px;
+    margin-top: 15px;
+}
+.action-refrence a {
+    background-color: #211b3c;
+    color: #ffffff;
+    border: none;
+    padding: 8px 15px;
+    min-width: 58px;
+    margin-bottom: 2px;
+    margin-top: 2px;
+    text-align: center;
+}
+.action-refrence i {
+    color: green;
+    font-size: 15px;
+    margin-right: 5px;
+}
+.record-filter {
+    width: 100%;
+    float: left; margin-top: 20px;
+    margin-bottom: 20px;
+}
+.record-filter label {
+    float: left;
+    width: 100%;
+    color: #000000;
+    font-weight: 600;
+}
+.record-filter .col-sm-3 {
+    float: left;
+    margin-right: 10px;
+    margin-bottom: 15px;
+    max-width: 24%;
+    flex: 24%;
+}
+.record-filter input, a.add-d-btn {
+    background-color: #ff851a;
+    border-color: #ff851a;
+    color: #fff;
+    width: 100%;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+	outline:none;
+	text-decoration:none;
+}
+.gray-box {
+    padding: 25px 35px;
+    background: #f5f6fa;
+    margin-top: 20px;
+    border-radius: 4px;
+    border: 1px solid #d6dce7;
+    float: left;
+    width: 100%;
+}
+.car-image img {
+    width: 100%;     max-height: 220px;
+}
+.gray-box .col-sm-5 {
+    width: 41%;
+    max-width: 41%;
+    flex: 41%;
+    float: left;
+}
+.inner-white-box {
+    float: left;
+    padding: 15px;
+    width: 100%;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(78,78,78,.2);
+    margin: 0 0 30px 0;
+}
+.gray-box .col-sm-7 {
+    width: 59%;
+    max-width: 59%;
+    flex: 59%;
+    float: left;
+}
+.top-head ul {
+    list-style-type: none;
+    padding-left: 0; margin-bottom: 8px;
+}
+.add-title, .specification {
+    width: 65%;
+    float: left;
+	font-size: 15px;
+    line-height: 17px;
+}
+
+.add-title a {
+    color: #211b3c;
+    font-weight: 600;
+    font-family: 'Open Sans'!important;
+}
+.top-head ul li {
+    display: inline-block;
+}
+li.add-cost, .ed-action {
+    width: 35%;
+    font-size: 22px;
+    font-weight: 700;
+    color: #f05d09;
+    text-align: right;
+    padding: 0;
+    margin: 0;
+    font-family: 'Open Sans'!important;
+}.top-head {
+    float: left;
+    border-bottom: 1px dashed; width: 100%;
+}
+
+ul.inner-item {
+    padding-left: 27px;
+  margin-top: 5px;
+    position: relative;
+}
+.location:before {
+    content: "\f041";
+   
+}ul.inner-item li {
+    float: left;
+    width: 100%;
+}
+ul.inner-item li p {
+ margin-bottom: 0px;
+    font-size: 13px;
+    font-family: sans-serif;
+    font-weight: 500;
+}
+ul.inner-item li:before
+{ position: absolute;
+    left: 0;
+    font-family: fontawesome;
+    color: #211b3c;
+	    text-align: center;
+    width: 15px;
+}
+.engine-capacity:before {
+    content: "\f129";
+}
+.engine-type:before {
+    content: "\f1b9";
+    font-size: 14px;
+}
+.ed-action {
+    margin-top: 5px;
+}
+.ed-action a {
+    margin-left: 14px;
+    font-size: 25px;
+    color: #211b3c;
+}
+.ad-description p {
+    margin-bottom: 0;
+    font-size: 13px;
+    font-weight: 500;
+}
+.ad-description {
+    float: left;
+    border-bottom: 1px dashed;
+    padding-top: 4px;
+    padding-bottom: 4px;
+}
+.total-info {
+    float: left;
+    width: 100%;
+    margin-top: 10px;
+}
+.total-info ul {
+    display: flex;
+    flex-wrap: nowrap;
+}
+.total-info ul li {
+    width: 36%;     font-size: 13px!important;
+}
+.total-info ul li span {
+    border: 1px solid #e5e5e5;
+    padding: 0 8px;
+    background-color: #fbfbfb;
+    margin-left: 5px;
+}
+
+
+
+
+@media(max-width:1200px)
+{
+.record-filter .col-sm-3 {
+    max-width: 48%;
+    flex: 48%;
+}
+
+
+
+
+
+}
+
+
+
+
+
+
+
+
+
+@media only screen and (max-width: 280px) {
+	.user-menu {
+		display: none;
+	}
+}
+
 @media only screen and (max-width: 280px) {
 	.user-menu {
 		display: none;
@@ -9628,4 +9922,12 @@ ul#tab-button-group li a {
  a .badge {
     background: rgb(40, 195, 212);
     color: #fff;
+}
+
+#totalSaleGraph{
+	padding-top: 25px;
+}
+.count {
+	font-size: 50px;
+	line-height: 70px;
 }

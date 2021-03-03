@@ -40,7 +40,9 @@
                               <th>Name</th>                       
                               <th>Size</th>
                               <th>Price</th>
+                              <?php $seeStockQuentity = 0; ?>
                               @can('See-Product-Stock')
+                              <?php $seeStockQuentity = 1; ?>
                               <th>Stock Quantity</th>
                               @endcan
                               <th>Qty/Carton</th>
@@ -80,10 +82,38 @@
 </div>
 <!-- /Page Wrapper -->
 <script>
+var seeStockQuentity = <?php echo $seeStockQuentity; ?>;
+console.log(seeStockQuentity);
    $(document).ready( function () {
-      $('#productLising').DataTable({
+      // $('#productLising').DataTable({
         
-      });
+      // });
+  if(seeStockQuentity){
+      $('#productLising').dataTable( {
+        "columnDefs": [
+          { "width": "20%", "targets": 0 },
+          { "width": "10%", "targets": 1 },
+          { "width": "10%", "targets": 2 },
+          { "width": "10%", "targets": 3 },
+          { "width": "10%", "targets": 4 },
+          { "width": "20%", "targets": 5 },
+          { "width": "20%", "targets": 6 },
+        ]
+      } );
+  }else{
+
+    $('#productLising').dataTable( {
+      "columnDefs": [
+        { "width": "20%", "targets": 0 },
+        { "width": "10%", "targets": 1 },
+        { "width": "10%", "targets": 2 },       
+        { "width": "10%", "targets": 3 },
+        { "width": "30%", "targets": 4 },
+        { "width": "20%", "targets": 5 },
+      ]
+    } );
+    
+  }
 });
 </script>
 @endsection

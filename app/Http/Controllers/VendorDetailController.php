@@ -259,6 +259,7 @@ class VendorDetailController extends Controller
     public function vendorDashboard()
     {
         $Vid = Auth::id();
+
         $saleMilk = SubTask::where('vendor_id', $Vid)->where('status', 'Complete')->sum('milkCollected');
 
         $myMilkTransactions=DB::table('sub_tasks')
@@ -267,10 +268,21 @@ class VendorDetailController extends Controller
            ->where('status', 'Complete')
            ->join('users','AssignTo','=','users.id')
            ->get();
-        // echo "<pre>";
-        // print_r($saleMilk);
-        // exit;
-    return view('dashBoards/vendor', compact('saleMilk','myMilkTransactions'));
+        $decided_rate =  vendorDetail::select('decided_rate')
+                                        ->where('user_id', $Vid)
+                                        ->first();
+        $todayMorningQuentity = SubTask::where('vendor_id', $Vid)
+                                        ->where('status', 'Complete')
+                                        ->where('taskShift', 'Morning')
+                                        ->where('created_at','like', '%'.date('Y-m-d').'%')
+                                        ->sum('milkCollected');
+        $todayEveningQuentity = SubTask::where('vendor_id', $Vid)
+                                        ->where('status', 'Complete')
+                                        ->where('taskShift', 'Evening')
+                                        ->where('created_at', 'Evening')
+                                        ->where('created_at','like', '%'.date('Y-m-d').'%')
+                                        ->sum('milkCollected');
+    return view('dashBoards/vendor', compact('saleMilk','myMilkTransactions','decided_rate','todayMorningQuentity','todayEveningQuentity'));
 
     }
 
