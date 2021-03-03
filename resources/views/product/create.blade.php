@@ -21,9 +21,7 @@
 <div class="row">
    <div class="col-lg-12">
       <div class="card">
-         <div class="card-header">
-            <h4 class="card-title mb-0">Add Product</h4>
-         </div>
+
          <div class="card-body">
          @if ($errors->any())
      @foreach ($errors->all() as $error)

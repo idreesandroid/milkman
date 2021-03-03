@@ -7,7 +7,7 @@
          <h3 class="page-title">
             <span class="page-title-icon bg-gradient-primary text-white mr-2">
             <i class="la la-table"></i>
-            </span> <span>Register</span>
+            </span> <span>Collector Register</span>
          </h3>
       </div>
       <div class="col text-right">
@@ -27,9 +27,7 @@
 <div class="row">
    <div class="col-lg-12">
       <div class="card">
-         <div class="card-header">
-            <h4 class="card-title mb-0">Register Collector</h4>
-         </div>
+
          <div class="card-body">
             @if ($errors->any())
             <div class="alert alert-danger">

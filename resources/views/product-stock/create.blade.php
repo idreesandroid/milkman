@@ -64,6 +64,14 @@
                      <input type="number" min="1" class="form-control" name="manufactured_quantity" id="manufactured_quantity" required="" autocomplete="off">
                   </div>
                </div>
+
+               <div class="form-group row">
+                  <label for="milkRequestCode" class="col-form-label col-md-2">Milk Request Code</label>
+                  <div class="col-md-4">
+                     <input type="number" class="form-control" name="milkRequestCode" id="milkRequestCode" required="" autocomplete="off">
+                  </div>
+               </div>
+
                <div class="form-group mb-0 row">
                   <div class="col-md-4">
                      <div class="input-group-append">
@@ -100,4 +108,22 @@
     });
 });
 </script>
+
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<script>
+    var msg = '{{Session::get('alert')}}';  
+    var exist = '{{Session::has('alert')}}';
+    if(exist)
+            {
+               if(msg == 0)
+               {
+      Swal.fire(
+               'Error',
+               'You Entered Wrong Allotment No!',
+               'error'
+               );
+               }
+            }
+  </script>
+
 @endsection

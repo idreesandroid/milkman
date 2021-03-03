@@ -14,7 +14,10 @@ class CreateMilkBanksTable extends Migration
     public function up()
     {
         Schema::create('milk_banks', function (Blueprint $table) {
-            $table->id();
+            $table->increments('id')->unsigned();
+            $table->string('bankName');
+            $table->string('bankAddress');
+            $table->integer('milkAvailable')->unsigned()->nullable();
             $table->timestamps();
         });
     }

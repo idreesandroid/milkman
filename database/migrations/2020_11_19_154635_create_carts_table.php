@@ -17,26 +17,14 @@ class CreateCartsTable extends Migration
             $table->increments('id')->unsigned();
 
             $table->integer('invoice_id')->unsigned();
-            $table->foreign('invoice_id')->references('id')->on('invoices')->onUpdate('cascade')->onDelete('cascade');
-            
-            // $table->integer('buyer_id')->unsigned();
-
+            $table->foreign('invoice_id')->references('id')->on('invoices');
             $table->integer('product_id')->unsigned();
-            $table->foreign('product_id')->references('id')->on('products')->onUpdate('cascade')->onDelete('cascade');
-
-            // $table->integer('seller_id')->unsigned();
-            // $table->foreign('seller_id')->references('id')->on('users');
-            
-            // $table->integer('batch_id')->unsigned();
-            // $table->foreign('batch_id')->references('id')->on('product_stocks');
-
+            $table->foreign('product_id')->references('id')->on('products');
             $table->integer('product_quantity');
             $table->string('product_rate');
             $table->enum('cart_flag',['In_Process','Delivered','Reserve']);
             $table->string('sub_total');
             $table->date('delivery_due_date');
-            
-            
             $table->timestamps();
         });
     }

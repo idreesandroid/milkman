@@ -14,7 +14,24 @@ class CreateCollectionPointSubmissionsTable extends Migration
     public function up()
     {
         Schema::create('collection_point_submissions', function (Blueprint $table) {
-            $table->id();
+            $table->increments('id')->unsigned();
+            $table->integer('area_Id')->unsigned()->nullable();
+            $table->foreign('area_Id')->references('id')->on('collections');
+
+            $table->integer('collectionPoint_id')->unsigned()->nullable();
+            $table->foreign('collectionPoint_id')->references('id')->on('milk_collection_points');
+
+            $table->integer('collectionPoint_id')->unsigned()->nullable();
+            $table->foreign('collectionPoint_id')->references('user_id')->on('collector_details');
+           
+            $table->enum('collectionShift',['Evening','Morning'])->nullable();
+            $table->string('milkCollected')->unsigned();
+            $table->double('averageFat', 8, 2)->nullable();
+            $table->double('averageAsh', 8, 2)->nullable();
+            $table->double('averageProteins', 8, 2)->nullable();
+            $table->double('averageSolids', 8, 2)->nullable();
+            $table->double('averageLactose', 8, 2)->nullable();
+            $table->string('averageQuality_SS')->nullable();
             $table->timestamps();
         });
     }

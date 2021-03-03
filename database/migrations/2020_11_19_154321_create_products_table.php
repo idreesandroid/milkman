@@ -23,7 +23,6 @@ class CreateProductsTable extends Migration
             $table->string('product_price');
             $table->integer('ctn_value');
             $table->string('filenames');
-           
             $table->softDeletes();
             $table->timestamps();
         });

@@ -22,7 +22,6 @@ class CreateCollectionsTable extends Migration
             $table->tinyInteger('AFM')->default(0);
             $table->tinyInteger('AFE')->default(0);
             $table->enum('areaStatus',['Active','inActive','Block']);  //CHANGE BY ASIM
-           
             $table->integer('collectionPoint_id')->unsigned()->nullable();
             $table->foreign('collectionPoint_id')->references('id')->on('collections');
 
