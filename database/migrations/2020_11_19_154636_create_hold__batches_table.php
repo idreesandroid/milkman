@@ -17,11 +17,9 @@ class CreateHoldBatchesTable extends Migration
             $table->increments('id')->unsigned();
             
             $table->integer('batch_id')->unsigned();
-            $table->foreign('batch_id')->references('id')->on('product_stocks')->onUpdate('cascade')->onDelete('cascade');
-
+            $table->foreign('batch_id')->references('id')->on('product_stocks');
             $table->integer('cart_id')->unsigned();
-            $table->foreign('cart_id')->references('id')->on('carts')->onUpdate('cascade')->onDelete('cascade');
-
+            $table->foreign('cart_id')->references('id')->on('carts');
             $table->integer('select_qty');
             $table->boolean('hb_flag')->default(0);
 

@@ -16,6 +16,7 @@ class CreateBankListsTable extends Migration
         Schema::create('bank_lists', function (Blueprint $table) {
             $table->increments('id')->unsigned();
             $table->string('bankName');
+            
             $table->timestamps();
         });
     }

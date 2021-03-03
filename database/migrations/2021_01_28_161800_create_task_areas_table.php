@@ -18,10 +18,8 @@ class CreateTaskAreasTable extends Migration
 
             $table->integer('area_id')->unsigned();
             $table->foreign('area_id')->references('id')->on('collections');
-
             $table->integer('collector_id')->unsigned();
             $table->foreign('collector_id')->references('id')->on('users');
-
             $table->enum('shift',['Morning','Evening']);
             $table->enum('assignType',['Permanent','Temporary'])->nullable();
             $table->enum('taskAreaStatus',['Active','inActive','Blocked'])->nullable();
@@ -29,8 +27,6 @@ class CreateTaskAreasTable extends Migration
             $table->date('assignTill')->nullable();
             $table->string('reason')->nullable();
             $table->string('oldTaskId')->nullable()->unsigned();
-
-
             $table->timestamps();
         });
     }
