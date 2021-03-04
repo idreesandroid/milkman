@@ -39,6 +39,7 @@
  
                         <th>Milk Bank Name</th>
                         <th>Milk Bank Address</th>
+                        <th>Available Milk</th>
                         @can('Assign-Milk-Bank-Manager')   
                         <th>Milk Bank Head</th>
                         @endcan 
@@ -50,6 +51,7 @@
                      <tr>
                         <td>{{$milkBank->bankName}}</td>
                         <td>{{$milkBank->bankAddress}}</td>
+                        <td>{{$milkBank->milkAvailable}} Ltr</td>
                         @can('Assign-Milk-Bank-Manager')
                         <td><button type="button" id="point_{{$milkBank->id}}" onclick="getCId({{$milkBank->id}})" class="btn btn-primary" data-toggle="modal" data-target="#findManager">Assign</button></td>
                         @endcan 
@@ -90,6 +92,7 @@
                                     <tr>
                                        <th>Select Any</th>
                                        <th>Name</th>
+                                       <th>Milk Bank</th>
                                        <th>Manager Phone</th>
                                     </tr>
                                  </thead>
@@ -120,7 +123,7 @@ var pointId ='';
       pointId =id;
       $("#pId").val(id);
       $.ajax({
-         url: '/get/milkBank-Head',
+         url: '/get/milkBank-Head/'+id,
          type: "GET",
          success:function(response) { 
             //console.log(data);
@@ -133,14 +136,20 @@ var pointId ='';
                                     for(var i=0; i<len; i++){
                                                           var manager_id = response[i].user_id;
                                                           var manager_name = response[i].name;  
+                                                          var milkBank = response[i].bankName;
                                                           var user_phone = response[i].user_phone;  
                                                          
                                                           var tr_str = "<tr>" +
                                                           "<td >"+"<input type='radio' value='"+manager_id+"' name='manager_id' id='manager_id"+manager_id+"'/>"+" </td>"+
                                                          "<td>" + manager_name + "</td>" +  
-                                                         "<td >" + user_phone  + "</td>" +                                                                         
+                                                         "<td >" + milkBank  + "</td>" +  
+                                                         "<td >" + user_phone  + "</td>" +                                                                        
                                                          "</tr>";
                                                          $("#find_manager tbody").append(tr_str);
+                                                         if(milkBank != null)
+                                                         {
+                                                            $("#manager_id"+manager_id).attr("checked", true);
+                                                         }
                                                             }
                                                           }
                                                           else

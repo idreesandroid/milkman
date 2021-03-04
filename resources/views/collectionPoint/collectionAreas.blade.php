@@ -232,6 +232,8 @@
       }      
    }
 </script>
+
+
 <script type="text/javascript">
    function ReAssignCollectors(id , value)
       { 

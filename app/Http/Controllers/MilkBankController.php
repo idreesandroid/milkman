@@ -33,7 +33,6 @@ public function milkBankManagerDashboard()
 public function milkBankIndex()
 {  
  $milkBanks = DB::table('milk_banks')
- ->select('milk_banks.id','bankName','bankAddress')
  ->get();
 
 //  echo "<pre>";
@@ -56,6 +55,7 @@ public function milkBankStore(Request $request)
     $banks = new milkBank();
     $banks->bankName = $request->bank_name;        
     $banks->bankAddress = $request->bank_address;
+    $banks->milkAvailable = 0;
     $banks->save();
     return redirect()->route('index.milkBank');
 }
@@ -84,15 +84,17 @@ public function milkBankDelete($id)
 }
 
 
-public function getCollectionManager()
+public function getCollectionManager($id)
 {  
 
     //$collectionManagers = User::whereHas('roles', function($query) {$query->where('roles.id', 4);})->get();   
    
     $collectionManagers = DB::table('milkbank_managers')
-    ->select('milkbank_managers.id','user_id','name','manager_status','user_phone')
-    ->where('manager_status','inActive')
+    ->select('milkbank_managers.id','user_id','name','manager_status','user_phone','bankName')
+    ->where('milkbank_id', null)
+    ->orWhere('milkbank_id',$id)
     ->leftJoin('users','user_id','=','users.id')
+    ->leftJoin('milk_banks','milkbank_id','=','milk_banks.id')
     ->get();
 //  echo "<pre>";
 //  print_r($collectionManagers);
@@ -113,6 +115,7 @@ public function assignCollectionManager(Request $request)
 //  exit;
 $var1= $request->pId;
 $var2= $request->manager_id;
+DB::update("UPDATE milkbank_managers SET milkbank_id = null , manager_status = 'inActive' WHERE milkbank_id = $var1");
 
 DB::update("UPDATE milkbank_managers SET milkbank_id = $var1 , manager_status = 'Active' WHERE user_id = $var2");
    
@@ -161,7 +164,6 @@ public function pointSubmission(Request $request)
         'totalLactose'=> 'required',
         'D_Shot'=>'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
     ]);
- 
     
     $collectionManagers = DB::table('collection_point_managers')
     ->select('user_id','collectionPointId')

@@ -161,16 +161,15 @@ Route::get('milkBank/edit/{id}',       [MilkBankController::class, 'milkBankEdit
 Route::post('milkBank/update/{id}',    [MilkBankController::class, 'milkBankUpdate'])->name('update.milkBank')->middleware('can:Edit-Milk-Bank');
 Route::Delete('milkBank/delete/{id}',  [MilkBankController::class, 'milkBankDelete'])->name('delete.milkBank')->middleware('can:Delete-Milk-Bank');
 
-Route::get('get/milkBank-Head',        [MilkBankController::class,  'getCollectionManager'])->name('get.milkBankHeads')->middleware('can:Assign-Milk-Bank-Manager');
+Route::get('get/milkBank-Head/{id}',        [MilkBankController::class,  'getCollectionManager'])->name('get.milkBankHeads')->middleware('can:Assign-Milk-Bank-Manager');
 Route::post('assign/milkBank-Head',    [MilkBankController::class, 'assignCollectionManager'])->name('assignManager.milkBank')->middleware('can:Assign-Milk-Bank-Manager');
 
 Route::get('milk-point/submission',          [MilkBankController::class, 'pointCollection'])->name('milk.submission')->middleware('can:Collect-Milk-From-Collection-Point');
 Route::get('milk-point/check-quantity/{id}', [MilkBankController::class, 'checkQuantity'])->name('check.quantity')->middleware('can:Collect-Milk-From-Collection-Point');
 Route::post('milkPoint/submission',          [MilkBankController::class, 'pointSubmission'])->name('point.submission')->middleware('can:Collect-Milk-From-Collection-Point');
 
-
 //collection Manager Controller routes--------------------------------
-Route::get('get/collection-managers',               [CollectionManagerController::class,  'getCollectionManager'])->name('getCollectionManager')->middleware('can:Assign-Collection-Point');
+Route::get('get/collection-managers/{id}',               [CollectionManagerController::class,  'getCollectionManager'])->name('getCollectionManager')->middleware('can:Assign-Collection-Point');
 Route::post('assign/collection-point',              [CollectionManagerController::class, 'assignCollectionManager'])->name('assignManager.Point')->middleware('can:Assign-Collection-Point');
 Route::get('collectionPoint/collectors',            [CollectionManagerController::class, 'myCollectors'])->name('my.collectors')->middleware('can:See-Collector-Of-My-Collection-Point');
 
@@ -291,7 +290,6 @@ Route::get('milk/request-list',                 [milkProcessController::class, '
 Route::get('milk-process/check-quantity/{id}',  [milkProcessController::class, 'checkQuantity'])->name('check.quantity')->middleware('can:Generate-Milk-Request');
 
 //for download excell
-
 Route::any('download', [RegisterController::class, 'export'])->name('exportinexcel.order');
 Route::any('downloadtask', [RegisterController::class, 'exportTask'])->name('exportinexcel.task');
 Route::any('downloadpayment', [RegisterController::class, 'exportPayment'])->name('exportinexcel.payment');
