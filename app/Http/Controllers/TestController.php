@@ -12,6 +12,8 @@ use App\Models\UserAccount;
 use App\Models\Cart;
 use App\Models\User;
 use App\Models\Product;
+use App\Models\SubTask;
+use App\Models\UserTransaction;
 use Illuminate\Http\Request;
 
 use App\Http\Controllers\CollectionController as CollectionController;
@@ -30,69 +32,86 @@ class TestController extends Controller
      */
     public function index()
     {
-         echo $Did = Auth::id();
-
-
-         $products = Product::select('id','product_name')->get();
-         $totalOrders = [];
-         $productids = [];
-         $productNames = [];
-         foreach($products as $item){
-
-             array_push($productids, $item->id);
-             array_push($productNames, $item->product_name);
-
-             $orders = Cart::where('product_id',$item->id)
-                             ->where('created_at','>=',date('Y-m-d'))
-                             ->sum('product_quantity');
-             array_push($totalOrders, $orders);
-         }
 
         $first_day_this_month  = date('Y-m-01');
         $current_day_this_month = date('Y-m-d');
 
         $periods = createDateRangeArray($first_day_this_month,$current_day_this_month);
 
-        $productsDetail = '[';        
+        $MorningMilkDetail = '[';        
+        $EveningMilkDetail = '[';        
 
         foreach($periods as $period){
-            $pro = '';
-            $pro .= '{date:'."'".$period."'".',';
-            
-            foreach($productids as $key => $productid){
+            $MorningMilkqualityString = '';
+            $MorningMilkqualityString .= '{date:'."'".$period."'".',';
 
-                $total = '';
+            $EveningMilkqualityString = '';
+            $EveningMilkqualityString .= '{date:'."'".$period."'".',';  
 
-                $products = Invoice::select('carts.product_id','carts.created_at','products.product_name','invoices.buyer_id')
-                                    ->join('carts','invoices.id','=','carts.invoice_id')
-                                    ->leftJoin('products','products.id','=','carts.product_id')
-                                    ->where('carts.product_id', $productid)
-                                    ->where('carts.created_at', 'like', '%' . $period . '%')
-                                    ->where('invoices.buyer_id', '=', $Did)
-                                    ->get();
+            $morningMilkQuality = SubTask::select('milkCollected','fat','Lactose','Ash','totalProteins','totalSolid')
+                                    ->where('taskShift', 'Morning')
+                                    ->where('status', 'Complete')
+                                    ->where('created_at', 'like', '%' . $period . '%')
+                                    ->first();
 
-                $total = Cart::where('product_id', $productid)
-                                ->where('created_at', 'like', '%' . $period . '%')
-                                ->sum('product_quantity');
-
-                if(empty($products->count())){
-                    $pro .= "'".$productNames[$key]."' : ". $total.",";
-                }else{
-                    $pro .= "'".$productNames[$key]."' : ". $total.",";
-                }
+            if(isset($morningMilkQuality)){
+                $MorningMilkqualityString.= "'".'milkCollected'."':"."'".$morningMilkQuality->milkCollected."'".",";
+                $MorningMilkqualityString.= "'".'fat'."':"."'".$morningMilkQuality->fat."'".",";
+                $MorningMilkqualityString.= "'".'Lactose'."':"."'".$morningMilkQuality->Lactose."'".",";
+                $MorningMilkqualityString.= "'".'Ash'."':"."'".$morningMilkQuality->Ash."'".",";
+            }else{
+                $MorningMilkqualityString.= "'".'milkCollected'."':"."'".'0'."'".",";
+                $MorningMilkqualityString.= "'".'fat'."':"."'".'0'."'".",";
+                $MorningMilkqualityString.= "'".'Lactose'."':"."'".'0'."'".",";
+                $MorningMilkqualityString.= "'".'Ash'."':"."'".'0'."'".",";
             }
-            $newpro='';
-            $newpro .= rtrim($pro, ","); 
-            $newpro .= '},';
-            $productsDetail .= $newpro;
-                      
+                         
+            $newMorMilk='';
+            $newMorMilk .= rtrim($MorningMilkqualityString, ","); 
+            $newMorMilk .= '},';
+            $MorningMilkDetail .= $newMorMilk; 
+
+
+            $eveningMilkQuality = SubTask::select('milkCollected','fat','Lactose','Ash','totalProteins','totalSolid')
+                                    ->where('taskShift', 'Evening')
+                                    ->where('status', 'Complete')
+                                    ->where('created_at', 'like', '%' . $period . '%')
+                                    ->first();
+
+            if(isset($eveningMilkQuality)){
+                $EveningMilkqualityString.= "'".'milkCollected'."':"."'".$eveningMilkQuality->milkCollected."'".",";
+                $EveningMilkqualityString.= "'".'fat'."':"."'".$eveningMilkQuality->fat."'".",";
+                $EveningMilkqualityString.= "'".'Lactose'."':"."'".$eveningMilkQuality->Lactose."'".",";
+                $EveningMilkqualityString.= "'".'Ash'."':"."'".$eveningMilkQuality->Ash."'".",";
+            }else{
+                $EveningMilkqualityString.= "'".'milkCollected'."':"."'".'0'."'".",";
+                $EveningMilkqualityString.= "'".'fat'."':"."'".'0'."'".",";
+                $EveningMilkqualityString.= "'".'Lactose'."':"."'".'0'."'".",";
+                $EveningMilkqualityString.= "'".'Ash'."':"."'".'0'."'".",";
+            }
+                         
+            $newEveMilk='';
+            $newEveMilk .= rtrim($EveningMilkqualityString, ","); 
+            $newEveMilk .= '},';
+            $EveningMilkDetail .= $newEveMilk;                     
         }        
 
-        $productsDetail .= ']'; 
+        $MorningMilkDetail .= ']'; 
 
-        $productsDetail = str_replace("},]","}]",$productsDetail);
+        $MorningMilkDetail = str_replace("},]","}]",$MorningMilkDetail);
 
-        print_r($productsDetail);
+        echo $MorningMilkDetail;
+
+        echo "<br>=========================</br>";
+
+        $EveningMilkDetail .= ']'; 
+
+        $EveningMilkDetail = str_replace("},]","}]",$EveningMilkDetail);
+
+        echo $EveningMilkDetail;
+
+
+
             
 }
 

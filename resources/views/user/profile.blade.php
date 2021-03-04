@@ -67,7 +67,7 @@
                @endif
             </ul>
             <div class="tab-content">
-               <div class="tab-pane show active" id="profile">
+               <div class="tab-pane show active" id="profile">                   
                   <div class="card ">
                      <div class="card-body">
                         <div class="row">
@@ -124,6 +124,52 @@
                         </div>
                      </div>
                   </div>
+                  <?php if($users->roles[0]->name == 'Vendor') { ?>
+                   <div class="row">
+                     <div class="col-sm-3">
+                        <div class="info-box">
+                           <span class="info-box-icon bg-yellow"><i class="fa fa-calendar-check-o"></i></span>
+                           <div class="info-box-content" > 
+                            <span class="info-box-text">
+                              Total Milk Sold
+                            </span>
+                            <span class="count">{{isset($saleMilk)?$saleMilk:'0'}}</span>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="col-sm-3">
+                        <div class="info-box">
+                           <span class="info-box-icon bg-yellow"><i class="fa fa-check-square-o"></i></span>
+                           <div class="info-box-content" > 
+                            <span class="info-box-text">Milk Price Per Litter</span>
+                            <span class="count">{{isset($decided_rate->decided_rate)?$decided_rate->decided_rate:'0'}}</span>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="col-sm-3">
+                        <div class="info-box">
+                           <span class="info-box-icon bg-yellow"><i class="fa fa-check-circle"></i></span>
+                           <div class="info-box-content" >
+                            <span class="info-box-text">
+                              Today's Morning Milk Quentity
+                            </span>
+                            <span class="count">{{isset($todayMorningQuentity)?$todayMorningQuentity:'0'}}</span>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="col-sm-3">
+                        <div class="info-box">
+                           <span class="info-box-icon bg-yellow"><i class="fa fa-check-circle-o"></i></span>
+                           <div class="info-box-content" >
+                            <span class="info-box-text">
+                              Today's Evening Milk Quentity
+                            </span>
+                            <span class="count">{{isset($todayEveningQuentity)?$todayEveningQuentity:'0'}}</span>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               <?php } ?>
                   <div class="tab-content p-0">
                      <!-- Profile Info Tab -->
                      <div id="emp_profile" class="pro-overview tab-pane fade show active">
@@ -294,6 +340,54 @@
                         </div>
                      </div>
                   </div>
+
+
+                  <?php
+                   if($users->roles[0]->name == 'Vendor'){
+                     $currentDate = date('d');
+                     if($currentDate <= 15 ){ ?>
+                     <div class="row graphs">
+                       <div class="col-md-6">
+                         <div class="card h-100">
+                           <div class="card-body">
+                             <h3 class="card-title">Total Monthly Morning Milk Analysis</h3>
+                             <div id="TotalMonthyMonrningMilkAnalysis"></div>
+                           </div>
+                         </div>
+                       </div>
+                       <div class="col-md-6">
+                         <div class="card h-100">
+                           <div class="card-body">
+                             <h3 class="card-title">Total Monthly Evening Milk Analysis</h3>
+                             <div id="TotalMonthyEveningMilkAnalysis"></div>
+                           </div>
+                         </div>
+                       </div>
+                     </div>
+                     <?php }else{ ?>
+
+                     <div class="row graphs">
+                       <div class="col-md-12">
+                         <div class="card h-100">
+                           <div class="card-body">
+                             <h3 class="card-title">Total Monthly Morning Milk Analysis</h3>
+                             <div id="TotalMonthyMonrningMilkAnalysis"></div>
+                           </div>
+                         </div>
+                       </div>
+                       <div class="col-md-12">
+                         <div class="card h-100">
+                           <div class="card-body">
+                             <h3 class="card-title">Total Monthly Evening Milk Analysis</h3>
+                             <div id="TotalMonthyEveningMilkAnalysis"></div>
+                           </div>
+                         </div>
+                       </div>
+                     </div>
+                               
+                     <?php } } ?>
+
+
                   @if(isset($location))
                   <div class="map" id="ProfielMap"></div>
                   <div class="row">
@@ -448,7 +542,7 @@
                                           @endforeach
                                        @endif
                                     </tbody>
-                                    @if(isset($TaskArea))
+                                    @if(isset($collector_id))
                                        <input type="hidden" id="collectorID" value="{{$collector_id}}">
                                     @endif
                                  </table>
@@ -505,7 +599,7 @@
                                        <?php $collection = ''; ?>
                                        @if(isset($milkCollection))
                                           @foreach($milkCollection as $collection)
-                                          <?php $collection = $collection->vendor_id; ?>
+                                          <?php $vendorID = $collection->vendor_id; ?>
                                              <tr>
                                                 <td>{{$collection->updated_at}}</td>
                                                 <td><?php echo (isset($collection->milkCollected)) ? $collection->milkCollected.' ltr' : ''; ?></td>
@@ -519,8 +613,8 @@
                                           @endforeach
                                        @endif                                       
                                     </tbody>
-                                    @if(isset($milkCollection))
-                                       <input type="hidden" id="vendorID" value="{{$collection}}">
+                                    @if(isset($vendorID))
+                           <input type="hidden" id="vendorID" value="{{$vendorID}}">
                                     @endif 
                                  </table>
                               </div>
@@ -585,7 +679,7 @@
                                           @endforeach
                                        @endif                                        
                                     </tbody>
-                                    @if(isset($UserTransaction))
+                                    @if(isset($user_id))
                                        <input type="hidden" id="userID" value="{{$user_id}}">
                                     @endif
                                  </table>
@@ -638,7 +732,7 @@
                                        <?php $user_id = ''; ?>
                                        @if(isset($assets))
                                           @foreach($assets as $asset)
-                                          <?php $user_id = $asset->user_id; ?>
+                                          <?php $asset_user_id = $asset->user_id; ?>
                                              <tr>                                                
                                                 <td>                                                   
                                                    {{ timeFormat($asset->updated_at)['date'] }} {{timeFormat($asset->updated_at)['time'] }}
@@ -651,8 +745,8 @@
                                           @endforeach
                                        @endif
                                     </tbody>
-                                    @if(isset($assets))
-                                       <input type="hidden" id="collectorID" value="{{$user_id}}">
+                                    @if(isset($asset_user_id))
+                                       <input type="hidden" id="collectorID" value="{{$asset_user_id}}">
                                     @endif
                                  </table>
                               </div>
@@ -1163,13 +1257,65 @@ if($users->roles[0]->name == 'Vendor'){
    <!-- modal-dialog -->
 </div>
 @endif
+<?php
+$colors = ["#6610F2","#E83E8C","#FD7E14","#20C997","#007BFF","#28A745","#17A2B8","#FFC107","#DC3545","#F8F9FA","#343A40"];
 
+$userRole = $users->roles[0]->name;
+
+
+?>
 
 <input type="hidden" value="<?php echo $latitude; ?>" id="latitude">
 <input type="hidden" value="<?php echo $longitude; ?>" id="longitude">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script type="text/javascript">
-$(document).ready(function() {  
+var userRole = <?php echo "'".$userRole."'"; ?>; 
+console.log(userRole);
+var colors = [<?php echo '"'.implode('","', $colors).'"' ?>];
+
+if(userRole == 'Vendor' ){   
+   var MorningMilkDetail = <?php echo isset($MorningMilkDetail)?$MorningMilkDetail:'0'; ?>;
+   var EveningMilkDetail = <?php echo isset($EveningMilkDetail)?$EveningMilkDetail:'0'; ?>;
+}
+
+$(document).ready(function() { 
+$('.count').each(function () {
+      $(this).prop('Counter',0).animate({
+          Counter: $(this).text()
+      }, {
+          duration: 4000,
+          easing: 'swing',
+          step: function (now) {
+              $(this).text(Math.ceil(now));
+          }
+      });
+  }); 
+if(userRole == 'Vendor'){
+   Morris.Line({
+     element: 'TotalMonthyMonrningMilkAnalysis',
+     data: MorningMilkDetail,
+     xkey: 'date',
+     ykeys: ['milkCollected', 'fat','Lactose','Ash'],    
+     labels: ['Milk Collected', 'Fat','Lactose','Ash'],
+     lineColors: colors,
+     lineWidth: '3px',
+     resize: true,
+     redraw: true, 
+   });
+
+
+   Morris.Line({
+     element: 'TotalMonthyEveningMilkAnalysis',
+     data: EveningMilkDetail,
+     xkey: 'date',
+     ykeys: ['milkCollected', 'fat','Lactose','Ash'],    
+     labels: ['Milk Collected', 'Fat','Lactose','Ash'],
+     lineColors: colors,
+     lineWidth: '3px',
+     resize: true,
+     redraw: true, 
+   });
+}
 $("#distributeOrderHistory").DataTable();
 $("#CollectorInventoryHistory").DataTable();
 $("#userPaymentHistory").DataTable();

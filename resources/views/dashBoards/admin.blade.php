@@ -2,11 +2,44 @@
 
 @section('content')
 
-<style type="text/css">
-#totalSaleGraph{
-	padding-top: 25px;
-}
-</style>
+ <div class="row">
+   <div class="col-sm-3">
+      <div class="info-box">
+         <span class="info-box-icon bg-yellow"><i class="fa fa-asterisk"></i></span>
+         <div class="info-box-content"> 
+         	<span class="info-box-text">Today Total Collected Milk</span>
+         	<span class="count">865</span>
+         </div>
+      </div>
+   </div>
+   <div class="col-sm-3">
+      <div class="info-box">
+         <span class="info-box-icon bg-yellow"><i class="fa fa-car"></i></span>
+         <div class="info-box-content" > 
+         	<span class="info-box-text">Today Total Products Sold</span>
+         	<span class="count">95</span> 
+         </div>
+      </div>
+   </div>
+   <div class="col-sm-3">
+      <div class="info-box">
+         <span class="info-box-icon bg-yellow"><i class="fa fa-user"></i></span>
+         <div class="info-box-content">
+         	<span class="info-box-text">Today Total Active Collectors</span>
+         	<span class="count">145</span>
+         </div>
+      </div>
+   </div>
+   <div class="col-sm-3">
+      <div class="info-box">
+         <span class="info-box-icon bg-yellow"><i class="fa fa-calendar-check-o"></i></span>
+         <div class="info-box-content">
+         	<span class="info-box-text">Today Total Completed Tasks	</span>
+         	<span class="count">825</span>
+         </div>
+      </div>
+   </div>
+</div> 
 <div class="row graphs">
 	<div class="col-md-6">
 		<div class="card h-100">
@@ -25,6 +58,30 @@
         </div>
 	</div>
 </div>
+<?php
+$currentDate = date('d');
+if($currentDate <= 15){ ?>
+
+<div class="row graphs">
+	<div class="col-md-6 mb-0">
+		<div class="card h-100 mb-0">
+			<div class="card-body">
+            	<h3 class="card-title">Monthly Products Orders Analysis</h3>
+				<div id="#monthlyProductsOrdersAnalysis"></div>
+        	</div>
+		</div>
+	</div>
+	<div class="col-md-6 mb-0">		
+		<div class="card h-100 mb-0">
+            <div class="card-body">
+            	<h3 class="card-title">Total Monthly Sales Analysis</h3>
+             <div id="TotalMonthlySalesAnalysis"></div>
+            </div>
+        </div>
+	</div>	
+</div>
+
+<?php }else{ ?>
 
 <div class="row graphs">
 	<div class="col-md-12">
@@ -47,7 +104,7 @@
 	</div>	
 </div>
 					
-<?php 
+<?php } 
 
 $colors = ["#6610F2","#E83E8C","#FD7E14","#20C997","#007BFF","#28A745","#17A2B8","#FFC107","#DC3545","#F8F9FA","#343A40"];
 $roleName = [];
@@ -70,6 +127,23 @@ var colors = [<?php echo '"'.implode('","', $colors).'"' ?>];
 var allProNewData = <?php echo $productsDetail; ?>;
 
 $(document).ready(function() {  
+
+	$('.count').each(function () {
+    	$(this).prop('Counter',0).animate({
+        	Counter: $(this).text()
+	    }, {
+	        duration: 4000,
+	        easing: 'swing',
+	        step: function (now) {
+	            $(this).text(Math.ceil(now));
+	        }
+	    });
+	});
+
+	
+
+
+
 	new Chart(document.getElementById("allUsersPieChart"), {
 	    type: 'pie',
 	    data: {

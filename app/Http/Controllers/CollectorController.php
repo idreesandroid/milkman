@@ -96,22 +96,22 @@ class CollectorController extends Controller
     
     $today=date('Y-m-d');
     $newTasks = DB::table('sub_tasks')
-    ->select('sub_tasks.id','status','taskShift','morning_decided_milkQuantity','evening_decided_milkQuantity','morningTime','eveningTime','name','vendor_details.longitude','vendor_details.latitude')
-    ->where('sub_tasks.AssignTo', $Cid)
-    ->where('status','<>','Expired')
-    ->where('status','<>','Complete')
-    ->where('sub_tasks.collection_date', $today)
-    ->join('vendor_details','vendor_id','=','vendor_details.user_id')
-    ->join('users','vendor_id','=','users.id')
-    ->get();
+                    ->select('sub_tasks.id','status','taskShift','morning_decided_milkQuantity','evening_decided_milkQuantity','morningTime','eveningTime','name','vendor_details.longitude','vendor_details.latitude')
+                    ->where('sub_tasks.AssignTo', $Cid)
+                    ->where('sub_tasks.status','<>','Expired')
+                    ->where('sub_tasks.status','<>','Complete')
+                    ->where('sub_tasks.collection_date', $today)
+                    ->join('vendor_details','vendor_id','=','vendor_details.user_id')
+                    ->join('users','vendor_id','=','users.id')
+                    ->get();
 
     //  echo "<pre>";
     //  print_r($newTasks);
     //  exit;
       
-    //$myMorningTask = SubTask::where('AssignTo' , $Cid)->where('status', 'Not Started')->where('shift', 'morning')->count();
-    //$myEveningTask = SubTask::where('AssignTo' , $Cid)->where('status', 'Not Started')->where('shift', 'evening')->count();
-    return view('dashBoards/collector', compact('taskCompleted','totalTask','newTasks'));
+    $myMorningTask = SubTask::where('AssignTo' , $Cid)->where('status', 'Expired')->where('taskShift', 'Morning')->count();
+    $myEveningTask = SubTask::where('AssignTo' , $Cid)->where('status', 'initialize')->where('taskShift', 'Evening')->count();
+    return view('dashBoards/collector', compact('taskCompleted','totalTask','newTasks','myMorningTask','myEveningTask'));
     
     }
 
