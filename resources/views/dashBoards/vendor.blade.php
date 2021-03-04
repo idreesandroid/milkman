@@ -72,7 +72,16 @@
       </div>
    </div>
 </div> 
-
+<div class="row graphs">
+  <div class="col-md-12">
+    <div class="card h-100">
+      <div class="card-body">
+        <h3 class="card-title">Total Monthly Milk Analysis</h3>
+        <div id="TotalMonthyMilkAnalysis"></div>
+      </div>
+    </div>
+  </div>
+</div>
 <div class="col-md-12 grid-margin">
    <div class="">
       <div class="card-body p-0 row">
@@ -105,7 +114,6 @@
       </div>
    </div>
 </div>
-</div>
 
 <script type="text/javascript">
 $(document).ready(function() {  
@@ -120,7 +128,38 @@ $(document).ready(function() {
           }
       });
   });
+
+  Morris.Line({
+    element: 'TotalMonthyMilkAnalysis',
+    data: [
+      { y: '2006', a: 50, b: 90 },
+      { y: '2007', a: 75,  b: 65 },
+      { y: '2008', a: 50,  b: 40 },
+      { y: '2009', a: 75,  b: 65 },
+      { y: '2010', a: 50,  b: 40 },
+      { y: '2011', a: 75,  b: 65 },
+      { y: '2012', a: 100, b: 50 }
+    ],
+    xkey: 'y',
+    ykeys: ['a', 'b'],    
+    labels: ['Total Sales', 'Total Revenue','Collector'],
+    lineColors: ['#9a55ff','#da8cff'],
+    lineWidth: '3px',
+    resize: true,
+    redraw: true,
+    stacked: false,
+    hoverCallback: function (index, options, content, row) {
+        var finalContent = content;
+        $.each(options.ykeys, function (i, v) {
+            var hours = ("0" + Math.floor(row[v] / 60)).slice(-2);
+            var minutes = ("0" + row[v] % 60).slice(-2);
+            finalContent.replace(row[v], hours + ":" + minutes);
+        });
+        return finalContent;
+    }  
+  });
 });
+
 </script>
 @endsection
 

@@ -2,21 +2,13 @@
 
 @section('content')
 
-<!-- <div class="row">
+ <div class="row">
    <div class="col-sm-3">
       <div class="info-box">
          <span class="info-box-icon bg-yellow"><i class="fa fa-asterisk"></i></span>
-         <div class="info-box-content" > 
-         	<span class="info-box-text">
-         		Today Total Collected Milk
-         	</span>
-         	<span class="count">865</span>         	
-         	
-            <span class="info-box-number" style="font-size: 12px;">
-            	Dealer Accounts: <a href="#"> 321 </a> 
-        	</span> 
-            <span class="info-box-number" style="font-size: 12px; margin-bottom: 15px;">	Private User Accounts: 17
-            </span> 
+         <div class="info-box-content"> 
+         	<span class="info-box-text">Today Total Collected Milk</span>
+         	<span class="count">865</span>
          </div>
       </div>
    </div>
@@ -24,59 +16,30 @@
       <div class="info-box">
          <span class="info-box-icon bg-yellow"><i class="fa fa-car"></i></span>
          <div class="info-box-content" > 
-         	<span class="info-box-text">Today Total Active Vehicles</span>
+         	<span class="info-box-text">Today Total Products Sold</span>
          	<span class="count">95</span> 
-         	<span class="info-box-number" style="font-size: 12px;">
-         		Total Ads: 338
-         	</span> 
-            <span class="info-box-number" style="font-size: 12px;">
-            	Dealer Ads <a href="#"> 321 </a>
-            </span> 
-            <span class="info-box-number" style="font-size: 12px; margin-bottom: 15px;">	Private User Ads: 17
-            </span> 
          </div>
       </div>
    </div>
    <div class="col-sm-3">
       <div class="info-box">
          <span class="info-box-icon bg-yellow"><i class="fa fa-user"></i></span>
-         <div class="info-box-content" >
-         	<span class="info-box-text">
-         		Today Total Active Collectors
-         	</span>
+         <div class="info-box-content">
+         	<span class="info-box-text">Today Total Active Collectors</span>
          	<span class="count">145</span>
-         	<span class="info-box-number" style="font-size: 12px;">
-         		Total Impression: 338
-         	</span>
-         	<span class="info-box-number" style="font-size: 12px;">
-         		Total Clicks <a href="#"> 321 </a>
-         	</span> 
-            <span class="info-box-number" style="font-size: 12px; margin-bottom: 15px;">	Total Enquires: 17
-            </span> 
          </div>
       </div>
    </div>
    <div class="col-sm-3">
       <div class="info-box">
          <span class="info-box-icon bg-yellow"><i class="fa fa-calendar-check-o"></i></span>
-         <div class="info-box-content" >
-         	<span class="info-box-text">
-         		Today Total Completed Tasks
-         	</span>
+         <div class="info-box-content">
+         	<span class="info-box-text">Today Total Completed Tasks	</span>
          	<span class="count">825</span>
-         	<span class="info-box-number" style="font-size: 12px;">
-         		Total Contact Viewed 338
-     		</span> <span class="info-box-number" style="font-size: 12px;">
-     			Total Website Redirect <a href="#"> 321 </a>
-     		</span> 
-            <span class="info-box-number" style="font-size: 12px; margin-bottom: 15px;"> &nbsp;
-            </span> 
-	<i class="fas fa-tasks"></i> 
-            
          </div>
       </div>
    </div>
-</div> -->
+</div> 
 <div class="row graphs">
 	<div class="col-md-6">
 		<div class="card h-100">
