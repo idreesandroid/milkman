@@ -36,10 +36,10 @@
                <table class="datatable table table-stripped mb-0 datatables">
                   <thead>
                      <tr>
- 
                         <th>Name</th>
                         <th>Address</th>
-                        @can(' Assign-Collection-Point')
+                        <th>Available Milk</th>
+                        @can('Assign-Collection-Point')
                         <th>Collection Manager</th>
                         @endcan
                         @can('Assign-Asset-To-Collection-Point')
@@ -53,7 +53,8 @@
                      <tr>
                         <td>{{$collectionPoint->pointName}}</td>
                         <td>{{$collectionPoint->pointAddress}}</td>
-                        @can('Assign-Collection-Point') <td>@if(!isset($collectionPoint->collectionPointId))<button type="button" id="point_{{$collectionPoint->id}}" onclick="getCId({{$collectionPoint->id}})" class="btn btn-primary" data-toggle="modal" data-target="#findManager">Assign    </button>@endif</td>@endcan
+                        <td>{{$collectionPoint->totalmilk}}Ltr</td>
+                        @can('Assign-Collection-Point') <td><button type="button" id="point_{{$collectionPoint->id}}" onclick="getCId({{$collectionPoint->id}})" class="btn btn-primary" data-toggle="modal" data-target="#findManager">@if(!isset($collectionPoint->collectionPointId))Assign @endif @if(isset($collectionPoint->collectionPointId))Reassign @endif</button></td>@endcan
                         @can('Assign-Asset-To-Collection-Point') <td><button type="button" id="asset_{{$collectionPoint->id}}" onclick="getAssetId({{$collectionPoint->id}})" class="btn btn-primary" data-toggle="modal" data-target="#findAsset">Allot Asset</button></td>@endcan
                         <td>
                            <a href="{{ route('edit.collectionPoint', $collectionPoint->id)}}" class="btn btn-primary">Edit</a>
@@ -162,7 +163,7 @@ var pointId ='';
       pointId =id;
       $("#pId").val(id);
       $.ajax({
-         url: '/get/collection-managers',
+         url: '/get/collection-managers/'+id,
          type: "GET",
          success:function(response) { 
             //console.log(data);
@@ -189,7 +190,6 @@ var pointId ='';
                                                          {
                                                             $("#manager_id"+manager_id).attr("checked", true);
                                                          }
-
                                                             }
                                                           }
                                                           else

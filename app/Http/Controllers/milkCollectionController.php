@@ -22,10 +22,9 @@ class milkCollectionController extends Controller
     public function index()
     {  
      $collectionPoints = DB::table('milk_collection_points')
-     ->select('milk_collection_points.id','pointName','pointAddress','collectionPointId')
+     ->select('milk_collection_points.id','pointName','pointAddress','collectionPointId','totalmilk')
      ->leftJoin('collection_point_managers','milk_collection_points.id','=','collection_point_managers.collectionPointId')
      ->get();
-
     //  echo "<pre>";
     //  print_r($collectionPoints);
     //  exit;

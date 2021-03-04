@@ -618,16 +618,25 @@ public function AssignArea($shift , $id)
             // echo "<pre>";
             // print_r($id);
             // exit;
+        DB::update("UPDATE collector_details SET `collectorEveStatus` = 'Free' , `collectorMorStatus` = 'Free' WHERE user_id = $id");  
         $findTasks = TaskArea::where('collector_id', $id)->where('assignType','permanent')->get();
         foreach($findTasks as $findTask)
         {
             DB::update("UPDATE task_areas SET `taskAreaStatus` = 'Active'  WHERE area_id = $findTask->area_id AND collector_id = $id AND assignType = 'Permanent'");
-
+            if($findTask->shift == 'Evening')
+            {
+                DB::update("UPDATE collector_details SET `collectorEveStatus` = 'Have Task' WHERE user_id = $id");  
+            }
+            elseif($findTask->shift == 'Morning')
+            {
+                DB::update("UPDATE collector_details SET `collectorMorStatus` = 'Have Task' WHERE user_id = $id");  
+            }
             $tempIds = TaskArea::select('id')
             ->where('area_id', $findTask->area_id)
             ->where('collector_id', $id)
             ->where('assignType', 'Permanent')  
             ->get();
+
 
             foreach($tempIds as $tempId)
             {

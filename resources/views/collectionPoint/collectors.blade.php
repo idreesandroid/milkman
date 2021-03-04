@@ -27,12 +27,10 @@
                <table class="datatable table table-stripped mb-0 datatables">
                   <thead>
                      <tr>
-                        <th>Image</th>
                         <th>Name</th>
                         <th>Morning</th>
                         <th>Evening</th>
                         <th>Capacity</th>
-                        <th>Asset</th>
                         <th>Contact</th>
                         <th>Action</th>
                      </tr>
@@ -40,14 +38,13 @@
                   <tbody>
                      @foreach($collectorDetails as $collectorDetail)
                      <tr>
-                        <td><img alt="" class="profile-img" src="{{asset('/UserProfile/'.$collectorDetail->filenames)}}"></td>
                         <td><a href="{{ route('profile.user', $collectorDetail->id)}}" title="View Profile" >{{$collectorDetail->name}}</a></td>
                         <td>{{$collectorDetail->collectorMorStatus}}</td>
                         <td>{{$collectorDetail->collectorEveStatus}}</td>
                         <td>{{$collectorDetail->collectorCapacity}}</td> 
                         <td>{{$collectorDetail->user_phone}}</td>
                         <td><button type="button" id="asset_{{$collectorDetail->user_id}}" onclick="getAssetId({{$collectorDetail->user_id}})" class="btn btn-primary" data-toggle="modal" data-target="#findAsset">Update Asset</button></td>  
-                        <td>@if($collectorDetail->collectorMorStatus == 'Leave'||$collectorDetail->collectorEveStatus == 'Leave') <a href="{{ route('activate.collector', $collectorDetail->id)}}" class="btn btn-primary">Activate</a>@endif</td> 
+                        <td>@if($collectorDetail->collectorMorStatus == 'Leave' || $collectorDetail->collectorEveStatus == 'Leave') <a href="{{ route('activate.collector', $collectorDetail->id)}}" class="btn btn-primary">Activate</a>@endif</td> 
                      </tr>
                      @endforeach
                   </tbody>

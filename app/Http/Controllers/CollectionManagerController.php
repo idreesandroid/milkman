@@ -25,11 +25,12 @@ class CollectionManagerController extends Controller
     }
 
 
-    public function getCollectionManager()
+    public function getCollectionManager($id)
 {  
    $collectionManagers = DB::table('collection_point_managers')
    ->select('user_id','collectionPointId','managerStatus','name','users.id','user_phone','pointName')
-   ->where('managerStatus','inActive')
+   ->orWhere('collectionPointId',null)
+   ->orWhere('collectionPointId',$id)
    ->join('users','user_id','=','users.id')
    ->leftjoin('milk_collection_points','collectionPointId','=','milk_collection_points.id')
    ->get();
@@ -48,6 +49,8 @@ public function assignCollectionManager(Request $request)
     //  exit;
     $var2= $request->pId;
     $var1= $request->manager_id;
+   
+
     DB::update("UPDATE collection_point_managers SET collectionPointId = $var2 , managerStatus = 'Active' WHERE user_id = $var1");
     return redirect()->route('index.collectionPoint');
     }

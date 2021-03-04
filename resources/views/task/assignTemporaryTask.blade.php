@@ -73,6 +73,7 @@
                            </div>
                         </td>
                         @endif
+                        
                         @if($findTask->shift == 'Evening')
                         <td>
                            <div class="form-group row">

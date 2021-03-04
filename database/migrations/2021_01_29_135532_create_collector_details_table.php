@@ -18,8 +18,8 @@ class CreateCollectorDetailsTable extends Migration
             $table->integer('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users');
            
-            $table->enum('collectorMorStatus',['Free','Have Task']);
-            $table->enum('collectorEveStatus',['Free','Have Task']);
+            $table->enum('collectorMorStatus',['Free','Have Task','Leave']);
+            $table->enum('collectorEveStatus',['Free','Have Task','Leave']);
             $table->integer('collectorCapacity')->nullable()->default(0);
 
             $table->integer('collectionPoint_id')->unsigned();

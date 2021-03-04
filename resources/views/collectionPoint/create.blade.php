@@ -33,13 +33,13 @@
             <form method="post" action="{{ route('store.collectionPoint') }}">
                @csrf 
                <div class="form-group row">
-                  <label for="point_name" class="col-form-label col-md-2">Point Name</label>
+                  <label for="point_name" class="col-form-label col-md-2">Collection Point Name</label>
                   <div class="col-md-4">
                      <input type="text" class="form-control" name="point_name" required="" autocomplete="off">
                   </div>
                </div>
                <div class="form-group row">
-                  <label for="point_address" class="col-form-label col-md-2">Point Address</label>
+                  <label for="point_address" class="col-form-label col-md-2">Collection Point Address</label>
                   <div class="col-md-4">
                      <input type="text" class="form-control" name="point_address" required="" autocomplete="off">
                   </div>
