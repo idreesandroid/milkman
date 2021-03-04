@@ -1,17 +1,5 @@
 @extends('layouts.master')
 @section('content')
-<!-- <div class="card" style="width: 18rem;">
-   <div class="card-body">
-      <a href="#">
-         <h5 class="card-title">My Tasks</h5>
-      </a>
-      <ul>
-         <li>
-            <h2 class="card-title">Total Milk Sale: {{$saleMilk}} Ltr</h2>
-         </li>
-      </ul>
-   </div>
-</div> -->
 <div class="crms-title row bg-white mb-4">
    <div class="col  p-0">
       <div></div>
@@ -72,16 +60,49 @@
       </div>
    </div>
 </div> 
+<?php
+$currentDate = date('d');
+if($currentDate <= 15){ ?>
 <div class="row graphs">
-  <div class="col-md-12">
+  <div class="col-md-6">
     <div class="card h-100">
       <div class="card-body">
-        <h3 class="card-title">Total Monthly Milk Analysis</h3>
-        <div id="TotalMonthyMilkAnalysis"></div>
+        <h3 class="card-title">Total Monthly Morning Milk Analysis</h3>
+        <div id="TotalMonthyMonrningMilkAnalysis"></div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="card h-100">
+      <div class="card-body">
+        <h3 class="card-title">Total Monthly Evening Milk Analysis</h3>
+        <div id="TotalMonthyEveningMilkAnalysis"></div>
       </div>
     </div>
   </div>
 </div>
+<?php }else{ ?>
+
+<div class="row graphs">
+  <div class="col-md-12">
+    <div class="card h-100">
+      <div class="card-body">
+        <h3 class="card-title">Total Monthly Morning Milk Analysis</h3>
+        <div id="TotalMonthyMonrningMilkAnalysis"></div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-12">
+    <div class="card h-100">
+      <div class="card-body">
+        <h3 class="card-title">Total Monthly Evening Milk Analysis</h3>
+        <div id="TotalMonthyEveningMilkAnalysis"></div>
+      </div>
+    </div>
+  </div>
+</div>
+          
+<?php } ?>
 <div class="col-md-12 grid-margin">
    <div class="">
       <div class="card-body p-0 row">
@@ -114,8 +135,14 @@
       </div>
    </div>
 </div>
+<?php
 
+$colors = ["#6610F2","#E83E8C","#FD7E14","#20C997","#007BFF","#28A745","#17A2B8","#FFC107","#DC3545","#F8F9FA","#343A40"];
+?>
 <script type="text/javascript">
+var colors = [<?php echo '"'.implode('","', $colors).'"' ?>];
+var MorningMilkDetail = <?php echo $MorningMilkDetail; ?>;
+var EveningMilkDetail = <?php echo $EveningMilkDetail; ?>;
 $(document).ready(function() {  
   $('.count').each(function () {
       $(this).prop('Counter',0).animate({
@@ -130,33 +157,28 @@ $(document).ready(function() {
   });
 
   Morris.Line({
-    element: 'TotalMonthyMilkAnalysis',
-    data: [
-      { y: '2006', a: 50, b: 90 },
-      { y: '2007', a: 75,  b: 65 },
-      { y: '2008', a: 50,  b: 40 },
-      { y: '2009', a: 75,  b: 65 },
-      { y: '2010', a: 50,  b: 40 },
-      { y: '2011', a: 75,  b: 65 },
-      { y: '2012', a: 100, b: 50 }
-    ],
-    xkey: 'y',
-    ykeys: ['a', 'b'],    
-    labels: ['Total Sales', 'Total Revenue','Collector'],
-    lineColors: ['#9a55ff','#da8cff'],
+    element: 'TotalMonthyMonrningMilkAnalysis',
+    data: MorningMilkDetail,
+    xkey: 'date',
+    ykeys: ['milkCollected', 'fat','Lactose','Ash'],    
+    labels: ['Milk Collected', 'Fat','Lactose','Ash'],
+    lineColors: colors,
     lineWidth: '3px',
     resize: true,
-    redraw: true,
-    stacked: false,
-    hoverCallback: function (index, options, content, row) {
-        var finalContent = content;
-        $.each(options.ykeys, function (i, v) {
-            var hours = ("0" + Math.floor(row[v] / 60)).slice(-2);
-            var minutes = ("0" + row[v] % 60).slice(-2);
-            finalContent.replace(row[v], hours + ":" + minutes);
-        });
-        return finalContent;
-    }  
+    redraw: true, 
+  });
+
+
+  Morris.Line({
+    element: 'TotalMonthyEveningMilkAnalysis',
+    data: EveningMilkDetail,
+    xkey: 'date',
+    ykeys: ['milkCollected', 'fat','Lactose','Ash'],    
+    labels: ['Milk Collected', 'Fat','Lactose','Ash'],
+    lineColors: colors,
+    lineWidth: '3px',
+    resize: true,
+    redraw: true, 
   });
 });
 

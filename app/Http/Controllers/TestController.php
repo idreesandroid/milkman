@@ -12,6 +12,8 @@ use App\Models\UserAccount;
 use App\Models\Cart;
 use App\Models\User;
 use App\Models\Product;
+use App\Models\SubTask;
+use App\Models\UserTransaction;
 use Illuminate\Http\Request;
 
 use App\Http\Controllers\CollectionController as CollectionController;
@@ -30,29 +32,86 @@ class TestController extends Controller
      */
     public function index()
     {
-         
-        $start=array(255,255,255); //White
-        $end=array(0,0,0); //Black
-        $steps=3;
 
-        $colors=array($start); //You want the start color to be part of the result array
-        $intervals=$steps-1; //You want 3 steps to mean 2 intervals
+        $first_day_this_month  = date('Y-m-01');
+        $current_day_this_month = date('Y-m-d');
 
-        $current=$start;
-        $delta=array(
-           ($end[0]-$start[0])/$intervals,
-           ($end[1]-$start[1])/$intervals,
-           ($end[2]-$start[2])/$intervals
-        );
+        $periods = createDateRangeArray($first_day_this_month,$current_day_this_month);
 
-        for ($i=1;$i<$intervals;$i++) {
-          $current=array($current[0]+$delta[0],$current[1]+$delta[1],$current[2]+$delta[2]);
-          $colors[]=array(round($current[0],$current[1],$current[2]));
-        }
+        $MorningMilkDetail = '[';        
+        $EveningMilkDetail = '[';        
 
-        $colors[]=$end; //You want the end color to be part of the result array
+        foreach($periods as $period){
+            $MorningMilkqualityString = '';
+            $MorningMilkqualityString .= '{date:'."'".$period."'".',';
 
-        print_r($colors);
+            $EveningMilkqualityString = '';
+            $EveningMilkqualityString .= '{date:'."'".$period."'".',';  
+
+            $morningMilkQuality = SubTask::select('milkCollected','fat','Lactose','Ash','totalProteins','totalSolid')
+                                    ->where('taskShift', 'Morning')
+                                    ->where('status', 'Complete')
+                                    ->where('created_at', 'like', '%' . $period . '%')
+                                    ->first();
+
+            if(isset($morningMilkQuality)){
+                $MorningMilkqualityString.= "'".'milkCollected'."':"."'".$morningMilkQuality->milkCollected."'".",";
+                $MorningMilkqualityString.= "'".'fat'."':"."'".$morningMilkQuality->fat."'".",";
+                $MorningMilkqualityString.= "'".'Lactose'."':"."'".$morningMilkQuality->Lactose."'".",";
+                $MorningMilkqualityString.= "'".'Ash'."':"."'".$morningMilkQuality->Ash."'".",";
+            }else{
+                $MorningMilkqualityString.= "'".'milkCollected'."':"."'".'0'."'".",";
+                $MorningMilkqualityString.= "'".'fat'."':"."'".'0'."'".",";
+                $MorningMilkqualityString.= "'".'Lactose'."':"."'".'0'."'".",";
+                $MorningMilkqualityString.= "'".'Ash'."':"."'".'0'."'".",";
+            }
+                         
+            $newMorMilk='';
+            $newMorMilk .= rtrim($MorningMilkqualityString, ","); 
+            $newMorMilk .= '},';
+            $MorningMilkDetail .= $newMorMilk; 
+
+
+            $eveningMilkQuality = SubTask::select('milkCollected','fat','Lactose','Ash','totalProteins','totalSolid')
+                                    ->where('taskShift', 'Evening')
+                                    ->where('status', 'Complete')
+                                    ->where('created_at', 'like', '%' . $period . '%')
+                                    ->first();
+
+            if(isset($eveningMilkQuality)){
+                $EveningMilkqualityString.= "'".'milkCollected'."':"."'".$eveningMilkQuality->milkCollected."'".",";
+                $EveningMilkqualityString.= "'".'fat'."':"."'".$eveningMilkQuality->fat."'".",";
+                $EveningMilkqualityString.= "'".'Lactose'."':"."'".$eveningMilkQuality->Lactose."'".",";
+                $EveningMilkqualityString.= "'".'Ash'."':"."'".$eveningMilkQuality->Ash."'".",";
+            }else{
+                $EveningMilkqualityString.= "'".'milkCollected'."':"."'".'0'."'".",";
+                $EveningMilkqualityString.= "'".'fat'."':"."'".'0'."'".",";
+                $EveningMilkqualityString.= "'".'Lactose'."':"."'".'0'."'".",";
+                $EveningMilkqualityString.= "'".'Ash'."':"."'".'0'."'".",";
+            }
+                         
+            $newEveMilk='';
+            $newEveMilk .= rtrim($EveningMilkqualityString, ","); 
+            $newEveMilk .= '},';
+            $EveningMilkDetail .= $newEveMilk;                     
+        }        
+
+        $MorningMilkDetail .= ']'; 
+
+        $MorningMilkDetail = str_replace("},]","}]",$MorningMilkDetail);
+
+        echo $MorningMilkDetail;
+
+        echo "<br>=========================</br>";
+
+        $EveningMilkDetail .= ']'; 
+
+        $EveningMilkDetail = str_replace("},]","}]",$EveningMilkDetail);
+
+        echo $EveningMilkDetail;
+
+
+
             
 }
 

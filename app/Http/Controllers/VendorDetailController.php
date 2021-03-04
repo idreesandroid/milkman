@@ -260,7 +260,6 @@ class VendorDetailController extends Controller
     {
         $Vid = Auth::id();
 
-        $saleMilk = SubTask::where('vendor_id', $Vid)->where('status', 'Complete')->sum('milkCollected');
 
         $myMilkTransactions=DB::table('sub_tasks')
            ->select('sub_tasks.id','name','milkCollected','collectedTime','taskShift','totalSolid','qualityPic')
@@ -268,6 +267,7 @@ class VendorDetailController extends Controller
            ->where('status', 'Complete')
            ->join('users','AssignTo','=','users.id')
            ->get();
+        $saleMilk = SubTask::where('vendor_id', $Vid)->where('status', 'Complete')->sum('milkCollected');
         $decided_rate =  vendorDetail::select('decided_rate')
                                         ->where('user_id', $Vid)
                                         ->first();
@@ -278,11 +278,83 @@ class VendorDetailController extends Controller
                                         ->sum('milkCollected');
         $todayEveningQuentity = SubTask::where('vendor_id', $Vid)
                                         ->where('status', 'Complete')
-                                        ->where('taskShift', 'Evening')
-                                        ->where('created_at', 'Evening')
+                                        ->where('taskShift', 'Evening')            
                                         ->where('created_at','like', '%'.date('Y-m-d').'%')
                                         ->sum('milkCollected');
-    return view('dashBoards/vendor', compact('saleMilk','myMilkTransactions','decided_rate','todayMorningQuentity','todayEveningQuentity'));
+        $first_day_this_month  = date('Y-m-01');
+        $current_day_this_month = date('Y-m-d');
+
+        $periods = createDateRangeArray($first_day_this_month,$current_day_this_month);
+
+        $MorningMilkDetail = '[';        
+        $EveningMilkDetail = '[';        
+
+        foreach($periods as $period){
+            $MorningMilkqualityString = '';
+            $MorningMilkqualityString .= '{date:'."'".$period."'".',';
+
+            $EveningMilkqualityString = '';
+            $EveningMilkqualityString .= '{date:'."'".$period."'".',';  
+
+            $morningMilkQuality = SubTask::select('milkCollected','fat','Lactose','Ash','totalProteins','totalSolid')
+                                    ->where('taskShift', 'Morning')
+                                    ->where('vendor_id', $Vid)
+                                    ->where('status', 'Complete')
+                                    ->where('created_at', 'like', '%' . $period . '%')
+                                    ->first();
+
+            if(isset($morningMilkQuality)){
+                $MorningMilkqualityString.= "'".'milkCollected'."':"."'".$morningMilkQuality->milkCollected."'".",";
+                $MorningMilkqualityString.= "'".'fat'."':"."'".$morningMilkQuality->fat."'".",";
+                $MorningMilkqualityString.= "'".'Lactose'."':"."'".$morningMilkQuality->Lactose."'".",";
+                $MorningMilkqualityString.= "'".'Ash'."':"."'".$morningMilkQuality->Ash."'".",";
+            }else{
+                $MorningMilkqualityString.= "'".'milkCollected'."':"."'".'0'."'".",";
+                $MorningMilkqualityString.= "'".'fat'."':"."'".'0'."'".",";
+                $MorningMilkqualityString.= "'".'Lactose'."':"."'".'0'."'".",";
+                $MorningMilkqualityString.= "'".'Ash'."':"."'".'0'."'".",";
+            }
+                         
+            $newMorMilk='';
+            $newMorMilk .= rtrim($MorningMilkqualityString, ","); 
+            $newMorMilk .= '},';
+            $MorningMilkDetail .= $newMorMilk; 
+
+
+            $eveningMilkQuality = SubTask::select('milkCollected','fat','Lactose','Ash','totalProteins','totalSolid')
+                                    ->where('taskShift', 'Evening')
+                                    ->where('vendor_id', $Vid)
+                                    ->where('status', 'Complete')
+                                    ->where('created_at', 'like', '%' . $period . '%')
+                                    ->first();
+
+            if(isset($eveningMilkQuality)){
+                $EveningMilkqualityString.= "'".'milkCollected'."':"."'".$eveningMilkQuality->milkCollected."'".",";
+                $EveningMilkqualityString.= "'".'fat'."':"."'".$eveningMilkQuality->fat."'".",";
+                $EveningMilkqualityString.= "'".'Lactose'."':"."'".$eveningMilkQuality->Lactose."'".",";
+                $EveningMilkqualityString.= "'".'Ash'."':"."'".$eveningMilkQuality->Ash."'".",";
+            }else{
+                $EveningMilkqualityString.= "'".'milkCollected'."':"."'".'0'."'".",";
+                $EveningMilkqualityString.= "'".'fat'."':"."'".'0'."'".",";
+                $EveningMilkqualityString.= "'".'Lactose'."':"."'".'0'."'".",";
+                $EveningMilkqualityString.= "'".'Ash'."':"."'".'0'."'".",";
+            }
+                         
+            $newEveMilk='';
+            $newEveMilk .= rtrim($EveningMilkqualityString, ","); 
+            $newEveMilk .= '},';
+            $EveningMilkDetail .= $newEveMilk;                     
+        }        
+
+        $MorningMilkDetail .= ']'; 
+
+        $MorningMilkDetail = str_replace("},]","}]",$MorningMilkDetail); 
+
+        $EveningMilkDetail .= ']'; 
+
+        $EveningMilkDetail = str_replace("},]","}]",$EveningMilkDetail);
+
+        return view('dashBoards/vendor', compact('saleMilk','myMilkTransactions','decided_rate','todayMorningQuentity','todayEveningQuentity','MorningMilkDetail','EveningMilkDetail'));
 
     }
 
