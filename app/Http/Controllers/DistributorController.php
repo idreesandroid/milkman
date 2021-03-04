@@ -66,7 +66,6 @@ class DistributorController extends Controller
             'companyContact' => 'required',
             'companyAddress'=>'required|min:3',
             'companyNTN'=>'required|min:3|unique:distributors', 
-            'companyArea' => 'required', 
             'companyLogo' => 'required',           
             'companyLogo.*' => 'mimes:jpg,png,jpeg,gif'       
         ]);
@@ -99,7 +98,6 @@ class DistributorController extends Controller
         $distributor_details->companyContact = $request->companyContact;
         $distributor_details->companyAddress = $request->companyAddress;
         $distributor_details->companyNTN = $request->companyNTN;
-        $distributor_details->companyArea = $request->companyArea;
    
 
         if($request->hasfile('companyLogo')) {
@@ -138,7 +136,6 @@ class DistributorController extends Controller
     public function myOrders()
     {
         $mid = Auth::id();
-
         $invoices = Invoice::where('buyer_id' , $mid)->get();
         return view('distributor-detail/myInvoices', compact('invoices'));
        // return $invoices;
@@ -150,8 +147,6 @@ class DistributorController extends Controller
         $Did = Auth::id();
 
        $Did = Auth::id();
-
-
          $products = Product::select('id','product_name')->get();
          $totalOrders = [];
          $productids = [];
