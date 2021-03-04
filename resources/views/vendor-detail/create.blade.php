@@ -91,21 +91,24 @@
                      </div>
                   </div>
                </div>
-               <h4 class="card-title">Business Address Information</h4>
-               <div class="row">
-                  <div class="col-md-12">  
-                     <div class="form-group">
-                        <label>Business Address:</label>
-                        <input class="form-control" id="autocomplete2" onfocus="searchLocation()" type="text" name="user_address"/>
-                     </div>
-                  </div>
-               </div>
                <h4 class="card-title">Business Information</h4>
                <div class="row">
                   <div class="col-md-6">
                      <div class="form-group">
                         <label>Average Daily Quantity:</label>
                         <input type="number" min="0"  class="form-control" name="decided_milkQuantity"    required=""  autocomplete="off" >
+                     </div>                  
+                     <div class="form-group">
+                        <label>Morning Agreed Quantity:</label>
+                        <input type="number" min="0"  class="form-control" name="morning_decided_milkQuantity"    required=""  autocomplete="off" >
+                     </div>
+                     <div class="form-group">
+                        <label>Evening Agreed Quantity:</label>
+                        <input type="number" min="0"  class="form-control" name="evening_decided_milkQuantity"    required=""  autocomplete="off" >
+                     </div>
+                     <div class="form-group">
+                        <label>Business Address:</label>
+                        <input class="form-control" id="autocomplete2" onfocus="searchLocation()" type="text" name="user_address"/>
                      </div>
                   </div>
                   <div class="col-md-6">
@@ -113,36 +116,17 @@
                         <label>Agreed Rate:</label>
                         <input type="number" min="0" class="form-control" name="decided_rate" required=""  autocomplete="off" >
                      </div>
-                  </div>
-               </div>
-               <div class="row">
-                  <div class="col-md-6">
-                     <div class="form-group">
-                        <label>Morning Agreed Quantity:</label>
-                        <input type="number" min="0"  class="form-control" name="morning_decided_milkQuantity"    required=""  autocomplete="off" >
-                     </div>
-                  </div>
-                  <div class="col-md-6">
                      <div class="form-group">
                         <label>Morning Expected Time:</label>
                         <input type="time" min="0" class="form-control" name="morningTime" required=""  autocomplete="off"  >
                      </div>
-                  </div>
-               </div>
-               <div class="row">
-                  <div class="col-md-6">
-                     <div class="form-group">
-                        <label>Evening Agreed Quantity:</label>
-                        <input type="number" min="0"  class="form-control" name="evening_decided_milkQuantity"    required=""  autocomplete="off" >
-                     </div>
-                  </div>
-                  <div class="col-md-6">
                      <div class="form-group">
                         <label>Evening Expected Time:</label>
                         <input type="time" min="0" class="form-control" name="eveningTime" required=""  autocomplete="off"  >
                      </div>
                   </div>
                </div>
+               
                <div class="custom-control custom-checkbox">
                   <input type="checkbox" class="custom-control-input" id="bankDetails" name="bankDetails" value="1" onClick="haveBankDetail()">
                   <label class="custom-control-label" for="bankDetails">Have a bank accout?</label>

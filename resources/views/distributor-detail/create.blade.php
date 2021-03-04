@@ -46,7 +46,7 @@
                   <div class="col-md-6">
                      <div class="form-group">
                         <label>Full Name:</label>
-                        <input type="text" class="form-control" name="name" minlength="3"  required=""   autocomplete="off"  placeholder="Enter Full Name">
+                        <input type="text" class="form-control" name="name" minlength="3"  required=""   autocomplete="off" >
                      </div>
                      <div class="form-group">
                         <label>CNIC:</label>
@@ -60,7 +60,7 @@
                   <div class="col-md-6">
                      <div class="form-group">
                         <label>Email:</label>
-                        <input type="text" class="form-control" type="email" name="email"  autocomplete="off" placeholder="Enter Email" >
+                        <input type="text" class="form-control" type="email" name="email"  autocomplete="off" >
                      </div>
                      <div class="form-group">
                         <label>Password:</label>
@@ -87,7 +87,7 @@
                   <div class="col-md-6">
                      <div class="form-group">
                         <label>Home Address:</label>
-                        <input class="form-control" id="autocomplete" placeholder="Enter your address" onFocus="geolocate()" type="text" name="user_address"/>
+                        <input class="form-control" id="autocomplete" onFocus="geolocate()" type="text" name="user_address"/>
                      </div>
 
                      <div class="form-group">
@@ -96,47 +96,34 @@
                   </div>
                   </div>
                </div>
-               <h4 class="card-title">Business Address Information</h4>
-               <div class="row">
-                  <div class="col-md-12">  
-                     <div class="form-group">
-                        <label>Business Address:</label>
-                        <input class="form-control" id="autocomplete2" onfocus="searchLocation()" type="text" name="user_address"/>
-                     </div>
-                  </div>
-               </div>
                <h4 class="card-title">Company Information</h4>
                <div class="row">
                   <div class="col-md-6">
                      <div class="form-group">
                         <label>Company Owner:</label>
-                        <input type="text" min="0"  class="form-control" name="companyOwner"    required=""  autocomplete="off" placeholder="Company Owner Name">
+                        <input type="text"   class="form-control" name="companyOwner"    required=""  autocomplete="off" >
                      </div>
                      <div class="form-group">
                         <label>Company NTN:</label>
-                        <input type="text" min="0"  class="form-control" name="companyNTN"    required=""  autocomplete="off" placeholder="Company Nation Tex Number">
-                     </div>
+                        <input type="text" min="0"  class="form-control" name="companyNTN"    required=""  autocomplete="off" >
+                     </div>                     
                      <div class="form-group">
-                        <label>Company Location(area):</label>
-                        <input type="text" min="0"  class="form-control" name="companyArea"    required=""  autocomplete="off" placeholder="Company Location">
-                     </div>
-                     <div class="form-group">
-                        <label>Company Logo:</label>
-                        <input type="file" class="form-control" name="companyLogo" required=""   autocomplete="off" >
+                        <label>Company Address:</label>
+                        <input class="form-control" name="companyAddress" id="autocomplete2" onfocus="searchLocation()" type="text" />
                      </div>
                   </div>
                   <div class="col-md-6">
                      <div class="form-group">
                         <label>Company Name:</label>
-                        <input type="text" min="0"  class="form-control" name="companyName"    required=""  autocomplete="off" >
+                        <input type="text" class="form-control" name="companyName" required=""  autocomplete="off" >
                      </div>
                      <div class="form-group">
                         <label>Company Contact:</label>
-                        <input type="text" min="0"  class="form-control" name="companyContact"    required=""  autocomplete="off" >
+                        <input type="text" class="form-control" name="companyContact" required=""  autocomplete="off" >
                      </div>
                      <div class="form-group">
-                        <label>Company Address:</label>
-                        <input type="text" min="0"  class="form-control" name="companyAddress"    required=""  autocomplete="off" >
+                        <label>Company Logo:</label>
+                        <input type="file" class="form-control" name="companyLogo" required=""   autocomplete="off" >
                      </div>
                   </div>
                </div>
