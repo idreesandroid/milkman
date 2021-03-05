@@ -170,6 +170,8 @@ Route::get('milk-point/submission',          [MilkBankController::class, 'pointC
 Route::get('milk-point/check-quantity/{id}', [MilkBankController::class, 'checkQuantity'])->name('check.quantity')->middleware('can:Collect-Milk-From-Collection-Point');
 Route::post('milkPoint/submission',          [MilkBankController::class, 'pointSubmission'])->name('point.submission')->middleware('can:Collect-Milk-From-Collection-Point');
 
+Route::get('point/base-submission/{id}',      [MilkBankController::class, 'pointBaseSubmission'])->name('point-base.Submission');
+
 //collection Manager Controller routes--------------------------------
 Route::get('get/collection-managers/{id}',               [CollectionManagerController::class,  'getCollectionManager'])->name('getCollectionManager')->middleware('can:Assign-Collection-Point');
 Route::post('assign/collection-point',              [CollectionManagerController::class, 'assignCollectionManager'])->name('assignManager.Point')->middleware('can:Assign-Collection-Point');
