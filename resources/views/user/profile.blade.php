@@ -1125,7 +1125,9 @@
 if($users->roles[0]->name == 'Vendor'){
    $latitude = $users->vendorDetail->latitude;
    $longitude = $users->vendorDetail->longitude;
-}else if($users->roles[0]->name == 'Distributor'){
+}
+else if($users->roles[0]->name == 'Distributor')
+{
    $string = $users->distributorCompany->alotedArea;
 
    if(strripos($string, '{"type":"MARKER","id":null,"geometry":[')){
@@ -1155,6 +1157,8 @@ if($users->roles[0]->name == 'Vendor'){
    $latitude = '';
    $longitude = '';
 }
+
+
 ?>
 @if($users->roles[0]->name == 'Distributor')
 <!--Collector Assiging-->
@@ -1267,6 +1271,7 @@ $userRole = $users->roles[0]->name;
 
 <input type="hidden" value="<?php echo $latitude; ?>" id="latitude">
 <input type="hidden" value="<?php echo $longitude; ?>" id="longitude">
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script type="text/javascript">
 var userRole = <?php echo "'".$userRole."'"; ?>; 
@@ -1321,6 +1326,7 @@ $("#CollectorInventoryHistory").DataTable();
 $("#userPaymentHistory").DataTable();
 $("#VendorCollectionHistory").DataTable();
 $("#collectorTaskHistory").DataTable();
+
 var latitude = $("#latitude").val();
 var longitude = $("#longitude").val();
 var roleUser = $("#roleUser").text();

@@ -31,20 +31,61 @@ class milkCollectionController extends Controller
        return view('collectionPoint/index', compact('collectionPoints'));
     }
 
+    public function mapDetail($id)
+    {  
+     $collectionPoints = DB::table('milk_collection_points')
+     ->select('milk_collection_points.id','pointName','pointAddress','collectionPointId','totalmilk','longitude','latitude')
+     ->leftJoin('collection_point_managers','milk_collection_points.id','=','collection_point_managers.collectionPointId')
+     ->where('milk_collection_points.id',$id)
+     ->first();
+
+    $Long = $collectionPoints->longitude;
+    $Lat = $collectionPoints->latitude;
+
+
+    $collectionPoint = DB::table('milk_collection_points')
+    ->select('milk_collection_points.id','pointName','pointAddress','collectionPointId','totalmilk','longitude','latitude')
+    ->leftJoin('collection_point_managers','milk_collection_points.id','=','collection_point_managers.collectionPointId')
+    ->where('milk_collection_points.id',$id)
+    ->get();
+
+     $location = '[';
+      foreach ($collectionPoint as $value) {
+          $location .='{"type":"MARKER","id":null,"geometry":['.trim($value->latitude).','.trim($value->longitude).']},';
+      }
+      $location .= ']';
+      
+      $location = str_replace("},]","}]",$location);
+
+    //  echo "<pre>";
+    //  print_r($collectionPoints->latitude);
+    //  exit;
+       return view('collectionPoint/mapDetail', compact('collectionPoints','Long','Lat','location'));
+    }
+
     public function create() 
     {       
         return view('collectionPoint/create');
     }
 
     public function store(Request $request)
-    {    
+    {   
+        
+        // echo "<pre>";
+        // print_r($request->all());
+        // exit; 
+
         $this->validate($request,[      
             'point_name'=>   'required',
             'point_address'=>'required',
+            'map_detail'=>'required',
          ]);     
         $points = new milkCollectionPoint();
         $points->pointName = $request->point_name;        
-        $points->pointAddress = $request->point_address;
+        $points->pointAddress = $request->point_address;        
+        $mapdata = json_decode($request->map_detail);
+        $points->latitude = $mapdata[0]->geometry[0];
+        $points->longitude = $mapdata[0]->geometry[1];
         $points->milkBank_Id = 1;
         $points->save();
         return redirect()->route('index.collectionPoint');

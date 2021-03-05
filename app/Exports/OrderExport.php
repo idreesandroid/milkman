@@ -27,6 +27,7 @@ class OrderExport implements FromQuery, WithHeadings, WithMapping, WithColumnFor
         $this->toDate = $toDate;
         $this->buyerID = $buyerID;
 	}
+    
     public function query()
     {
         $invoice = Invoice::select(
@@ -57,6 +58,7 @@ class OrderExport implements FromQuery, WithHeadings, WithMapping, WithColumnFor
              $invoice->flag,
          ];
     }
+
     public function columnFormats(): array {
         return [
             'A' => NumberFormat::FORMAT_DATE_DDMMYYYY
