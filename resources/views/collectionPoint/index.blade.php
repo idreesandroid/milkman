@@ -47,6 +47,7 @@
                         @endcan
                         <th>Detail</th>
                         <th>Action</th>
+                        <th>Map</th>
                      </tr>
                   </thead>
                   <tbody>
@@ -66,6 +67,9 @@
                               <button class="btn btn-danger btn-sm" type="submit">Delete</button>
                            </form>
                         </td>
+                        
+                        <td><a href="{{ route('edit.collectionPoint', $collectionPoint->id)}}" class="btn btn-primary">Location</a></td>
+
                      </tr>
                      @endforeach
                   </tbody>

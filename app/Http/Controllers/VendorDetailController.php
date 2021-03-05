@@ -46,6 +46,10 @@ class VendorDetailController extends Controller
 
     public function store(Request $request)
     {
+     echo "<pre>";
+     print_r($request->all());
+     exit; 
+
         if($request->has('bankDetails')){
 
             $this->validate($request,[        
@@ -100,10 +104,12 @@ class VendorDetailController extends Controller
                 $vendor_register->roles()->attach(Role::where('id',6)->first());
 
                 $vendor_details = new vendorDetail();
-                $vendor_details->user_id = $vendor_register->id;        
+                $vendor_details->user_id = $vendor_register->id;  
+
                 $mapdata = json_decode($request->map_detail);
                 $vendor_details->latitude = $mapdata[0]->geometry[0];
                 $vendor_details->longitude = $mapdata[0]->geometry[1];
+                
                 $vendor_details->decided_milkQuantity = $request->decided_milkQuantity;
                 $vendor_details->decided_rate = $request->decided_rate; 
                 

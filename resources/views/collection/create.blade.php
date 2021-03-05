@@ -87,9 +87,12 @@ foreach ($vendors as $key => $value) {
                            <option value="yellow">Yellow</option>
                            <option value="red">Red</option>
                         </select> 
-                  </div>                       
+                  </div>     
+
+
                </div>    
                <div class="map" id="addCollectionMap"></div>
+              
                <div class="row">
                   <div class="col-md-12">
                      <div class="form-group">                        

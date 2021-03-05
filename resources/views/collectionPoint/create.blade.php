@@ -44,7 +44,37 @@
                      <input type="text" class="form-control" name="point_address" required="" autocomplete="off">
                   </div>
                </div>
-               
+               <!-- -------------------------------------------------------------------------------------------------------------- -->
+               <div class="map" id="mapIn"></div>
+               <div class="row">
+                  <div class="col-md-12">
+                     <div class="form-group">                        
+                        <input type="text" min="0"  class="form-control" id="MapData" readonly name="map_detail">
+                     </div>
+                  </div>
+               </div>
+               <div class="row">
+                  <div class="col-md-2">
+                     <div class="form-group">                        
+                        <input type="button"  class="form-control btn btn-info"  value="Add" id="save_raw_map">
+                     </div>
+                  </div>
+                  <div class="col-md-2">
+                     <div class="form-group">                        
+                        <input type="button" class="form-control btn btn-danger"  value="Clear Shap" id="clear_shapes">
+                     </div>
+                  </div>
+                  <div class="col-md-2">
+                     <div class="form-group">                        
+                        <input type="button" id="restore" class="form-control btn btn-primary"  value="Restore">
+                     </div>
+                  </div>
+               </div>
+
+
+
+               <!-- ------------------------------------------------------------------------------------------------------ -->
+
                <div class="form-group mb-0 row">
                   <div class="col-md-10">
                      <div class="input-group-append">
@@ -58,5 +88,13 @@
    </div>
 </div>
 <!-- /page Wrapper -->
+
+<script>
+   $(document).ready(function() {       
+           initializeMap('mapIn','clear_shapes','save_raw_map','restore','MapData');
+          // initializeMap('updateCollectionMap','edit_clear_shapes','update_raw_map','edit_restore','update_MapData',infoWindowDetail,infoWindowDetail[0][1],infoWindowDetail[0][2]);
+          
+    });
+</script>
 @endsection
 

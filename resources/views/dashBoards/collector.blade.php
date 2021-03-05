@@ -398,6 +398,9 @@ function showPosition(position) {
   x.innerHTML = position.coords.latitude +"," + position.coords.longitude;
 }
 
+
+//Direction For google--------------------
+
 function redirectToGoogleMap(lat,lng){
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(showPosition);

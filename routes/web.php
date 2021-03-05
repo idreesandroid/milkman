@@ -153,6 +153,8 @@ Route::get('collectors/collections/{id}',     [milkCollectionController::class, 
 Route::any('collection/submission',           [milkCollectionController::class, 'collectionSubmission'])->name('collection.Submission')->middleware('can:Collect-Milk-From-Collector');
 Route::get('area/base-collection/{id}',       [milkCollectionController::class, 'areaBaseCollection'])->name('area-base.Collections');
 Route::get('point/base-collection/{id}',      [milkCollectionController::class, 'pointBaseCollection'])->name('point-base.Collections');
+
+Route::get('collectionPointMap/detail/{id}',  [milkCollectionController::class, 'mapDetail'])->name('collectionPointMap.Detail');
 //milkBank routes--------------------------------
 Route::get('milkBank/index',           [MilkBankController::class, 'milkBankIndex'])->name('index.milkBank')->middleware('can:See-Milk-Bank');
 Route::get('milkBank/create',          [MilkBankController::class, 'milkBankCreate'])->name('create.milkBank')->middleware('can:Create-Milk-Bank');
@@ -180,7 +182,6 @@ Route::get('collection-point-get/asset-list/{id}',  [CollectionManagerController
 Route::post('collection-point-set/asset-list',      [CollectionManagerController::class, 'setCollectorAsset'])->name('set.CollectorAsset')->middleware('can:Assign-Asset-To-Collector');
 
 Route::get('collectionPoint/area',                  [CollectionManagerController::class, 'myAreas'])->name('my.Areas');
-
 
 
 //Cart routes----------------------------------------
@@ -251,7 +252,6 @@ Route::get('type/edit/{id}',       [AssetController::class, 'editType'])->name('
 Route::post('type/update/{id}',    [AssetController::class, 'updateType'])->name('update.type')->middleware('can:Edit-Asset-Type');
 Route::Delete('type/delete/{id}',  [AssetController::class, 'deleteType'])->name('delete.type')->middleware('can:Delete-Asset-Type');
 
-
 Route::get('asset/list',            [AssetController::class, 'listAsset'])->name('list.asset')->middleware('can:See-Asset');
 Route::get('asset/create',          [AssetController::class, 'createAsset'])->name('create.asset')->middleware('can:Create-Asset');
 Route::post('asset/create',         [AssetController::class, 'storeAsset'])->name('store.asset')->middleware('can:Create-Asset');
@@ -295,4 +295,6 @@ Route::any('downloadtask', [RegisterController::class, 'exportTask'])->name('exp
 Route::any('downloadpayment', [RegisterController::class, 'exportPayment'])->name('exportinexcel.payment');
 Route::any('downloadvendorcollection', [RegisterController::class, 'exportVendorCollection'])->name('exportinexcel.VendorCollection');
 Route::any('downloadcollectorinventory', [RegisterController::class, 'exportCollectorInventory'])->name('exportinexcel.collectorInventory');
+
+//testing---------------------------------
 

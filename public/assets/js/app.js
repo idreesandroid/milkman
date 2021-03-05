@@ -438,7 +438,14 @@ function draggableInit() {
 @return map
 mapIn
 */
-    
+    // map-----------------------------------------------------------------------------------
+
+    // mapID= that map id
+    // clear_shapes = button clear shap id
+    // save_raw_map = add map button id
+    // restore =restore button id
+    // MapData = input field id
+    // location = 
 function initializeMap(mapID,clear_shapes,save_raw_map,restore,MapData,locations='',lat='',lng=''){
 
     var marker;
@@ -584,7 +591,6 @@ function initializeMap(mapID,clear_shapes,save_raw_map,restore,MapData,locations
         marker.setMap(null); // set markers setMap to null to remove it from map
         delete markers[markerId]; // delete marker instance from markers object
     };
-
 
 
     var getMarkerUniqueId= function(lat, lng) {
