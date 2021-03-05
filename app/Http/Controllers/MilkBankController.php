@@ -208,6 +208,20 @@ public function pointSubmission(Request $request)
 }
 
 
+public function pointBaseSubmission($id)
+{  
+ $milkCollections = DB::table('milk_bank_submissions')
+ ->select('milk_bank_submissions.id','pointName','name','milkCollected','averageFat','averageAsh','averageProteins','averageLactose','averageSolids','Quality_SS','milk_bank_submissions.created_at')
+ ->where('milk_bank_submissions.collectionPoint_id',$id)
+ ->leftJoin('milk_collection_points','milk_bank_submissions.collectionPoint_id','=','milk_collection_points.id')
+ ->leftJoin('users','milk_bank_submissions.collectionManager_id','=','users.id')
+ ->orderBy('milk_bank_submissions.created_at', 'DESC')
+ ->get();
+//  echo "<pre>";
+//  print_r($milkCollections);
+//  exit;
+   return view('milkBank/pointBaseSubmission', compact('milkCollections'));
+}
 
 
 

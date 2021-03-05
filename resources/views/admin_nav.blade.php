@@ -126,14 +126,24 @@
             </li>  
             @endcan 
 
+<!-- Specific to collection Point ----------------------------------->
             @can('My-Point-Collection')
             <li>
                <a href="{{route('point-base.Collections', checkpoint())}}" class="{{ (request()->segment(1) == 'point' && request()->segment(2) == 'base-collection') ? 'active' : '' }}">
                <i class="fa fa-check-square-o" aria-hidden="true"></i>
-               <span>Personal Collection</span>
+               <span>Point Collection</span>
                </a>
             </li>  
            @endcan 
+
+           @can('My-Point-Collection')
+            <li>
+               <a href="{{route('point-base.Submission', checkpoint())}}" class="{{ (request()->segment(1) == 'point' && request()->segment(2) == 'base-submission') ? 'active' : '' }}">
+               <i class="fa fa-check-square-o" aria-hidden="true"></i>
+               <span>Point Submission</span>
+               </a>
+            </li>  
+           @endcan
 
             @can('Generate-Task')
             <li>
