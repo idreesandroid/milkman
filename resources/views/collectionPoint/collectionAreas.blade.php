@@ -44,6 +44,8 @@
                         <td>Morning: {{calculateAreaMCapacity($collectionArea->id)}} <br> Evening: {{calculateAreaECapacity($collectionArea->id)}} </td>
                         <td>@if($collectionArea->AFM == 0) <a href="#" id="assignCollectorM_{{$collectionArea->id}}" class='btn btn-outline-primary' data-toggle="modal" data-target="#collectorSelection" onclick="findCollectors({{$collectionArea->id}},'Morning')">Assign For Morning</a> @elseif ($collectionArea->AFM == 1)<a href="#" id="ReassignCollectorM_{{$collectionArea->id}}" class='btn btn-outline-primary' data-toggle="modal" data-target="#collectorReSelection" onclick="ReAssignCollectors({{$collectionArea->id}},'Morning')">Reassign For Morning</a> @endif
                         <br><br> @if($collectionArea->AFE == 0)<a href="#" id="assignCollectorE_{{$collectionArea->id}}" class='btn btn-outline-primary' data-toggle="modal" data-target="#collectorSelection" onclick="findCollectors({{$collectionArea->id}},'Evening')">Assign For Evening</a> @elseif ($collectionArea->AFE == 1) <a href="#" id="ReassignCollectorE_{{$collectionArea->id}}" class='btn btn-outline-primary' data-toggle="modal" data-target="#collectorReSelection" onclick="ReAssignCollectors({{$collectionArea->id}},'Evening')">ReAssign For Evening</a> @endif</td>     
+              
+                        <td><a href="{{ route('area-base.Collections', $collectionArea->id)}}" class="btn btn-outline-info">Details</a></td>
                      </tr>
                      @endforeach
                   </tbody>

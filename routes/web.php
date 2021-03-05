@@ -150,9 +150,9 @@ Route::Delete('collectionPoint/delete/{id}',  [milkCollectionController::class, 
 Route::get('milk/submission',                 [milkCollectionController::class, 'milkSubmission'])->name('milk.submission')->middleware('can:Collect-Milk-From-Collector');
 //ajax route
 Route::get('collectors/collections/{id}',     [milkCollectionController::class, 'collectorCollections'])->name('collector.Collections')->middleware('can:Collect-Milk-From-Collector');
-Route::any('collection/submission',          [milkCollectionController::class, 'collectionSubmission'])->name('collection.Submission')->middleware('can:Collect-Milk-From-Collector');
-
-
+Route::any('collection/submission',           [milkCollectionController::class, 'collectionSubmission'])->name('collection.Submission')->middleware('can:Collect-Milk-From-Collector');
+Route::get('area/base-collection/{id}',       [milkCollectionController::class, 'areaBaseCollection'])->name('area-base.Collections');
+Route::get('point/base-collection/{id}',      [milkCollectionController::class, 'pointBaseCollection'])->name('point-base.Collections');
 //milkBank routes--------------------------------
 Route::get('milkBank/index',           [MilkBankController::class, 'milkBankIndex'])->name('index.milkBank')->middleware('can:See-Milk-Bank');
 Route::get('milkBank/create',          [MilkBankController::class, 'milkBankCreate'])->name('create.milkBank')->middleware('can:Create-Milk-Bank');

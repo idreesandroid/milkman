@@ -126,6 +126,15 @@
             </li>  
             @endcan 
 
+            @can('My-Point-Collection')
+            <li>
+               <a href="{{route('point-base.Collections', checkpoint())}}" class="{{ (request()->segment(1) == 'point' && request()->segment(2) == 'base-collection') ? 'active' : '' }}">
+               <i class="fa fa-check-square-o" aria-hidden="true"></i>
+               <span>Personal Collection</span>
+               </a>
+            </li>  
+           @endcan 
+
             @can('Generate-Task')
             <li>
                <a href="/milk/submission" class="{{ (request()->segment(1) == 'milk' && request()->segment(2) == 'submission') ? 'active' : '' }}">
@@ -159,7 +168,8 @@
                   <li><a href="/product/analysis" class="{{ (request()->segment(1) == 'product' && request()->segment(2) == 'analysis') ? 'active' : '' }}">Product Analysis</a></li>
                </ul>
             </li>
-            @endcan            
+            @endcan  
+
             @can('See-Cart')
             <li class="submenu">
                <a href="#">

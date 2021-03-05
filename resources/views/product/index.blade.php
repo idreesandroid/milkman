@@ -37,6 +37,7 @@
                      <table class="datatable table table-stripped mb-0 datatables" id="productLising">
                         <thead>
                            <tr>
+                              <th>Image</th> 
                               <th>Name</th>                       
                               <th>Size</th>
                               <th>Price</th>
@@ -52,7 +53,8 @@
                         </thead>
                         <tbody>
                            @foreach($products as $index => $product)
-                           <tr>                              
+                           <tr>
+                              <td><img class="avatar" src="{{asset('/product_img/'.$product->filenames)}}"></td>                              
                               <td>{{$product->product_name}} ({{$product->product_nick}})</td>                        
                               <td>{{$product->product_size}} {{$product->unit}} </td>
                               <td>{{number_format($product->product_price)}}</td>

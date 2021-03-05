@@ -165,4 +165,35 @@ public function collectionSubmission(Request $request)
     }
 }
 
+
+public function areaBaseCollection($id)
+{  
+ $milkCollections = DB::table('collection_point_submissions')
+ ->select('collection_point_submissions.id','title','name','milkCollected','collectionShift','averageFat','averageAsh','averageProteins','averageLactose','averageSolids','averageQuality_SS','collection_point_submissions.created_at')
+ ->where('area_id',$id)
+ ->leftJoin('collections','collection_point_submissions.area_Id','=','collections.id')
+ ->leftJoin('users','collection_point_submissions.collector_id','=','users.id')
+ ->orderBy('collection_point_submissions.created_at', 'DESC')
+ ->get();
+//  echo "<pre>";
+//  print_r($collectionPoints);
+//  exit;
+   return view('collectionPoint/areaBaseMilkCollection', compact('milkCollections'));
+}
+
+public function pointBaseCollection($id)
+{  
+ $milkCollections = DB::table('collection_point_submissions')
+ ->select('collection_point_submissions.id','title','name','milkCollected','collectionShift','averageFat','averageAsh','averageProteins','averageLactose','averageSolids','averageQuality_SS','collection_point_submissions.created_at')
+ ->where('collection_point_submissions.collectionPoint_id',$id)
+ ->leftJoin('collections','collection_point_submissions.area_Id','=','collections.id')
+ ->leftJoin('users','collection_point_submissions.collector_id','=','users.id')
+ ->orderBy('collection_point_submissions.created_at', 'DESC')
+ ->get();
+//  echo "<pre>";
+//  print_r($collectionPoints);
+//  exit;
+   return view('collectionPoint/areaBaseMilkCollection', compact('milkCollections'));
+}
+
 }
