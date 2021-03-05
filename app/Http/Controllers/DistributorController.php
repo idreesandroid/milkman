@@ -147,7 +147,6 @@ class DistributorController extends Controller
         $Did = Auth::id();
 
 
-       $Did = Auth::id();
         $products = Product::select('id','product_name')->get();
         $totalOrders = [];
         $productids = [];
@@ -233,6 +232,10 @@ class DistributorController extends Controller
         $transactionDetail .= ']'; 
 
         $transactionDetail = str_replace("},]","}]",$transactionDetail);
+
+
+
+
 
         $distributorBalance = UserAccount::where('user_id' , $Did)->select('balance')->first();
         $transaction = UserTransaction::where('user_id' , $Did)->count();

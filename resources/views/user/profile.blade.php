@@ -388,6 +388,73 @@
                      <?php } } ?>
 
 
+
+
+                     <?php 
+                     if($users->roles[0]->name == 'Distributor'){
+                     $currentDate = date('d');
+
+                     if($currentDate <= 15){ ?>
+                       <div class="row graphs" id="distributorProOrder">
+                         <div class="col-md-6">
+                           <div class="card h-100">
+                             <div class="card-body">
+                               <h3 class="card-title">Monthly Products Orders Analysis</h3>
+                               <div id="#DistributorMonthlyProductsOrdersAnalysis"></div>
+                             </div>
+                           </div>
+                         </div>    
+
+                       <div class="col-md-6">
+                         <div class="card h-100">
+                           <div class="card-body">
+                               <h3 class="card-title">Monthly Transaction Analysis</h3>
+                             <div id="DistributorMonthlyTransaction" width="800" height="450"></div>
+                           </div>
+                         </div>
+                       </div>  
+                     </div>
+                     <?php }else{ ?>
+                     <div class="row graphs" id="distributorProOrder">
+                         <div class="col-md-12">
+                           <div class="card h-100">
+                             <div class="card-body">
+                               <h3 class="card-title">Monthly Products Orders Analysis</h3>
+                               <div id="#DistributorMonthlyProductsOrdersAnalysis"></div>
+                             </div>
+                           </div>
+                         </div>    
+                     </div>
+                     <div class="row graphs" id="MonthlyTransaction">
+                       <div class="col-md-12">
+                         <div class="card h-100">
+                           <div class="card-body">
+                               <h3 class="card-title">Monthly Transaction Analysis</h3>
+                             <div id="DistributorMonthlyTransaction" width="800" height="450"></div>
+                           </div>
+                         </div>
+                       </div>  
+                     </div>
+                     <?php } }?>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                   @if(isset($location))
                   <div class="map" id="ProfielMap"></div>
                   <div class="row">
@@ -1266,7 +1333,7 @@ $colors = ["#6610F2","#E83E8C","#FD7E14","#20C997","#007BFF","#28A745","#17A2B8"
 
 $userRole = $users->roles[0]->name;
 
-
+$labels = ['Total Libility', 'Total Paid', 'Pending Amount', 'Remaing Amount'];
 ?>
 
 <input type="hidden" value="<?php echo $latitude; ?>" id="latitude">
@@ -1274,14 +1341,25 @@ $userRole = $users->roles[0]->name;
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script type="text/javascript">
+
+var productNames = [<?php echo '"'.implode('","', $productNames).'"' ?>];
+
+let labels = [<?php echo '"'.implode('","', $labels).'"' ?>];
 var userRole = <?php echo "'".$userRole."'"; ?>; 
-console.log(userRole);
 var colors = [<?php echo '"'.implode('","', $colors).'"' ?>];
 
-if(userRole == 'Vendor' ){   
+if(userRole == 'Vendor'){   
    var MorningMilkDetail = <?php echo isset($MorningMilkDetail)?$MorningMilkDetail:'0'; ?>;
+   
    var EveningMilkDetail = <?php echo isset($EveningMilkDetail)?$EveningMilkDetail:'0'; ?>;
 }
+
+
+ if(userRole == 'Distributor'){   
+   
+   var productsDetail = <?php echo isset($productsDetail) ? $productsDetail : '0'; ?>;
+   var transactionDetail = <?php echo isset($transactionDetail) ? $transactionDetail : '0'; ?>;    
+ }
 
 $(document).ready(function() { 
 $('.count').each(function () {
@@ -1295,6 +1373,34 @@ $('.count').each(function () {
           }
       });
   }); 
+
+if(userRole == 'Distributor'){
+   new Morris.Line({
+     element: '#DistributorMonthlyProductsOrdersAnalysis',
+     data: productsDetail,
+     xkey: 'date',
+     ykeys: productNames,
+     labels: productNames,
+     lineColors: colors,
+     lineWidth: '3px',
+     resize: true,
+     redraw: true
+   });
+
+   new Morris.Bar({
+     element: 'DistributorMonthlyTransaction',
+     data: transactionDetail,
+     xkey: 'date',
+     ykeys: labels,
+     labels,
+     lineColors: colors,
+     lineWidth: '3px',
+     barColors: colors,
+     resize: true,
+     redraw: true
+   });
+}
+
 if(userRole == 'Vendor'){
    Morris.Line({
      element: 'TotalMonthyMonrningMilkAnalysis',

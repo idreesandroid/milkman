@@ -151,6 +151,13 @@ class RegisterController extends Controller
 
     if($users->roles[0]['name'] == 'Vendor'){
 
+      $products = Product::select('id','product_name')->get();
+      $productNames = [];
+      foreach($products as $item){
+        array_push($productNames, $item->product_name);
+
+      }
+
     $saleMilk = SubTask::where('vendor_id', $id)->where('status', 'Complete')->sum('milkCollected');
     $decided_rate =  vendorDetail::select('decided_rate')
                                     ->where('user_id', $id)
@@ -259,9 +266,95 @@ class RegisterController extends Controller
 
       $EveningMilkDetail = str_replace("},]","}]",$EveningMilkDetail);
 
-      return view('user/profile', compact('users','user_roles','location','UserTransaction','milkCollection','saleMilk','decided_rate','todayMorningQuentity','todayEveningQuentity','EveningMilkDetail','MorningMilkDetail')); 
+      return view('user/profile', compact('users','user_roles','location','UserTransaction','milkCollection','saleMilk','decided_rate','todayMorningQuentity','todayEveningQuentity','EveningMilkDetail','MorningMilkDetail','productNames')); 
 
     }elseif($users->roles[0]['name'] == 'Distributor'){
+
+        $products = Product::select('id','product_name')->get();
+        $totalOrders = [];
+        $productids = [];
+        $productNames = [];
+        foreach($products as $item){
+            array_push($productids, $item->id);
+            array_push($productNames, $item->product_name);
+
+            $orders = Cart::where('product_id',$item->id)
+
+                             ->where('created_at','>=',date('Y-m-d'))
+                             ->sum('product_quantity');
+            array_push($totalOrders, $orders);
+         }
+
+        $first_day_this_month  = date('Y-m-01');
+        $current_day_this_month = date('Y-m-d');
+
+        $periods = createDateRangeArray($first_day_this_month,$current_day_this_month);
+
+        $productsDetail = '[';     
+        $transactionDetail = '[';     
+
+        foreach($periods as $period){
+            $pro = '';
+            $pro .= '{date:'."'".$period."'".',';
+
+            $singleTran = '';
+            $singleTran .= '{date:'."'".$period."'".',';
+            
+            foreach($productids as $key => $productid){
+
+                $total = '';
+
+                $products = Invoice::select('carts.product_id','carts.created_at','products.product_name','invoices.buyer_id')
+                                    ->join('carts','invoices.id','=','carts.invoice_id')
+                                    ->leftJoin('products','products.id','=','carts.product_id')
+                                    ->where('carts.product_id', $productid)
+                                    ->where('carts.created_at', 'like', '%' . $period . '%')
+                                    ->where('invoices.buyer_id', '=', $id)
+                                    ->get();
+
+                $total = Cart::where('product_id', $productid)
+                                ->where('created_at', 'like', '%' . $period . '%')
+                                ->sum('product_quantity');
+
+                if(empty($products->count())){
+                    $pro .= "'".$productNames[$key]."' : ". $total.",";
+                }else{
+                    $pro .= "'".$productNames[$key]."' : ". $total.",";
+                }
+            }
+            $newpro='';
+            $newpro .= rtrim($pro, ","); 
+            $newpro .= '},';
+            $productsDetail .= $newpro;
+
+        $dailyTotalAmount = Invoice::where('created_at','like','%'.$period.'%')
+                                ->where('buyer_id', '=', $id)
+                                ->sum('total_amount');
+        $verifiedTransaction = UserTransaction::where('user_id' , $id)
+                                        ->where('created_at','like','%'.$period.'%')
+                                        ->where('status' , 'verified')
+                                        ->sum('amountPaid');
+        $NotVerifiedTransaction = UserTransaction::where('user_id' , $id)
+                                        ->where('created_at','like','%'.$period.'%')
+                                        ->where('status' , 'Not verified')
+                                        ->sum('amountPaid');
+        $RemaingAmount = $dailyTotalAmount - $verifiedTransaction;
+        $singleTran .= "'".'Total Libility'."' :".$dailyTotalAmount.",'".'Total Paid'."' : ".$verifiedTransaction.",'".'Pending Amount'."' :".$NotVerifiedTransaction.",'".'Remaing Amount'."' :".abs($RemaingAmount);
+
+            $newTrans='';
+            $newTrans .= rtrim($singleTran, ","); 
+            $newTrans .= '},';
+            $transactionDetail .= $newTrans;
+                      
+        }        
+
+        $productsDetail .= ']'; 
+
+        $productsDetail = str_replace("},]","}]",$productsDetail);
+
+        $transactionDetail .= ']'; 
+
+        $transactionDetail = str_replace("},]","}]",$transactionDetail);
 
       $alotedArea = Distributor::select('alotedArea')->where('user_id','=',$id)->first();
 
@@ -278,10 +371,18 @@ class RegisterController extends Controller
                                           ->leftJoin('users','users.id','=','user_transactions.verifiedBy')
                                           ->where('user_id',$id)
                                           ->get();
+      //print_r($productNames); die;
 
-      return view('user/profile', compact('users','user_roles','location','orderHistory','UserTransaction','products'));
+      return view('user/profile', compact('users','user_roles','location','orderHistory','UserTransaction','products','productsDetail','transactionDetail','productNames'));
 
     }elseif($users->roles[0]['name'] == 'Collector'){
+
+      $products = Product::select('id','product_name')->get();
+      $productNames = [];
+      foreach($products as $item){
+          array_push($productNames, $item->product_name);
+
+       }
 
       $TaskArea = TaskArea::select('task_areas.*','collections.title')
                             ->join('collections','collections.id','=','task_areas.area_id')
@@ -293,7 +394,14 @@ class RegisterController extends Controller
                               ->where('milkman_assets.user_id',$id)
                               ->get();
 
-      return view('user/profile', compact('users','user_roles','collectorAssets','TaskArea','assets')); 
+      return view('user/profile', compact('users','user_roles','collectorAssets','TaskArea','assets','productNames')); 
+    }
+
+    $products = Product::select('id','product_name')->get();
+    $productNames = [];
+    foreach($products as $item){
+      array_push($productNames, $item->product_name);
+
     }
 
     $UserTransaction = UserTransaction::select('user_transactions.*','users.name')
@@ -301,7 +409,7 @@ class RegisterController extends Controller
                                           ->where('user_id',$id)
                                           ->get();
     
-    return view('user/profile', compact('users','UserTransaction')); 
+    return view('user/profile', compact('users','UserTransaction','productNames')); 
    // return view('user/profile', compact('users','user_roles','collectorAssets')); 
   }
 
