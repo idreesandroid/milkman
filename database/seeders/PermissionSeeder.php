@@ -357,5 +357,10 @@ class PermissionSeeder extends Seeder
         $permission_16->name = 'Edit-Collection-Point';
         $permission_16->save();
         
+        $permission_16 = new Permission();
+        $permission_16->slug = 'My-Point-Collection';
+        $permission_16->name = 'My-Point-Collection';
+        $permission_16->save();
+        
     }
 }

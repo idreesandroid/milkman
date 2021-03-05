@@ -99,9 +99,8 @@ foreach ($vendors as $key => $value) {
                              @can('Assign-Collection-Area')
                               <!-- <a href="#" class='btn btn-outline-primary assignCollector' data-toggle="modal" data-target="#assignCollectorModel" onclick="setCollectionId(<?php echo $item->id; ?>,<?php echo $item->collector_id; ?>)">Assign Collector</a> -->
                              @endcan
-
                              <!-- Asim work on Task as--------------------------------------------------------------- -->
-
+                             <a href="{{ route('point-base.Collections', $item->id)}}" class="btn btn-outline-info">Details</a>
                              <a href="#" id="collectionPoint_{{$item->id}}" class='btn btn-outline-primary' data-toggle="modal" data-target="#find_point" onclick="findPoint({{$item->id}})">ReAssign Collection Point</a>
                              <!-- <br>
                              @if($item->AFM == 0)
