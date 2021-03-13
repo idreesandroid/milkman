@@ -18,28 +18,35 @@
             </div>
          </div>
          <!-- /Page Header -->
+<div class="page-header  mb-0 ">
+   <div class="row">
+      <div class="col">
+         <h3>Roles</h3>
+      </div>
+      @can('Create-Role')
+      <div class="col text-right">
+         <ul class="list-inline-item pl-0">
+            <li class="list-inline-item">
+               <a  href="{{url('/role/create')}}"class="add btn btn-gradient-primary font-weight-bold text-white todo-list-add-btn btn-rounded">Add Role</a>
+            </li>
+         </ul>
+      </div>
+      @endcan
+   </div>
+</div>
 <!-- Page Wrapper -->
 <div class="row">
-   <div class="col-sm-9">
+   <div class="col-sm-12 col-md-12">
       <div class="card mb-0">
          <div class="card-body">
-            @can('Create-Role')
-            <div class="form-group mb-0 row">
-               <div class="col-md-4">
-                  <div class="input-group-append">
-                     <a href="/role/create" class="active"> <button class="btn btn-primary" type="button">Add Role</button></a>
-                  </div>
-               </div>
-            </div>
-            @endcan
             <div class="table-responsive">
-               <table class="datatable table table-stripped mb-0 datatables">
+               <table class="datatable table table-stripped mb-0 datatables" id="rolesTable">
                   <thead>
                      <tr>
                         <th>Serial No</th>
                         <th>Role Title</th>
                         <th>Role Tag</th>
-                        <th>Action</th>
+                        <th align="center">Action</th>
                      </tr>
                   </thead>
                   <tbody>
@@ -48,15 +55,15 @@
                         <td>{{$index+1}}</td>
                         <td>{{$role->name}}</td>
                         <td>{{$role->slug}}</td>
-                        <td>
+                        <td align="center">
                            @can('Edit-Role')
-                           <a href="{{ route('edit.role', $role->id)}}" class="btn btn-primary">Edit</a>
+                           <a href="{{ route('edit.role', $role->id)}}" class="btn btn-outline-success">Edit</a>
                            @endcan
                            @can('Delete-Role')
                            <form action="{{ route('delete.role', $role->id)}}" method="post" style="display: inline-block">
                               @csrf
                               @method('DELETE')
-                              <button class="btn btn-danger btn-sm" type="submit">Delete</button>
+                              <button class="btn btn-outline-danger" type="submit">Delete</button>
                            </form>
                            @endcan
                         </td>
@@ -69,6 +76,11 @@
       </div>
    </div>
 </div>
+<script>
+   $(document).ready( function () {
+      $('#rolesTable').DataTable();
+   });
+</script>
 <!-- /Page Wrapper -->
 @endsection
 

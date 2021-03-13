@@ -19,23 +19,29 @@
             </div>
          </div>
          <!-- /Page Header -->
+<div class="page-header  mb-0 ">
+   <div class="row">
+      <div class="col">
+         <h3>Permissions</h3>
+      </div>
+      @can('Create-Permission')
+      <div class="col text-right">
+         <ul class="list-inline-item pl-0">
+            <li class="list-inline-item">
+               <a  href="{{url('/permission/create')}}"class="add btn btn-gradient-primary font-weight-bold text-white todo-list-add-btn btn-rounded">Add Permission</a>
+            </li>
+         </ul>
+      </div>
+      @endcan
+   </div>
+</div>
 <!-- Page Wrapper -->
 <div class="row">
-   <div class="col-sm-9">
+   <div class="col-sm-12 col-md-12">
       <div class="card mb-0">
-         <div class="card-body">
-         @can('Create-Permission')
-            <div class="form-group mb-0 row">
-               <div class="col-md-4">
-                  <div class="input-group-append">
-                     <a href="/permission/create" class="active"> <button class="btn btn-primary" type="button">Add Permission</button></a>
-                     <br><br><br>
-                  </div>
-               </div>
-            </div>
-            @endcan
+         <div class="card-body">         
             <div class="table-responsive">
-               <table class="datatable table table-stripped mb-0 datatables">
+               <table class="datatable table table-stripped mb-0 datatables" id="permissionListing">
                   <thead>
                      <tr>
                         <th>Serial No</th>
@@ -58,5 +64,13 @@
       </div>
    </div>
 </div>
+
+<script>
+   $(document).ready( function () {
+      $('#permissionListing').DataTable();
+   });
+</script>
+
+
 <!-- /Page Wrapper -->
 @endsection

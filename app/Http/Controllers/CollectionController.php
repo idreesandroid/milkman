@@ -21,7 +21,8 @@ class CollectionController extends Controller
                     ->join('vendor_details','vendor_details.user_id','=','users.id')
                     ->where('role_user.role_id', '=', 6)
                     ->get();
-                    
+
+
         $location = '[';
         foreach ($vendors as $value) {
             $location .='{"type":"MARKER","id":null,"geometry":['.trim($value->latitude).','.trim($value->longitude).']},';
@@ -41,6 +42,7 @@ class CollectionController extends Controller
                     ->join('role_user', 'role_user.user_id', '=', 'users.id')
                     ->where('role_user.role_id', '=', 5)
                     ->get();        
+       // print_r($collections); die();
         return view('collection/index', compact('vendors','collections','location','collectors'));
     }
 
@@ -52,6 +54,7 @@ class CollectionController extends Controller
                     ->leftjoin('collection_vendor', 'collection_vendor.vendor_id', '=', 'users.id')
                     ->where('role_user.role_id', '=', 6)
                     ->get();
+        print_r($vendors); die();
         $location = '[';
         foreach ($vendors as $value) {
             $location .='{"type":"MARKER","id":null,"geometry":['.trim($value->latitude).','.trim($value->longitude).']},';
