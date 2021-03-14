@@ -2,38 +2,44 @@
 @section('content')
  <!-- Page Header -->
  <div class="crms-title row bg-white mb-4">
-            <div class="col">
-               <h3 class="page-title">
-                  <span class="page-title-icon bg-gradient-primary text-white mr-2">
-                  <i class="la la-table"></i>
-                  </span> <span>Collection Point</span>
-               </h3>
-            </div>
-            <div class="col text-right">
-               <ul class="breadcrumb bg-white float-right m-0 pl-0 pr-0">
-                  <li class="breadcrumb-item"><a href="/DashBoard">Dashboard</a></li>
-                  <li class="breadcrumb-item active">Points List</li>
-               </ul>
-            </div>
-         </div>
-         <!-- /Page Header -->
+  <div class="col">
+     <h3 class="page-title">
+        <span class="page-title-icon bg-gradient-primary text-white mr-2">
+        <i class="la la-table"></i>
+        </span> <span>Collection Point</span>
+     </h3>
+  </div>
+  <div class="col text-right">
+     <ul class="breadcrumb bg-white float-right m-0 pl-0 pr-0">
+        <li class="breadcrumb-item"><a href="/DashBoard">Dashboard</a></li>
+        <li class="breadcrumb-item active">Points List</li>
+     </ul>
+  </div>
+</div>
+<!-- /Page Header -->
+<div class="page-header  mb-0 ">
+   <div class="row">
+      <div class="col">
+         <h3>Collection Point</h3>
+      </div>
+      @can('Create-Collection-Point')
+      <div class="col text-right">
+         <ul class="list-inline-item pl-0">
+            <li class="list-inline-item">
+               <a  href="/collectionPoint/create"class="add btn btn-gradient-primary font-weight-bold text-white todo-list-add-btn btn-rounded">Add Collection Point</a>
+            </li>
+         </ul>
+      </div>
+      @endcan
+   </div>
+</div>
 <!-- Page Wrapper -->
 <div class="row">
    <div class="col-sm-12">
       <div class="card mb-0">
          <div class="card-body">
-            @can('Create-Collection-Point')
-            <div class="form-group mb-0 row">
-               <div class="col-md-4">
-                  <div class="input-group-append">
-                     <a href="/collectionPoint/create" class="active"> <button class="btn btn-primary" type="button">Add Collection Point</button></a>
-                  </div>
-               </div>
-            </div>
-            @endcan
-            
             <div class="table-responsive">
-               <table class="datatable table table-stripped mb-0 datatables">
+               <table class="datatable table table-stripped mb-0 datatables" id="collectionPointListing">
                   <thead>
                      <tr>
                         <th>Name</th>
@@ -56,19 +62,27 @@
                         <td>{{$collectionPoint->pointName}}</td>
                         <td>{{$collectionPoint->pointAddress}}</td>
                         <td>{{$collectionPoint->totalmilk}}Ltr</td>
-                        @can('Assign-Collection-Point') <td><button type="button" id="point_{{$collectionPoint->id}}" onclick="getCId({{$collectionPoint->id}})" class="btn btn-primary" data-toggle="modal" data-target="#findManager">@if(!isset($collectionPoint->collectionPointId))Assign @endif @if(isset($collectionPoint->collectionPointId))Reassign @endif</button></td>@endcan
-                        @can('Assign-Asset-To-Collection-Point') <td><button type="button" id="asset_{{$collectionPoint->id}}" onclick="getAssetId({{$collectionPoint->id}})" class="btn btn-primary" data-toggle="modal" data-target="#findAsset">Allot Asset</button></td>@endcan
-                       <td><a href="{{ route('point-base.Collections', $collectionPoint->id)}}" class="btn btn-info">Details</a></td>
+                        @can('Assign-Collection-Point') 
+                          <td>
+                            <button type="button" id="point_{{$collectionPoint->id}}" onclick="getCId({{$collectionPoint->id}})" class="btn btn-outline-primary" data-toggle="modal" data-target="#findManager">@if(!isset($collectionPoint->collectionPointId))Assign @endif @if(isset($collectionPoint->collectionPointId))Reassign @endif</button>
+                          </td>
+                        @endcan
+                        @can('Assign-Asset-To-Collection-Point')
                         <td>
-                           <a href="{{ route('edit.collectionPoint', $collectionPoint->id)}}" class="btn btn-primary">Edit</a>
+                          <button type="button" id="asset_{{$collectionPoint->id}}" onclick="getAssetId({{$collectionPoint->id}})" class="btn btn-outline-primary" data-toggle="modal" data-target="#findAsset">Allot Asset</button>
+                        </td>
+                        @endcan
+                       <td><a href="{{ route('point-base.Collections', $collectionPoint->id)}}" class="btn btn-outline-info">Details</a></td>
+                        <td>
+                           <a href="{{ route('edit.collectionPoint', $collectionPoint->id)}}" class="btn btn-outline-primary">Edit</a>
                            <form action="{{ route('delete.collectionPoint', $collectionPoint->id)}}" method="post" style="display: inline-block">
                               @csrf
                               @method('DELETE')
-                              <button class="btn btn-danger btn-sm" type="submit">Delete</button>
+                              <button class="btn btn-outline-danger" type="submit">Delete</button>
                            </form>
                         </td>
                         
-                        <td><a href="{{ route('edit.collectionPoint', $collectionPoint->id)}}" class="btn btn-primary">Location</a></td>
+                        <td><a href="{{ route('edit.collectionPoint', $collectionPoint->id)}}" class="btn btn-outline-primary">Location</a></td>
 
                      </tr>
                      @endforeach
@@ -107,12 +121,12 @@
                                  <tbody>
                                  </tbody>
                               </table>
-                              <button type="submit" class=" form-control btn btn-sm- btn-info" >Add</button>
+                              <button type="submit" class=" form-control btn btn-outline-info" >Add</button>
                            </form>
                         </div>
                      </div>
                      <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-outline-default" data-dismiss="modal">Close</button>
                      </div>
                   </div>
                </div>
@@ -145,12 +159,12 @@
                                  <tbody>
                                  </tbody>
                               </table>
-                              <button type="submit" class=" form-control btn btn-sm- btn-info" >Add</button>
+                              <button type="submit" class=" form-control btn btn-outline-info" >Add</button>
                            </form>
                         </div>
                      </div>
                      <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-outline-default" data-dismiss="modal">Close</button>
                      </div>
                   </div>
                </div>
@@ -160,9 +174,14 @@
 
 <!-- model -->
 <!-- /Page Wrapper -->
-@endsection
+
 
 <script type="text/javascript">
+ 
+
+  $(document).ready( function () {
+      $('#collectionPointListing').DataTable();
+   });
 var pointId ='';
    function getCId(id)
       {
@@ -265,3 +284,4 @@ var pointId ='';
 
       
 </script>
+@endsection
