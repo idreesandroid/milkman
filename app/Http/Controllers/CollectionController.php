@@ -48,13 +48,13 @@ class CollectionController extends Controller
 
     public function create()
     {
-        $vendors = User::select('users.id','users.name','vendor_details.longitude','vendor_details.latitude','collection_vendor.label_marker_color')
+        $vendors = User::select('users.id','users.name','vendor_details.longitude','vendor_details.latitude')
                     ->join('role_user', 'role_user.user_id', '=', 'users.id')
                     ->join('vendor_details','vendor_details.user_id','=','users.id')
-                    ->leftjoin('collection_vendor', 'collection_vendor.vendor_id', '=', 'users.id')
+                   // ->leftjoin('collection_vendor', 'collection_vendor.vendor_id', '=', 'users.id')
                     ->where('role_user.role_id', '=', 6)
                     ->get();
-        print_r($vendors); die();
+       // print_r($vendors); die();
         $location = '[';
         foreach ($vendors as $value) {
             $location .='{"type":"MARKER","id":null,"geometry":['.trim($value->latitude).','.trim($value->longitude).']},';
@@ -64,7 +64,7 @@ class CollectionController extends Controller
         $location = str_replace("},]","}]",$location);
 
         $collectionPoints= milkCollectionPoint::all();
-        return view('collection/create', compact('vendors','location','collectionPoints','collectionPoints'));
+        return view('collection/create', compact('vendors','location','collectionPoints'));
     }
 
     public function store(Request $request)

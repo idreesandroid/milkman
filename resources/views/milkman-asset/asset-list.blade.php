@@ -2,38 +2,44 @@
 @section('content')
  <!-- Page Header -->
  <div class="crms-title row bg-white mb-4">
-            <div class="col">
-               <h3 class="page-title">
-                  <span class="page-title-icon bg-gradient-primary text-white mr-2">
-                  <i class="la la-table"></i>
-                  </span> <span>Asset</span>
-               </h3>
-            </div>
-            <div class="col text-right">
-               <ul class="breadcrumb bg-white float-right m-0 pl-0 pr-0">
-                  <li class="breadcrumb-item"><a href="/DashBoard">Dashboard</a></li>
-                  <li class="breadcrumb-item active">Asset List</li>
-               </ul>
-            </div>
-         </div>
-         <!-- /Page Header -->
+   <div class="col">
+      <h3 class="page-title">
+         <span class="page-title-icon bg-gradient-primary text-white mr-2">
+         <i class="la la-table"></i>
+         </span> <span>Asset</span>
+      </h3>
+   </div>
+   <div class="col text-right">
+      <ul class="breadcrumb bg-white float-right m-0 pl-0 pr-0">
+         <li class="breadcrumb-item"><a href="/DashBoard">Dashboard</a></li>
+         <li class="breadcrumb-item active">Asset List</li>
+      </ul>
+   </div>
+</div>
+<!-- /Page Header -->
+<div class="page-header  mb-0 ">
+   <div class="row">
+      <div class="col">
+         <h3>Asset</h3>
+      </div>
+      @can('Create-Asset')
+      <div class="col text-right">
+         <ul class="list-inline-item pl-0">
+            <li class="list-inline-item">
+               <a  href="{{ route('create.asset')}}"class="add btn btn-gradient-primary font-weight-bold text-white todo-list-add-btn btn-rounded">Add Asset</a>
+            </li>
+         </ul>
+      </div>
+      @endcan
+   </div>
+</div>
 <!-- Page Wrapper -->
 <div class="row">
    <div class="col-sm-12">
       <div class="card mb-0">
          <div class="card-body">
-            @can('Create-Asset')
-            <div class="form-group mb-0 row">
-               <div class="col-md-4">
-                  <div class="input-group-append">
-                     <a href="{{ route('create.asset')}}" class="active"> <button class="btn btn-primary" type="button">Add Asset</button></a>
-                  </div>
-               </div>
-            </div>
-            @endcan
-            
             <div class="table-responsive">
-               <table class="datatable table table-stripped mb-0 datatables">
+               <table class="datatable table table-stripped mb-0 datatables" id="assetListing">
                   <thead>
                      <tr>
                         <th>Type</th>
@@ -71,6 +77,12 @@
       </div>
    </div>
 </div>
+
+<script>
+   $(document).ready( function () {
+      $('#assetListing').DataTable();
+   });
+</script>
 <!-- /Page Wrapper -->
 @endsection
 

@@ -21,15 +21,15 @@ class CreateSubTasksTable extends Migration
 
             $table->integer('task_id')->unsigned();
             $table->foreign('task_id')->references('id')->on('task_areas');
-            $table->integer('milkCollected')->unsigned()->nullable();
 
+            $table->integer('milkCollected')->unsigned()->nullable();
             $table->double('fat', 8, 2)->nullable();
             $table->double('Lactose', 8, 2)->nullable();
             $table->double('Ash', 8, 2)->nullable();
             $table->double('totalProteins', 8, 2)->nullable();
             $table->double('totalSolid', 8, 2)->nullable();
             $table->string('qualityPic')->nullable();
-
+            $table->string('taskShift')->nullable();
             $table->integer('AssignTo')->nullable();
             $table->date('collection_date');
             $table->enum('status',['initialize','inProcess','Expired','Submitted','Rejected','Collected']);

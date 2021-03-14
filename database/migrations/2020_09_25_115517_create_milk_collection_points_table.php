@@ -17,7 +17,7 @@ class CreateMilkCollectionPointsTable extends Migration
             $table->increments('id')->unsigned();
             $table->string('pointName');
             $table->string('pointAddress');
-            
+            $table->integer('totalmilk');            
             $table->timestamps();
         });
     }
