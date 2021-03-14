@@ -178,32 +178,15 @@
                   <li><a href="/product/analysis" class="{{ (request()->segment(1) == 'product' && request()->segment(2) == 'analysis') ? 'active' : '' }}">Product Analysis</a></li>
                </ul>
             </li>
-            @endcan  
+            @endcan 
 
-            @can('See-Cart')
-            <li class="submenu">
-               <a href="#">
-               <i class="fa fa-cart-plus" aria-hidden="true"></i>
-               <span> Sale </span>
-               <span class="menu-arrow"></span>
+             @can('See-Cart')
+            <li>
+               <a href="/cart/index" class="{{ (request()->segment(1) == 'cart') ? 'active' : '' }}">
+                  <i class="fa fa-cart-plus" aria-hidden="true"></i>
+                  <span>Sale Record</span>
                </a>
-               <ul class="sub-menus">
-                  <li>
-                     <a href="/cart/index" class="{{ (request()->segment(1) == 'cart' && request()->segment(2) == 'index') ? 'active' : '' }}">Sale Record </a>
-                  </li>
-                  @can('Generate-Invoice')  
-                  <li>
-                     <a href="/cart/create" class="{{ (request()->segment(1) == 'cart' && request()->segment(2) == 'create') ? 'active' : '' }}">New Invoice</a>
-                  </li>
-                  @endcan
-                  <li>
-                     <a href="/cart/reserveInvoice" class="{{ (request()->segment(2) == 'reserveInvoice') ? 'active' : '' }}">Reserve Stock</a>
-                  </li>
-                  <li>
-                     <a href="/cart/onHoldInvoice" class="{{ (request()->segment(2) == 'onHoldInvoice') ? 'active' : '' }}">On Hold Invoice</a>
-                  </li>
-               </ul>
-            </li>
+            </li> 
             @endcan
 
             @can('See-My-Orders')
