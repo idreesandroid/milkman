@@ -18,13 +18,33 @@
    </div>
 </div>
 <!-- /Page Header -->
+<div class="page-header  mb-0 ">
+   <div class="row">
+      <div class="col">
+         <h3>Invoice</h3>
+      </div>
+      
+      <div class="col text-right">
+         <ul class="list-inline-item pl-0">
+            <li class="list-inline-item">
+               @can('Generate-Invoice')
+               <a  href="{{url('/cart/create')}}"class="add btn btn-gradient-primary font-weight-bold text-white todo-list-add-btn btn-rounded">New Invoice</a>
+               @endcan
+               <a  href="{{url('/cart/reserveInvoice')}}"class="add btn btn-gradient-primary font-weight-bold text-white todo-list-add-btn btn-rounded">Reserve Stock</a>
+               <a  href="{{url('/cart/onHoldInvoice')}}"class="add btn btn-gradient-primary font-weight-bold text-white todo-list-add-btn btn-rounded">On Hold Invoice</a>
+            </li>
+         </ul>
+      </div>
+      
+   </div>
+</div>
 <!-- Page Wrapper -->
 <div class="row">
    <div class="col-sm-12">
       <div class="card mb-0">
          <div class="card-body">
             <div class="table-responsive">
-               <table class="datatable table table-stripped mb-0 datatables">
+               <table class="datatable table table-stripped mb-0 datatables" id="InvoiceListing">
                   <thead>
                      <tr>
                         <th>Buyer Name</th>
@@ -51,6 +71,12 @@
       </div>
    </div>
 </div>
+<script>
+   $(document).ready( function () {
+      $('#InvoiceListing').DataTable();
+   });
+</script>
+
 <!-- /Page Wrapper -->
 @endsection
 
