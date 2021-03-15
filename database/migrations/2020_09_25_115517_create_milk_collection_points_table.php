@@ -18,6 +18,9 @@ class CreateMilkCollectionPointsTable extends Migration
             $table->string('pointName');
             $table->string('pointAddress');
             $table->integer('totalmilk');            
+            $table->string('latitude');            
+            $table->string('longitude');            
+            $table->integer('milkBank_Id');            
             $table->timestamps();
         });
     }

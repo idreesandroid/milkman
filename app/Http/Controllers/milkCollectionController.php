@@ -66,11 +66,6 @@ class milkCollectionController extends Controller
 
     public function store(Request $request)
     {   
-        
-        // echo "<pre>";
-        // print_r($request->all());
-        // exit; 
-
         $this->validate($request,[      
             'point_name'=>   'required',
             'point_address'=>'required',
@@ -80,9 +75,13 @@ class milkCollectionController extends Controller
         $points->pointName = $request->point_name;        
         $points->pointAddress = $request->point_address;        
         $mapdata = json_decode($request->map_detail);
-        $points->latitude = $mapdata[0]->geometry[0];
-        $points->longitude = $mapdata[0]->geometry[1];
-        $points->milkBank_Id = 1;
+        if(isset($mapdata[0]->geometry[0][0][0]) && isset($mapdata[0]->geometry[0][0][1])){
+          $points->latitude = $mapdata[0]->geometry[0][0][0];
+          $points->longitude = $mapdata[0]->geometry[0][0][1];
+        }else{
+          $points->latitude = $mapdata[0]->geometry[0];
+          $points->longitude = $mapdata[0]->geometry[1];
+        }
         $points->save();
         return redirect()->route('index.collectionPoint');
     }
