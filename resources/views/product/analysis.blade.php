@@ -86,11 +86,11 @@
                                     <tbody>
                                       @foreach($products as $product)
                                       <tr>                      
-                                          <td>{{$product->product_name}}</td>
-                                          <td>{{ date("m-d-Y H:i:s", strtotime($product->orderdate)) }}</td>
-                                          <td>{{$product->product_price}}</td>
-                                          <td>{{$product->orderquentity}}</td>
-                                          <td>{{number_format($product->orderquentity * $product->product_price,2)}}</td>
+                                          <td>{{$product->productRelation->product_name}}</td>
+                                          <td>{{ date("m-d-Y H:i:s", strtotime($product->productRelation->created_at)) }}</td>
+                                          <td>{{$product->productRelation->product_price}}</td>
+                                          <td>{{$product->product_quantity}}</td>
+                                          <td>{{number_format($product->product_quantity * $product->productRelation->product_price,2)}}</td>
                                        </tr>
                                        @endforeach                          
                                     </tbody>

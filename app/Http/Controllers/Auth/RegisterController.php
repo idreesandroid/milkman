@@ -438,7 +438,6 @@ class RegisterController extends Controller
   {
     $uid = Auth::id();
     $users = User::with('roles','vendorDetail','bankDetail','distributorCompany')->findOrFail($uid);
-    //dd($users->roles[0]['name']);
     if($users->roles[0]['name'] == 'Distributor'){
 
       $orderHistory = Invoice::select('invoices.*','users.name')

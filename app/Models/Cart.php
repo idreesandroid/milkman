@@ -30,4 +30,9 @@ class Cart extends Model
     {
         return $this->hasMany(holdBatch::class);
     }
+
+    public function productRelation()
+    {
+        return $this->hasOne(Product::class,'id','product_id');
+    }  
 }

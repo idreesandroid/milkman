@@ -18,12 +18,12 @@ class UserTransaction extends Model
 
     public function transactionBelongsTo()
     {
-        return $this->belongsTo(UserAccount::class);
+        return $this->hasOne(UserAccount::class,'id','userAcc_id');
     }
 
    
     public function transactionBy()
     {
-        return $this->belongsTo(User::class);
+        return $this->hasOne(User::class,'id','user_id');
     }
 }
