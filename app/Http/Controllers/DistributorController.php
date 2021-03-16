@@ -31,18 +31,14 @@ class DistributorController extends Controller
 
     public function index()
     {       
-    $distributorDetails = User::whereHas('roles', function($query) {$query->where('roles.id', 3);})->with('distributorCompany')->get();   
-    return view('distributor-detail/index', compact('distributorDetails'));
+        $distributorDetails = User::whereHas('roles', function($query) {$query->where('roles.id', 3);})->with('distributorCompany')->get();   
+        return view('distributor-detail/index', compact('distributorDetails'));
     }
-
-    //create view-----------------------------------------------
 
     public function create() 
     {      
         return view('distributor-detail/create');
     }
-
-//create--------------------------------------------------------
 
     public function store(Request $request)
     {  
@@ -85,7 +81,7 @@ class DistributorController extends Controller
             $name =  time().'.'.$request->file('filenames')->extension();
             $request->file('filenames')->move(public_path().'/UserProfile/', $name);  
             $data = $name; 
-    }          
+        }          
         $distributor_register->filenames=$data;
         $distributor_register->save();
         $distributor_register->roles()->attach(Role::where('id',3)->first());
@@ -104,7 +100,7 @@ class DistributorController extends Controller
        
             $logoName =  time().'.'.$request->file('companyLogo')->extension();
             $request->file('companyLogo')->move(public_path().'/distributorCompany/', $logoName);      
-    }  
+        }  
         $distributor_details->companyLogo=$logoName;
         $distributor_details->save();
 
@@ -115,7 +111,7 @@ class DistributorController extends Controller
         $distributor_acc->balance =0;
         $distributor_acc->save();
    
-    return redirect('distributor-detail/index');
+        return redirect('distributor-detail/index');
     }
 
 
@@ -131,15 +127,12 @@ class DistributorController extends Controller
         Distributor::where('user_id', $id)->update($updatedata);
         return redirect()->route('profile.user', [$id]);
     }
-
-        // DashBoard functions------------------------------------------------
+    
     public function myOrders()
     {
         $mid = Auth::id();
         $invoices = Invoice::where('buyer_id' , $mid)->get();
         return view('distributor-detail/myInvoices', compact('invoices'));
-       // return $invoices;
-       //return view('role/index', compact('roles'));
     }
 
     public function distributorDashboard()

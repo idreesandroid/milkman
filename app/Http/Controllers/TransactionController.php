@@ -18,12 +18,11 @@ class TransactionController extends Controller
 
     public function transactionList()
     {
-        //$transactions = UserTransaction::with('transactionBy','transactionBelongsTo')->all();
         $transactions=DB::table('user_transactions')
-        ->select('userAccount','name','user_transactions.id','paymentMethod','bank_name','branchName','depositorName','acc_No','cardLastDigits','transactionId','senderCell','timeOfDeposit','amountPaid','receiptPics','verifiedBy','depositorCNIC','receiverName','receiverCNIC','status')
-        ->join('users','user_id','=','users.id')
-        ->join('user_accounts','userAcc_id','=','user_accounts.id')
-        ->get();
+                        ->select('userAccount','name','user_transactions.id','paymentMethod','bank_name','branchName','depositorName','acc_No','cardLastDigits','transactionId','senderCell','timeOfDeposit','amountPaid','receiptPics','verifiedBy','depositorCNIC','receiverName','receiverCNIC','status')
+                        ->join('users','user_id','=','users.id')
+                        ->join('user_accounts','userAcc_id','=','user_accounts.id')
+                        ->get();
        
         return view('transaction/index', compact('transactions'));
     }
@@ -41,11 +40,7 @@ class TransactionController extends Controller
    { 
        $this->validate($request,[      
            'img_receipt' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',    
-        ]);   
-       
-    // echo "<pre>";
-    // print_r($pay);
-    // exit;
+        ]); 
 
        if($request->has('paymentMethod'))
    {
@@ -95,10 +90,6 @@ class TransactionController extends Controller
        $imageName = time().'.'.$request->img_receipt->extension();    
        $request->img_receipt->move(public_path('receipt_img'), $imageName);
        $transaction->receiptPics = $imageName;
-   
-    //    echo "<pre>";
-    //    print_r($transaction);
-    //    exit;
       
        $transaction->save();
        return redirect('my/transactions');
@@ -111,8 +102,8 @@ class TransactionController extends Controller
 
 
 
-public function verifyTransaction(Request $request , $tr_no)
-{
+  public function verifyTransaction(Request $request , $tr_no)
+  {
     $finduser = UserTransaction::where('id' , $tr_no)->first();
     $user = $finduser->user_id;
     $amt = $finduser->amountPaid;
@@ -122,19 +113,11 @@ public function verifyTransaction(Request $request , $tr_no)
 
     $newBal=$userBalance+$amt;
 
-    // echo "<pre>";
-    // print_r($user);
-    // exit;
-
     switch ($request->input('action'))
     {
         case '1':
             DB::update("UPDATE user_accounts SET balance = $newBal  WHERE user_id	 = '$user'");
             DB::update("UPDATE user_transactions SET `status` = 'verified'  WHERE id = '$tr_no'");
-
-    // echo "<pre>";
-    // print_r($getremains);
-    // exit;
 
         break;
 
@@ -146,25 +129,21 @@ public function verifyTransaction(Request $request , $tr_no)
         DB::update("UPDATE user_transactions SET `verifiedBy` = '$vid'  WHERE   id = '$tr_no'");            
       
         return redirect('transaction/List');
-}
+  }
 
 
-public function userTransaction()
-{
-    $uid = Auth::id();
-    // $transactions = UserTransaction::where('user_id' , $uid)->with('transactionBy','transactionBelongsTo')->get();
-    
-    $transactions=DB::table('user_transactions')
-    ->select('userAccount','name','user_transactions.id','paymentMethod','bank_name','branchName','depositorName','acc_No','cardLastDigits','transactionId','senderCell','timeOfDeposit','amountPaid','receiptPics','verifiedBy','depositorCNIC','receiverName','receiverCNIC','status')
-    ->where('user_transactions.user_id', $uid)
-    ->join('users','user_id','=','users.id')
-    ->join('user_accounts','userAcc_id','=','user_accounts.id')
-    ->get();
-    
-    // echo "<pre>";
-    // print_r($transactions);
-    // exit;
-    return view('transaction/index', compact('transactions'));
-}
+  public function userTransaction()
+  {
+      $uid = Auth::id();
+      
+      $transactions=DB::table('user_transactions')
+                        ->select('userAccount','name','user_transactions.id','paymentMethod','bank_name','branchName','depositorName','acc_No','cardLastDigits','transactionId','senderCell','timeOfDeposit','amountPaid','receiptPics','verifiedBy','depositorCNIC','receiverName','receiverCNIC','status')
+                        ->where('user_transactions.user_id', $uid)
+                        ->join('users','user_id','=','users.id')
+                        ->join('user_accounts','userAcc_id','=','user_accounts.id')
+                        ->get();
+      
+      return view('transaction/index', compact('transactions'));
+  }
 
 }

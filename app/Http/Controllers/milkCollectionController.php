@@ -19,50 +19,46 @@ use App\Models\collectionPointSubmission;
 use App\Models\milkBank;
 class milkCollectionController extends Controller
 {
-    public function index()
-    {  
-     $collectionPoints = DB::table('milk_collection_points')
-                             ->select('id','pointName','pointAddress','totalmilk')
-                             ->get();  
-       return view('collectionPoint/index', compact('collectionPoints'));
-    }
+  public function index()
+  {  
+    $collectionPoints = DB::table('milk_collection_points')
+                           ->select('id','pointName','pointAddress','totalmilk')
+                           ->get();  
+    return view('collectionPoint/index', compact('collectionPoints'));
+  }
 
-    public function mapDetail($id)
-    {  
-     $collectionPoints = DB::table('milk_collection_points')
-     ->select('milk_collection_points.id','pointName','pointAddress','collectionPointId','totalmilk','longitude','latitude')
-     ->leftJoin('collection_point_managers','milk_collection_points.id','=','collection_point_managers.collectionPointId')
-     ->where('milk_collection_points.id',$id)
-     ->first();
+  public function mapDetail($id)
+  {  
+    $collectionPoints = DB::table('milk_collection_points')
+                           ->select('milk_collection_points.id','pointName','pointAddress','collectionPointId','totalmilk','longitude','latitude')
+                           ->leftJoin('collection_point_managers','milk_collection_points.id','=','collection_point_managers.collectionPointId')
+                           ->where('milk_collection_points.id',$id)
+                           ->first();
 
     $Long = $collectionPoints->longitude;
     $Lat = $collectionPoints->latitude;
 
-
     $collectionPoint = DB::table('milk_collection_points')
-    ->select('milk_collection_points.id','pointName','pointAddress','collectionPointId','totalmilk','longitude','latitude')
-    ->leftJoin('collection_point_managers','milk_collection_points.id','=','collection_point_managers.collectionPointId')
-    ->where('milk_collection_points.id',$id)
-    ->get();
+                          ->select('milk_collection_points.id','pointName','pointAddress','collectionPointId','totalmilk','longitude','latitude')
+                          ->leftJoin('collection_point_managers','milk_collection_points.id','=','collection_point_managers.collectionPointId')
+                          ->where('milk_collection_points.id',$id)
+                          ->get();
 
-     $location = '[';
-      foreach ($collectionPoint as $value) {
+    $location = '[';
+    foreach ($collectionPoint as $value) {
           $location .='{"type":"MARKER","id":null,"geometry":['.trim($value->latitude).','.trim($value->longitude).']},';
-      }
-      $location .= ']';
+    }
+    $location .= ']';
       
-      $location = str_replace("},]","}]",$location);
+    $location = str_replace("},]","}]",$location);
 
-    //  echo "<pre>";
-    //  print_r($collectionPoints->latitude);
-    //  exit;
-       return view('collectionPoint/mapDetail', compact('collectionPoints','Long','Lat','location'));
-    }
+    return view('collectionPoint/mapDetail', compact('collectionPoints','Long','Lat','location'));
+  }
 
-    public function create() 
-    {       
-        return view('collectionPoint/create');
-    }
+  public function create() 
+  {       
+    return view('collectionPoint/create');
+  }
 
     public function store(Request $request)
     {   
@@ -88,66 +84,55 @@ class milkCollectionController extends Controller
 
     public function edit($id)
     {
-        $points = milkCollectionPoint::findOrFail($id);
-        return view('collectionPoint/edit', compact('points'));
+      $points = milkCollectionPoint::findOrFail($id);
+      return view('collectionPoint/edit', compact('points'));
     }
 
     public function update(Request $request, $id)
     {
-        $updatedata = $request->validate([
-            'pointName'=> 'required',
-            'pointAddress'=>'required', 
-        ]);
+      $updatedata = $request->validate([
+          'pointName'=> 'required',
+          'pointAddress'=>'required'
+      ]);
 
-        milkCollectionPoint::whereid($id)->update($updatedata);
-        return redirect()->route('index.collectionPoint');
+      milkCollectionPoint::whereid($id)->update($updatedata);
+      return redirect()->route('index.collectionPoint');
     }
     
     public function deleteCollectionPoint($id)
     {
-        $points = milkCollectionPoint::findOrFail($id);
-        $points->delete();
-        return redirect()->route('index.collectionPoint');
+      $points = milkCollectionPoint::findOrFail($id);
+      $points->delete();
+      return redirect()->route('index.collectionPoint');
     }
 
-//collectionsAtCollection point-----------------------------------------------------------
+  public function milkSubmission()
+  {  
+     $collectors = DB::table('collector_details')
+                       ->select('user_id','name')
+                       ->where('collectionPoint_id', checkpoint())
+                       ->join('users','user_id','=','users.id')
+                       ->get();
+      
+      return view('collectionPoint/milkSubmission', compact('collectors'));
+  }
 
+  public function collectorCollections($id)
+  {  
+    $today=date('Y-m-d'); 
+    $collections = DB::table('sub_tasks')
+                       ->select('sub_tasks.id','task_id','milkCollected','fat','lactose','Ash','totalProteins','totalSolid','status','vendor_id','taskShift','collectedTime','name')
+                       ->where('assignTo',$id)
+                       ->where('collectionStatus','Generated')
+                       ->where('collection_date', $today)
+                       ->join('users','vendor_id','=','users.id')
+                       ->get();
+      
+       return json_encode($collections);
+  }
 
-    public function milkSubmission()
-{  
-   $collectors = DB::table('collector_details')
-   ->select('user_id','name')
-   ->where('collectionPoint_id', checkpoint())
-   ->join('users','user_id','=','users.id')
-   ->get();
-    //  echo "<pre>";
-    //  print_r($collectionManagers);
-    //  exit;
-    return view('collectionPoint/milkSubmission', compact('collectors'));
-}
-
-public function collectorCollections($id)
-{  
-   $today=date('Y-m-d'); 
-   $collections = DB::table('sub_tasks')
-   ->select('sub_tasks.id','task_id','milkCollected','fat','lactose','Ash','totalProteins','totalSolid','status','vendor_id','taskShift','collectedTime','name')
-   ->where('assignTo',$id)
-   ->where('collectionStatus','Generated')
-   ->where('collection_date', $today)
-   ->join('users','vendor_id','=','users.id')
-   ->get();
-    //  echo "<pre>";
-    //  print_r($collections);
-    //  exit;
-     return json_encode($collections);
-}
-
-public function collectionSubmission(Request $request)
-{
-    //  echo "<pre>";
-    //  print_r($request->all());
-    //  exit;
-
+  public function collectionSubmission(Request $request)
+  {
     $this->validate($request,[
         'collectionIds'=> 'required',
         'collector_id'=> 'required',
@@ -160,12 +145,9 @@ public function collectionSubmission(Request $request)
         'subTask_id'=>'required',
     ]);
 
-    $Area = TaskArea::where('id', $request->subTask_id)->select('area_id','shift')->first();
-
-    // echo "<pre>";
-    // print_r($Area->shift);
-    // exit;
-    if($request->totalMilk > 0 )
+  $Area = TaskArea::where('id', $request->subTask_id)->select('area_id','shift')->first();
+    
+  if($request->totalMilk > 0 )
     {
     $submission = new collectionPointSubmission();
     $submission->area_Id = $Area->area_id;        
@@ -186,8 +168,7 @@ public function collectionSubmission(Request $request)
     $point=checkpoint();
 
     DB::update("UPDATE milk_collection_points SET `totalMilk` = totalMilk+$request->totalMilk WHERE `id` = $point");
-
-    //$submission->collectionStatus = 'Completed';
+   
     $task_ids = $request['collectionIds'];
     foreach($task_ids as $index => $task_id)
     {
@@ -199,37 +180,32 @@ public function collectionSubmission(Request $request)
     {
         return redirect()->back()->with('alert', "You are Entering Wrong Information");
     }
-}
+  }
 
 
-public function areaBaseCollection($id)
-{  
- $milkCollections = DB::table('collection_point_submissions')
- ->select('collection_point_submissions.id','title','name','milkCollected','collectionShift','averageFat','averageAsh','averageProteins','averageLactose','averageSolids','averageQuality_SS','collection_point_submissions.created_at')
- ->where('area_id',$id)
- ->leftJoin('collections','collection_point_submissions.area_Id','=','collections.id')
- ->leftJoin('users','collection_point_submissions.collector_id','=','users.id')
- ->orderBy('collection_point_submissions.created_at', 'DESC')
- ->get();
-//  echo "<pre>";
-//  print_r($collectionPoints);
-//  exit;
-   return view('collectionPoint/areaBaseMilkCollection', compact('milkCollections'));
-}
+  public function areaBaseCollection($id)
+  {  
+   $milkCollections = DB::table('collection_point_submissions')
+                         ->select('collection_point_submissions.id','title','name','milkCollected','collectionShift','averageFat','averageAsh','averageProteins','averageLactose','averageSolids','averageQuality_SS','collection_point_submissions.created_at')
+                         ->where('area_id',$id)
+                         ->leftJoin('collections','collection_point_submissions.area_Id','=','collections.id')
+                         ->leftJoin('users','collection_point_submissions.collector_id','=','users.id')
+                         ->orderBy('collection_point_submissions.created_at', 'DESC')
+                         ->get();
 
-public function pointBaseCollection($id)
-{  
- $milkCollections = DB::table('collection_point_submissions')
- ->select('collection_point_submissions.id','title','name','milkCollected','collectionShift','averageFat','averageAsh','averageProteins','averageLactose','averageSolids','averageQuality_SS','collection_point_submissions.created_at')
- ->where('collection_point_submissions.collectionPoint_id',$id)
- ->leftJoin('collections','collection_point_submissions.area_Id','=','collections.id')
- ->leftJoin('users','collection_point_submissions.collector_id','=','users.id')
- ->orderBy('collection_point_submissions.created_at', 'DESC')
- ->get();
-//  echo "<pre>";
-//  print_r($collectionPoints);
-//  exit;
-   return view('collectionPoint/areaBaseMilkCollection', compact('milkCollections'));
-}
+     return view('collectionPoint/areaBaseMilkCollection', compact('milkCollections'));
+  }
 
+  public function pointBaseCollection($id)
+  {  
+   $milkCollections = DB::table('collection_point_submissions')
+                           ->select('collection_point_submissions.id','title','name','milkCollected','collectionShift','averageFat','averageAsh','averageProteins','averageLactose','averageSolids','averageQuality_SS','collection_point_submissions.created_at')
+                           ->where('collection_point_submissions.collectionPoint_id',$id)
+                           ->leftJoin('collections','collection_point_submissions.area_Id','=','collections.id')
+                           ->leftJoin('users','collection_point_submissions.collector_id','=','users.id')
+                           ->orderBy('collection_point_submissions.created_at', 'DESC')
+                           ->get();
+
+     return view('collectionPoint/areaBaseMilkCollection', compact('milkCollections'));
+  }
 }

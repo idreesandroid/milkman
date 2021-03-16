@@ -61,24 +61,15 @@ class AssetController extends Controller
         $product_stocks->delete();
         return redirect()->route('list.type');
     }
-
-
-    //asset----------------------------------------
-
-
+    
     public function listAsset()
-    {  
-       //$Assets = milkmanAsset::with('assetType','assetAssignTo')->get();
-      
-       $Assets=DB::table('milkman_assets')
-       ->select('milkman_assets.id','assetCode','assetName','assetCapacity','assets_types.typeName','assets_types.assetUnit','users.name','pointName')
-       ->join('assets_types','milkman_assets.type_id','=','assets_types.id')
-       ->leftjoin('users','milkman_assets.user_id','=','users.id')
-       ->leftjoin('milk_collection_points','milkman_assets.assignedPoint','=','milk_collection_points.id')
-       ->get();
-    //    echo "<pre>"; 
-    //    print_r($Assets);
-    //    exit;
+    { 
+      $Assets=DB::table('milkman_assets')
+                   ->select('milkman_assets.id','assetCode','assetName','assetCapacity','assets_types.typeName','assets_types.assetUnit','users.name','pointName')
+                   ->join('assets_types','milkman_assets.type_id','=','assets_types.id')
+                   ->leftjoin('users','milkman_assets.user_id','=','users.id')
+                   ->leftjoin('milk_collection_points','milkman_assets.assignedPoint','=','milk_collection_points.id')
+                   ->get();   
        return view('milkman-asset/asset-list', compact('Assets'));
     }
 
@@ -89,10 +80,7 @@ class AssetController extends Controller
     }
 
     public function storeAsset(Request $request)
-    {
-            // echo "<pre>";
-            // print_r($request->all());
-            // exit;
+    {            
         $this->validate($request,[      
             'type_id'=> 'required',   
             'numberOfAsset'=> 'required',  
@@ -143,8 +131,7 @@ class AssetController extends Controller
               break;
             default:
             return redirect()->route('create.asset');
-          }
-        //$assetCod=generateAssetCode();
+          }        
         return redirect()->route('list.asset');
     }
 

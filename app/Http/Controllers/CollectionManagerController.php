@@ -28,12 +28,12 @@ class CollectionManagerController extends Controller
     public function getCollectionManager($id)
 {  
    $collectionManagers = DB::table('collection_point_managers')
-   ->select('user_id','collectionPointId','managerStatus','name','users.id','user_phone','pointName')
-   ->orWhere('collectionPointId',null)
-   ->orWhere('collectionPointId',$id)
-   ->join('users','user_id','=','users.id')
-   ->leftjoin('milk_collection_points','collectionPointId','=','milk_collection_points.id')
-   ->get();
+                           ->select('user_id','collectionPointId','managerStatus','name','users.id','user_phone','pointName')
+                           ->orWhere('collectionPointId',null)
+                           ->orWhere('collectionPointId',$id)
+                           ->join('users','user_id','=','users.id')
+                           ->leftjoin('milk_collection_points','collectionPointId','=','milk_collection_points.id')
+                           ->get();
     return $collectionManagers;
 }
 
@@ -43,39 +43,30 @@ public function assignCollectionManager(Request $request)
             'pId'=>   'required',
             'manager_id'=>'required',
          ]);
+        $var2= $request->pId;
+        $var1= $request->manager_id;
+       
 
-    //  echo "<pre>";
-    //  print_r($request->all());
-    //  exit;
-    $var2= $request->pId;
-    $var1= $request->manager_id;
-   
-
-    DB::update("UPDATE collection_point_managers SET collectionPointId = $var2 , managerStatus = 'Active' WHERE user_id = $var1");
-    return redirect()->route('index.collectionPoint');
+        DB::update("UPDATE collection_point_managers SET collectionPointId = $var2 , managerStatus = 'Active' WHERE user_id = $var1");
+        return redirect()->route('index.collectionPoint');
     }
 
 
     public function getAssetList($id)
     {  
        $assets = DB::table('milkman_assets')
-       ->select('milkman_assets.id','assetCapacity','assetName','assetUnit','typeName','assignedPoint')
-       ->where('assignedPoint',null)    
-       ->where('user_id',null)
-       ->orWhere('assignedPoint',$id)
-       ->join('assets_types','type_id','=','assets_types.id')
-       ->get();
-        //  echo "<pre>";
-        //  print_r($assets);
-        //  exit;
+                   ->select('milkman_assets.id','assetCapacity','assetName','assetUnit','typeName','assignedPoint')
+                   ->where('assignedPoint',null)    
+                   ->where('user_id',null)
+                   ->orWhere('assignedPoint',$id)
+                   ->join('assets_types','type_id','=','assets_types.id')
+                   ->get();
+        
        return $assets;
     }
 
     public function setAssetList(Request $request)
-    {     
-        //    echo "<pre>";
-        //    print_r($request->all());
-        //    exit;
+    {   
         $this->validate($request,[ 
             'pointId'       => 'required',   
         ]);
@@ -90,12 +81,12 @@ public function assignCollectionManager(Request $request)
 
         if($request->input('select_asset'))
         {
-        $asset_ids = $request['select_asset'];
+            $asset_ids = $request['select_asset'];
 
-        foreach($asset_ids as $index => $asset_id)
-        {  
-            DB::update("UPDATE milkman_assets SET `assignedPoint` =  $request->pointId WHERE `id` = $asset_id");  
-        }
+            foreach($asset_ids as $index => $asset_id)
+            {  
+                DB::update("UPDATE milkman_assets SET `assignedPoint` =  $request->pointId WHERE `id` = $asset_id");  
+            }
         }
         return redirect()->route('index.collectionPoint');
     }
@@ -105,15 +96,13 @@ public function assignCollectionManager(Request $request)
     {  
        $point = checkpoint();
        $assets = DB::table('milkman_assets')
-       ->select('milkman_assets.id','assetCapacity','assetName','assetUnit','typeName','user_id')
-       ->where('assignedPoint', $point)
-       ->where('user_id',null)
-       ->orWhere('user_id',$id)
-       ->join('assets_types','type_id','=','assets_types.id')
-       ->get();
-        //  echo "<pre>";
-        //  print_r($assets);
-        //  exit;
+                   ->select('milkman_assets.id','assetCapacity','assetName','assetUnit','typeName','user_id')
+                   ->where('assignedPoint', $point)
+                   ->where('user_id',null)
+                   ->orWhere('user_id',$id)
+                   ->join('assets_types','type_id','=','assets_types.id')
+                   ->get();
+        
        return $assets;
     }
 
@@ -134,24 +123,21 @@ public function assignCollectionManager(Request $request)
         }
             DB::update("UPDATE collector_details SET `collectorCapacity` =  null WHERE `user_id` = $TempCid");
 
-        // echo "<pre>";
-        // print_r($assets1);
-        // exit;
         if($request->input('select_asset'))
         {
-        $asset_ids = $request['select_asset'];
+            $asset_ids = $request['select_asset'];
 
-        foreach($asset_ids as $index => $asset_id)
-        {  
-            DB::update("UPDATE milkman_assets SET `user_id` =  $request->collectorId WHERE id = $asset_id");  
-        }
+            foreach($asset_ids as $index => $asset_id)
+            {  
+                DB::update("UPDATE milkman_assets SET `user_id` =  $request->collectorId WHERE id = $asset_id");  
+            }
         }
         $collectorCaps = milkmanAsset::where('user_id' , $request->collectorId)->where('type_id' , 2)->get();
         
         $collectorcap = array();
         foreach($collectorCaps as $collectorCap)
         {
-        $collectorcap[]=$collectorCap->assetCapacity;
+            $collectorcap[]=$collectorCap->assetCapacity;
         }
         $collectorcap1=array_sum($collectorcap);
 
@@ -162,31 +148,21 @@ public function assignCollectionManager(Request $request)
 
     public function myCollectors()
     {
-     $collectorDetails = DB::table('collector_details')
-     ->select('user_id','collectionPoint_id','collectorMorStatus','collectorEveStatus','collectorCapacity','users.id','name','user_phone','filenames')
-     ->where('collectionPoint_id', checkpoint()) //function in helper function
-     ->join('users','user_id','=','users.id')
-     ->get();
-    //  echo "<pre>";
-    //  print_r($collectorDetails);
-    //  exit;   
+        $collectorDetails = DB::table('collector_details')
+                                 ->select('user_id','collectionPoint_id','collectorMorStatus','collectorEveStatus','collectorCapacity','users.id','name','user_phone','filenames')
+                                 ->where('collectionPoint_id', checkpoint()) //function in helper function
+                                 ->join('users','user_id','=','users.id')
+                                 ->get();
+     
      return view('collectionPoint/collectors', compact('collectorDetails'));
     }
 
     public function myAreas()
     {
-     $collectionAreas = DB::table('collections')
-     ->select('collections.id','title','AFM','AFE')
-     ->where('collectionPoint_id', checkpoint())  //function in helper function
-     ->get();
-    //  echo "<pre>";
-    //  print_r($collectionAreas);
-    //  exit;   
-    //return view('task.generateTask', compact('eveningTasks'));
-    return view('collectionPoint/collectionAreas', compact('collectionAreas'));
+        $collectionAreas = DB::table('collections')
+                             ->select('collections.id','title','AFM','AFE')
+                             ->where('collectionPoint_id', checkpoint())  //function in helper function
+                             ->get();
+        return view('collectionPoint/collectionAreas', compact('collectionAreas'));
     }
-
-
-
-
 }

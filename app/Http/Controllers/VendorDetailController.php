@@ -35,21 +35,15 @@ class VendorDetailController extends Controller
              })->with('vendorDetail')->get();
         return view('vendor-detail/index', compact('vendorDetails'));
     }
-    //create view-----------------------------------------------
 
     public function create() 
     {      
         return view('vendor-detail/create');
     }
 
-    //create--------------------------------------------------------
 
     public function store(Request $request)
     {
-     // echo "<pre>";
-     // print_r($request->all());
-     // exit; 
-
         if($request->has('bankDetails')){
 
             $this->validate($request,[        
@@ -377,10 +371,7 @@ class VendorDetailController extends Controller
                 array_push($allLats, $singleLatLng[0]);
                 array_push($allLngs, $singleLatLng[1]);
             }
-            $points_polygon = count($allLats);
-
-            echo $locationDetail['latitude'].',  '.$locationDetail['longitude'];
-            echo "<br>";
+            $points_polygon = count($allLats);          
             
             if(isInPolygon($points_polygon,$allLats,$allLngs,$locationDetail['latitude'],$locationDetail['longitude'])){
                 return ($collectionArea['id']) ? $collectionArea['id'] : false;

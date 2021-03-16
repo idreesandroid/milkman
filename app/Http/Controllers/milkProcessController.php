@@ -39,18 +39,12 @@ class milkProcessController extends Controller
 
 
     public function checkQuantity($id)
-{  
-   $milk = DB::table('milk_banks')
-   ->where('id',$id)
-   ->first();
-   $totalMilk = $milk->milkAvailable;
-    //  echo "<pre>";
-    //  print_r($milkAvailable);
-    //  exit;
-    return $totalMilk;
-}
-
-
+    {  
+        $milk = DB::table('milk_banks')->where('id',$id)->first();
+        $totalMilk = $milk->milkAvailable;
+   
+        return $totalMilk;
+    }
     public function storeMilkRequest(Request $request)
     {
         $this->validate($request,[      
@@ -71,64 +65,39 @@ class milkProcessController extends Controller
         $milkRequest->milkRequestStatus = 'Requested';
         $milkRequest->save();
 
-        //$product_stocks->users($mid);
         return redirect('/DashBoard');
     }
 
 
     public function requestedMilkList()
     {  
-    $roleArray= auth()->user()->roles()->pluck('roles.id')->toArray();
+        $roleArray= auth()->user()->roles()->pluck('roles.id')->toArray();
           
-    if(in_array(4, $roleArray))
-    { 
-        $Mid = Auth::id();
-        $CPM = milkbankManager::where('user_id',$Mid)->where('manager_status','Active')->where('milkbank_id','<>',  null)->first();
-        $BID = $CPM->milkbank_id;
-       
-        // echo "<pre>";
-        // print_r($BID);
-        // exit;
-   
-    //  $milkRequests = DB::table('milk_processes')
-    //                     ->select('milk_processes.id',
-    //                                     'alotment_code',
-    //                                     'milkQuantity',
-    //                                     'rejectionReason',
-    //                                     'milkRequestStatus',
-    //                                     'processDescription',
-    //                                     'users.name as processManager',
-    //                                     'bankName',
-    //                                     'usr.name as bankMangerName')
-    //                     ->where('milkBankId',$BID)
-    //                     ->leftJoin('users','milk_processes.processManager_id','=','users.id')
-    //                     ->leftJoin('milkbank_managers','milk_processes.milkBankManager_id','=','milkbank_managers.user_id')
-    //                     ->leftJoin('users as usr','usr.id','=','milkbank_managers.user_id')    
-    //                     ->leftjoin('milk_banks','milk_processes.milkBankId','=','milk_banks.id')
-    //                     ->get();
+        if(in_array(4, $roleArray))
+        { 
+            $Mid = Auth::id();
+            $CPM = milkbankManager::where('user_id',$Mid)->where('manager_status','Active')->where('milkbank_id','<>',  null)->first();
+            $BID = $CPM->milkbank_id;
+          
+            $milkRequests = DB::table('milk_processes')
+                            ->select('milk_processes.id',
+                                            'alotment_code',
+                                            'milkQuantity',
+                                            'rejectionReason',
+                                            'milkRequestStatus',
+                                            'processDescription',
+                                            'users.name as processManager',
+                                            'bankName',
+                                            'usr.name as bankMangerName')
+                            ->where('milkBankId',$BID)
+                            ->leftJoin('users','milk_processes.processManager_id','=','users.id')
+                            ->leftJoin('milkbank_managers','milk_processes.milkBankManager_id','=','milkbank_managers.user_id')
+                            ->leftJoin('users as usr','usr.id','=','milk_processes.milkBankManager_id')    
+                            ->leftjoin('milk_banks','milk_processes.milkBankId','=','milk_banks.id')
+                            ->get();
+           return view('milk-process/index', compact('milkRequests'));
 
-       $milkRequests = DB::table('milk_processes')
-                        ->select('milk_processes.id',
-                                        'alotment_code',
-                                        'milkQuantity',
-                                        'rejectionReason',
-                                        'milkRequestStatus',
-                                        'processDescription',
-                                        'users.name as processManager',
-                                        'bankName',
-                                        'usr.name as bankMangerName')
-                        ->where('milkBankId',$BID)
-                        ->leftJoin('users','milk_processes.processManager_id','=','users.id')
-                        ->leftJoin('milkbank_managers','milk_processes.milkBankManager_id','=','milkbank_managers.user_id')
-                        ->leftJoin('users as usr','usr.id','=','milk_processes.milkBankManager_id')    
-                        ->leftjoin('milk_banks','milk_processes.milkBankId','=','milk_banks.id')
-                        ->get();
-    //  echo "<pre>";
-    //  print_r($milkRequests);
-    //  exit;
-       return view('milk-process/index', compact('milkRequests'));
-
-    }
+        }
     }
 
     public function requestApproved($id)
@@ -136,13 +105,9 @@ class milkProcessController extends Controller
         $mid = Auth::id();
         DB::update("UPDATE milk_processes SET milkRequestStatus = 'Granted' , milkBankManager_id = $mid  WHERE id = $id");
         
-        // $CPM = milkbankManager::where('user_id',$Mid)->where('manager_status','Active')->where('milkbank_id','<>',  null)->first();
-        // $BID = $CPM->milkbank_id;
         $PIDS = milkProcess::where('id',$id)->first();
         $grantedQuantity = $PIDS->milkQuantity;
-        //  echo "<pre>";
-        //  print_r($grantedQuantity);
-        //  exit;
+        
         DB::update("UPDATE milk_banks SET `milkAvailable`= milkAvailable-$grantedQuantity WHERE `id` = 1 ");
 
         return redirect('/DashBoard');
@@ -155,9 +120,7 @@ class milkProcessController extends Controller
             'pId'=> 'required',
             'rejectionReason'=> 'required',  
          ]);
-//    echo "<pre>";
-//      print_r($request->all());
-//      exit;
+
         $var1 = $request->pId;
         $var2 = $request->rejectionReason;
 
@@ -169,9 +132,6 @@ class milkProcessController extends Controller
 
     public function milkRequestedList()
     {  
-        // echo "<pre>";
-        // print_r($BID);
-        // exit;
        $milkRequests = DB::table('milk_processes')
                         ->select('milk_processes.id',
                                         'alotment_code',
@@ -187,9 +147,6 @@ class milkProcessController extends Controller
                         ->leftJoin('users as usr','usr.id','=','milk_processes.milkBankManager_id')    
                         ->leftJoin('milk_banks','milk_processes.milkBankId','=','milk_banks.id')
                         ->get();
-        //  echo "<pre>";
-        //  print_r($milkRequests);
-        //  exit;
        return view('milk-process/index', compact('milkRequests'));
 
     }

@@ -19,29 +19,22 @@ class ProductStockController extends Controller
 
     public function index()
     {  
-        // assignMorningTask();
-        // assignEveningTask();
-        //checkpoint();
-
+    
        $product_stocks = ProductStock::where('deleted_at', null)->with('product','Manager')->get();
        return view('product-stock/index', compact('product_stocks'));
     }
-        //create view-------------------------
-
+    
     public function create() 
     {       
         $products= Product::select('product_name','id')->get();
         return view('product-stock/create',compact('products'));
     }
 
-    //create-------------------------
 
     public function store(Request $request)
     {
 
-    //  echo "<pre>";
-    //  print_r($request->milkRequestCode);
-    //  exit;
+
         $this->validate($request,[      
             'product_id'=> 'required',
             'manufactured_date'=>'required|date',
@@ -69,22 +62,14 @@ class ProductStockController extends Controller
                 $product_stocks->stockInBatch = $request->manufactured_quantity;
                 $product_stocks->milkAlotment_no = $requestId;
                 $product_stocks->user_id  =$mid; //it should be come from session
-            // $product_stocks->users()->associate($mid);
     
                 $product_stocks->save();
     
-                //$product_stocks->users($mid);
                 return redirect('product-stock/index');
-
-
-
-                //type return back with message
                
-            }
-        else
-            {
-                return redirect()->back()->with('alert', 0);
-            }
+        } else {
+            return redirect()->back()->with('alert', 0);
+        }
     }
 
     public function edit($id)
