@@ -71,10 +71,6 @@ class CollectorController extends Controller
         $collector_register->filenames=$data;
         $collector_register->save();
         $collector_register->roles()->attach(Role::where('id',5)->first());
-
-            // echo "<pre>";
-            // print_r($assetCode);
-            // exit;
         $collector_detail = new collectorDetail();
         $collector_detail->user_id = $collector_register->id;        
         $collector_detail->collectorCapacity = 0;
@@ -89,13 +85,13 @@ class CollectorController extends Controller
 
     public function collectorDashboard()
     {
-    $Cid = Auth::id();
-     
-    $totalTask = SubTask::where('AssignTo' , $Cid)->count();
-    $taskCompleted = SubTask::where('AssignTo' , $Cid)->where('status','Complete')->count();
-    
-    $today=date('Y-m-d');
-    $newTasks = DB::table('sub_tasks')
+        $Cid = Auth::id();
+         
+        $totalTask = SubTask::where('AssignTo' , $Cid)->count();
+        $taskCompleted = SubTask::where('AssignTo' , $Cid)->where('status','Complete')->count();
+        
+        $today=date('Y-m-d');
+        $newTasks = DB::table('sub_tasks')
                     ->select('sub_tasks.id','status','taskShift','morning_decided_milkQuantity','evening_decided_milkQuantity','morningTime','eveningTime','name','vendor_details.longitude','vendor_details.latitude')
                     ->where('sub_tasks.AssignTo', $Cid)
                     ->where('sub_tasks.status','<>','Expired')
@@ -104,20 +100,15 @@ class CollectorController extends Controller
                     ->join('vendor_details','vendor_id','=','vendor_details.user_id')
                     ->join('users','vendor_id','=','users.id')
                     ->get();
-
-    //  echo "<pre>";
-    //  print_r($newTasks);
-    //  exit;
       
-    $myMorningTask = SubTask::where('AssignTo' , $Cid)->where('status', 'Expired')->where('taskShift', 'Morning')->count();
-    $myEveningTask = SubTask::where('AssignTo' , $Cid)->where('status', 'initialize')->where('taskShift', 'Evening')->count();
-    return view('dashBoards/collector', compact('taskCompleted','totalTask','newTasks','myMorningTask','myEveningTask'));
+        $myMorningTask = SubTask::where('AssignTo' , $Cid)->where('status', 'Expired')->where('taskShift', 'Morning')->count();
+        $myEveningTask = SubTask::where('AssignTo' , $Cid)->where('status', 'initialize')->where('taskShift', 'Evening')->count();
+        return view('dashBoards/collector', compact('taskCompleted','totalTask','newTasks','myMorningTask','myEveningTask'));
     
     }
 
     public function MyTask()
-    { 
-        //$taskDetails = SubTask::where('task_id', $id)->with('vendorAsTask')->get();
+    {         
         $Cid = Auth::id();
         $taskDetails = SubTask::select('sub_tasks.*','name')
         ->join('users', 'sub_tasks.vendor_id', '=', 'users.id')
@@ -125,30 +116,5 @@ class CollectorController extends Controller
         ->orderBy('collection_date', "DESC")
         ->get();
         return view('collector-detail/myTaskDetails', compact('taskDetails'));
-    }
-
-
- 
-    public function show(Collector $collector)
-    {
-        //
-    }
-
-
-    public function edit(Collector $collector)
-    {
-        //
-    }
-
-
-    public function update(Request $request, Collector $collector)
-    {
-        //
-    }
-
- 
-    public function destroy(Collector $collector)
-    {
-        //
-    }
+    }    
 }

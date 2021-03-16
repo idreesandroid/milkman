@@ -22,15 +22,12 @@ class ProductController extends Controller
 
        return view('product.index', compact('products'));
     }
-
-    //create view-------------------------
+    
     public function create() 
     {
         $units = ['ml','ltr','gm','kg'];
         return view('product/create',compact('units'));  
     }
-
-//create-------------------------
 
     public function store(Request $request)
     {    
