@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Models\Product;
+use App\Models\Cart;
 use App\Models\ProductStock;
 class ProductController extends Controller
 {
@@ -129,14 +130,7 @@ class ProductController extends Controller
     }
 
     public function productAnalysis(){
-        $products = Product::select('products.id',
-                                    'products.product_name',
-                                    'products.product_price',
-                                    'carts.created_at as orderdate',
-                                    'carts.product_quantity as orderquentity')
-                            ->join('carts','carts.product_id','=','products.id')
-                            ->get();
-
+        $products = Cart::with('productRelation')->get();        
         $product_stocks = ProductStock::select('product_stocks.product_id',
                                         'product_stocks.manufactured_quantity as mfquentity',
                                         'product_stocks.created_at as stockDate',

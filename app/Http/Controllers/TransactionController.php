@@ -18,11 +18,7 @@ class TransactionController extends Controller
 
     public function transactionList()
     {
-        $transactions=DB::table('user_transactions')
-                        ->select('userAccount','name','user_transactions.id','paymentMethod','bank_name','branchName','depositorName','acc_No','cardLastDigits','transactionId','senderCell','timeOfDeposit','amountPaid','receiptPics','verifiedBy','depositorCNIC','receiverName','receiverCNIC','status')
-                        ->join('users','user_id','=','users.id')
-                        ->join('user_accounts','userAcc_id','=','user_accounts.id')
-                        ->get();
+        $transactions = UserTransaction::with('transactionBelongsTo','transactionBy')->get();
        
         return view('transaction/index', compact('transactions'));
     }

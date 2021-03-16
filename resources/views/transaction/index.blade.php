@@ -66,8 +66,8 @@
                      @foreach($transactions as $transaction)
                      <tr>
                        
-                        <td>{{$transaction->userAccount}}</td>
-                        <td>{{$transaction->name}}</td>
+                        <td>{{$transaction->transactionBelongsTo->userAccount}}</td>
+                        <td>{{$transaction->transactionBy->name}}</td>
                         <td>{{$transaction->paymentMethod}}</td>
                         <td>{{$transaction->bank_name}}</td>
                         <td>{{$transaction->branchName}}</td>
