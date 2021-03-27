@@ -35,14 +35,11 @@ class CollectionController extends Controller
                     ->leftjoin('users','users.id','=','collections.collector_id')
                     ->get();
 
-                // Asim work on Task as---------------------------------------------------------------     
-        
-                // Asim work on Task as---------------------------------------------------------------
         $collectors = User::select('users.*')
                     ->join('role_user', 'role_user.user_id', '=', 'users.id')
                     ->where('role_user.role_id', '=', 5)
                     ->get();        
-       // print_r($collections); die();
+        //print_r($collectors); die();
         return view('collection/index', compact('vendors','collections','location','collectors'));
     }
 
@@ -54,7 +51,7 @@ class CollectionController extends Controller
                    // ->leftjoin('collection_vendor', 'collection_vendor.vendor_id', '=', 'users.id')
                     ->where('role_user.role_id', '=', 6)
                     ->get();
-       // print_r($vendors); die();
+       
         $location = '[';
         foreach ($vendors as $value) {
             $location .='{"type":"MARKER","id":null,"geometry":['.trim($value->latitude).','.trim($value->longitude).']},';
@@ -80,8 +77,7 @@ class CollectionController extends Controller
         $collection_id = Collection::insertGetId([
             'title' => $request->title,
             'vendors_location' => str_replace("\\", '', $request->vendors_location),
-            'status'   => $request->status,
-            'collector_id' => 0,
+            'status'   => $request->status,           
             'collectionPoint_id' => $request->collectionPoint,
 
         ]);

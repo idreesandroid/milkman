@@ -17,9 +17,9 @@ class CreateCartsTable extends Migration
             $table->increments('id')->unsigned();
 
             $table->integer('invoice_id')->unsigned();
-            $table->foreign('invoice_id')->references('id')->on('invoices');
+            //$table->foreign('invoice_id')->references('id')->on('invoices');
             $table->integer('product_id')->unsigned();
-            $table->foreign('product_id')->references('id')->on('products');
+            //$table->foreign('product_id')->references('id')->on('products');
             $table->integer('product_quantity');
             $table->string('product_rate');
             $table->enum('cart_flag',['In_Process','Delivered','Reserve']);

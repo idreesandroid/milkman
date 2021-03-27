@@ -17,9 +17,9 @@ class CreateUserTransactionsTable extends Migration
             $table->increments('id')->unsigned();
 
             $table->integer('userAcc_id')->unsigned();
-            $table->foreign('userAcc_id')->references('id')->on('user_accounts');
+            //$table->foreign('userAcc_id')->references('id')->on('user_accounts');
             $table->integer('user_id')->unsigned();
-            $table->foreign('user_id')->references('id')->on('users');
+            //$table->foreign('user_id')->references('id')->on('users');
             $table->enum('paymentMethod',['atmTransfer','cardForCheckout','cashAtOffice','directDeposit','internetBanking','easyPaisaTransfer','jazzCashTransfer','uPaisa']);
            
             $table->string('bank_name')->nullable()->default("Nill");

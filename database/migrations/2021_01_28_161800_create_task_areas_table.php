@@ -17,10 +17,10 @@ class CreateTaskAreasTable extends Migration
             $table->increments('id')->unsigned();
 
             $table->integer('area_id')->unsigned();
-            $table->foreign('area_id')->references('id')->on('collections');
+           //$table->foreign('area_id')->references('id')->on('collections');
 
             $table->integer('collector_id')->unsigned();
-            $table->foreign('collector_id')->references('id')->on('users');
+            //$table->foreign('collector_id')->references('id')->on('users');
 
             $table->enum('shift',['Morning','Evening']);
             $table->enum('assignType',['Permanent','Temporary'])->nullable();

@@ -70,7 +70,7 @@ foreach ($vendors as $key => $value) {
                   <div class="col-md-4">
                      <label class="col-form-label">Collection Point<span class="text-danger">*</span></label>
                      <select class="form-control" id="collectionPoint" name="collectionPoint">
-                           <option value="active">Select Collection Point</option>
+                           <option>Select Collection Point</option>
                            @foreach ($collectionPoints as $collectionPoint)
                            <option value="{{$collectionPoint->id}}" >{{$collectionPoint->pointName}}</option>
                            @endforeach  

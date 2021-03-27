@@ -16,9 +16,10 @@ class CollectionVendor extends Migration
         Schema::create('collection_vendor', function (Blueprint $table) {
             $table->id();
             $table->integer('user_id')->unsigned()->nullable();
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->integer('vendor_id')->unsigned()->nullable();
+            //$table->foreign('user_id')->references('id')->on('users');
             $table->integer('collection_id')->unsigned()->nullable();
-            $table->foreign('collection_id')->references('id')->on('collections');
+            //$table->foreign('collection_id')->references('id')->on('collections');
             $table->string('label_marker_color')->nullable();            
             $table->timestamps();
         });

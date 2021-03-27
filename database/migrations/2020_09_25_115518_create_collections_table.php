@@ -18,13 +18,13 @@ class CreateCollectionsTable extends Migration
             $table->string('title');
             $table->text('vendors_location');
             $table->string('status');
-            $table->string('collector_id');
+            $table->unsignedBigInteger('collector_id')->nullable();
+            //$table->foreign('collector_id')->references('user_id')->on('collector_details');
             $table->tinyInteger('AFM')->default(0);
             $table->tinyInteger('AFE')->default(0);
             $table->enum('areaStatus',['Active','inActive','Block']);  //CHANGE BY ASIM
-            $table->integer('collectionPoint_id')->unsigned()->nullable();
-            $table->foreign('collectionPoint_id')->references('id')->on('collections');
-
+            $table->unsignedBigInteger('collectionPoint_id')->nullable();
+            //$table->foreign('collectionPoint_id')->references('id')->on('milk_collection_points');
             $table->timestamps();
             $table->softDeletes();
         });

@@ -16,11 +16,11 @@ class CreateMilkBankSubmissionsTable extends Migration
         Schema::create('milk_bank_submissions', function (Blueprint $table) {
             $table->increments('id')->unsigned();
             $table->integer('milkBank_id')->unsigned();
-            $table->foreign('milkBank_id')->references('id')->on('milk_banks');
+            //$table->foreign('milkBank_id')->references('id')->on('milk_banks');
             $table->integer('collectionPoint_id')->unsigned();
-            $table->foreign('collectionPoint_id')->references('id')->on('milk_collection_points');
+            //$table->foreign('collectionPoint_id')->references('id')->on('milk_collection_points');
             $table->integer('collectionManager_id')->unsigned();
-            $table->foreign('collectionManager_id')->references('id')->on('collection_point_managers');
+            //$table->foreign('collectionManager_id')->references('id')->on('collection_point_managers');
             $table->integer('milkCollected')->unsigned()->nullable();
            
             $table->double('averageFat', 8, 2)->nullable();

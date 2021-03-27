@@ -76,10 +76,11 @@
                                  @if($item->collector_id == 0)
                                  <img src="UserProfile/placeholder.jpg" class="cb-image" alt="circle-image">
                                  @else
-                                 <a href="{{ route('profile.user', $item->collector_id)}}"><img src="UserProfile/<?php echo $item->filenames; ?>" class="cb-image" alt="collector-image"></a>
+                                 <a href=""><img src="UserProfile/<?php echo $item->filenames; ?>" class="cb-image" alt="collector-image"></a>
                                  @endif
                                  <ul class="collector_detial">
-                                    <li><a href="{{ route('profile.user', $item->collector_id)}}">{{$item->name}}</a></li>
+                                   
+                                    <li><a href="">{{$item->name}} {{$item->collector_id}}</a></li>
                                     <li>{{$item->user_phone}}</li>
                                  </ul>
                                  <h5> Area Morning Capacity: {{calculateAreaMCapacity($item->id)}}</h5>

@@ -17,10 +17,10 @@ class CreateSubTasksTable extends Migration
             $table->increments('id')->unsigned();
 
             $table->integer('vendor_id')->unsigned();
-            $table->foreign('vendor_id')->references('id')->on('users');
+            //$table->foreign('vendor_id')->references('id')->on('users');
 
             $table->integer('task_id')->unsigned();
-            $table->foreign('task_id')->references('id')->on('task_areas');
+           //$table->foreign('task_id')->references('id')->on('task_areas');
 
             $table->integer('milkCollected')->unsigned()->nullable();
             $table->double('fat', 8, 2)->nullable();
