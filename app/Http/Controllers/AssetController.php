@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\assetsType;
 use App\Models\milkmanAsset;
 use App\Models\User;
+use App\Models\milkCollectionPoint;
 class AssetController extends Controller
 {
     public function listType()
@@ -75,8 +76,15 @@ class AssetController extends Controller
 
     public function createAsset() 
     { 
-        $types= assetsType::select('typeName','id')->get();
-        return view('milkman-asset/asset-create',compact('types'));
+        $types = assetsType::select('typeName','id')->get();
+        $collectors = User::select('users.id','users.name','role_user.user_id','roles.slug')
+                            ->leftjoin('role_user','role_user.user_id','=','users.id')
+                            ->leftjoin('roles','roles.id','=','role_user.role_id')
+                            ->where('roles.slug','=','collector')
+                            ->get();
+        $collectionPoints = milkCollectionPoint::select('id','pointName')->get();
+        
+        return view('milkman-asset/asset-create',compact('types','collectors','collectionPoints'));
     }
 
     public function storeAsset(Request $request)
@@ -85,53 +93,60 @@ class AssetController extends Controller
             'type_id'=> 'required',   
             'numberOfAsset'=> 'required',  
          ]);
-         $type=$request->type_id;
-         $number=$request->numberOfAsset;
+         $Asset = new milkmanAsset();
+         $Asset->type_id = $request->type_id;
+         $Asset->user_id = $request->assign_to;        
+         $Asset->assetName = $request->assetName;        
+         $Asset->assignedPoint = $request->assign_at;        
+         $Asset->assetCapacity = $request->assetCapacity;        
+        //$Asset->numberOfAsset = $request->numberOfAsset;        
+         $Asset->assetCode = generateAssetCode();        
+         $Asset->save();        
          
-         switch ($request->type_id) {
-            case 1:
-                $this->validate($request,[      
-                    'assetNumber'=> 'required', 
-                 ]);
+         // switch ($request->type_id) {
+         //    case 1:
+         //        $this->validate($request,[      
+         //            'assetNumber'=> 'required', 
+         //         ]);
 
-            for($i=0; $i<$number ; $i++ )
-            {
-                $Asset = new milkmanAsset();
-                $Asset->type_id = $request->type_id;
-                $Asset->assetName = $request->assetNumber;        
-                $Asset->assetCode = generateAssetCode();
-                $Asset->save();
-            }
+         //    for($i=0; $i<$number ; $i++ )
+         //    {
+         //        $Asset = new milkmanAsset();
+         //        $Asset->type_id = $request->type_id;
+         //        $Asset->assetName = $request->assetNumber;        
+         //        $Asset->assetCode = generateAssetCode();
+         //        $Asset->save();
+         //    }
 
-              break;
-            case 2:
-                $this->validate($request,[      
-                    'assetCapacity'=> 'required', 
-                 ]);
+         //      break;
+         //    case 2:
+         //        $this->validate($request,[      
+         //            'assetCapacity'=> 'required', 
+         //         ]);
 
-                 for($i=0; $i<$number ; $i++ )
-                 {
-                     $Asset = new milkmanAsset();
-                     $Asset->type_id = $request->type_id;
-                     $Asset->assetCapacity = $request->assetCapacity;        
-                     $Asset->assetCode = generateAssetCode();
-                     $Asset->save();
-                 }
+         //         for($i=0; $i<$number ; $i++ )
+         //         {
+         //             $Asset = new milkmanAsset();
+         //             $Asset->type_id = $request->type_id;
+         //             $Asset->assetCapacity = $request->assetCapacity;        
+         //             $Asset->assetCode = generateAssetCode();
+         //             $Asset->save();
+         //         }
 
-              break;
-              break;
-            case 3:
-                for($i=0; $i<$number ; $i++ )
-                {
-                    $Asset = new milkmanAsset();
-                    $Asset->type_id = $request->type_id;       
-                    $Asset->assetCode = generateAssetCode();
-                    $Asset->save();
-                }
-              break;
-            default:
-            return redirect()->route('create.asset');
-          }        
+         //      break;
+         //      break;
+         //    case 3:
+         //        for($i=0; $i<$number ; $i++ )
+         //        {
+         //            $Asset = new milkmanAsset();
+         //            $Asset->type_id = $request->type_id;       
+         //            $Asset->assetCode = generateAssetCode();
+         //            $Asset->save();
+         //        }
+         //      break;
+         //    default:
+         //    return redirect()->route('create.asset');
+         //  }        
         return redirect()->route('list.asset');
     }
 

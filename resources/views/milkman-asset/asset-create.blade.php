@@ -35,9 +35,16 @@
             </div>
             @endif
             <form method="post" action="{{ route('store.asset') }}"  id="type">
-               @csrf 
+               @csrf
                <div class="form-group row">
-                  <label for="type_id" class="col-form-label col-md-2">Asset Type</label>
+                  <label id="assetName" for="assetName" class="col-form-label col-md-2"> Asset Name: </label>
+                  <div class="col-md-4">
+                     <input type="text" class="form-control" name="assetName" id="assetName" autocomplete="off">
+                  </div>
+               </div>
+               
+               <div class="form-group row">
+                  <label for="type_id" class="col-form-label col-md-2">Asset Type:</label>
                   <div class="col-md-4">
                      <select class="form-control" name="type_id" id="type_id" required="" autocomplete="off">
                         <option value="">--Asset Type--</option>
@@ -46,24 +53,48 @@
                         @endforeach                            
                      </select>
                   </div>
+               </div>               
+
+               <div class="form-group row">
+                  <label for="assign_to" class="col-form-label col-md-2">Assigne To:</label>
+                  <div class="col-md-4">
+                     <select class="form-control" name="assign_to" id="assign_to" required="" autocomplete="off">
+                        <option value="">--Assigne To--</option>
+                        @foreach ($collectors as $collector)
+                        <option value="{{ $collector->id}}" >{{$collector->name}}</option>
+                        @endforeach                            
+                     </select>
+                  </div>
                </div>
 
                <div class="form-group row">
-                  <label style="display:none" id="L_assetNumber" for="assetNumber" class="col-form-label col-md-2"> Registration No </label>
+                  <label for="assign_at" class="col-form-label col-md-2">Assigne At:</label>
+                  <div class="col-md-4">
+                     <select class="form-control" name="assign_at" id="assign_at" required="" autocomplete="off">
+                        <option value="">--Assigne At--</option>
+                        @foreach ($collectionPoints as $collectionPoint)
+                        <option value="{{ $collectionPoint->id}}" >{{$collectionPoint->pointName}}</option>
+                        @endforeach                            
+                     </select>
+                  </div>
+               </div>
+
+               <div class="form-group row">
+                  <label style="display:none" id="L_assetNumber" for="assetNumber" class="col-form-label col-md-2"> Registration No:</label>
                   <div class="col-md-4">
                      <input type="text" class="form-control" style="display:none" name="assetNumber" id="assetNumber" autocomplete="off">
                   </div>
                </div>
 
                <div class="form-group row">
-                  <label style="display:none" for="assetCapacity" id="L_assetCapacity" class="col-form-label col-md-2"> Capacity</label>
+                  <label for="assetCapacity" id="L_assetCapacity" class="col-form-label col-md-2"> Capacity:</label>
                   <div class="col-md-4">
-                     <input type="number" class="form-control" style="display:none" name="assetCapacity" id="assetCapacity" min="0" autocomplete="off">
+                     <input type="number" class="form-control" name="assetCapacity" id="assetCapacity" min="0" autocomplete="off">
                   </div>
                </div>
 
                <div class="form-group row">
-                  <label for="numberOfAsset" class="col-form-label col-md-2"> Number Of Asset</label>
+                  <label for="numberOfAsset" class="col-form-label col-md-2"> Number Of Asset:</label>
                   <div class="col-md-4">
                      <input type="number" class="form-control" name="numberOfAsset" id="numberOfAsset" min="1" value="1" required="" autocomplete="off">
                   </div>
